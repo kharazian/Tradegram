@@ -33,3 +33,5 @@ ABP Framework solution is located under the `framework` folder. It has no extern
 ### Contribution
 
 HitCommerce is an open source project. Will remain open-source for ever. So, avoid using commercial codes/libraries.
+
+For PRs which made changes to ABP Framework and that not important for eCommerce scenario; please use the [ABP vNext repository](https://github.com/abpframework/abp).
