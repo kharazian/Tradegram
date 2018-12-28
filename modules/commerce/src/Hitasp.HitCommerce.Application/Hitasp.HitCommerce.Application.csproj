@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.AutoMapper\Volo.Abp.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Caching\Volo.Abp.Caching.csproj" />
+    <ProjectReference Include="..\Hitasp.HitCommerce.Application.Contracts\Hitasp.HitCommerce.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Hitasp.HitCommerce.Domain\Hitasp.HitCommerce.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

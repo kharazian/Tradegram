@@ -16,11 +16,7 @@ $solutionPaths = (
     "modules/docs",
     "modules/blogging",
     "modules/audit-logging",
-    "modules/background-jobs",
-    "abp_io",
-    "templates/module",
-    "templates/service",
-    "templates/mvc"
+    "modules/background-jobs"
 )
 
 # Build all solutions

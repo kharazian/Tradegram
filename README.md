@@ -1,18 +1,12 @@
-# ABP
+# HitCommerce
 
-[![Build Status](http://vjenkins.dynu.net:5480/job/abp/badge/icon)](http://ci.volosoft.com:5480/blue/organizations/jenkins/abp/activity)
+This project is the forked version of the [ABP vNext repository](https://github.com/abpframework/abp) application framework with special changes for eCommerce scenario.
 
-This project is the next generation of the [ASP.NET Boilerplate](https://aspnetboilerplate.com/) web application framework. See [the announcement](https://abp.io/blog/abp/Abp-vNext-Announcement).
-
-See the official [web site (abp.io)](https://abp.io/) for more information.
+See [the ABP announcement](https://abp.io/blog/abp/Abp-vNext-Announcement) or  [the official web site](https://abp.io/) for more information about ABP vNext.
 
 ### Status
 
-This project is in **very early preview** stage and it's not suggested to use it in a real project. 
-
-### Documentation
-
-See the <a href="https://abp.io/documents/" target="_blank">documentation</a>.
+This project is in **very early preview** stage and it's not suggested to use it in any type of projects. 
 
 ### How to Build
 
@@ -24,21 +18,18 @@ See the <a href="https://abp.io/documents/" target="_blank">documentation</a>.
 
 - Visual Studio 2017 15.7.0+
 
-#### Framework
+#### ABP Framework
 
-Framework solution is located under the `framework` folder. It has no external dependency. Just open `Volo.Abp.sln` by Visual Studio and start the development.
+ABP Framework solution is located under the `framework` folder. It has no external dependency. Just open `Volo.Abp.sln` by Visual Studio and start the development.
 
-#### Modules/Templates
+#### Modules
 
-[Modules](modules/) and [Templates](templates/) have their own solutions and have **local references** to the framework. Unfortunately, Visual Studio has some problems with local references to projects those are out of the solution. As a workaround, you should follow the steps below in order to start developing a module/template:
+[Modules](modules/) have their own solutions and have **local references** to the framework. Unfortunately, Visual Studio has some problems with local references to projects those are out of the solution. As a workaround, you should follow the steps below in order to start developing a module/template:
 
 - Disable "*Automatically check for missing packages during build in Visual Studio*" in the Visual Studio options.
-
-![disable-package-restore-visual-studio](docs/en/images/disable-package-restore-visual-studio.png)
-
 - When you open a solution, first run `dotnet restore` in the root folder of the solution.
 - When you change a dependency of a project (or any of the dependencies of your projects change their dependencies), run `dotnet restore` again.
 
 ### Contribution
 
-ABP is an open source platform. Check [the contribution guide](docs/en/Contribution/Index.md) if you want to contribute to the project.
+HitCommerce is an open source project. Will remain open-source for ever. So, avoid using commercial codes/libraries.
