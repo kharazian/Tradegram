@@ -29,7 +29,6 @@ script:
   - dotnet test framework/test/Volo.Abp.Data.Tests
   - dotnet test framework/test/Volo.Abp.Ddd.Tests
   - dotnet test framework/test/Volo.Abp.EntityFrameworkCore.Tests
-  - dotnet test framework/test/Volo.Abp.EventBus.Distributed.Tests
   - dotnet test framework/test/Volo.Abp.EventBus.Tests
   - dotnet test framework/test/Volo.Abp.Http.Client.Tests
   - dotnet test framework/test/Volo.Abp.Localization.Tests
@@ -43,4 +42,3 @@ script:
   - dotnet test framework/test/Volo.Abp.Uow.Tests
   - dotnet test framework/test/Volo.Abp.Validation.Tests
   - dotnet test framework/test/Volo.Abp.VirtualFileSystem.Tests
-  
