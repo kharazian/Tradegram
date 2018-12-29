@@ -58,6 +58,4 @@ script:
   - dotnet test modules/tenant-management/test/Volo.Abp.TenantManagement.EntityFrameworkCore.Tests
   - dotnet test modules/tenant-management/test/Volo.Abp.TenantManagement.MongoDB.Tests
   - dotnet test modules/tenant-management/test/Volo.Abp.TenantManagement.Application.Tests
-  - dotnet test modules/users/test/Volo.Abp.Users.MongoDB.Tests
-  - dotnet test modules/users/test/Volo.Abp.Users.EntityFrameworkCore.Tests
   
