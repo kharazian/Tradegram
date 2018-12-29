@@ -1,4 +1,5 @@
 # HitCommerce
+[![Build Status](https://travis-ci.com/hitaspdotnet/HitCommerce.svg?branch=master)](https://travis-ci.com/hitaspdotnet/HitCommerce)
 
 This project is the forked version of the [ABP vNext repository](https://github.com/abpframework/abp) application framework with special changes for eCommerce scenario.
 
