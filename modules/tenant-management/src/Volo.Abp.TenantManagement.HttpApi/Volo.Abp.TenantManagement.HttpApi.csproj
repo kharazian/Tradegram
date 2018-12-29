@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Volo.Abp.TenantManagement.Application.Contracts\Volo.Abp.TenantManagement.Application.Contracts.csproj" />
-
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.AspNetCore.Mvc\Volo.Abp.AspNetCore.Mvc.csproj" />
   </ItemGroup>
 

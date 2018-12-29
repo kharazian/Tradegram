@@ -9,9 +9,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hitasp.HitCommerce.Domain\Hitasp.HitCommerce.Domain.csproj" />
-    <ProjectReference Include="..\..\hitcommon\src\Hitasp.HitCommon.MongoDB\Hitasp.HitCommon.MongoDB.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.MongoDB\Volo.Abp.MongoDB.csproj" />
     <ProjectReference Include="..\..\..\..\modules\users\src\Volo.Abp.Users.MongoDB\Volo.Abp.Users.MongoDB.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\common\src\Hitasp.HitCommon.MongoDB\Hitasp.HitCommon.MongoDB.csproj" />
   </ItemGroup>
 
 </Project>

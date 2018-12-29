@@ -1,2 +1,2 @@
-# abp-identity
-Microsoft ASP.NET Core Identity integration &amp; management module
+# Identity Module
+Microsoft ASP.NET Core Identity **Integration** &amp; **Management** module

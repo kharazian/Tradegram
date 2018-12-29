@@ -9,6 +9,8 @@ script:
   - dotnet build modules/identity
   - dotnet build modules/tenant-management
   - dotnet build modules/account
+  - dotnet build modules/common
+  - dotnet build modules/commerce
   - dotnet build modules/docs
   - dotnet build modules/blogging
   - dotnet test framework/test/Volo.Abp.AspNetCore.Authentication.OAuth.Tests

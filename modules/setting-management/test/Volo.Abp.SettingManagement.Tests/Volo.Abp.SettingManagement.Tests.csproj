@@ -12,9 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    
     <ProjectReference Include="..\..\..\users\src\Volo.Abp.Users.Abstractions\Volo.Abp.Users.Abstractions.csproj" />
-    
     <ProjectReference Include="..\Volo.Abp.SettingManagement.EntityFrameworkCore.Tests\Volo.Abp.SettingManagement.EntityFrameworkCore.Tests.csproj" />
   </ItemGroup>
 

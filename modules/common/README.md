@@ -1,4 +1,4 @@
-# HitCommon
+# Common Module
 Abstractions and common services module for using in other modules (as library)
 
 ### Include

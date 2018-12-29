@@ -1,2 +1,1 @@
-# abp-settingmanagement
-Setting management module for ABP framework.
+# Setting Management Module
