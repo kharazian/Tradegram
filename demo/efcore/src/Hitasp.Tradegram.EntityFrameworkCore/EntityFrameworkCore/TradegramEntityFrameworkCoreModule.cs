@@ -6,17 +6,23 @@ using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Blogging.EntityFrameworkCore;
+using Volo.Docs.EntityFrameworkCore;
 
 namespace Hitasp.Tradegram.EntityFrameworkCore
 {
     [DependsOn(
         typeof(TradegramDomainModule),
-        typeof(AbpIdentityEntityFrameworkCoreModule),
-        typeof(AbpPermissionManagementEntityFrameworkCoreModule),
-        typeof(AbpSettingManagementEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreSqlServerModule),
         typeof(BackgroundJobsEntityFrameworkCoreModule),
-        typeof(AbpAuditLoggingEntityFrameworkCoreModule)
+        typeof(AbpAuditLoggingEntityFrameworkCoreModule),
+        typeof(AbpPermissionManagementEntityFrameworkCoreModule),
+        typeof(AbpSettingManagementEntityFrameworkCoreModule),
+        typeof(AbpTenantManagementEntityFrameworkCoreModule),
+        typeof(AbpIdentityEntityFrameworkCoreModule),
+        typeof(DocsEntityFrameworkCoreModule),
+        typeof(BloggingEntityFrameworkCoreModule)
         )]
     public class TradegramEntityFrameworkCoreModule : AbpModule
     {
@@ -24,8 +30,7 @@ namespace Hitasp.Tradegram.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<TradegramDbContext>(options =>
             {
-                //Remove "includeAllEntities: true" to create default repositories only for aggregate roots
-                options.AddDefaultRepositories(includeAllEntities: true);
+                options.AddDefaultRepositories();
             });
         }
     }

@@ -6,6 +6,9 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Blogging.EntityFrameworkCore;
+using Volo.Docs.EntityFrameworkCore;
 
 namespace Hitasp.Tradegram.EntityFrameworkCore
 {
@@ -22,11 +25,14 @@ namespace Hitasp.Tradegram.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ConfigureAuditLogging();
+            modelBuilder.ConfigureBackgroundJobs();
             modelBuilder.ConfigureIdentity();
             modelBuilder.ConfigurePermissionManagement();
             modelBuilder.ConfigureSettingManagement();
-            modelBuilder.ConfigureBackgroundJobs();
-            modelBuilder.ConfigureAuditLogging();
+            modelBuilder.ConfigureTenantManagement();
+            modelBuilder.ConfigureDocs();
+            modelBuilder.ConfigureBlogging();
         }
     }
 }

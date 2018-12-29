@@ -21,6 +21,7 @@ namespace Hitasp.Tradegram.Menus
             var l = context.ServiceProvider.GetRequiredService<IStringLocalizer<TradegramResource>>();
 
             context.Menu.Items.Insert(0, new ApplicationMenuItem("Tradegram.Home", l["Menu:Home"], "/"));
+            context.Menu.Items.Add(new ApplicationMenuItem("Tradegram.Docs", l["Menu:Docs"], "/documents"));
         }
     }
 }
