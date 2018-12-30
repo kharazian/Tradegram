@@ -9,6 +9,6 @@ namespace Hitasp.HitCommerce.Customers.Dtos
         
         public string Filter { get; set; }
         
-        public AddressType AddressType { get; set; }
+        public int AddressType { get; set; }
     }
 }

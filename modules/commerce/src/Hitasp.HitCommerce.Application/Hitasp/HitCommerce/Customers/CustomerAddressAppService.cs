@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -44,34 +45,43 @@ namespace Hitasp.HitCommerce.Customers
                 return null;
             }
             
+            var addressTypeFilter = (AddressType)input.AddressType;
+            
             var customerAddresses = await _customerAddressRepository.ListByCustomerId(customer.Id);
+            
+            var filteredCustomerAddress = customerAddresses.WhereIf(input.AddressType > -1, e => e.AddressType == addressTypeFilter);
 
-            var query = from customerAddress in customerAddresses
-                
-                join address in _addressRepository.GetList() on customerAddress.AddressId 
-                    equals address.Id into joinedAddress
-                from userAddress in joinedAddress.DefaultIfEmpty()
-                join country in _countryRepository.GetList() on userAddress.CountryId
-                    equals country.Id into joinedCountry
-                from addressCountry in joinedCountry.DefaultIfEmpty()
-                join stateOrProvince in _stateOrProvinceRepository.GetList() on userAddress.StateOrProvinceId
-                    equals stateOrProvince.Id into joinedStates
-                from addressState in joinedStates.DefaultIfEmpty()
-                join district in _districtRepository.GetList() on userAddress.DistrictId 
-                    equals district.Id into joinedDistrict
-                from addressDistrict in joinedStates.DefaultIfEmpty()
-                
-                select new CustomerAddressForViewDto
-                {
-                    Address = ObjectMapper.Map<Address, CustomerAddressDto>(userAddress),
-                    CountryName = addressCountry.Name,
-                    StateOrProvinceName = addressState.Name,
-                    DistrictName = addressDistrict.Name,
-                    DisplayCity = addressCountry.IsCityEnabled,
-                    DisplayDistrict = addressCountry.IsDistrictEnabled,
-                    DisplayZipCode = addressCountry.IsZipCodeEnabled,
-                    IsDefaultShippingAddress = customer.DefaultShippingAddressId == userAddress.Id
-                };
+            var query = (from customerAddress in filteredCustomerAddress
+
+                    join address in _addressRepository.GetList() on customerAddress.AddressId
+                        equals address.Id into joinedAddress
+                    from userAddress in joinedAddress.DefaultIfEmpty()
+                    join country in _countryRepository.GetList() on userAddress.CountryId
+                        equals country.Id into joinedCountry
+                    from addressCountry in joinedCountry.DefaultIfEmpty()
+                    join stateOrProvince in _stateOrProvinceRepository.GetList() on userAddress.StateOrProvinceId
+                        equals stateOrProvince.Id into joinedStates
+                    from addressState in joinedStates.DefaultIfEmpty()
+                    join district in _districtRepository.GetList() on userAddress.DistrictId
+                        equals district.Id into joinedDistrict
+                    from addressDistrict in joinedStates.DefaultIfEmpty()
+
+                    select new CustomerAddressForViewDto
+                    {
+                        Address = ObjectMapper.Map<Address, CustomerAddressDto>(userAddress),
+                        CountryName = addressCountry.Name,
+                        StateOrProvinceName = addressState.Name,
+                        DistrictName = addressDistrict.Name,
+                        DisplayCity = addressCountry.IsCityEnabled,
+                        DisplayDistrict = addressCountry.IsDistrictEnabled,
+                        DisplayZipCode = addressCountry.IsZipCodeEnabled,
+                        IsDefaultShippingAddress = customer.DefaultShippingAddressId == userAddress.Id
+                    })
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), x =>
+                    x.CountryName.Contains(input.Filter) ||
+                    x.StateOrProvinceName.Contains(input.Filter) ||
+                    x.DistrictName.Contains(input.Filter)
+                );
 
             var output = query.ToList();
 
