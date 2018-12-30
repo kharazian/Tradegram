@@ -47,18 +47,20 @@ namespace Hitasp.HitCommerce.Customers
             var customerAddresses = await _customerAddressRepository.ListByCustomerId(customer.Id);
 
             var query = from customerAddress in customerAddresses
-                join address in _addressRepository.GetList() on customerAddress.AddressId equals address.Id into
-                    joinedAddress
+                
+                join address in _addressRepository.GetList() on customerAddress.AddressId 
+                    equals address.Id into joinedAddress
                 from userAddress in joinedAddress.DefaultIfEmpty()
-                join country in _countryRepository.GetList() on userAddress.CountryId equals country.Id into
-                    joinedCountry
+                join country in _countryRepository.GetList() on userAddress.CountryId
+                    equals country.Id into joinedCountry
                 from addressCountry in joinedCountry.DefaultIfEmpty()
-                join stateOrProvince in _stateOrProvinceRepository.GetList() on userAddress.StateOrProvinceId equals
-                    stateOrProvince.Id into joinedStates
+                join stateOrProvince in _stateOrProvinceRepository.GetList() on userAddress.StateOrProvinceId
+                    equals stateOrProvince.Id into joinedStates
                 from addressState in joinedStates.DefaultIfEmpty()
-                join district in _districtRepository.GetList() on userAddress.DistrictId equals district.Id into
-                    joinedDistrict
+                join district in _districtRepository.GetList() on userAddress.DistrictId 
+                    equals district.Id into joinedDistrict
                 from addressDistrict in joinedStates.DefaultIfEmpty()
+                
                 select new CustomerAddressForViewDto
                 {
                     Address = ObjectMapper.Map<Address, CustomerAddressDto>(userAddress),
