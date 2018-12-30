@@ -8,11 +8,13 @@ namespace Hitasp.HitCommerce.Customers
 {
     public interface ICustomerAddressAppService : IApplicationService
     {
-        Task<PagedResultDto<CustomerAddressOutputDto>> GetListAsync(PagedAndSortedResultRequestDto input);
+        Task<PagedResultDto<CustomerAddressForViewDto>> GetListAsync(CustomerAddressGetAllDto input);
 
-        Task<CustomerAddressOutputDto> CreateAsync(CustomerAddressCreateDto input);
+        Task<CustomerAddressForEditDto> GetForEditAsync(Guid id);
 
-        Task SetAsDefault(Guid id);
+        Task<CustomerAddressForViewDto> CreateOrEditAsync(CustomerAddressCreateOrEditDto input);
+
+        Task SetAsDefaultAsync(Guid id);
 
         Task DeleteAsync(Guid id);
     }

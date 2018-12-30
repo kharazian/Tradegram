@@ -52,5 +52,33 @@ namespace Hitasp.HitCommerce.Addresses
             StateOrProvinceId = stateOrProvinceId;
             CountryId = countryId;
         }
+
+        public virtual Address SetNewLine(
+            [NotNull] string phone,
+            [NotNull] string addressLine1,
+            [CanBeNull] string addressLine2,
+            [NotNull] string city,
+            [NotNull] string zipCode)
+        {
+            Phone = Check.NotNullOrWhiteSpace(phone, nameof(phone));
+            AddressLine1 = Check.NotNullOrWhiteSpace(addressLine1, nameof(addressLine1));
+            AddressLine2 = addressLine2;
+            City = Check.NotNullOrWhiteSpace(city, nameof(city));
+            ZipCode = Check.NotNullOrWhiteSpace(zipCode, nameof(zipCode));
+
+            return this;
+        }
+
+        public virtual Address SetNewDirection(
+            Guid countryId,
+            Guid stateOrProvinceId,
+            Guid? districtId = null)
+        {
+            DistrictId = districtId;
+            StateOrProvinceId = stateOrProvinceId;
+            CountryId = countryId;
+
+            return this;
+        }
     }
 }

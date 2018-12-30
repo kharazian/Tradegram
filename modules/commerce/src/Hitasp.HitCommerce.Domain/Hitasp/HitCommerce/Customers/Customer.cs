@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Users;
 
@@ -55,6 +57,60 @@ namespace Hitasp.HitCommerce.Customers
             Addresses = new Collection<CustomerAddress>();
             
             ExtraProperties = new Dictionary<string, object>();
+        }
+        
+        public virtual void JoinGroup(Guid userGroupId)
+        {
+            Check.NotNull(userGroupId, nameof(userGroupId));
+
+            if (IsInGroup(userGroupId))
+            {
+                return;
+            }
+
+            CustomerGroups.Add(new CustomerUserGroup(Id, userGroupId));
+        }
+
+        public virtual void LeaveGroup(Guid userGroupId)
+        {
+            Check.NotNull(userGroupId, nameof(userGroupId));
+
+            if (!IsInGroup(userGroupId))
+            {
+                return;
+            }
+
+            CustomerGroups.RemoveAll(r => r.UserGroupId == userGroupId);
+        }
+
+        public virtual bool IsInGroup(Guid userGroupId)
+        {
+            Check.NotNull(userGroupId, nameof(userGroupId));
+
+            return CustomerGroups.Any(r => r.UserGroupId == userGroupId);
+        }
+
+        public virtual void SetAddress(Guid addressId, AddressType addressType)
+        {
+            Check.NotNull(addressId, nameof(addressId));
+
+            Addresses.RemoveAll(x => x.AddressId == addressId);
+            
+            Addresses.Add(new CustomerAddress(Id, addressId, addressType));
+        }
+
+        public virtual void SetDefaultBillingAddress(Guid addressId)
+        {
+            Check.NotNull(addressId, nameof(addressId));
+            
+            DefaultBillingAddressId = addressId;
+        }
+        
+        public virtual void SetDefaultShippingAddress(Guid addressId)
+        {
+            Check.NotNull(addressId, nameof(addressId));
+            
+            DefaultShippingAddressId = addressId;
         }
     }
 }

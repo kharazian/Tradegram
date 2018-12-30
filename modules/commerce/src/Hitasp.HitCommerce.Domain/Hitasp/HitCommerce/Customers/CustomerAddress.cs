@@ -1,6 +1,5 @@
 ﻿using System;
 using Volo.Abp.Domain.Entities;
-using Hitasp.HitCommerce.Addresses;
 
 namespace Hitasp.HitCommerce.Customers
 {
@@ -12,7 +11,7 @@ namespace Hitasp.HitCommerce.Customers
 
         public virtual AddressType AddressType { get; protected set; }
 
-        public virtual DateTimeOffset? LastUsedOn { get; protected internal set; }
+        public virtual DateTimeOffset? LastUsedOn { get; set; }
 
         protected CustomerAddress()
         {
@@ -30,7 +29,8 @@ namespace Hitasp.HitCommerce.Customers
             return new object[]
             {
                 CustomerId,
-                AddressId
+                AddressId,
+                AddressType
             };
         }
     }

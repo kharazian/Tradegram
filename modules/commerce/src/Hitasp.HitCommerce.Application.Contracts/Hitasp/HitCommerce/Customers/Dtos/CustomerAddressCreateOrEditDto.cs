@@ -1,9 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Customers.Dtos
 {
-    public class CustomerAddressCreateDto
+    public class CustomerAddressCreateOrEditDto : EntityDto<Guid?>
     {
         [Required]
         public string Phone { get; set; }
