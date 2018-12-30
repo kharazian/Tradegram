@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities.Auditing;
 using Hitasp.HitCommerce.Customers;
+using Volo.Abp;
 
 namespace Hitasp.HitCommerce.UserGroups
 {
@@ -16,7 +17,7 @@ namespace Hitasp.HitCommerce.UserGroups
 
         public virtual bool IsActive { get; set; }
 
-        public virtual ICollection<CustomerUserGroup> Members { get; protected set; }
+        public virtual ICollection<CustomerUserGroup> CustomerGroups { get; protected set; }
 
         protected UserGroup()
         {
@@ -27,7 +28,14 @@ namespace Hitasp.HitCommerce.UserGroups
             Id = id;
             Name = name;
  
-            Members = new Collection<CustomerUserGroup>();
+            CustomerGroups = new Collection<CustomerUserGroup>();
+        }
+
+        public virtual UserGroup SetName(string name)
+        {
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+
+            return this;
         }
     }
 }

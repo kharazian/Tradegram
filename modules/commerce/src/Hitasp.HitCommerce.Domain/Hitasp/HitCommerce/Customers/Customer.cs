@@ -32,10 +32,11 @@ namespace Hitasp.HitCommerce.Customers
 
         public virtual ICollection<CustomerAddress> Addresses { get; protected set; }
         
-        public virtual ICollection<CustomerUserGroup> Groups { get; protected set; }
+        public virtual ICollection<CustomerUserGroup> CustomerGroups { get; protected set; }
         
         protected Customer()
         {
+            ExtraProperties = new Dictionary<string, object>();
         }
 
         public Customer(IUserData user)
@@ -50,8 +51,10 @@ namespace Hitasp.HitCommerce.Customers
             UserName = user.UserName;
             TenantId = user.TenantId;
 
-            Groups = new Collection<CustomerUserGroup>();
+            CustomerGroups = new Collection<CustomerUserGroup>();
             Addresses = new Collection<CustomerAddress>();
+            
+            ExtraProperties = new Dictionary<string, object>();
         }
     }
 }

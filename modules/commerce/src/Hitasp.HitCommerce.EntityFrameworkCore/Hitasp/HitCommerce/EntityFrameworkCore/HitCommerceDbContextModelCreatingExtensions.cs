@@ -55,7 +55,7 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
                 b.HasMany(x => x.Addresses).WithOne().HasForeignKey(x => x.CustomerId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasMany(x => x.Groups).WithOne().HasForeignKey(x => x.CustomerId)
+                b.HasMany(x => x.CustomerGroups).WithOne().HasForeignKey(x => x.CustomerId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -71,7 +71,7 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
                 b.Property(x => x.Description).HasColumnName(nameof(UserGroup.Description));
                 b.Property(x => x.IsActive).HasColumnName(nameof(UserGroup.IsActive));
 
-                b.HasMany(x => x.Members).WithOne().HasForeignKey(z => z.UserGroupId).OnDelete(DeleteBehavior.Restrict);
+                b.HasMany(x => x.CustomerGroups).WithOne().HasForeignKey(z => z.UserGroupId).OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<CustomerUserGroup>(b =>
