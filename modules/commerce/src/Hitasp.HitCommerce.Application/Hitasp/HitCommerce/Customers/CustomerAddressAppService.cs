@@ -37,12 +37,7 @@ namespace Hitasp.HitCommerce.Customers
 
         public async Task<PagedResultDto<CustomerAddressForViewDto>> GetListAsync(CustomerAddressGetAllDto input)
         {
-            if (CurrentUser == null)
-            {
-                return null;
-            }
-            
-            var customer = await _customerLookupService.GetByIdAsync((Guid)CurrentUser.Id);
+            var customer = await _customerLookupService.GetByIdAsync(input.CustomerId);
 
             if (customer == null)
             {
@@ -122,6 +117,13 @@ namespace Hitasp.HitCommerce.Customers
 
         public async Task<CustomerAddressForViewDto> CreateOrEditAsync(CustomerAddressCreateOrEditDto input)
         {
+            var customer = await _customerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
+
+            if (customer == null)
+            {
+                return null;
+            }
+            
             Address address;
 
             if (!input.Id.HasValue)
@@ -157,8 +159,6 @@ namespace Hitasp.HitCommerce.Customers
 
                 address = await _addressRepository.UpdateAsync(address);
             }
-
-            var customer = await _customerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
 
             customer.SetAddress(address.Id, input.AddressType);
 
