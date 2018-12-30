@@ -1,8 +1,10 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Customers.Dtos
 {
-    public class CustomerGroupCreateDto
+    public class CustomerGroupCreateOrEditDto : EntityDto<Guid?>
     {
         [Required]
         public string Name { get; set; }
