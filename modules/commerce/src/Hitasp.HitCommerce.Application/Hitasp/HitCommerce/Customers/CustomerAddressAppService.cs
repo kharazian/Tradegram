@@ -238,8 +238,6 @@ namespace Hitasp.HitCommerce.Customers
             }
 
             await _customerAddressRepository.DeleteAsync(customerAddress);
-            
-            await _addressRepository.DeleteAsync(id);
         }
     }
 }

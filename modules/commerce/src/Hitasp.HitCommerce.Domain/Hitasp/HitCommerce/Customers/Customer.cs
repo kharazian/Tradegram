@@ -28,9 +28,9 @@ namespace Hitasp.HitCommerce.Customers
 
         public virtual Guid? VendorId { get; set; }
 
-        public virtual Guid? DefaultShippingAddressId { get; set; }
+        public virtual Guid? DefaultShippingAddressId { get; protected set; }
 
-        public virtual Guid? DefaultBillingAddressId { get; set; }
+        public virtual Guid? DefaultBillingAddressId { get; protected set; }
 
         public virtual ICollection<CustomerAddress> Addresses { get; protected set; }
         
