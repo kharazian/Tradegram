@@ -8,6 +8,8 @@ namespace Hitasp.HitCommerce.Customers
         public virtual Guid CustomerId { get; protected set; }
 
         public virtual Guid UserGroupId { get; protected set; }
+        
+        public virtual DateTimeOffset JoiningDate { get; protected set; }
 
         protected CustomerUserGroup()
         {
@@ -18,6 +20,7 @@ namespace Hitasp.HitCommerce.Customers
         {
             CustomerId = customerId;
             UserGroupId = userGroupId;
+            JoiningDate = DateTimeOffset.Now;
         }
 
         public override object[] GetKeys()
