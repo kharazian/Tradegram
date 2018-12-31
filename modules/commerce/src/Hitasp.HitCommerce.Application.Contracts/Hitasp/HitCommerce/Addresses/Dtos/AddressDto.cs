@@ -1,31 +1,24 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Application.Dtos;
 
-namespace Hitasp.HitCommerce.Customers.Dtos
+namespace Hitasp.HitCommerce.Addresses.Dtos
 {
-    public class CustomerAddressCreateOrEditDto : EntityDto<Guid?>
+    public class CustomerAddressDto : EntityDto<Guid>
     {
-        [Required]
         public string Phone { get; set; }
 
-        [Required] 
         public string AddressLine1 { get; set; }
 
         public string AddressLine2 { get; set; }
+        
+        public string City { get; set; }
 
-        [Required]
         public string ZipCode { get; set; }
 
-        [Required]
-        public string City { get; set; }
-        
         public Guid CountryId { get; set; }
 
         public Guid StateOrProvinceId { get; set; }
 
         public Guid? DistrictId { get; set; }
-        
-        public AddressType AddressType { get; set; }
     }
 }

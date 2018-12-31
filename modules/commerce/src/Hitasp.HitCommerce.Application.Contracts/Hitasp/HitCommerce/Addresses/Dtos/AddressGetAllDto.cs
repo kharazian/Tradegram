@@ -1,7 +1,7 @@
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace Hitasp.HitCommerce.Customers.Dtos
+namespace Hitasp.HitCommerce.Addresses.Dtos
 {
     public class CustomerAddressGetAllDto : PagedAndSortedResultRequestDto
     {

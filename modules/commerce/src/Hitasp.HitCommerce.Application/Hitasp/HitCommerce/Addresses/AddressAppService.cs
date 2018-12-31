@@ -2,18 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hitasp.HitCommerce.Addresses.Dtos;
+using Hitasp.HitCommerce.Customers;
+using Hitasp.HitCommerce.Directions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Users;
-using Hitasp.HitCommerce.Addresses;
-using Hitasp.HitCommerce.Customers.Dtos;
-using Hitasp.HitCommerce.Directions;
 
-namespace Hitasp.HitCommerce.Customers
+namespace Hitasp.HitCommerce.Addresses
 {
     public class CustomerAddressAppService : ApplicationService, ICustomerAddressAppService
     {
-        private readonly ICustomerLookupService _customerLookupService;
+        protected ICustomerLookupService CustomerLookupService { get; }
+        
         private readonly ICustomerAddressRepository _customerAddressRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly ICountryRepository _countryRepository;
@@ -33,12 +34,13 @@ namespace Hitasp.HitCommerce.Customers
             _countryRepository = countryRepository;
             _stateOrProvinceRepository = stateOrProvinceRepository;
             _districtRepository = districtRepository;
-            _customerLookupService = customerLookupService;
+            
+            CustomerLookupService = customerLookupService;
         }
 
         public async Task<PagedResultDto<CustomerAddressForViewDto>> GetListAsync(CustomerAddressGetAllDto input)
         {
-            var customer = await _customerLookupService.GetByIdAsync(input.CustomerId);
+            var customer = await CustomerLookupService.GetByIdAsync(input.CustomerId);
 
             if (customer == null)
             {
@@ -105,7 +107,7 @@ namespace Hitasp.HitCommerce.Customers
                 return null;
             }
 
-            var customer = await _customerLookupService.FindByIdAsync(customerAddress.CustomerId);
+            var customer = await CustomerLookupService.FindByIdAsync(customerAddress.CustomerId);
             var address = await _addressRepository.GetAsync(customerAddress.AddressId);
             var country = await _countryRepository.GetAsync(address.CountryId);
             var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
@@ -129,7 +131,7 @@ namespace Hitasp.HitCommerce.Customers
 
         public async Task<CustomerAddressForViewDto> CreateOrEditAsync(CustomerAddressCreateOrEditDto input)
         {
-            var customer = await _customerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
+            var customer = await CustomerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
 
             if (customer == null)
             {
@@ -213,7 +215,7 @@ namespace Hitasp.HitCommerce.Customers
 
             if (address != null)
             {
-                var customer = await _customerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
+                var customer = await CustomerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
 
                 switch (customerAddress.AddressType)
                 {
