@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Hitasp.HitCommerce.Domain\Hitasp.HitCommerce.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Hitasp\HitCommerce\Customers" />
+  </ItemGroup>
+
 </Project>

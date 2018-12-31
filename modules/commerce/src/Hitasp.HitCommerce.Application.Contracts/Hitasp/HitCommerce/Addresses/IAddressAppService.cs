@@ -8,12 +8,12 @@ namespace Hitasp.HitCommerce.Addresses
 {
     public interface IAddressAppService : IApplicationService
     {
-        Task<ListResultDto<AddressForViewDto>> GetListAsync(AddressGetAllDto input);
+        Task<PagedResultDto<AddressWithDetailDto>> GetListAsync(AddressGetListInput input);
 
-        Task<AddressForEditDto> GetForEditAsync(Guid id);
+        Task<AddressForEditOutput> GetForEditAsync(Guid addressId);
 
-        Task<AddressForViewDto> CreateOrEditAsync(AddressCreateOrEditDto input);
+        Task<AddressWithDetailDto> CreateOrEditAsync(AddressCreateOrEditDto input);
 
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(Guid addressId);
     }
 }
