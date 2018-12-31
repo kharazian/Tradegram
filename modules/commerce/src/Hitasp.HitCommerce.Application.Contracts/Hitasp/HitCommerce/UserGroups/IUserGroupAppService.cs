@@ -10,6 +10,8 @@ namespace Hitasp.HitCommerce.UserGroups
     {
         Task<PagedResultDto<UserGroupWithDetailDto>> GetListAsync(UserGroupGetListInput input);
 
+        Task<UserGroupWithDetailDto> GetByNameAsync(UserGroupGetByNameInput input);
+        
         Task<UserGroupForEditOutput> GetForEditAsync(Guid userGroupId);
 
         Task<UserGroupWithDetailDto> CreateOrEditAsync(UserGroupCreateOrEditDto input);

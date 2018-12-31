@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Hitasp.HitCommerce.UserGroups.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Repositories;
 
 
 namespace Hitasp.HitCommerce.UserGroups
@@ -40,6 +41,20 @@ namespace Hitasp.HitCommerce.UserGroups
             return new PagedResultDto<UserGroupWithDetailDto>(totalCount, output);
         }
 
+        public async Task<UserGroupWithDetailDto> GetByNameAsync(UserGroupGetByNameInput input)
+        {
+            var userGroup = await _userGroupRepository.FindByNameAsync(input.UserGroupName);
+            
+            await _userGroupRepository.EnsureCollectionLoadedAsync(userGroup, x => x.Members);
+
+            return new UserGroupWithDetailDto
+            {
+                UserGroup = ObjectMapper.Map<UserGroup, UserGroupDto>(userGroup),
+                IsActive = userGroup.IsActive,
+                MembersCount = userGroup.Members.LongCount()
+            };
+        }
+
         public async Task<UserGroupForEditOutput> GetForEditAsync(Guid userGroupId)
         {
             var userGroup = await _userGroupRepository.FindAsync(userGroupId);
@@ -69,6 +84,8 @@ namespace Hitasp.HitCommerce.UserGroups
             {
                 userGroup = await Update(input);
             }
+
+            await _userGroupRepository.EnsureCollectionLoadedAsync(userGroup, x => x.Members);
 
             return new UserGroupWithDetailDto
             {
