@@ -20,15 +20,11 @@ namespace Hitasp.HitCommerce.UserGroups
 
         public virtual ICollection<CustomerUserGroup> Members { get; protected set; }
 
-        protected UserGroup()
-        {
-        }
-
         public UserGroup(Guid id, [NotNull] string name)
         {
             Id = id;
             Name = name;
- 
+
             Members = new Collection<CustomerUserGroup>();
         }
 

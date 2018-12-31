@@ -2,21 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hitasp.HitCommerce.Customers;
+using Hitasp.HitCommerce.Customers.Dtos;
 using Hitasp.HitCommerce.UserGroups.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Repositories;
-
 
 namespace Hitasp.HitCommerce.UserGroups
 {
     public class UserGroupAppService : ApplicationService, IUserGroupAppService
     {
         private readonly IUserGroupRepository _userGroupRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerUserGroupRepository _customerUserGroupRepository;
 
-        public UserGroupAppService(IUserGroupRepository userGroupRepository)
+        public UserGroupAppService(
+            IUserGroupRepository userGroupRepository,
+            ICustomerUserGroupRepository customerUserGroupRepository,
+            ICustomerRepository customerRepository
+            )
         {
             _userGroupRepository = userGroupRepository;
+            _customerUserGroupRepository = customerUserGroupRepository;
+            _customerRepository = customerRepository;
         }
 
         public async Task<PagedResultDto<UserGroupWithDetailDto>> GetListAsync(UserGroupGetListInput input)
@@ -27,7 +35,8 @@ namespace Hitasp.HitCommerce.UserGroups
                 {
                     UserGroup = ObjectMapper.Map<UserGroup, UserGroupDto>(userGroup),
                     IsActive = userGroup.IsActive,
-                    MembersCount = userGroup.Members.LongCount()
+                    MembersCount = userGroup.Members.LongCount(),
+                    Members = new List<CustomerInListDto>() //ignore fetching member list for GetList request
                 })
                 .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), x =>
                     x.UserGroup.Name.Contains(input.NameFilter) ||
@@ -44,14 +53,19 @@ namespace Hitasp.HitCommerce.UserGroups
         public async Task<UserGroupWithDetailDto> GetByNameAsync(UserGroupGetByNameInput input)
         {
             var userGroup = await _userGroupRepository.FindByNameAsync(input.UserGroupName);
-            
-            await _userGroupRepository.EnsureCollectionLoadedAsync(userGroup, x => x.Members);
 
+            var groupMemberIds =
+                (await _customerUserGroupRepository.GetListAsync())
+                .Where(x => x.UserGroupId == userGroup.Id).Select(x => x.CustomerId).ToList();
+
+            var groupMembers = await _customerRepository.GetListAsync(groupMemberIds);
+            
             return new UserGroupWithDetailDto
             {
                 UserGroup = ObjectMapper.Map<UserGroup, UserGroupDto>(userGroup),
                 IsActive = userGroup.IsActive,
-                MembersCount = userGroup.Members.LongCount()
+                Members = ObjectMapper.Map<List<Customer>, List<CustomerInListDto>>(groupMembers),
+                MembersCount = groupMembers.LongCount()
             };
         }
 
@@ -74,25 +88,12 @@ namespace Hitasp.HitCommerce.UserGroups
 
         public async Task<UserGroupWithDetailDto> CreateOrEditAsync(UserGroupCreateOrEditDto input)
         {
-            UserGroup userGroup;
-
             if (input.Id == null)
             {
-                userGroup = await Create(input);
-            }
-            else
-            {
-                userGroup = await Update(input);
+                return await Create(input);
             }
 
-            await _userGroupRepository.EnsureCollectionLoadedAsync(userGroup, x => x.Members);
-
-            return new UserGroupWithDetailDto
-            {
-                UserGroup = ObjectMapper.Map<UserGroup, UserGroupDto>(userGroup),
-                IsActive = userGroup.IsActive,
-                MembersCount = userGroup.Members.LongCount()
-            };
+            return await Update(input);
         }
 
         public async Task DeleteAsync(Guid userGroupId)
@@ -100,7 +101,7 @@ namespace Hitasp.HitCommerce.UserGroups
             await _userGroupRepository.DeleteAsync(userGroupId);
         }
         
-        private async Task<UserGroup> Create(UserGroupCreateOrEditDto input)
+        private async Task<UserGroupWithDetailDto> Create(UserGroupCreateOrEditDto input)
         {
             var userGroup = new UserGroup(
                 GuidGenerator.Create(),
@@ -110,10 +111,28 @@ namespace Hitasp.HitCommerce.UserGroups
             userGroup.SetDescription(input.Description);
             userGroup.UpdateStatus(input.IsActive);
 
-            return await _userGroupRepository.InsertAsync(userGroup);
+            await _userGroupRepository.InsertAsync(userGroup);
+            await _customerUserGroupRepository.InsertAsync(new CustomerUserGroup(
+                (Guid) CurrentUser.Id,
+                userGroup.Id)
+            );
+            
+            var groupMemberIds =
+                (await _customerUserGroupRepository.GetListAsync())
+                .Where(x => x.UserGroupId == userGroup.Id).Select(x => x.CustomerId).ToList();
+
+            var groupMembers = await _customerRepository.GetListAsync(groupMemberIds);
+            
+            return new UserGroupWithDetailDto
+            {
+                UserGroup = ObjectMapper.Map<UserGroup, UserGroupDto>(userGroup),
+                IsActive = userGroup.IsActive,
+                Members = ObjectMapper.Map<List<Customer>, List<CustomerInListDto>>(groupMembers),
+                MembersCount = groupMembers.LongCount()
+            };
         }
 
-        private async Task<UserGroup> Update(UserGroupCreateOrEditDto input)
+        private async Task<UserGroupWithDetailDto> Update(UserGroupCreateOrEditDto input)
         {
             var userGroup = await _userGroupRepository.GetAsync((Guid) input.Id);
 
@@ -121,7 +140,21 @@ namespace Hitasp.HitCommerce.UserGroups
             userGroup.SetDescription(input.Description);
             userGroup.UpdateStatus(input.IsActive);
 
-            return await _userGroupRepository.UpdateAsync(userGroup);
+            await _userGroupRepository.UpdateAsync(userGroup);
+            
+            var groupMemberIds =
+                (await _customerUserGroupRepository.GetListAsync())
+                .Where(x => x.UserGroupId == userGroup.Id).Select(x => x.CustomerId).ToList();
+
+            var groupMembers = await _customerRepository.GetListAsync(groupMemberIds);
+            
+            return new UserGroupWithDetailDto
+            {
+                UserGroup = ObjectMapper.Map<UserGroup, UserGroupDto>(userGroup),
+                IsActive = userGroup.IsActive,
+                Members = ObjectMapper.Map<List<Customer>, List<CustomerInListDto>>(groupMembers),
+                MembersCount = groupMembers.LongCount()
+            };
         }
     }
 }
