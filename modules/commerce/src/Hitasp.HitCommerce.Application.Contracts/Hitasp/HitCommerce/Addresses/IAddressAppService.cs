@@ -15,5 +15,11 @@ namespace Hitasp.HitCommerce.Addresses
         Task<AddressWithDetailDto> CreateOrEditAsync(AddressCreateOrEditDto input);
 
         Task DeleteAsync(Guid addressId);
+        
+        Task<AddressReportRequestOutput> GetAddressTotalByCountryId(Guid countryId);
+
+        Task<AddressReportRequestOutput> GetAddressTotalByStateOrProvinceId(Guid stateOrProvinceId);
+        
+        Task<AddressReportRequestOutput> GetAddressTotalByDistrictId(Guid districtId);
     }
 }

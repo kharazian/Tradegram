@@ -121,7 +121,31 @@ namespace Hitasp.HitCommerce.Addresses
         {
             await _addressRepository.DeleteAsync(addressId);
         }
-        
+
+        public async Task<AddressReportRequestOutput> GetAddressTotalByCountryId(Guid countryId)
+        {
+            return new AddressReportRequestOutput
+            {
+                TotalAddress = await _addressRepository.GetAddressTotalByCountryId(countryId)
+            };
+        }
+
+        public async Task<AddressReportRequestOutput> GetAddressTotalByStateOrProvinceId(Guid stateOrProvinceId)
+        {
+            return new AddressReportRequestOutput
+            {
+                TotalAddress = await _addressRepository.GetAddressTotalByStateOrProvinceId(stateOrProvinceId)
+            };
+        }
+
+        public async Task<AddressReportRequestOutput> GetAddressTotalByDistrictId(Guid districtId)
+        {
+            return new AddressReportRequestOutput
+            {
+                TotalAddress = await _addressRepository.GetAddressTotalByDistrictId(districtId)
+            };
+        }
+
         private async Task<Address> Create(AddressCreateOrEditDto input)
         {
             var address = new Address(
