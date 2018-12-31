@@ -2,10 +2,11 @@
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Addresses
 {
-    public class Address : AggregateRoot<Guid>
+    public class Address : CreationAuditedAggregateRoot<Guid>
     {
         [NotNull] 
         public virtual string Phone { get; protected internal set; }
@@ -53,8 +54,7 @@ namespace Hitasp.HitCommerce.Addresses
             CountryId = countryId;
         }
 
-        public virtual Address SetNewLine(
-            [NotNull] string phone,
+        public virtual void SetNewLine([NotNull] string phone,
             [NotNull] string addressLine1,
             [CanBeNull] string addressLine2,
             [NotNull] string city,
@@ -65,20 +65,15 @@ namespace Hitasp.HitCommerce.Addresses
             AddressLine2 = addressLine2;
             City = Check.NotNullOrWhiteSpace(city, nameof(city));
             ZipCode = Check.NotNullOrWhiteSpace(zipCode, nameof(zipCode));
-
-            return this;
         }
 
-        public virtual Address SetNewDirection(
-            Guid countryId,
+        public virtual void SetNewDirection(Guid countryId,
             Guid stateOrProvinceId,
             Guid? districtId = null)
         {
             DistrictId = districtId;
             StateOrProvinceId = stateOrProvinceId;
             CountryId = countryId;
-
-            return this;
         }
     }
 }

@@ -7,8 +7,12 @@ namespace Hitasp.HitCommerce.UserGroups
 {
     public interface IUserGroupRepository : IBasicRepository<UserGroup, Guid>
     {
-        Task<List<UserGroup>> GetAllActiveGroups();
+        Task<List<UserGroup>> GetAllActiveGroupsAsync();
+        
+        Task<List<UserGroup>> GetListAsync(IEnumerable<Guid> ids);
+        
+        Task<UserGroup> FindByNameAsync(string name);
 
-        Task<UserGroup> GetByName(string name);
+        Task<UserGroup> GetByNameAsync(string name);
     }
 }

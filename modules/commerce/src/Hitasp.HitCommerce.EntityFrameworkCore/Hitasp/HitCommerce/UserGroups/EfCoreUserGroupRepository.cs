@@ -16,15 +16,24 @@ namespace Hitasp.HitCommerce.UserGroups
         {
         }
 
-        public async Task<List<UserGroup>> GetAllActiveGroups()
+        public async Task<List<UserGroup>> GetAllActiveGroupsAsync()
         {
             return await DbSet.Where(x => x.IsActive).ToListAsync();
         }
 
-        public async Task<UserGroup> GetByName(string name)
+        public async Task<List<UserGroup>> GetListAsync(IEnumerable<Guid> ids)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(name), x => x.Name == name)
-                .FirstOrDefaultAsync();
+            return await DbSet.Where(t => ids.Contains(t.Id)).ToListAsync();
+        }
+
+        public async Task<UserGroup> FindByNameAsync(string name)
+        {
+            return await DbSet.FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<UserGroup> GetByNameAsync(string name)
+        {
+            return await DbSet.FirstAsync(x => x.Name == name);
         }
     }
 }

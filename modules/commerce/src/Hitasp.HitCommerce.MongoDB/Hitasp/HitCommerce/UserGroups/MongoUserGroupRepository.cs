@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -17,14 +18,24 @@ namespace Hitasp.HitCommerce.UserGroups
         {
         }
 
-        public async Task<List<UserGroup>> GetAllActiveGroups()
+        public async Task<List<UserGroup>> GetAllActiveGroupsAsync()
         {
             return await GetMongoQueryable().Where(x => x.IsActive).ToListAsync();
         }
 
-        public async Task<UserGroup> GetByName(string name)
+        public async Task<List<UserGroup>> GetListAsync(IEnumerable<Guid> ids)
+        {
+            return await GetMongoQueryable().Where(t => ids.Contains(t.Id)).ToListAsync();
+        }
+
+        public async Task<UserGroup> FindByNameAsync(string name)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<UserGroup> GetByNameAsync(string name)
+        {
+            return await GetMongoQueryable().Where(x => x.Name == name).FirstAsync();
         }
     }
 }

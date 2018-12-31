@@ -8,7 +8,9 @@ namespace Hitasp.HitCommerce.Customers
 {
     public interface ICustomerGroupAppService : IApplicationService
     {
-        Task<PagedResultDto<CustomerGroupForViewDto>> GetListAsync(CustomerGroupGetAllDto input);
+        Task<PagedResultDto<CustomerGroupForViewDto>> GetListByCustomerIdAsync(CustomerGroupGetAllDto input);
+        
+        Task<PagedResultDto<CustomerGroupForViewDto>> GetListAsync(PagedAndSortedResultRequestDto input);
 
         Task<CustomerGroupForEditDto> GetForEditAsync(Guid id);
 

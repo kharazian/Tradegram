@@ -26,7 +26,7 @@ namespace Hitasp.HitCommerce.Customers
 
         public virtual bool PhoneNumberConfirmed { get; protected set; }
 
-        public virtual Guid? VendorId { get; set; }
+        public virtual Guid? VendorId { get; protected set; }
 
         public virtual Guid? DefaultShippingAddressId { get; protected set; }
 
@@ -34,7 +34,7 @@ namespace Hitasp.HitCommerce.Customers
 
         public virtual ICollection<CustomerAddress> Addresses { get; protected set; }
         
-        public virtual ICollection<CustomerUserGroup> CustomerGroups { get; protected set; }
+        public virtual ICollection<CustomerUserGroup> Groups { get; protected set; }
         
         protected Customer()
         {
@@ -53,43 +53,12 @@ namespace Hitasp.HitCommerce.Customers
             UserName = user.UserName;
             TenantId = user.TenantId;
 
-            CustomerGroups = new Collection<CustomerUserGroup>();
+            Groups = new Collection<CustomerUserGroup>();
             Addresses = new Collection<CustomerAddress>();
             
             ExtraProperties = new Dictionary<string, object>();
         }
         
-        public virtual void JoinGroup(Guid userGroupId)
-        {
-            Check.NotNull(userGroupId, nameof(userGroupId));
-
-            if (IsInGroup(userGroupId))
-            {
-                return;
-            }
-
-            CustomerGroups.Add(new CustomerUserGroup(Id, userGroupId));
-        }
-
-        public virtual void LeaveGroup(Guid userGroupId)
-        {
-            Check.NotNull(userGroupId, nameof(userGroupId));
-
-            if (!IsInGroup(userGroupId))
-            {
-                return;
-            }
-
-            CustomerGroups.RemoveAll(r => r.UserGroupId == userGroupId);
-        }
-
-        public virtual bool IsInGroup(Guid userGroupId)
-        {
-            Check.NotNull(userGroupId, nameof(userGroupId));
-
-            return CustomerGroups.Any(r => r.UserGroupId == userGroupId);
-        }
-
         public virtual void SetAddress(Guid addressId, AddressType addressType)
         {
             Check.NotNull(addressId, nameof(addressId));
@@ -111,6 +80,13 @@ namespace Hitasp.HitCommerce.Customers
             Check.NotNull(addressId, nameof(addressId));
             
             DefaultShippingAddressId = addressId;
+        }
+
+        public virtual void SetVendor(Guid vendorId)
+        {
+            Check.NotNull(vendorId, nameof(vendorId));
+
+            VendorId = vendorId;
         }
     }
 }

@@ -6,15 +6,13 @@ using Volo.Abp.Application.Services;
 
 namespace Hitasp.HitCommerce.Addresses
 {
-    public interface ICustomerAddressAppService : IApplicationService
+    public interface IAddressAppService : IApplicationService
     {
-        Task<PagedResultDto<AddressForViewDto>> GetListAsync(AddressGetAllDto input);
+        Task<ListResultDto<AddressForViewDto>> GetListAsync(AddressGetAllDto input);
 
         Task<AddressForEditDto> GetForEditAsync(Guid id);
 
         Task<AddressForViewDto> CreateOrEditAsync(AddressCreateOrEditDto input);
-
-        Task SetAsDefaultAsync(Guid id);
 
         Task DeleteAsync(Guid id);
     }

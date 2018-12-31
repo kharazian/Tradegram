@@ -11,7 +11,7 @@ namespace Hitasp.HitCommerce.Customers
 
         public virtual AddressType AddressType { get; protected set; }
 
-        public virtual DateTimeOffset? LastUsedOn { get; set; }
+        public virtual DateTimeOffset? LastUsedOn { get; protected set; }
 
         protected CustomerAddress()
         {
@@ -32,6 +32,11 @@ namespace Hitasp.HitCommerce.Customers
                 AddressId,
                 AddressType
             };
+        }
+
+        public virtual void UpdateUsage()
+        {
+            LastUsedOn = DateTimeOffset.Now;
         }
     }
 }

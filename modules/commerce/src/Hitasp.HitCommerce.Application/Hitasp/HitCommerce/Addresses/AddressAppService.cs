@@ -11,7 +11,7 @@ using Volo.Abp.Users;
 
 namespace Hitasp.HitCommerce.Addresses
 {
-    public class CustomerAddressAppService : ApplicationService, ICustomerAddressAppService
+    public class AddressAppService : ApplicationService, IAddressAppService
     {
         protected ICustomerLookupService CustomerLookupService { get; }
         
@@ -21,7 +21,7 @@ namespace Hitasp.HitCommerce.Addresses
         private readonly IStateOrProvinceRepository _stateOrProvinceRepository;
         private readonly IDistrictRepository _districtRepository;
 
-        public CustomerAddressAppService(
+        public AddressAppService(
             ICustomerAddressRepository customerAddressRepository,
             IAddressRepository addressRepository,
             ICountryRepository countryRepository,
@@ -38,7 +38,7 @@ namespace Hitasp.HitCommerce.Addresses
             CustomerLookupService = customerLookupService;
         }
 
-        public async Task<PagedResultDto<CustomerAddressForViewDto>> GetListAsync(CustomerAddressGetAllDto input)
+        public async Task<ListResultDto<AddressForViewDto>> GetListAsync(AddressGetAllDto input)
         {
             var customer = await CustomerLookupService.GetByIdAsync(input.CustomerId);
 
@@ -53,46 +53,39 @@ namespace Hitasp.HitCommerce.Addresses
             
             var filteredCustomerAddress = customerAddresses.WhereIf(input.AddressType > -1, e => e.AddressType == addressTypeFilter);
 
-            var query = (from customerAddress in filteredCustomerAddress
+            var query = from customerAddress in filteredCustomerAddress
 
-                    join address in _addressRepository.GetList() on customerAddress.AddressId
-                        equals address.Id into joinedAddress
-                    from userAddress in joinedAddress.DefaultIfEmpty()
-                    join country in _countryRepository.GetList() on userAddress.CountryId
-                        equals country.Id into joinedCountry
-                    from addressCountry in joinedCountry.DefaultIfEmpty()
-                    join stateOrProvince in _stateOrProvinceRepository.GetList() on userAddress.StateOrProvinceId
-                        equals stateOrProvince.Id into joinedStates
-                    from addressState in joinedStates.DefaultIfEmpty()
-                    join district in _districtRepository.GetList() on userAddress.DistrictId
-                        equals district.Id into joinedDistrict
-                    from addressDistrict in joinedStates.DefaultIfEmpty()
+                join address in _addressRepository.GetList() on customerAddress.AddressId
+                    equals address.Id into joinedAddress
+                from userAddress in joinedAddress.DefaultIfEmpty()
+                join country in _countryRepository.GetList() on userAddress.CountryId
+                    equals country.Id into joinedCountry
+                from addressCountry in joinedCountry.DefaultIfEmpty()
+                join stateOrProvince in _stateOrProvinceRepository.GetList() on userAddress.StateOrProvinceId
+                    equals stateOrProvince.Id into joinedStates
+                from addressState in joinedStates.DefaultIfEmpty()
+                join district in _districtRepository.GetList() on userAddress.DistrictId
+                    equals district.Id into joinedDistrict
+                from addressDistrict in joinedStates.DefaultIfEmpty()
 
-                    select new CustomerAddressForViewDto
-                    {
-                        Address = ObjectMapper.Map<Address, CustomerAddressDto>(userAddress),
-                        CountryName = addressCountry.Name,
-                        StateOrProvinceName = addressState.Name,
-                        DistrictName = addressDistrict.Name,
-                        DisplayCity = addressCountry.IsCityEnabled,
-                        DisplayDistrict = addressCountry.IsDistrictEnabled,
-                        DisplayZipCode = addressCountry.IsZipCodeEnabled,
-                        IsDefaultShippingAddress = customer.DefaultShippingAddressId == userAddress.Id
-                    })
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), x =>
-                    x.CountryName.Contains(input.Filter) ||
-                    x.StateOrProvinceName.Contains(input.Filter) ||
-                    x.DistrictName.Contains(input.Filter)
-                );
+                select new AddressForViewDto
+                {
+                    Address = ObjectMapper.Map<Address, AddressDto>(userAddress),
+                    CountryName = addressCountry.Name,
+                    StateOrProvinceName = addressState.Name,
+                    DistrictName = addressDistrict.Name,
+                    DisplayCity = addressCountry.IsCityEnabled,
+                    DisplayDistrict = addressCountry.IsDistrictEnabled,
+                    DisplayZipCode = addressCountry.IsZipCodeEnabled,
+                    IsDefaultShippingAddress = customer.DefaultShippingAddressId == userAddress.Id
+                };
 
             var output = query.ToList();
 
-            var totalCount = output.LongCount();
-
-            return new PagedResultDto<CustomerAddressForViewDto>(totalCount, output);
+            return new ListResultDto<AddressForViewDto>(output);
         }
 
-        public async Task<CustomerAddressForEditDto> GetForEditAsync(Guid id)
+        public async Task<AddressForEditDto> GetForEditAsync(Guid id)
         {
             if (CurrentUser == null)
             {
@@ -112,9 +105,9 @@ namespace Hitasp.HitCommerce.Addresses
             var country = await _countryRepository.GetAsync(address.CountryId);
             var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
 
-            var output = new CustomerAddressForEditDto
+            var output = new AddressForEditDto
             {
-                Address = ObjectMapper.Map<Address, CustomerAddressCreateOrEditDto>(address),
+                Address = ObjectMapper.Map<Address, AddressCreateOrEditDto>(address),
                 CountryName = country.Name,
                 StateOrProvinceName = stateOrProvince.Name,
                 IsDefaultShippingAddress = customer.DefaultShippingAddressId == address.Id,
@@ -129,7 +122,7 @@ namespace Hitasp.HitCommerce.Addresses
             return output;
         }
 
-        public async Task<CustomerAddressForViewDto> CreateOrEditAsync(CustomerAddressCreateOrEditDto input)
+        public async Task<AddressForViewDto> CreateOrEditAsync(AddressCreateOrEditDto input)
         {
             var customer = await CustomerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
 
@@ -181,9 +174,9 @@ namespace Hitasp.HitCommerce.Addresses
             var country = await _countryRepository.GetAsync(address.CountryId);
             var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
 
-            return new CustomerAddressForViewDto
+            return new AddressForViewDto
             {
-                Address = ObjectMapper.Map<Address, CustomerAddressDto>(address),
+                Address = ObjectMapper.Map<Address, AddressDto>(address),
                 CountryName = country.Name,
                 StateOrProvinceName = stateOrProvince.Name,
                 IsDefaultShippingAddress = customer.DefaultShippingAddressId == address.Id,
@@ -215,21 +208,21 @@ namespace Hitasp.HitCommerce.Addresses
 
             if (address != null)
             {
-                var customer = await CustomerLookupService.GetByIdAsync((Guid) CurrentUser.Id);
+                var customer = await CustomerLookupService.GetByIdAsync(customerAddress.CustomerId);
 
                 switch (customerAddress.AddressType)
                 {
                     case AddressType.Billing:
                         customer.SetDefaultBillingAddress(address.Id);
-
                         break;
+                    
                     case AddressType.Shipping:
                         customer.SetDefaultShippingAddress(address.Id);
-
                         break;
+                    
                     default:
-
-                        throw new ArgumentOutOfRangeException();
+                        customer.SetDefaultShippingAddress(address.Id);
+                        break;
                 }
 
                 await CurrentUnitOfWork.SaveChangesAsync();
