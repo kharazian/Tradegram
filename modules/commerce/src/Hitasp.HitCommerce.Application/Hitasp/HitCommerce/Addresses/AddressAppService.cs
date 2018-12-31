@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Addresses.Dtos;
+using Hitasp.HitCommerce.Customers;
 using Hitasp.HitCommerce.Directions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -10,6 +11,7 @@ namespace Hitasp.HitCommerce.Addresses
 {
     public class AddressAppService : ApplicationService, IAddressAppService
     {
+        private readonly ICustomerAddressRepository _customerAddressRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IStateOrProvinceRepository _stateOrProvinceRepository;
@@ -19,13 +21,15 @@ namespace Hitasp.HitCommerce.Addresses
             IAddressRepository addressRepository,
             ICountryRepository countryRepository,
             IStateOrProvinceRepository stateOrProvinceRepository,
-            IDistrictRepository districtRepository
-            )
+            IDistrictRepository districtRepository,
+            ICustomerAddressRepository customerAddressRepository
+        )
         {
             _addressRepository = addressRepository;
             _countryRepository = countryRepository;
             _stateOrProvinceRepository = stateOrProvinceRepository;
             _districtRepository = districtRepository;
+            _customerAddressRepository = customerAddressRepository;
         }
 
         public async Task<PagedResultDto<AddressWithDetailDto>> GetListAsync(AddressGetListInput input)
@@ -42,7 +46,6 @@ namespace Hitasp.HitCommerce.Addresses
                 join district in _districtRepository.GetList() on address.DistrictId
                     equals district.Id into joinedDistrict
                 from addressDistrict in joinedStates.DefaultIfEmpty()
-
                 select new AddressWithDetailDto
                 {
                     Address = ObjectMapper.Map<Address, AddressDto>(address),
@@ -66,7 +69,7 @@ namespace Hitasp.HitCommerce.Addresses
             var address = await _addressRepository.GetAsync(addressId);
 
             var country = await _countryRepository.GetAsync(address.CountryId);
-            
+
             var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
 
             var output = new AddressForEditOutput
@@ -87,34 +90,12 @@ namespace Hitasp.HitCommerce.Addresses
 
         public async Task<AddressWithDetailDto> CreateOrEditAsync(AddressCreateOrEditDto input)
         {
-            Address address;
-            
             if (input.Id == null)
             {
-                address = await Create(input);
+                return await Create(input);
             }
-            else
-            {
-                address = await Update(input);
-            }
-            
-            
-            var country = await _countryRepository.GetAsync(address.CountryId);
-            
-            var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
 
-            return new AddressWithDetailDto
-            {
-                Address = ObjectMapper.Map<Address, AddressDto>(address),
-                CountryName = country.Name,
-                StateOrProvinceName = stateOrProvince.Name,
-                DisplayCity = country.IsCityEnabled,
-                DisplayDistrict = country.IsDistrictEnabled,
-                DisplayZipCode = country.IsZipCodeEnabled,
-                DistrictName = address.DistrictId.HasValue
-                    ? ""
-                    : (await _districtRepository.GetAsync(address.DistrictId.Value)).Name
-            };
+            return await Update(input);
         }
 
         public async Task DeleteAsync(Guid addressId)
@@ -146,7 +127,7 @@ namespace Hitasp.HitCommerce.Addresses
             };
         }
 
-        private async Task<Address> Create(AddressCreateOrEditDto input)
+        private async Task<AddressWithDetailDto> Create(AddressCreateOrEditDto input)
         {
             var address = new Address(
                 GuidGenerator.Create(),
@@ -166,12 +147,36 @@ namespace Hitasp.HitCommerce.Addresses
                 input.AddressLine2,
                 input.City,
                 input.ZipCode
-                );
+            );
 
-            return await _addressRepository.InsertAsync(address);
+            await _addressRepository.InsertAsync(address);
+
+            await _customerAddressRepository.InsertAsync(new CustomerAddress(
+                    (Guid) CurrentUser.Id,
+                    address.Id,
+                    input.AddressType
+                )
+            );
+
+            var country = await _countryRepository.GetAsync(address.CountryId);
+
+            var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
+
+            return new AddressWithDetailDto
+            {
+                Address = ObjectMapper.Map<Address, AddressDto>(address),
+                CountryName = country.Name,
+                StateOrProvinceName = stateOrProvince.Name,
+                DisplayCity = country.IsCityEnabled,
+                DisplayDistrict = country.IsDistrictEnabled,
+                DisplayZipCode = country.IsZipCodeEnabled,
+                DistrictName = address.DistrictId.HasValue
+                    ? ""
+                    : (await _districtRepository.GetAsync(address.DistrictId.Value)).Name
+            };
         }
 
-        private async Task<Address> Update(AddressCreateOrEditDto input)
+        private async Task<AddressWithDetailDto> Update(AddressCreateOrEditDto input)
         {
             var address = await _addressRepository.GetAsync((Guid) input.Id);
 
@@ -182,14 +187,31 @@ namespace Hitasp.HitCommerce.Addresses
                 input.City,
                 input.ZipCode
             );
-            
+
             address.SetNewDirection(
                 input.CountryId,
                 input.StateOrProvinceId,
                 input.DistrictId
-                );
+            );
 
-            return await _addressRepository.UpdateAsync(address);
+            await _addressRepository.UpdateAsync(address);
+
+            var country = await _countryRepository.GetAsync(address.CountryId);
+
+            var stateOrProvince = await _stateOrProvinceRepository.GetAsync(address.StateOrProvinceId);
+
+            return new AddressWithDetailDto
+            {
+                Address = ObjectMapper.Map<Address, AddressDto>(address),
+                CountryName = country.Name,
+                StateOrProvinceName = stateOrProvince.Name,
+                DisplayCity = country.IsCityEnabled,
+                DisplayDistrict = country.IsDistrictEnabled,
+                DisplayZipCode = country.IsZipCodeEnabled,
+                DistrictName = address.DistrictId.HasValue
+                    ? ""
+                    : (await _districtRepository.GetAsync(address.DistrictId.Value)).Name
+            };
         }
     }
 }

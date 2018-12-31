@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Hitasp.HitCommerce.Customers;
 using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Addresses.Dtos
@@ -25,5 +26,7 @@ namespace Hitasp.HitCommerce.Addresses.Dtos
         public Guid StateOrProvinceId { get; set; }
 
         public Guid? DistrictId { get; set; }
+        
+        public AddressType AddressType { get; set; }
     }
 }

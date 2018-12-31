@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Hitasp.HitCommerce.Addresses;
 using Hitasp.HitCommerce.Addresses.Dtos;
+using Hitasp.HitCommerce.Customers;
+using Hitasp.HitCommerce.Customers.Dtos;
 using Hitasp.HitCommerce.Directions;
 using Hitasp.HitCommerce.Directions.Dtos;
 using Hitasp.HitCommerce.UserGroups;
@@ -17,7 +19,8 @@ namespace Hitasp.HitCommerce
         public HitCommerceApplicationAutoMapperProfile()
         {
             CreateMap<Address, AddressDto>();
-            
+
+            CreateMap<Customer, CustomerInListDto>();
             CreateMap<UserGroup, UserGroupDto>();
             
             CreateMap<Country, CountryDto>();
