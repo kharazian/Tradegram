@@ -33,37 +33,37 @@ ABP Framework solution is located under the `framework` folder. It has no extern
 
 #### Basic Modules
 
-| Module               |     Status    | Services                                  |   PR assent   |
-|----------------------|:-------------:|-------------------------------------------|:-------------:|
-| Account              | In-Developing | Login/Register                            | It's an honor |
-| AuditLogging         | In-Developing | Persist audit logs to a database          | It's an honor |
-| BackgroundJobs       | In-Developing | Persist background jobs                   | It's an honor |
-| Identity             | In-Developing | Manage roles, users and their permissions | It's an honor |
-| IdentityServer       | In-Developing | Integrates to IdentityServer4             | It's an honor |
-| PermissionManagement | In-Developing | Persist permissions                       | It's an honor |
-| SettingManagement    | In-Developing | Persist settings                          | It's an honor |
-| TenantManagement     | In-Developing | Manage tenants                            | It's an honor |
-| Users                | In-Developing | Abstract users for other modules          | It's an honor |
+| Module               |     Status    | Services                                                    |   PR assent   |
+|----------------------|:-------------:|-------------------------------------------------------------|:-------------:|
+| Account              | In-Developing | Login/Register                                              | It's an honor |
+| AuditLogging         | In-Developing | Persist audit logs to a database                            | It's an honor |
+| BackgroundJobs       | In-Developing | Persist background jobs                                     | It's an honor |
+| Identity             | In-Developing | Manage roles, users and their permissions                   | It's an honor |
+| IdentityServer       | In-Developing | Integrates to IdentityServer4                               | It's an honor |
+| PermissionManagement | In-Developing | Persist permissions                                         | It's an honor |
+| SettingManagement    | In-Developing | Persist settings                                            | It's an honor |
+| TenantManagement     | In-Developing | Manage tenants                                              | It's an honor |
+| Users                | In-Developing | Abstract users for other modules                            | It's an honor |
 
 #### Additional Modules
 
-| Module    |     Status    | Services                                 |   PR assent   |
-|-----------|:-------------:|------------------------------------------|:-------------:|
-| Common    |  In-Progress  | Abstract Services for additional modules | It's an honor |
-| Blogging  | In-Developing | Create fancy blogs                       | It's an honor |
-| Docs      | In-Developing | Create technical documentation pages     | It's an honor |
-| Forums    |    Pending    | Create technical support forums          |     Future    |
+| Module               |     Status    | Services                                                    |   PR assent   |
+|----------------------|:-------------:|-------------------------------------------------------------|:-------------:|
+| Common               |  In-Progress  | Abstract Services for additional modules                    | It's an honor |
+| Blogging             | In-Developing | Create fancy blogs                                          | It's an honor |
+| Docs                 | In-Developing | Create technical documentation pages                        | It's an honor |
+| Forums               |    Pending    | Create technical support forums                             |     Future    |
 
 #### Commerce Modules
 
-| Module      |    Status   | Services                                               |   PR assent   |
-|-------------|:-----------:|--------------------------------------------------------|:-------------:|
-| Commerce    | In-Progress | Core module for eCommerce modules                      | It's an honor |
-| Catalog     |   Pending   | Manage Categories, Product, Manufacturers, Brands, ... |     Future    |
-| Basket      |   Pending   | Produce shopping cart                                  |     Future    |
-| Marketing   |   Pending   | Create campaigns and produce marketing scenarios       |     Future    |
-| Ordering    |   Pending   | Manage orders and shipping                             |     Future    |
-| Payment     |   Pending   | Produce payment methods                                |     Future    |
+| Module               |    Status     | Services                                                    |   PR assent   |
+|----------------------|:-------------:|-------------------------------------------------------------|:-------------:|
+| Commerce             | In-Progress   | Core module for eCommerce modules                           | It's an honor |
+| Catalog              |   Pending     | Manage Categories, Product, Manufacturers, Brands, ...      |     Future    |
+| Basket               |   Pending     | Produce shopping cart                                       |     Future    |
+| Marketing            |   Pending     | Create campaigns and produce marketing scenarios            |     Future    |
+| Ordering             |   Pending     | Manage orders and shipping                                  |     Future    |
+| Payment              |   Pending     | Produce payment methods                                     |     Future    |
 
 ### Roadmap
 _TODO_
