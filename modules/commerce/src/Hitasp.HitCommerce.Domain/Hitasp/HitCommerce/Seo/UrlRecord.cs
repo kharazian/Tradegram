@@ -7,7 +7,7 @@ using Volo.Abp.ObjectMapping;
 
 namespace Hitasp.HitCommerce.Seo
 {
-    public class UrlRecord : AggregateRoot<Guid>, IUrlRecord, IMapTo<SeoEto>
+    public class UrlRecord : AggregateRoot<Guid>, IMapTo<SeoEto>
     {
         [NotNull] 
         public virtual string EntityName { get; protected set; }

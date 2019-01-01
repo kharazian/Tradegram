@@ -25,7 +25,7 @@ namespace Hitasp.HitCommerce.Seo
         
         public async Task DeleteUrlRecordAsync(UrlRecord urlRecord, CancellationToken cancellationToken = default)
         {
-            await _urlRecordRepository.DeleteAsync(urlRecord.Id, cancellationToken: cancellationToken);
+            await _urlRecordRepository.DeleteAsync(urlRecord, cancellationToken: cancellationToken);
         }
 
         public async Task InsertUrlRecordAsync(UrlRecord urlRecord, CancellationToken cancellationToken = default)
