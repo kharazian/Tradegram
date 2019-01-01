@@ -1,7 +1,9 @@
 ﻿namespace Hitasp.HitCommerce.Customers
 {
-    public enum AddressType
+    public enum AddressType : byte
     {
+        Undefined,
+        
         Shipping,
 
         Billing

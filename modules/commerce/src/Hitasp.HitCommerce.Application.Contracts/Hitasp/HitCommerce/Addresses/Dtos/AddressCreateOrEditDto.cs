@@ -28,5 +28,7 @@ namespace Hitasp.HitCommerce.Addresses.Dtos
         public Guid? DistrictId { get; set; }
         
         public AddressType AddressType { get; set; }
+        
+        public Guid CustomerId { get; set; }
     }
 }

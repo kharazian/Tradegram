@@ -37,24 +37,23 @@ namespace Hitasp.HitCommerce.Addresses
             var addresses = await _addressRepository.GetListAsync();
 
             var query = from address in addresses
+                
                 join country in _countryRepository.GetList() on address.CountryId
-                    equals country.Id into joinedCountry
-                from addressCountry in joinedCountry.DefaultIfEmpty()
+                    equals country.Id
                 join stateOrProvince in _stateOrProvinceRepository.GetList() on address.StateOrProvinceId
-                    equals stateOrProvince.Id into joinedStates
-                from addressState in joinedStates.DefaultIfEmpty()
+                    equals stateOrProvince.Id 
                 join district in _districtRepository.GetList() on address.DistrictId
-                    equals district.Id into joinedDistrict
-                from addressDistrict in joinedStates.DefaultIfEmpty()
+                    equals district.Id
+                    
                 select new AddressWithDetailDto
                 {
                     Address = ObjectMapper.Map<Address, AddressDto>(address),
-                    CountryName = addressCountry.Name,
-                    StateOrProvinceName = addressState.Name,
-                    DistrictName = addressDistrict.Name,
-                    DisplayCity = addressCountry.IsCityEnabled,
-                    DisplayDistrict = addressCountry.IsDistrictEnabled,
-                    DisplayZipCode = addressCountry.IsZipCodeEnabled
+                    CountryName = country.Name,
+                    StateOrProvinceName = stateOrProvince.Name,
+                    DistrictName = district == null ? "" : district.Name,
+                    DisplayCity = country.IsCityEnabled,
+                    DisplayDistrict = country.IsDistrictEnabled,
+                    DisplayZipCode = country.IsZipCodeEnabled
                 };
 
             var output = query.ToList();
@@ -152,7 +151,7 @@ namespace Hitasp.HitCommerce.Addresses
             await _addressRepository.InsertAsync(address);
 
             await _customerAddressRepository.InsertAsync(new CustomerAddress(
-                    (Guid) CurrentUser.Id,
+                    input.CustomerId,
                     address.Id,
                     input.AddressType
                 )

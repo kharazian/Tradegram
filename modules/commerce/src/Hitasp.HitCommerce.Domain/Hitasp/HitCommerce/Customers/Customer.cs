@@ -67,17 +67,13 @@ namespace Hitasp.HitCommerce.Customers
             Addresses.Add(new CustomerAddress(Id, addressId, addressType));
         }
 
-        public virtual void SetDefaultBillingAddress(Guid addressId)
+        public virtual void SetDefaultBillingAddress(Guid? addressId)
         {
-            Check.NotNull(addressId, nameof(addressId));
-            
             DefaultBillingAddressId = addressId;
         }
         
-        public virtual void SetDefaultShippingAddress(Guid addressId)
+        public virtual void SetDefaultShippingAddress(Guid? addressId)
         {
-            Check.NotNull(addressId, nameof(addressId));
-            
             DefaultShippingAddressId = addressId;
         }
 

@@ -8,24 +8,24 @@ namespace Hitasp.HitCommerce.Addresses
     public class Address : CreationAuditedAggregateRoot<Guid>
     {
         [NotNull] 
-        public virtual string Phone { get; protected internal set; }
+        public virtual string Phone { get; protected set; }
 
         [NotNull] 
-        public virtual string AddressLine1 { get; protected internal set; }
+        public virtual string AddressLine1 { get; protected set; }
 
-        public virtual string AddressLine2 { get; protected internal set; }
-
-        [NotNull] 
-        public virtual string City { get; protected internal set; }
+        public virtual string AddressLine2 { get; protected set; }
 
         [NotNull] 
-        public virtual string ZipCode { get; protected internal set; }
+        public virtual string City { get; protected set; }
 
-        public virtual Guid CountryId { get; protected internal set; }
+        [NotNull] 
+        public virtual string ZipCode { get; protected set; }
 
-        public virtual Guid StateOrProvinceId { get; protected internal set; }
+        public virtual Guid CountryId { get; protected set; }
 
-        public virtual Guid? DistrictId { get; protected internal set; }
+        public virtual Guid StateOrProvinceId { get; protected set; }
+
+        public virtual Guid? DistrictId { get; protected set; }
 
         protected Address()
         {
@@ -73,6 +73,15 @@ namespace Hitasp.HitCommerce.Addresses
             DistrictId = districtId;
             StateOrProvinceId = stateOrProvinceId;
             CountryId = countryId;
+        }
+
+        public override string ToString()
+        {
+            var addressLine = !string.IsNullOrWhiteSpace(AddressLine2) 
+                ? AddressLine1 + " / " + AddressLine2 
+                : AddressLine1;
+            return $"{addressLine}, {int.Parse(ZipCode)} {City}";
+
         }
     }
 }
