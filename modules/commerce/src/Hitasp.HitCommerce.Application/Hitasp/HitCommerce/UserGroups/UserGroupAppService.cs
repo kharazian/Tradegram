@@ -113,7 +113,7 @@ namespace Hitasp.HitCommerce.UserGroups
 
             await _userGroupRepository.InsertAsync(userGroup);
             await _customerUserGroupRepository.InsertAsync(new CustomerUserGroup(
-                (Guid) CurrentUser.Id,
+                input.CustomerId,
                 userGroup.Id)
             );
             
