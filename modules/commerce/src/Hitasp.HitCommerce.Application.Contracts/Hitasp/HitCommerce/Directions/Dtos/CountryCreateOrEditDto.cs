@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hitasp.HitCommerce.Directions.Dtos
 {
-    public class CountryUpdateDto
+    public class CountryCreateOrEditDto
     {
         [Required]
         public string Name { get; set; }

@@ -5,7 +5,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommerce.Directions
 {
-    public interface IStateOrProvinceRepository : IBasicRepository<StateOrProvince, Guid>
+    public interface IStateOrProvinceRepository : IRepository<StateOrProvince, Guid>
     {
         Task<List<StateOrProvince>> GetAllByCountryId(Guid countryId);
 
