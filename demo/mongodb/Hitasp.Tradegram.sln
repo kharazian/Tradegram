@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hitasp.Tradegram.Web", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CA9AC87F-097E-4F15-8393-4BC07735A5B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04DBDB01-70F4-4E06-B468-8F87850B22BE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hitasp.Tradegram.MongoDB", "src\Hitasp.Tradegram.MongoDB\Hitasp.Tradegram.MongoDB.csproj", "{E3444355-D47E-431E-BDD0-DD3A7113B2AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hitasp.Tradegram.MongoDB", "src\Hitasp.Tradegram.MongoDB\Hitasp.Tradegram.MongoDB.csproj", "{E3444355-D47E-431E-BDD0-DD3A7113B2AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

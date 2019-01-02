@@ -28,7 +28,7 @@ to use it in any type of projects.
 
 #### Pre Requirements
 
-- Visual Studio 2017 15.7.0+
+- Visual Studio 2017 15.9.0+
 
 ### ABP Framework
 
