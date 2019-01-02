@@ -16,19 +16,23 @@ namespace Hitasp.HitCommon.Medias
     {
         public ILogger<HitMediaService<TMedia, TMediaRepository>> Logger { get; set; }
 
+        private const string DefaultStoreName = "MediaStore";
         private readonly IGuidGenerator _guidGenerator;
         private readonly TMediaRepository _mediaRepository;
         private readonly IAbpStore _store;
 
         protected HitMediaService(
             [NotNull] TMediaRepository mediaRepository,
-            [NotNull] string defaultStoreName,
+            string storeName,
             IAbpStorageFactory storageFactory,
             IGuidGenerator guidGenerator)
         {
             _mediaRepository = mediaRepository;
             _guidGenerator = guidGenerator;
-            _store = storageFactory.GetStore(defaultStoreName);
+            _store = storageFactory.GetStore(string.IsNullOrWhiteSpace(storeName)
+                ? DefaultStoreName
+                : storeName
+                );
 
             Logger = NullLogger<HitMediaService<TMedia, TMediaRepository>>.Instance;
         }
@@ -48,17 +52,16 @@ namespace Hitasp.HitCommon.Medias
 
         public async Task<TMedia> SaveMediaAsync(Stream mediaBinaryStream, string fileName, string rootDirectory)
         {
+            var fileType = await mediaBinaryStream.GetFileTypeAsync();
+
             var media = new TMedia
             {
                 Id = _guidGenerator.Create(),
                 FileName = fileName,
-                RootDirectory = rootDirectory
+                RootDirectory = rootDirectory,
+                FileExtension = fileType.ToString(),
+                MimeType = fileType.Mime
             };
-
-
-            var fileType = await mediaBinaryStream.GetFileTypeAsync();
-            media.MimeType = fileType.Mime;
-            media.FileExtension = fileType.ToString();
 
             await _store.SaveAsync(
                 mediaBinaryStream,

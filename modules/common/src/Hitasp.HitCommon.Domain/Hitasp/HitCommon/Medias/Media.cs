@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommon.Medias
@@ -18,6 +19,18 @@ namespace Hitasp.HitCommon.Medias
 
         protected Media()
         {
+            UniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
+        }
+
+        protected Media(
+            Guid id,
+            [NotNull] string fileName,
+            [NotNull] string rootDirectory,
+            [NotNull] string fileExtension) : base(id)
+        {
+            FileName = fileName;
+            RootDirectory = rootDirectory;
+            
             UniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
         }
 
