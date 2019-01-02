@@ -6,7 +6,6 @@ namespace Hitasp.HitCommon
 {
     [DependsOn(
         typeof(HitCommonDomainSharedModule),
-        typeof(HitCommonAbstractionModule),
         typeof(AbpSecurityModule),
         typeof(AbpSettingsModule)
         )]

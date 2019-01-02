@@ -1,22 +1,25 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Volo.Abp.MongoDB;
-using Hitasp.HitCommerce.MongoDB;
+using Hitasp.HitCommon.Seo;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Volo.Abp.Domain.Repositories.MongoDB;
+using Volo.Abp.MongoDB;
 
-namespace Hitasp.HitCommerce.Seo
+namespace Hitasp.HitCommon.MongoDB
 {
-    public class MongoUrlRecordRepository : MongoDbRepository<IHitCommerceMongoDbContext, UrlRecord, Guid>, IUrlRecordRepository
+    public abstract class MongoSeoRepository<TDbContext> : MongoDbRepository<TDbContext, UrlRecord, Guid>,
+        IUrlRecordRepository
+        where TDbContext : IAbpMongoDbContext
     {
-        public MongoUrlRecordRepository(IMongoDbContextProvider<IHitCommerceMongoDbContext> dbContextProvider) : base(dbContextProvider)
+        protected MongoSeoRepository(IMongoDbContextProvider<TDbContext> dbContextProvider)
+            : base(dbContextProvider)
         {
-        }
 
+        }
         public async Task<UrlRecord> FindByEntityNameAsync(string entityName, CancellationToken cancellationToken = default)
         {
             return await GetMongoQueryable()

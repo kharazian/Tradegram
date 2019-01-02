@@ -1,9 +1,9 @@
-namespace Hitasp.HitCommon.Seo
+namespace Hitasp.HitCommerce.Seo
 {
-    public class SeoConsts
+    public static class SeoConsts
     {
         public const int MaxNameLength = 450;
-
+        
         public const int MaxSlugLength = 450;
     }
 }

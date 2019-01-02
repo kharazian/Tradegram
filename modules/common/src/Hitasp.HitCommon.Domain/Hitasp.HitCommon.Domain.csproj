@@ -15,8 +15,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Ddd.Domain\Volo.Abp.Ddd.Domain.csproj" />
-    <ProjectReference Include="..\Hitasp.HitCommon.Abstractions\Hitasp.HitCommon.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Storage\Volo.Abp.Storage.csproj" />
     <ProjectReference Include="..\Hitasp.HitCommon.Domain.Shared\Hitasp.HitCommon.Domain.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mime-Detective" Version="0.0.6-beta5" />
   </ItemGroup>
 
 </Project>
