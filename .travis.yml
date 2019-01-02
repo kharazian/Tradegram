@@ -1,6 +1,8 @@
 language: csharp
 mono: none
 dotnet: 2.2.101
+os: linux
+dist: xenial
 script:
   - dotnet build framework
   - dotnet build modules/users
