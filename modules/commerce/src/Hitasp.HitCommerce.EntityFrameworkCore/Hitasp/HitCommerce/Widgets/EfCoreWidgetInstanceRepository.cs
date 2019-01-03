@@ -31,10 +31,9 @@ namespace Hitasp.HitCommerce.Widgets
             return await DbSet.Where(x => x.IsPublished).ToListAsync();
         }
 
-        public async Task<WidgetInstance> GetByName(string name)
+        public async Task<WidgetInstance> FindByName(string name)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(name), x => x.Name == name)
-                .FirstOrDefaultAsync();
+            return await DbSet.FirstOrDefaultAsync(x => x.Name == name);
         }
     }
 }

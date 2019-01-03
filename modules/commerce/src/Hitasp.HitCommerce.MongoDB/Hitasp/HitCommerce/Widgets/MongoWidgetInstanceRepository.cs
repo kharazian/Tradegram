@@ -32,7 +32,7 @@ namespace Hitasp.HitCommerce.Widgets
             return await GetMongoQueryable().Where(x => x.IsPublished).ToListAsync();
         }
 
-        public async Task<WidgetInstance> GetByName(string name)
+        public async Task<WidgetInstance> FindByName(string name)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Name == name);
         }

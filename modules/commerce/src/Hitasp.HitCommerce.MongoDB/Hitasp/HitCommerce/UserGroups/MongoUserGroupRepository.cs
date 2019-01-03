@@ -32,10 +32,5 @@ namespace Hitasp.HitCommerce.UserGroups
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Name == name);
         }
-
-        public async Task<UserGroup> GetByNameAsync(string name)
-        {
-            return await GetMongoQueryable().Where(x => x.Name == name).FirstAsync();
-        }
     }
 }

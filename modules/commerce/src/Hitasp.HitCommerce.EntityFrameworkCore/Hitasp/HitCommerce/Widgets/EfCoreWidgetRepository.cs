@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -15,10 +14,9 @@ namespace Hitasp.HitCommerce.Widgets
         {
         }
 
-        public async Task<Widget> GetByName(string name)
+        public async Task<Widget> FindByName(string name)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(name), x => x.Name == name)
-                .FirstOrDefaultAsync();
+            return await DbSet.FirstOrDefaultAsync(x => x.Name == name);
         }
     }
 }

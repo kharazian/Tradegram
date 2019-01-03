@@ -23,8 +23,7 @@ namespace Hitasp.HitCommerce.Directions
 
         public async Task<StateOrProvince> FindByName(string name)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(name), x => x.Name == name)
-                .FirstOrDefaultAsync();
+            return await DbSet.FirstOrDefaultAsync( x => x.Name == name);
         }
     }
 }

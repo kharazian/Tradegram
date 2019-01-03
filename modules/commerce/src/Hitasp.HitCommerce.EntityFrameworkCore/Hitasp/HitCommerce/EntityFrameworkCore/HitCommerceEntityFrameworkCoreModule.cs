@@ -28,6 +28,7 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
                 options.AddRepository<UserGroup, EfCoreUserGroupRepository>();
                 options.AddRepository<Vendor, EfCoreVendorRepository>();
                 options.AddRepository<Widget, EfCoreWidgetRepository>();
+                options.AddRepository<WidgetZone, EfCoreWidgetZoneRepository>();
                 options.AddRepository<WidgetInstance, EfCoreWidgetInstanceRepository>();
             });
         }

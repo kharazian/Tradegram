@@ -30,10 +30,5 @@ namespace Hitasp.HitCommerce.UserGroups
         {
             return await DbSet.FirstOrDefaultAsync(x => x.Name == name);
         }
-
-        public async Task<UserGroup> GetByNameAsync(string name)
-        {
-            return await DbSet.FirstAsync(x => x.Name == name);
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace Hitasp.HitCommerce.Widgets
         {
         }
 
-        public async Task<Widget> GetByName(string name)
+        public async Task<Widget> FindByName(string name)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Name == name);
         }
