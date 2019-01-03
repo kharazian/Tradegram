@@ -7,8 +7,8 @@ namespace Hitasp.HitCommerce.Directions
 {
     public interface IStateOrProvinceRepository : IRepository<StateOrProvince, Guid>
     {
-        Task<List<StateOrProvince>> GetAllByCountryId(Guid countryId);
+        Task<List<StateOrProvince>> ListByCountryId(Guid countryId);
 
-        Task<StateOrProvince> GetByName(string name);
+        Task<StateOrProvince> FindByName(string name);
     }
 }

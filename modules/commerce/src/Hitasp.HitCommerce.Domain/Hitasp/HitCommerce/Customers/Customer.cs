@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Users;
 
@@ -24,16 +22,6 @@ namespace Hitasp.HitCommerce.Customers
         public virtual string PhoneNumber { get; protected set; }
 
         public virtual bool PhoneNumberConfirmed { get; protected set; }
-
-        public virtual Guid? VendorId { get; protected set; }
-
-        public virtual Guid? DefaultShippingAddressId { get; protected set; }
-
-        public virtual Guid? DefaultBillingAddressId { get; protected set; }
-
-        public virtual ICollection<CustomerAddress> Addresses { get; protected set; }
-        
-        public virtual ICollection<CustomerUserGroup> Groups { get; protected set; }
         
         protected Customer()
         {
@@ -52,36 +40,7 @@ namespace Hitasp.HitCommerce.Customers
             UserName = user.UserName;
             TenantId = user.TenantId;
 
-            Groups = new Collection<CustomerUserGroup>();
-            Addresses = new Collection<CustomerAddress>();
-            
             ExtraProperties = new Dictionary<string, object>();
-        }
-        
-        public virtual void SetAddress(Guid addressId, AddressType addressType)
-        {
-            Check.NotNull(addressId, nameof(addressId));
-
-            Addresses.RemoveAll(x => x.AddressId == addressId);
-            
-            Addresses.Add(new CustomerAddress(Id, addressId, addressType));
-        }
-
-        public virtual void SetDefaultBillingAddress(Guid? addressId)
-        {
-            DefaultBillingAddressId = addressId;
-        }
-        
-        public virtual void SetDefaultShippingAddress(Guid? addressId)
-        {
-            DefaultShippingAddressId = addressId;
-        }
-
-        public virtual void SetVendor(Guid vendorId)
-        {
-            Check.NotNull(vendorId, nameof(vendorId));
-
-            VendorId = vendorId;
         }
     }
 }

@@ -7,10 +7,8 @@ namespace Hitasp.HitCommerce.Directions
 {
     public interface ICountryRepository : IRepository<Country, Guid>
     {
-        Task<List<Country>> GetAllCountriesForBilling();
+        Task<List<Country>> FindAllCountriesForBilling();
 
-        Task<List<Country>> GetAllCountriesForShipping();
-
-        Task<Country> GetCountryByCode(string isoCode);
+        Task<List<Country>> FindAllCountriesForShipping();
     }
 }

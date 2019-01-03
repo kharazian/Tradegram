@@ -9,10 +9,10 @@ namespace Hitasp.HitCommerce.Directions
     {
         public virtual Guid CountryId { get; protected set; }
 
-        public virtual string Code { get; set; }
-
         [NotNull]
         public virtual string Name { get; protected set; }
+        
+        public virtual string Code { get; set; }
 
         public virtual string Type { get; set; }
 
@@ -24,6 +24,11 @@ namespace Hitasp.HitCommerce.Directions
         {
             Id = id;
             CountryId = countryId;
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+        }
+        
+        public virtual void SetName([NotNull] string name)
+        {
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));
         }
     }

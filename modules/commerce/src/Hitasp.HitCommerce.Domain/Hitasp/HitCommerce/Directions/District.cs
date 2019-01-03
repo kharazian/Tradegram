@@ -26,5 +26,10 @@ namespace Hitasp.HitCommerce.Directions
             StateOrProvinceId = stateOrProvinceId;
             Name = Check.NotNullOrWhiteSpace(name , nameof(name));
         }
+        
+        public virtual void SetName([NotNull] string name)
+        {
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+        }
     }
 }

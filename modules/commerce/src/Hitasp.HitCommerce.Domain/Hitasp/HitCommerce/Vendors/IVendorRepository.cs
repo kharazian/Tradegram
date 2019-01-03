@@ -5,13 +5,13 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommerce.Vendors
 {
-    public interface IVendorRepository : IBasicRepository<Vendor, Guid>
+    public interface IVendorRepository : IRepository<Vendor, Guid>
     {
-        Task<Vendor> GetByName(string name);
+        Task<Vendor> FindByName(string name);
 
-        Task<Vendor> GetBySlug(string slug);
+        Task<Vendor> FindBySlug(string slug);
 
-        Task<Vendor> GetByEmailAddress(string emailAddress);
+        Task<Vendor> FindByEmailAddress(string emailAddress);
 
         Task<List<Vendor>> GetActives();
     }

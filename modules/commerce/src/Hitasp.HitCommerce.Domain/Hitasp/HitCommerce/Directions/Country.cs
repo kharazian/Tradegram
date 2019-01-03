@@ -37,5 +37,11 @@ namespace Hitasp.HitCommerce.Directions
             IsZipCodeEnabled = true;
             IsDistrictEnabled = true;
         }
+
+        public virtual void SetName([NotNull] string name, [NotNull] string code3)
+        {
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+            Code3 = Check.NotNullOrWhiteSpace(code3, nameof(code3));
+        }
     }
 }
