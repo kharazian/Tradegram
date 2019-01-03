@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -17,6 +19,11 @@ namespace Hitasp.HitCommerce.Widgets
         public async Task<Widget> FindByName(string name)
         {
             return await DbSet.FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<List<Widget>> GetPublished()
+        {
+            return await DbSet.Where(x => x.IsPublished).ToListAsync();
         }
     }
 }

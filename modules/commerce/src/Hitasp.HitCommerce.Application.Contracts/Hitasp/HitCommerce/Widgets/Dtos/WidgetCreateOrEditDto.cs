@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hitasp.HitCommerce.Widgets.Dtos
 {
-    public class WidgetUpdateDto
+    public class WidgetCreateOrEditDto
     {
         [Required]
         public string Name { get; set; }

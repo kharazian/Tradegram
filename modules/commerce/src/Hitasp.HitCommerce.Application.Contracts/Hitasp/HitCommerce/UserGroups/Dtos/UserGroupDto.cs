@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.UserGroups.Dtos
 {
-    public class UserGroupDto : CreationAuditedEntityDto<Guid>
+    public class UserGroupDto : EntityDto<Guid>
     {
         public string Name { get; set; }
         

@@ -6,16 +6,9 @@ using Hitasp.HitCommerce.Widgets.Dtos;
 
 namespace Hitasp.HitCommerce.Widgets
 {
-    public interface IWidgetAppService : IApplicationService
+    public interface IWidgetAppService : IAsyncCrudAppService<WidgetDto, Guid,
+        WidgetGetListInput, WidgetCreateOrEditDto, WidgetCreateOrEditDto>
     {
         Task<ListResultDto<WidgetDto>> GetPublishedAsync();
-        
-        Task<PagedResultDto<WidgetDto>> GetListAsync(PagedAndSortedResultRequestDto input);
-
-        Task<WidgetDto> CreateAsync(WidgetCreateDto input);
-
-        Task<WidgetDto> UpdateAsync(Guid id, WidgetUpdateDto input);
-
-        Task DeleteAsync(Guid id); 
     }
 }

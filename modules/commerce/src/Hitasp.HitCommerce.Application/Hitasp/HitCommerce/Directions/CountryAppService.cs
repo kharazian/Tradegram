@@ -16,9 +16,7 @@ namespace Hitasp.HitCommerce.Directions
         {
             _repository = repository;
         }
-        
-        //TODO: override GetListAsync to filter output by input options 
-        
+
         public async Task<ListResultDto<CountryDto>> GetCountriesForBilling()
         {
             var billingAvailableCountries = await _repository.FindAllCountriesForBilling();

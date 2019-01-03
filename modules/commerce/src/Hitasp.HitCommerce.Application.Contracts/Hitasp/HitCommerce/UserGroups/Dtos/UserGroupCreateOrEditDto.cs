@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.UserGroups.Dtos
 {
-    public class UserGroupCreateOrEditDto : EntityDto<Guid?>
+    public class UserGroupCreateOrEditDto : CreationAuditedEntityDto<Guid>
     {
         [Required]
         public string Name { get; set; }
@@ -12,7 +12,5 @@ namespace Hitasp.HitCommerce.UserGroups.Dtos
         public string Description { get; set; }
         
         public bool IsActive { get; set; }
-        
-        public Guid CustomerId { get; set; }
     }
 }
