@@ -40,7 +40,7 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
 
 
                 b.Property(x => x.Name).IsRequired().HasMaxLength(UserGroupConsts.MaxNameLength).HasColumnName(nameof(UserGroup.Name));
-                b.Property(x => x.Description).HasColumnName(nameof(UserGroup.Description));
+                b.Property(x => x.Description).IsRequired().HasColumnName(nameof(UserGroup.Description));
                 b.Property(x => x.IsActive).HasColumnName(nameof(UserGroup.IsActive));
             });
 
