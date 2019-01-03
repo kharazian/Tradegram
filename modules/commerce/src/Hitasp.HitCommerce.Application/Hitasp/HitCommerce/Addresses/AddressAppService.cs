@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Addresses.Dtos;
-using Hitasp.HitCommerce.Customers;
 using Hitasp.HitCommerce.Directions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -11,7 +10,6 @@ namespace Hitasp.HitCommerce.Addresses
 {
     public class AddressAppService : ApplicationService, IAddressAppService
     {
-        private readonly ICustomerAddressRepository _customerAddressRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IStateOrProvinceRepository _stateOrProvinceRepository;
@@ -21,15 +19,13 @@ namespace Hitasp.HitCommerce.Addresses
             IAddressRepository addressRepository,
             ICountryRepository countryRepository,
             IStateOrProvinceRepository stateOrProvinceRepository,
-            IDistrictRepository districtRepository,
-            ICustomerAddressRepository customerAddressRepository
+            IDistrictRepository districtRepository
         )
         {
             _addressRepository = addressRepository;
             _countryRepository = countryRepository;
             _stateOrProvinceRepository = stateOrProvinceRepository;
             _districtRepository = districtRepository;
-            _customerAddressRepository = customerAddressRepository;
         }
 
         public async Task<PagedResultDto<AddressWithDetailDto>> GetListAsync(AddressGetListInput input)
@@ -149,13 +145,6 @@ namespace Hitasp.HitCommerce.Addresses
             );
 
             await _addressRepository.InsertAsync(address);
-
-            await _customerAddressRepository.InsertAsync(new CustomerAddress(
-                    input.CustomerId,
-                    address.Id,
-                    input.AddressType
-                )
-            );
 
             var country = await _countryRepository.GetAsync(address.CountryId);
 

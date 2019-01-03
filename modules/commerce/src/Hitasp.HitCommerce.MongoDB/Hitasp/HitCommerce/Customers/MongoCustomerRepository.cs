@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,11 +15,6 @@ namespace Hitasp.HitCommerce.Customers
         public MongoCustomerRepository(IMongoDbContextProvider<IHitCommerceMongoDbContext> dbContextProvider) : base(
             dbContextProvider)
         {
-        }
-
-        public async Task<List<Customer>> ListByVendorId(Guid vendorId)
-        {
-            return await GetMongoQueryable().Where(x => x.VendorId == vendorId).ToListAsync();
         }
 
         public async Task<List<Customer>> GetCustomers(int maxCount, string filter, CancellationToken cancellationToken)

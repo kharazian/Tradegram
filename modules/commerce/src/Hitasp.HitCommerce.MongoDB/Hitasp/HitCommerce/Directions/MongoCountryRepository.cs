@@ -15,19 +15,14 @@ namespace Hitasp.HitCommerce.Directions
         {
         }
 
-        public async Task<List<Country>> GetAllCountriesForBilling()
+        public async Task<List<Country>> FindAllCountriesForBilling()
         {
             return await GetMongoQueryable().Where(x => x.IsBillingEnabled).ToListAsync();
         }
 
-        public async Task<List<Country>> GetAllCountriesForShipping()
+        public async Task<List<Country>> FindAllCountriesForShipping()
         {
             return await GetMongoQueryable().Where(x => x.IsShippingEnabled).ToListAsync();
-        }
-
-        public async Task<Country> GetCountryByCode(string isoCode)
-        {
-            return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Code3 == isoCode);
         }
     }
 }

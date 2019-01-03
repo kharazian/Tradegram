@@ -4,8 +4,6 @@ using Volo.Abp.EntityFrameworkCore;
 using Hitasp.HitCommerce.Addresses;
 using Hitasp.HitCommerce.Customers;
 using Hitasp.HitCommerce.Directions;
-using Hitasp.HitCommerce.Medias;
-using Hitasp.HitCommerce.Seo;
 using Hitasp.HitCommerce.UserGroups;
 using Hitasp.HitCommerce.Vendors;
 using Hitasp.HitCommerce.Widgets;
@@ -21,13 +19,7 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
         
         public DbSet<Address> Addresses { get; set; }
         
-        public DbSet<UrlRecord> UrlRecords { get; set; }
-  
         public DbSet<Customer> Users { get; set; }
-        
-        public DbSet<CustomerAddress> UserAddresses { get; set; }
-        
-        public DbSet<CustomerUserGroup> CustomerUserGroups{ get; set; }
         
         public DbSet<Country> Countries { get; set; }
         
@@ -36,8 +28,6 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
         public DbSet<District> Districts { get; set; }
         
         public DbSet<UserGroup> UserGroups { get; set; }
-        
-        public DbSet<Media> Medias { get; set; }
         
         public DbSet<Vendor> Vendors { get; set; }
         

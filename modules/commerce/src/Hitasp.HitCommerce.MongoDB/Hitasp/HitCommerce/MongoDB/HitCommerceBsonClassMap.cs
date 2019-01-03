@@ -3,8 +3,6 @@ using Volo.Abp.Threading;
 using Hitasp.HitCommerce.Addresses;
 using Hitasp.HitCommerce.Customers;
 using Hitasp.HitCommerce.Directions;
-using Hitasp.HitCommerce.Medias;
-using Hitasp.HitCommerce.Seo;
 using Hitasp.HitCommerce.UserGroups;
 using Hitasp.HitCommerce.Vendors;
 using Hitasp.HitCommerce.Widgets;
@@ -29,11 +27,6 @@ namespace Hitasp.HitCommerce.MongoDB
                     map.AutoMap();
                 });
                 
-                BsonClassMap.RegisterClassMap<UrlRecord>(map =>
-                {
-                    map.AutoMap();
-                });
-                
                 BsonClassMap.RegisterClassMap<Country>(map =>
                 {
                     map.AutoMap();
@@ -45,11 +38,6 @@ namespace Hitasp.HitCommerce.MongoDB
                 });
                 
                 BsonClassMap.RegisterClassMap<District>(map =>
-                {
-                    map.AutoMap();
-                });
-                
-                BsonClassMap.RegisterClassMap<Media>(map =>
                 {
                     map.AutoMap();
                 });

@@ -6,8 +6,6 @@ using Volo.Abp.Users.EntityFrameworkCore;
 using Hitasp.HitCommerce.Addresses;
 using Hitasp.HitCommerce.Customers;
 using Hitasp.HitCommerce.Directions;
-using Hitasp.HitCommerce.Medias;
-using Hitasp.HitCommerce.Seo;
 using Hitasp.HitCommerce.UserGroups;
 using Hitasp.HitCommerce.Vendors;
 using Hitasp.HitCommerce.Widgets;
@@ -31,32 +29,6 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "Users", options.Schema);
 
                 b.ConfigureAbpUser(options);
-
-
-                b.Property(x => x.VendorId).HasColumnName(nameof(Customer.VendorId));
-                b.Property(x => x.DefaultBillingAddressId).HasColumnName(nameof(Customer.DefaultBillingAddressId));
-                b.Property(x => x.DefaultShippingAddressId).HasColumnName(nameof(Customer.DefaultShippingAddressId));
-
-                b.HasOne<Address>()
-                    .WithMany()
-                    .HasForeignKey(x => x.DefaultShippingAddressId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne<Address>()
-                    .WithMany()
-                    .HasForeignKey(x => x.DefaultBillingAddressId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne<Vendor>()
-                    .WithMany()
-                    .HasForeignKey(x => x.VendorId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasMany(x => x.Addresses).WithOne().HasForeignKey(x => x.CustomerId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasMany(x => x.Groups).WithOne().HasForeignKey(x => x.CustomerId)
-                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<UserGroup>(b =>
@@ -70,45 +42,7 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
                 b.Property(x => x.Name).IsRequired().HasMaxLength(UserGroupConsts.MaxNameLength).HasColumnName(nameof(UserGroup.Name));
                 b.Property(x => x.Description).HasColumnName(nameof(UserGroup.Description));
                 b.Property(x => x.IsActive).HasColumnName(nameof(UserGroup.IsActive));
-
-                b.HasMany(x => x.Members).WithOne().HasForeignKey(z => z.UserGroupId).OnDelete(DeleteBehavior.Restrict);
             });
-
-            builder.Entity<CustomerUserGroup>(b =>
-            {
-                b.ToTable(options.TablePrefix + "CustomerUserGroups", options.Schema);
-                b.HasKey(ur => new { ur.CustomerId, ur.UserGroupId });
-
-                b.Property(x => x.CustomerId).HasColumnName(nameof(CustomerUserGroup.CustomerId));
-                b.Property(x => x.UserGroupId).HasColumnName(nameof(CustomerUserGroup.UserGroupId));
-            });
-
-            builder.Entity<CustomerAddress>(b =>
-            {
-                b.ToTable(options.TablePrefix + "CustomerAddresses", options.Schema);
-                b.HasKey(ur => new { ur.CustomerId, ur.AddressId });
-
-                b.Property(x => x.CustomerId).HasColumnName(nameof(CustomerAddress.CustomerId));
-                b.Property(x => x.AddressId).HasColumnName(nameof(CustomerAddress.AddressId));
-                b.Property(x => x.AddressType).HasColumnName(nameof(CustomerAddress.AddressType));
-                b.Property(x => x.LastUsedOn).HasColumnName(nameof(CustomerAddress.LastUsedOn));
-            });
-
-            builder.Entity<UrlRecord>(b =>
-            {
-                b.ToTable(options.TablePrefix + "UrlRecords", options.Schema);
-                b.HasKey(x => x.Id);
-                b.HasIndex(x => x.EntityId);
-
-                
-                b.Property(x => x.EntityName).IsRequired().HasMaxLength(SeoConsts.MaxNameLength)
-                    .HasColumnName(nameof(UrlRecord.EntityName));
-                b.Property(x => x.Slug).IsRequired().HasMaxLength(SeoConsts.MaxSlugLength)
-                    .HasColumnName(nameof(UrlRecord.Slug));
-                b.Property(x => x.EntityId).IsRequired().HasColumnName(nameof(UrlRecord.EntityId));
-                b.Property(x => x.IsActive).HasDefaultValue(true).HasColumnName(nameof(UrlRecord.IsActive));
-            });
-
 
             builder.Entity<Address>(b =>
             {
@@ -176,18 +110,6 @@ namespace Hitasp.HitCommerce.EntityFrameworkCore
                 b.Property(x => x.Type).HasColumnName(nameof(District.Type));
 
                 b.HasOne<StateOrProvince>().WithMany().IsRequired().HasForeignKey(x => x.StateOrProvinceId);
-            });
-
-            builder.Entity<Media>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Medias", options.Schema);
-                b.HasKey(x => x.Id);
-
-
-                b.Property(x => x.Caption).HasColumnName(nameof(Media.Caption));
-                b.Property(x => x.FileName).IsRequired().HasColumnName(nameof(Media.FileName));
-                b.Property(x => x.RootDirectory).IsRequired().HasColumnName(nameof(Media.RootDirectory));
-                b.Property(x => x.UniqueFileName).HasColumnName(nameof(Media.UniqueFileName));
             });
 
             builder.Entity<Vendor>(b =>

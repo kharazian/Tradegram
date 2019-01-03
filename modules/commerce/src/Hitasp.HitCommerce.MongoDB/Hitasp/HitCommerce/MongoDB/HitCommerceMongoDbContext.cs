@@ -4,8 +4,6 @@ using Volo.Abp.MongoDB;
 using Hitasp.HitCommerce.Addresses;
 using Hitasp.HitCommerce.Customers;
 using Hitasp.HitCommerce.Directions;
-using Hitasp.HitCommerce.Medias;
-using Hitasp.HitCommerce.Seo;
 using Hitasp.HitCommerce.UserGroups;
 using Hitasp.HitCommerce.Vendors;
 using Hitasp.HitCommerce.Widgets;
@@ -19,13 +17,7 @@ namespace Hitasp.HitCommerce.MongoDB
 
         public IMongoCollection<Address> Addresses => Collection<Address>();
         
-        public IMongoCollection<UrlRecord> UrlRecords => Collection<UrlRecord>();
-
         public IMongoCollection<Customer> Users => Collection<Customer>();
-        
-        public IMongoCollection<CustomerAddress> UserAddresses => Collection<CustomerAddress>();
-        
-        public IMongoCollection<CustomerUserGroup> CustomerUserGroups=> Collection<CustomerUserGroup>();
         
         public IMongoCollection<Country> Countries => Collection<Country>();
         
@@ -34,8 +26,6 @@ namespace Hitasp.HitCommerce.MongoDB
         public IMongoCollection<District> Districts => Collection<District>();
         
         public IMongoCollection<UserGroup> UserGroups => Collection<UserGroup>();
-        
-        public IMongoCollection<Media> Medias => Collection<Media>();
         
         public IMongoCollection<Vendor> Vendors => Collection<Vendor>();
         

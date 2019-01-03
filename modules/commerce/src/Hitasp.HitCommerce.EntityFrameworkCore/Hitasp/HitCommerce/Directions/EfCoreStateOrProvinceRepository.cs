@@ -16,12 +16,12 @@ namespace Hitasp.HitCommerce.Directions
         {
         }
 
-        public async Task<List<StateOrProvince>> GetAllByCountryId(Guid countryId)
+        public async Task<List<StateOrProvince>> ListByCountryId(Guid countryId)
         {
             return await DbSet.Where(x => x.CountryId == countryId).ToListAsync();
         }
 
-        public async Task<StateOrProvince> GetByName(string name)
+        public async Task<StateOrProvince> FindByName(string name)
         {
             return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(name), x => x.Name == name)
                 .FirstOrDefaultAsync();

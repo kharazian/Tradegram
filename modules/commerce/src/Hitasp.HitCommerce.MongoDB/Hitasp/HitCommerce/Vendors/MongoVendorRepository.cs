@@ -19,17 +19,17 @@ namespace Hitasp.HitCommerce.Vendors
         {
         }
 
-        public async Task<Vendor> GetByName(string name)
+        public async Task<Vendor> FindByName(string name)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Name == name);
         }
 
-        public async Task<Vendor> GetBySlug(string slug)
+        public async Task<Vendor> FindBySlug(string slug)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Slug == slug);
         }
 
-        public async Task<Vendor> GetByEmailAddress(string emailAddress)
+        public async Task<Vendor> FindByEmailAddress(string emailAddress)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Email == emailAddress);
         }

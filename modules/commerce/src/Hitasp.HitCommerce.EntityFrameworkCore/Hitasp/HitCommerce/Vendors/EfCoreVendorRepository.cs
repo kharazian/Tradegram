@@ -18,22 +18,19 @@ namespace Hitasp.HitCommerce.Vendors
         {
         }
 
-        public async Task<Vendor> GetByName(string name)
+        public async Task<Vendor> FindByName(string name)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(name), x => x.Name == name)
-                .FirstOrDefaultAsync();
+            return await DbSet.FirstOrDefaultAsync(x => x.Name == name);
         }
 
-        public async Task<Vendor> GetBySlug(string slug)
+        public async Task<Vendor> FindBySlug(string slug)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(slug), x => x.Slug == slug)
-                .FirstOrDefaultAsync();
+            return await DbSet.FirstOrDefaultAsync(x => x.Slug == slug);
         }
 
-        public async Task<Vendor> GetByEmailAddress(string emailAddress)
+        public async Task<Vendor> FindByEmailAddress(string emailAddress)
         {
-            return await DbSet.WhereIf(!string.IsNullOrWhiteSpace(emailAddress), x => x.Email == emailAddress)
-                .FirstOrDefaultAsync();
+            return await DbSet.FirstOrDefaultAsync(x => x.Email == emailAddress);
         }
 
         public async Task<List<Vendor>> GetActives()

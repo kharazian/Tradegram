@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Directions.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -22,7 +21,7 @@ namespace Hitasp.HitCommerce.Directions
         
         public async Task<ListResultDto<CountryDto>> GetCountriesForBilling()
         {
-            var billingAvailableCountries = await _repository.GetAllCountriesForBilling();
+            var billingAvailableCountries = await _repository.FindAllCountriesForBilling();
 
             return new ListResultDto<CountryDto>(
                     ObjectMapper.Map<List<Country>, List<CountryDto>>(billingAvailableCountries)
@@ -31,7 +30,7 @@ namespace Hitasp.HitCommerce.Directions
 
         public async Task<ListResultDto<CountryDto>> GetCountriesForShipping()
         {
-            var shippingAvailableCountries = await _repository.GetAllCountriesForShipping();
+            var shippingAvailableCountries = await _repository.FindAllCountriesForShipping();
 
             return new ListResultDto<CountryDto>(
                 ObjectMapper.Map<List<Country>, List<CountryDto>>(shippingAvailableCountries)

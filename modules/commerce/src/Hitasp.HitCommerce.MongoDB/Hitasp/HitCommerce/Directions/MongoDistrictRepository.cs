@@ -16,12 +16,12 @@ namespace Hitasp.HitCommerce.Directions
         {
         }
 
-        public async Task<List<District>> GetAllByStateOrProvinceId(Guid stateOrProvinceId)
+        public async Task<List<District>> ListByStateOrProvinceId(Guid stateOrProvinceId)
         {
             return await GetMongoQueryable().Where(x => x.StateOrProvinceId == stateOrProvinceId).ToListAsync();
         }
 
-        public async Task<District> GetByName(string name)
+        public async Task<District> FindByName(string name)
         {
             return await GetMongoQueryable().FirstOrDefaultAsync(x => x.Name == name);
         }
