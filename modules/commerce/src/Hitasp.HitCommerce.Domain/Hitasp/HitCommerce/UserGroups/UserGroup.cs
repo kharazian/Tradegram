@@ -10,6 +10,7 @@ namespace Hitasp.HitCommerce.UserGroups
         [NotNull]
         public virtual string Name { get; protected set; }
 
+        [NotNull]
         public virtual string Description { get; protected set; }
 
         public virtual bool IsActive { get; protected set; }

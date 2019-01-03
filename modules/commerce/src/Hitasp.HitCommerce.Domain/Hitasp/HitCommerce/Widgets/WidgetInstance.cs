@@ -14,7 +14,7 @@ namespace Hitasp.HitCommerce.Widgets
         [NotNull]
         public virtual string Name { get; protected set; }
 
-        public virtual DateTimeOffset? PublishStart { get; protected set; }
+        public virtual DateTimeOffset PublishStart { get; protected set; }
 
         public virtual DateTimeOffset? PublishEnd { get; protected set; }
 
@@ -24,7 +24,7 @@ namespace Hitasp.HitCommerce.Widgets
 
         public virtual string HtmlData { get; set; }
 
-        public bool IsPublished => PublishStart.HasValue && PublishStart.Value < DateTimeOffset.Now &&
+        public bool IsPublished => PublishStart < DateTimeOffset.Now &&
                                    (!PublishEnd.HasValue || PublishEnd.Value > DateTimeOffset.Now);
 
         protected WidgetInstance()
