@@ -4,8 +4,8 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommerce.Widgets
 {
-    public interface IWidgetRepository : IBasicRepository<Widget, Guid>
+    public interface IWidgetRepository : IRepository<Widget, Guid>
     {
-        Task<Widget> GetByName(string name);
+        Task<Widget> FindByName(string name);
     }
 }

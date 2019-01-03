@@ -5,7 +5,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommerce.Widgets
 {
-    public interface IWidgetInstanceRepository : IBasicRepository<WidgetInstance, Guid>
+    public interface IWidgetInstanceRepository : IRepository<WidgetInstance, Guid>
     {
         Task<List<WidgetInstance>> GetAllByWidgetId(Guid widgetId);
 
@@ -13,6 +13,6 @@ namespace Hitasp.HitCommerce.Widgets
 
         Task<List<WidgetInstance>> GetPublished();
         
-        Task<WidgetInstance> GetByName(string name);
+        Task<WidgetInstance> FindByName(string name);
     }
 }

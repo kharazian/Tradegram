@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommerce.Addresses
 {
-    public interface IAddressRepository : IBasicRepository<Address, Guid>
+    public interface IAddressRepository : IRepository<Address, Guid>
     {
         Task<int> GetAddressTotalByCountryId(Guid countryId);
 
