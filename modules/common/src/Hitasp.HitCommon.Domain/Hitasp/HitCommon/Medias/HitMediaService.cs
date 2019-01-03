@@ -22,8 +22,8 @@ namespace Hitasp.HitCommon.Medias
         private readonly IAbpStore _store;
 
         protected HitMediaService(
-            [NotNull] TMediaRepository mediaRepository,
             string storeName,
+            [NotNull] TMediaRepository mediaRepository,
             IAbpStorageFactory storageFactory,
             IGuidGenerator guidGenerator)
         {
@@ -39,7 +39,7 @@ namespace Hitasp.HitCommon.Medias
 
         public async Task<string> GetMediaUrl(TMedia media)
         {
-            return await GetMediaUrl(media == null ? "no-image.png" : media.FileName);
+            return await GetMediaUrl(media == null ? "no-image.png" : media.UniqueFileName);
         }
 
         public async Task<string> GetMediaUrl(string uniqueFileName)

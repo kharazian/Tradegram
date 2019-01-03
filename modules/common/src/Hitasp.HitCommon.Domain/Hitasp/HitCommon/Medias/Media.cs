@@ -7,9 +7,11 @@ namespace Hitasp.HitCommon.Medias
 {
     public abstract class Media: AggregateRoot<Guid>, IMedia
     {
+        private readonly string _uniqueFileName;
+        
         public string FileName { get; set; }
         
-        public string UniqueFileName { get; }
+        public string UniqueFileName { get; protected set; }
         
         public string RootDirectory { get; set; }
         
@@ -19,7 +21,7 @@ namespace Hitasp.HitCommon.Medias
 
         protected Media()
         {
-            UniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
+            _uniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
         }
 
         protected Media(
@@ -30,8 +32,9 @@ namespace Hitasp.HitCommon.Medias
         {
             FileName = fileName;
             RootDirectory = rootDirectory;
+            FileExtension = fileExtension;
             
-            UniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
+            UniqueFileName = _uniqueFileName;
         }
 
         public override string ToString()
