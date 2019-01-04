@@ -1,13 +1,9 @@
-# ~~HitCommerce~~ *Tradegram?*
+# Tradegram - Modular 
 
 [![Build Status](https://travis-ci.com/Hitasp/HitCommerce.svg?branch=master)](https://travis-ci.com/Hitasp/HitCommerce)
 
-## ### The name of the project repository changes on this weekend! (Jan. 05, 2019) [#12](https://github.com/Hitasp/HitCommerce/issues/12) ###
--------------------------------------------------------------
-
 This project is the forked version of the
-[ABP vNext repository](https://github.com/abpframework/abp) application
-framework with special changes for eCommerce scenario.
+[ABP vNext](https://github.com/abpframework/abp) repository with special changes for eCommerce scenario.
 
 See
 [the ABP announcement](https://abp.io/blog/abp/Abp-vNext-Announcement)
