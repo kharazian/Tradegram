@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Hitasp.HitCommerce.Catalog.Domain\Hitasp.HitCommerce.Catalog.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.EntityFrameworkCore\Volo.Abp.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\common\src\Hitasp.HitCommon.EntityFrameworkCore\Hitasp.HitCommon.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
