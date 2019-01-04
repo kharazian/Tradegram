@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Hitasp.HitCommon.Seo;
+using Hitasp.HitCommon.MongoDB;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
 
-namespace Hitasp.HitCommon.MongoDB
+namespace Hitasp.HitCommon.Seo
 {
-    public abstract class MongoSeoRepository<TDbContext> : MongoDbRepository<TDbContext, UrlRecord, Guid>,
+    public class MongoSeoRepository : MongoDbRepository<IHitCommonMongoDbContext, UrlRecord, Guid>,
         IUrlRecordRepository
-        where TDbContext : IAbpMongoDbContext
     {
-        protected MongoSeoRepository(IMongoDbContextProvider<TDbContext> dbContextProvider)
+        protected MongoSeoRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
 

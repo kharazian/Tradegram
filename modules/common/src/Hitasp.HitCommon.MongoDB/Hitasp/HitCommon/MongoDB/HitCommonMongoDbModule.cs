@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Modularity;
+﻿using Hitasp.HitCommon.Medias;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommon.MongoDB
@@ -9,6 +11,12 @@ namespace Hitasp.HitCommon.MongoDB
         )]
     public class HitCommonMongoDbModule : AbpModule
     {
-        
+        public override void ConfigureServices(ServiceConfigurationContext context)
+        {
+            context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
+            {
+                options.AddRepository<Media, MongoMediaRepository>();
+            });
+        }
     }
 }

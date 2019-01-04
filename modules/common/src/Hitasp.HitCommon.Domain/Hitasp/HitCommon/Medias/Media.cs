@@ -5,36 +5,36 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommon.Medias
 {
-    public abstract class Media: AggregateRoot<Guid>, IMedia
+    public class Media: AggregateRoot<Guid>
     {
-        private readonly string _uniqueFileName;
+        public virtual string FileName { get; protected set; }
         
-        public string FileName { get; set; }
+        public virtual string UniqueFileName { get; protected set; }
         
-        public string UniqueFileName { get; protected set; }
+        public virtual string RootDirectory { get; protected set; }
         
-        public string RootDirectory { get; set; }
+        public virtual string MimeType { get; protected set; }
         
-        public string MimeType { get; set; }
-        
-        public string FileExtension { get; set; }
+        public virtual string FileExtension { get; protected set; }
 
         protected Media()
         {
-            _uniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
         }
 
-        protected Media(
+        public Media(
             Guid id,
             [NotNull] string fileName,
             [NotNull] string rootDirectory,
-            [NotNull] string fileExtension) : base(id)
+            [NotNull] string mimeType,
+            [NotNull] string fileExtension)
         {
+            Id = id;
             FileName = fileName;
             RootDirectory = rootDirectory;
+            MimeType = mimeType;
             FileExtension = fileExtension;
             
-            UniqueFileName = _uniqueFileName;
+            UniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
         }
 
         public override string ToString()

@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.ObjectMapping;
 
 namespace Hitasp.HitCommon.Seo
 {

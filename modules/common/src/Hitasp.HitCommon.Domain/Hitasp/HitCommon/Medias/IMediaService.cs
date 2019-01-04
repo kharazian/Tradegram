@@ -3,16 +3,15 @@ using System.Threading.Tasks;
 
 namespace Hitasp.HitCommon.Medias
 {
-    public interface IMediaService<TMedia>
-        where TMedia : Media, IMedia
+    public interface IMediaService
     {
-        Task<string> GetMediaUrl(TMedia media);
+        Task<string> GetMediaUrl(Media media);
 
         Task<string> GetMediaUrl(string uniqueFileName);
 
-        Task<TMedia> SaveMediaAsync(Stream mediaBinaryStream, string fileName, string rootDirectory);
+        Task<Media> SaveMediaAsync(Stream mediaBinaryStream, string fileName, string rootDirectory);
 
-        Task DeleteMediaAsync(TMedia media);
+        Task DeleteMediaAsync(Media media);
 
         Task DeleteMediaAsync(string uniqueFileName);
     }

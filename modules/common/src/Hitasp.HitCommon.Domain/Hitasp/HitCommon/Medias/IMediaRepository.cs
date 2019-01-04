@@ -5,9 +5,8 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommon.Medias
 {
-    public interface IMediaRepository<TMedia> : IBasicRepository<TMedia, Guid>
-        where TMedia : Media, IMedia
+    public interface IMediaRepository : IBasicRepository<Media, Guid>
     {
-        Task<TMedia> FindByUniqueFileName(string uniqueFileName, CancellationToken cancellationToken = default);
+        Task<Media> FindByUniqueFileName(string uniqueFileName, CancellationToken cancellationToken = default);
     }
 }

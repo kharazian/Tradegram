@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Hitasp.HitCommon.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hitasp.HitCommon.Seo
 {
-    public class EfCoreUrlRecordRepository<TDbContext> : EfCoreRepository<TDbContext, UrlRecord, Guid>, IUrlRecordRepository
-        where TDbContext : IEfCoreDbContext
+    public class EfCoreUrlRecordRepository : EfCoreRepository<IHitCommonDbContext, UrlRecord, Guid>, IUrlRecordRepository
     {
-        public EfCoreUrlRecordRepository(IDbContextProvider<TDbContext> dbContextProvider) : base(dbContextProvider)
+        public EfCoreUrlRecordRepository(IDbContextProvider<IHitCommonDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
