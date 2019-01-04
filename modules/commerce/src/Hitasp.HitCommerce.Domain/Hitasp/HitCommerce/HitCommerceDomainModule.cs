@@ -1,4 +1,5 @@
 ﻿using Hitasp.HitCommerce.Localization;
+using Hitasp.HitCommon;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
@@ -9,7 +10,7 @@ namespace Hitasp.HitCommerce
 {
     [DependsOn(
         typeof(HitCommerceDomainSharedModule),
-        typeof(AbpStorageModule)
+        typeof(HitCommonDomainModule)
         )]
     public class HitCommerceDomainModule : AbpModule
     {

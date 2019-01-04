@@ -7,11 +7,13 @@ using Hitasp.HitCommerce.Directions;
 using Hitasp.HitCommerce.UserGroups;
 using Hitasp.HitCommerce.Vendors;
 using Hitasp.HitCommerce.Widgets;
+using Hitasp.HitCommon.EntityFrameworkCore;
 
 namespace Hitasp.HitCommerce.EntityFrameworkCore
 {
     [DependsOn(
         typeof(HitCommerceDomainModule),
+        typeof(HitCommonEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreModule)
     )]
     public class HitCommerceEntityFrameworkCoreModule : AbpModule
