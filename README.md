@@ -1,4 +1,5 @@
 # Tradegram
+Modular Trade Platform 
 
 [![Build Status](https://travis-ci.com/Hitasp/HitCommerce.svg?branch=master)](https://travis-ci.com/Hitasp/HitCommerce)
 
@@ -67,7 +68,7 @@ start developing a module/template:
 | Module    |   Status    | Services                                               |   PR assent   |
 |:----------|:-----------:|:-------------------------------------------------------|:-------------:|
 | Commerce  | In-Progress | Core module for eCommerce modules                      | It's an honor |
-| Catalog   |   Pending   | Manage Categories, Product, Manufacturers, Brands, ... |    Future     |
+| Catalog   | In-Progress | Manage Categories, Product, Manufacturers, Brands, ... |    Future     |
 | Basket    |   Pending   | Produce shopping cart                                  |    Future     |
 | Marketing |   Pending   | Create campaigns and produce marketing scenarios       |    Future     |
 | Ordering  |   Pending   | Manage orders and shipping                             |    Future     |

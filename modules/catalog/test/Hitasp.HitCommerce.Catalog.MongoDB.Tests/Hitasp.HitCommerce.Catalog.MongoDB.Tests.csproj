@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Hitasp.HitCommerce.Catalog.MongoDB\Hitasp.HitCommerce.Catalog.MongoDB.csproj" />
+    <ProjectReference Include="..\Hitasp.HitCommerce.Catalog.TestBase\Hitasp.HitCommerce.Catalog.TestBase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Mongo2Go" Version="2.2.1" />
+  </ItemGroup>
+
+</Project>
