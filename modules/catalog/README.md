@@ -1,0 +1,1 @@
+# HitCommerce - Catalog Module
