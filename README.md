@@ -1,4 +1,4 @@
-# Tradegram - Modular 
+# Tradegram
 
 [![Build Status](https://travis-ci.com/Hitasp/HitCommerce.svg?branch=master)](https://travis-ci.com/Hitasp/HitCommerce)
 
