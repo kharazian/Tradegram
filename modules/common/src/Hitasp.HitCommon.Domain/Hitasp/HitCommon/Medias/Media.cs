@@ -34,7 +34,7 @@ namespace Hitasp.HitCommon.Medias
             MimeType = mimeType;
             FileExtension = fileExtension;
             
-            UniqueFileName = DateTime.Now.Ticks + "." + FileExtension;
+            UniqueFileName = DateTime.Now.Ticks + id.ToString() + "." + fileExtension;
         }
 
         public override string ToString()
