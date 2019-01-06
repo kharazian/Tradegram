@@ -59,11 +59,12 @@ namespace Hitasp.HitCommon.Models
             MetaDescription = metaDescription;
         }
         
-        public virtual void ChangePublishStatus()
+        public virtual void ChangePublishStatus(bool status = false)
         {
-            if (!IsPublished)
+            if (!IsPublished && status)
             {
                 Publish();
+                return;
             }
             
             IsPublished = false;
