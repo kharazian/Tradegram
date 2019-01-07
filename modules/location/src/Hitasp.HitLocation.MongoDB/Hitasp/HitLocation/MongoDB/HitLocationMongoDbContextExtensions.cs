@@ -15,6 +15,16 @@ namespace Hitasp.HitLocation.MongoDB
             var options = new HitLocationMongoModelBuilderConfigurationOptions();
 
             optionsAction?.Invoke(options);
+            
+            builder.Entity<Locations>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Locations";
+            });
+            
+            builder.Entity<UserLocation>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "UserLocations";
+            });
         }
     }
 }

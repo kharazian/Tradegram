@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Threading;
+﻿using MongoDB.Bson.Serialization;
+using Volo.Abp.Threading;
 
 namespace Hitasp.HitLocation.MongoDB
 {
@@ -10,11 +11,15 @@ namespace Hitasp.HitLocation.MongoDB
         {
             OneTimeRunner.Run(() =>
             {
-                //Register mappings here. Example:
-                //BsonClassMap.RegisterClassMap<Question>(map =>
-                //{
-                //    map.AutoMap();
-                //});
+                BsonClassMap.RegisterClassMap<Locations>(map =>
+                {
+                    map.AutoMap();
+                });
+                
+                BsonClassMap.RegisterClassMap<UserLocation>(map =>
+                {
+                    map.AutoMap();
+                });
             });
         }
     }
