@@ -24,7 +24,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public override object[] GetKeys()
         {
-            return new object[]{ProductId, LinkedProductId, LinkType};
+            return new object[]{ProductId, LinkedProductId};
         }
     }
 }

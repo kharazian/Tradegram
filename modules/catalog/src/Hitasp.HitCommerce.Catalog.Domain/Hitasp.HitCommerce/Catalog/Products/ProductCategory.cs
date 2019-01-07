@@ -5,13 +5,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
 {
     public class ProductCategory : Entity
     {
+        public Guid ProductId { get; protected set; }
+
+        public Guid CategoryId { get; protected set; }
+
         public bool IsFeaturedProduct { get; set; }
 
         public int DisplayOrder { get; set; }
-
-        public Guid CategoryId { get; set; }
-
-        public Guid ProductId { get; set; }
 
         protected ProductCategory()
         {

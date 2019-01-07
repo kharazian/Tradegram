@@ -24,15 +24,17 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             Children = new Collection<Category>();
         }
 
-        public Category(Guid id, [NotNull] string name, [NotNull] string slug, Guid? parentId, string description)
+        public Category(
+            Guid id, 
+            [NotNull] string name, 
+            [NotNull] string slug,
+            [CanBeNull] string description = null,
+            Guid? parentId = null)
             : base(id, name, slug)
         {
-            Name = name;
-            Slug = slug;
             ParentId = parentId;
-
             Description = description;
-            
+
             Children = new Collection<Category>();
         }
         
@@ -44,6 +46,11 @@ namespace Hitasp.HitCommerce.Catalog.Categories
         public virtual void SetParent(Guid parentId)
         {
             ParentId = parentId;
+        }
+
+        public virtual void SetThumbnailImage(Guid thumbnailImageId)
+        {
+            ThumbnailImageId = thumbnailImageId;
         }
     }
 }

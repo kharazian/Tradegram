@@ -22,7 +22,7 @@ namespace Hitasp.HitCommerce.Catalog.Brands
         {
         }
 
-        public Brand(Guid id, [NotNull] string name, [NotNull] string slug, string description = null)
+        public Brand(Guid id, [NotNull] string name, [NotNull] string slug, [CanBeNull] string description = null)
         {
             Id = id;
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));

@@ -32,10 +32,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
         
         public virtual bool StockTrackingIsEnabled { get; set; }
 
+        [Range(0, int.MaxValue)]
         public virtual int StockQuantity { get; protected set; }
         
+        [Range(0, int.MaxValue)]
         public virtual int RestockThreshold { get; set; }
 
+        [Range(0, int.MaxValue)]
         public virtual int MaxStockThreshold { get; set; }
         
         public virtual bool OnReorder { get; protected set; }
