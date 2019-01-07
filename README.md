@@ -82,11 +82,21 @@ start developing a module/template:
 | Blogging | In-Developing | Create fancy blogs                       | It's an honor |
 | Docs     | In-Developing | Create technical documentation pages     | It's an honor |
 | Forums   |    Pending    | Create technical support forums          |    Future     |
-| Location |    Pending    | GeoLocation providers and services       |    Future     |
+| Location |  In-Progress  | GeoLocation providers and services       | It's an honor |
 
 ### Roadmap
 
-_TODO_
+* Phase 1: *(In-Progress)*
+    * Deploy [modules](modules/) as package reference without dependence on each other
+    * Deploy [demo app](demo/) 
+        * Back-End
+        * Front-End
+* Phase 2:
+    * Code refactoring
+    * Apply Local Events and Event Handlers
+* Phase 3:
+    * Apply Distributed Event (RabbitMQ)
+    * Containerizing and Dockerize
 
 ### Contribution
 
