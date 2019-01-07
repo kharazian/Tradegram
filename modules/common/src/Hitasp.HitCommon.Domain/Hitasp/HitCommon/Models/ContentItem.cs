@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommon.Models
 {
-    public abstract class Content : FullAuditedAggregateRoot<Guid>, ISlugSupported
+    public abstract class ContentItem : FullAuditedAggregateRoot<Guid>, ISlugSupported
     {
         [NotNull]
         public virtual string Name { get; protected set; }
@@ -24,12 +24,12 @@ namespace Hitasp.HitCommon.Models
 
         public DateTimeOffset? PublishedOn { get; protected set; }
 
-        protected Content()
+        protected ContentItem()
         {
             
         }
 
-        protected Content(Guid id, [NotNull] string name, [NotNull] string slug)
+        protected ContentItem(Guid id, [NotNull] string name, [NotNull] string slug)
         {
             Id = id;
             Name = name;
@@ -67,7 +67,7 @@ namespace Hitasp.HitCommon.Models
                 return;
             }
             
-            IsPublished = false;
+            IsPublished = status;
         }
     }
 }

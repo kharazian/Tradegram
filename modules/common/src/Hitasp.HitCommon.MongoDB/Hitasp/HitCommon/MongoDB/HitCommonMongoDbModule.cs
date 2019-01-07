@@ -1,4 +1,5 @@
 ﻿using Hitasp.HitCommon.Medias;
+using Hitasp.HitCommon.Seo;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
@@ -16,6 +17,11 @@ namespace Hitasp.HitCommon.MongoDB
             context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
             {
                 options.AddRepository<Media, MongoMediaRepository>();
+            });
+            
+            context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
+            {
+                options.AddRepository<UrlRecord, MongoUrlRecordRepository>();
             });
         }
     }

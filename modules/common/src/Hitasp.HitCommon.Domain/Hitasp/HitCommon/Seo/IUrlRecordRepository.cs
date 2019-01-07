@@ -12,7 +12,7 @@ namespace Hitasp.HitCommon.Seo
         
         Task<UrlRecord> FindBySlugAsync(string slug, CancellationToken cancellationToken = default);
 
-        Task<UrlRecord> FindByEntityNameAsync(string entityName, CancellationToken cancellationToken = default);
+        Task<UrlRecord> FindByEntityNameAsync(string name, CancellationToken cancellationToken = default);
         
         Task<UrlRecord> FindByEntityIdAsync(Guid entityId, CancellationToken cancellationToken = default);
         

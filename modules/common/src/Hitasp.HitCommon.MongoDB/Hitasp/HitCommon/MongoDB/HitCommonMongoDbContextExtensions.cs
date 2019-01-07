@@ -1,5 +1,6 @@
 ﻿using System;
 using Hitasp.HitCommon.Medias;
+using Hitasp.HitCommon.Models;
 using Hitasp.HitCommon.Seo;
 using Volo.Abp;
 using Volo.Abp.MongoDB;
@@ -26,6 +27,11 @@ namespace Hitasp.HitCommon.MongoDB
             builder.Entity<UrlRecord>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "UrlRecords";
+            });
+            
+            builder.Entity<ContentItemType>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "ContentItemTypes";
             });
         }
     }

@@ -11,10 +11,10 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommon.Seo
 {
-    public class MongoSeoRepository : MongoDbRepository<IHitCommonMongoDbContext, UrlRecord, Guid>,
+    public class MongoUrlRecordRepository : MongoDbRepository<IHitCommonMongoDbContext, UrlRecord, Guid>,
         IUrlRecordRepository
     {
-        protected MongoSeoRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider)
+        protected MongoUrlRecordRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
 
@@ -22,7 +22,7 @@ namespace Hitasp.HitCommon.Seo
         public async Task<UrlRecord> FindByEntityNameAsync(string entityName, CancellationToken cancellationToken = default)
         {
             return await GetMongoQueryable()
-                .FirstOrDefaultAsync(u => u.EntityName == entityName, GetCancellationToken(cancellationToken));
+                .FirstOrDefaultAsync(u => u.Name == entityName, GetCancellationToken(cancellationToken));
         }
 
         public async Task<UrlRecord> FindByEntityIdAsync(Guid entityId, CancellationToken cancellationToken = default)

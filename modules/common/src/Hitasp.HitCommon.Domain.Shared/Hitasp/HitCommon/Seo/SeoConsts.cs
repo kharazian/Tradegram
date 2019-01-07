@@ -1,4 +1,4 @@
-namespace Hitasp.HitCommerce.Seo
+namespace Hitasp.HitCommon.Seo
 {
     public static class SeoConsts
     {

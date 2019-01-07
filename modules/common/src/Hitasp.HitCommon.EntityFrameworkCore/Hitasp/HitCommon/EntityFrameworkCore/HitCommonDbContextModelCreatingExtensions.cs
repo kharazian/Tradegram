@@ -1,5 +1,5 @@
-﻿using Hitasp.HitCommerce.Seo;
-using Hitasp.HitCommon.Medias;
+﻿using Hitasp.HitCommon.Medias;
+using Hitasp.HitCommon.Models;
 using Hitasp.HitCommon.Seo;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
@@ -39,15 +39,38 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
             {
                 b.ToTable(tablePrefix + "UrlRecords", schema);
                 b.HasKey(x => x.Id);
-                b.HasIndex(x => x.EntityId).IsUnique();
+                b.HasIndex(x => x.ContentItemTypeId);
 
-                
-                b.Property(x => x.EntityName).IsRequired().HasMaxLength(SeoConsts.MaxNameLength)
-                    .HasColumnName(nameof(UrlRecord.EntityName));
+
+                b.Property(x => x.Name).IsRequired().HasMaxLength(SeoConsts.MaxNameLength)
+                    .HasColumnName(nameof(UrlRecord.Name));
+
                 b.Property(x => x.Slug).IsRequired().HasMaxLength(SeoConsts.MaxSlugLength)
                     .HasColumnName(nameof(UrlRecord.Slug));
+
                 b.Property(x => x.EntityId).IsRequired().HasColumnName(nameof(UrlRecord.EntityId));
+                b.Property(x => x.ContentItemTypeId).IsRequired().HasColumnName(nameof(UrlRecord.ContentItemTypeId));
                 b.Property(x => x.IsActive).HasDefaultValue(true).HasColumnName(nameof(UrlRecord.IsActive));
+            });
+
+            builder.Entity<ContentItemType>(b =>
+            {
+                b.ToTable(tablePrefix + "ContentItemTypes", schema);
+                b.HasKey(x => x.Id);
+                b.HasIndex(x => x.AreaName);
+
+
+                b.Property(x => x.Name).IsRequired().HasColumnName(nameof(ContentItemType.Name));
+                b.Property(x => x.IsMenuable).HasDefaultValue(false).HasColumnName(nameof(ContentItemType.IsMenuable));
+
+                b.Property(x => x.AreaName).HasMaxLength(ModelConsts.MaxAreaNameLength)
+                    .HasColumnName(nameof(ContentItemType.AreaName));
+
+                b.Property(x => x.RoutingController).HasMaxLength(ModelConsts.MaxRoutingControllerLength)
+                    .HasColumnName(nameof(ContentItemType.RoutingController));
+
+                b.Property(x => x.RoutingAction).HasMaxLength(ModelConsts.MaxRoutingActionLength)
+                    .HasColumnName(nameof(ContentItemType.RoutingAction));
             });
         }
     }

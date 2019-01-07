@@ -1,4 +1,5 @@
 ﻿using Hitasp.HitCommon.Medias;
+using Hitasp.HitCommon.Models;
 using Hitasp.HitCommon.Seo;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -12,5 +13,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         DbSet<Media> Media { get; set; }
         
         DbSet<UrlRecord> UrlRecords { get; set; }
+        
+        DbSet<ContentItemType> ContentItemTypes { get; set; }
     }
 }

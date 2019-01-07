@@ -1,4 +1,5 @@
 ﻿using Hitasp.HitCommon.Medias;
+using Hitasp.HitCommon.Models;
 using Hitasp.HitCommon.Seo;
 using MongoDB.Driver;
 using Volo.Abp.Data;
@@ -12,5 +13,7 @@ namespace Hitasp.HitCommon.MongoDB
         IMongoCollection<Media> Media { get; }
         
         IMongoCollection<UrlRecord> UrlRecords { get; }
+        
+        IMongoCollection<ContentItemType> ContentItemType { get; }
     }
 }
