@@ -20,6 +20,7 @@ $solutionPaths = (
     "modules/blogging",
     "modules/commerce",
     "modules/catalog",
+    "modules/location",
     "demo/efcore",
     "demo/mongodb"
 )

@@ -1,56 +1,48 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using Hitasp.HitCommon.Models;
 using JetBrains.Annotations;
 
 namespace Hitasp.HitCommerce.Catalog.Categories
 {
-    public class Category : Content
+    public class Category : ContentItem
     {
-        public virtual string Description { get; protected set; }
-
-        public virtual Guid? ParentId { get; protected set; }
-
-        public virtual bool IncludeInMenu { get; set; }
+        public virtual Guid CategoryTemplateId { get; protected set; }
         
-        public virtual int DisplayOrder { get; set; }
+        public virtual Guid? ParentCategoryId { get; protected set; }
 
-        public virtual Guid ThumbnailImageId { get; set; }
+        public virtual string PriceRanges { get; set; }
+
+        public virtual bool ShowOnHomePage { get; set; }
+
+        public virtual bool IncludeInTopMenu { get; set; }
         
-        public virtual Collection<Category> Children { get; protected set; }
-
         protected Category()
         {
-            Children = new Collection<Category>();
         }
 
         public Category(
             Guid id, 
             [NotNull] string name, 
             [NotNull] string slug,
-            [CanBeNull] string description = null,
-            Guid? parentId = null)
-            : base(id, name, slug)
+            [CanBeNull] string description,
+            Guid pictureId,
+            Guid categoryTemplateId,
+            Guid? parentCategoryId = null)
+            : base(id, name, slug, description)
         {
-            ParentId = parentId;
-            Description = description;
-
-            Children = new Collection<Category>();
+            PictureId = pictureId;
+            CategoryTemplateId = categoryTemplateId; 
+            ParentCategoryId = parentCategoryId;
         }
         
-        public virtual void SetDescription(string description)
+        public virtual void SetTemplate(Guid templateId)
         {
-            Description = description;
+            CategoryTemplateId = templateId;
         }
-
-        public virtual void SetParent(Guid parentId)
+        
+        public virtual void SetParentCategory(Guid parentCategoryId)
         {
-            ParentId = parentId;
-        }
-
-        public virtual void SetThumbnailImage(Guid thumbnailImageId)
-        {
-            ThumbnailImageId = thumbnailImageId;
+            ParentCategoryId = parentCategoryId;
         }
     }
 }

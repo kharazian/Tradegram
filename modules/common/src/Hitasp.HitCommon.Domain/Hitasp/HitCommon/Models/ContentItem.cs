@@ -13,6 +13,8 @@ namespace Hitasp.HitCommon.Models
 
         [NotNull]
         public virtual string Slug { get; protected set; }
+        
+        public virtual string Description { get; protected set; }
 
         public virtual string MetaTitle { get; protected set; }
 
@@ -21,25 +23,34 @@ namespace Hitasp.HitCommon.Models
         public virtual string MetaDescription { get; protected set; }
 
         public virtual bool IsPublished { get; protected set; }
+        
+        public virtual Guid? PictureId { get; protected set; }
 
-        public DateTimeOffset? PublishedOn { get; protected set; }
+        public DateTime? PublishedOn { get; protected set; }
+        
+        public virtual int DisplayOrder { get; set; }
 
         protected ContentItem()
         {
             
         }
 
-        protected ContentItem(Guid id, [NotNull] string name, [NotNull] string slug)
+        protected ContentItem(
+            Guid id, 
+            [NotNull] string name, 
+            [NotNull] string slug,
+            [CanBeNull] string description)
         {
             Id = id;
             Name = name;
             Slug = slug;
+            Description = description;
         }
 
         protected virtual void Publish()
         {
             IsPublished = true;
-            PublishedOn = DateTimeOffset.Now;
+            PublishedOn = DateTime.Now;
         }
 
         public virtual void SetName([NotNull] string name)
@@ -68,6 +79,16 @@ namespace Hitasp.HitCommon.Models
             }
             
             IsPublished = status;
+        }
+        
+        public virtual void SetPicture(Guid pictureId)
+        {
+            PictureId = pictureId;
+        }
+
+        public virtual void SetDescription(string description)
+        {
+            Description = description;
         }
     }
 }

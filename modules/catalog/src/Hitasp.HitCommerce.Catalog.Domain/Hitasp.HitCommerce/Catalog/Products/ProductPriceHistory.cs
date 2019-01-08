@@ -13,9 +13,9 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual decimal? SpecialPrice { get; protected set; }
 
-        public virtual DateTimeOffset? SpecialPriceStart { get; protected set; }
+        public virtual DateTime? SpecialPriceStart { get; protected set; }
 
-        public virtual DateTimeOffset? SpecialPriceEnd { get; protected set; }
+        public virtual DateTime? SpecialPriceEnd { get; protected set; }
         
 
         protected ProductPriceHistory()
@@ -34,7 +34,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
             Price = newPrice;
         }
 
-        internal void HasSpecialPriceSet(decimal specialPrice, DateTimeOffset startDate, DateTimeOffset? endDate)
+        internal void HasSpecialPriceSet(decimal specialPrice, DateTime startDate, DateTime? endDate)
         {
             SpecialPrice = specialPrice;
             SpecialPriceStart = startDate;

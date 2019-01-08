@@ -1,53 +1,37 @@
 ﻿using System;
-using Hitasp.HitCommon.Seo;
+using Hitasp.HitCommon.Models;
 using JetBrains.Annotations;
-using Volo.Abp;
-using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Brands
 {
-    public class Brand : AggregateRoot<Guid>, ISlugSupported
+    public class Brand : ContentItem
     {
-        [NotNull]
-        public virtual string Name { get; protected set; }
+        public virtual Guid BrandTemplateId { get; protected set; }
 
-        [NotNull]
-        public virtual string Slug { get; protected set; }
-
-        public virtual string Description { get; protected set; }
-
-        public virtual bool IsPublished { get; protected set; }
+        public virtual string PriceRanges { get; set; }
 
         protected Brand()
         {
         }
 
-        public Brand(Guid id, [NotNull] string name, [NotNull] string slug, [CanBeNull] string description = null)
+        public Brand(
+            Guid id,
+            [NotNull] string name,
+            [NotNull] string slug,
+            [CanBeNull] string description,
+            Guid pictureId,
+            Guid brandTemplateId)
+            : base(id, name, slug, description)
         {
-            Id = id;
-            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
-            Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
-            Description = description;
-        }
-
-        public virtual void SetName([NotNull] string name)
-        {
-            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
-        }
-
-        public virtual void SetSlug([NotNull] string slug)
-        {
-            Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
+            PictureId = pictureId;
+            BrandTemplateId = brandTemplateId;
         }
         
-        public virtual void ChangePublishStatus(bool status = true)
+        public virtual void SetTemplate(Guid templateId)
         {
-            IsPublished = status;
+            BrandTemplateId = templateId;
         }
+        
 
-        public virtual void SetDescription(string description)
-        {
-            Description = description;
-        }
     }
 }

@@ -9,12 +9,10 @@ using Volo.Abp;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class Product : Content
+    public class Product : ContentItem
     {
         [NotNull] 
         public virtual string ShortDescription { get; protected set; }
-
-        public virtual string Description { get; protected set; }
 
         public virtual decimal Price { get; protected set; }
 
@@ -22,15 +20,27 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual decimal? SpecialPrice { get; protected set; }
 
-        public virtual DateTimeOffset? SpecialPriceStart { get; protected set; }
+        public virtual DateTime? SpecialPriceStart { get; protected set; }
 
-        public virtual DateTimeOffset? SpecialPriceEnd { get; protected set; }
+        public virtual DateTime? SpecialPriceEnd { get; protected set; }
+        
+        public virtual bool HasOptions { get; set; }
+
+        public virtual bool IsVisibleIndividually { get; set; }
+
+        public virtual bool IsFeatured { get; set; }
 
         public virtual bool IsCallForPricing { get; set; }
 
         public virtual bool IsAllowToOrder { get; set; }
         
         public virtual bool StockTrackingIsEnabled { get; set; }
+        
+        [StringLength(450)]
+        public virtual string Sku { get; set; }
+
+        [StringLength(450)]
+        public virtual string Gtin { get; set; }
 
         [Range(0, int.MaxValue)]
         public virtual int StockQuantity { get; protected set; }
@@ -52,30 +62,28 @@ namespace Hitasp.HitCommerce.Catalog.Products
         [Range(1.0, 5.0)]
         public virtual double RatingAverage { get; protected set; }
         
-        public virtual Guid? BrandId { get; set; }
+        public virtual Guid? ManufacturerId { get; set; }
 
-        public virtual Guid? VendorId { get; set; }
-
-        public virtual Guid ThumbnailImageId { get; set; }
-
-        public virtual Collection<ProductMedia> Medias { get; protected set; }
+        public virtual Collection<ProductPicture> ProductPictures { get; protected set; }
 
         public virtual Collection<ProductLink> ProductLinks { get; protected set; }
 
         public virtual Collection<ProductLink> LinkedProductLinks { get; protected set; }
 
-        public virtual Collection<ProductCategory> Categories { get; protected set; }
+        public virtual Collection<ProductCategory> ProductCategories { get; protected set; }
 
         public virtual Collection<ProductPriceHistory> PriceHistories { get; protected set; }
+        
+        public virtual Collection<ProductManufacturer> Manufacturers { get; protected set; }
+        
+        public virtual Collection<ProductTag> Tags { get; protected set; }
+        
+        public virtual Collection<ProductVendor> Vendors { get; protected set; }
 
 
         protected Product()
         {
-            Medias = new Collection<ProductMedia>();
-            ProductLinks = new Collection<ProductLink>();
-            LinkedProductLinks = new Collection<ProductLink>();
-            Categories = new Collection<ProductCategory>();
-            PriceHistories = new Collection<ProductPriceHistory>();
+
         }
 
         public Product(
@@ -83,22 +91,24 @@ namespace Hitasp.HitCommerce.Catalog.Products
             [NotNull] string name, 
             [NotNull] string slug,
             [NotNull] string shortDescription,
+            [CanBeNull] string description,
             decimal price,
-            Guid thumbnailImageId) : base(id, name, slug)
+            Guid pictureId) : base(id, name, slug, description)
         {
+            ProductPictures = new Collection<ProductPicture>();
+            ProductLinks = new Collection<ProductLink>();
+            LinkedProductLinks = new Collection<ProductLink>();
+            ProductCategories = new Collection<ProductCategory>();
+            PriceHistories = new Collection<ProductPriceHistory>();
+            
             ShortDescription = Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));;
             Price = price;
-            ThumbnailImageId = thumbnailImageId;
+            PictureId = pictureId;
         }
         
         public virtual void SetShortDescription([NotNull] string shortDescription)
         {
             ShortDescription = Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));
-        }
-        
-        public virtual void SetDescription(string description)
-        {
-            Description = description;
         }
         
         public virtual void ChangePrice(decimal newPrice)
@@ -112,9 +122,9 @@ namespace Hitasp.HitCommerce.Catalog.Products
             Price = newPrice;
         }
         
-        public virtual void SetSpecialPrice(decimal specialPrice, DateTimeOffset startDate, DateTimeOffset? endDate = null)
+        public virtual void SetSpecialPrice(decimal specialPrice, DateTime startDate, DateTime? endDate = null)
         {
-            if (startDate < DateTimeOffset.Now)
+            if (startDate < DateTime.Now)
             {
                 throw new ArgumentException("Can not set start date in the past!", nameof(startDate));
             }
@@ -145,22 +155,22 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual void AddCategory(Guid categoryId)
         {
-            if (Categories.Any(x => x.CategoryId == categoryId))
+            if (ProductCategories.Any(x => x.CategoryId == categoryId))
             {
-                Categories.RemoveAll(x => x.CategoryId == categoryId);
+                ProductCategories.RemoveAll(x => x.CategoryId == categoryId);
             }
 
-            Categories.Add(new ProductCategory(Id, categoryId));
+            ProductCategories.Add(new ProductCategory(Id, categoryId));
         }
 
-        public virtual void AddMedia(Guid mediaId)
+        public virtual void AddMedia(Guid pictureId)
         {
-            if (Medias.Any(x => x.MediaId == mediaId))
+            if (ProductPictures.Any(x => x.PictureId == pictureId))
             {
-                Medias.RemoveAll(x => x.MediaId == mediaId);
+                ProductPictures.RemoveAll(x => x.PictureId == pictureId);
             }
 
-            Medias.Add(new ProductMedia(Id, mediaId));
+            ProductPictures.Add(new ProductPicture(Id, pictureId));
         }
 
 
@@ -175,6 +185,19 @@ namespace Hitasp.HitCommerce.Catalog.Products
             ProductLinks.Add(new ProductLink(Id, productLinkId, productLinkType));
         }
 
+        public virtual void UpdateRatingAverage(double newAverage)
+        {
+            var average = ((RatingAverage * ReviewsCount) + newAverage ) / (ReviewsCount + 1);
+            RatingAverage = Math.Round(average * 2, MidpointRounding.AwayFromZero) / 2;
+            
+            IncreaseReviewsCount();
+        }
+
+        protected virtual void IncreaseReviewsCount()
+        {
+            ReviewsCount++;
+        }
+
         public virtual bool HasSpecialPrice()
         {
             if (!SpecialPrice.HasValue)
@@ -182,12 +205,12 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 return false;
             }
 
-            if (SpecialPriceStart > DateTimeOffset.Now)
+            if (SpecialPriceStart > DateTime.Now)
             {
                 return false;
             }
 
-            if (SpecialPriceEnd.HasValue && SpecialPriceEnd <= DateTimeOffset.Now)
+            if (SpecialPriceEnd.HasValue && SpecialPriceEnd <= DateTime.Now)
             {
                 return false;
             }
@@ -230,19 +253,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
             OnReorder = false;
 
             return StockQuantity - original;
-        }
-        
-        public virtual void IncreaseReviewsCount()
-        {
-            ReviewsCount++;
-        }
-
-        public virtual void UpdateRatingAverage(double newAverage)
-        {
-            var average = ((RatingAverage * ReviewsCount) + newAverage ) / (ReviewsCount + 1);
-            RatingAverage = Math.Round(average * 2, MidpointRounding.AwayFromZero) / 2;
-            
-            IncreaseReviewsCount();
         }
     }
 }

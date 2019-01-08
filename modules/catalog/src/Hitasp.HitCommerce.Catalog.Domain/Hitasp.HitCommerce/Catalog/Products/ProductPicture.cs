@@ -3,27 +3,27 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class ProductMedia : Entity
+    public class ProductPicture : Entity
     {
         public virtual Guid ProductId { get; protected set; }
 
-        public virtual Guid MediaId { get; protected set; }
+        public virtual Guid PictureId { get; protected set; }
 
         public virtual int DisplayOrder { get; set; }
 
-        protected ProductMedia()
+        protected ProductPicture()
         {
         }
 
-        public ProductMedia(Guid productId, Guid mediaId)
+        public ProductPicture(Guid productId, Guid pictureId)
         {
             ProductId = productId;
-            MediaId = mediaId;
+            PictureId = pictureId;
         }
 
         public override object[] GetKeys()
         {
-            return new object[]{ProductId, MediaId};
+            return new object[]{ProductId, PictureId};
         }
     }
 }
