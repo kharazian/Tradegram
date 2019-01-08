@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Volo.Abp.EventBus;
-using Volo.Abp.EventBus.Distributed;
-
-namespace Volo.Abp.Domain.Entities.Events.Distributed
+﻿namespace Volo.Abp.Domain.Entities.Events.Distributed
 {
     /*
     [EventName("Volo.Abp.Identity.Users.IdentityUser")]

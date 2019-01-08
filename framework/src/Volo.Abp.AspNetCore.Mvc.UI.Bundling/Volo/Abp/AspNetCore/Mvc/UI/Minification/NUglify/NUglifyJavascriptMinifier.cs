@@ -1,7 +1,5 @@
 using NUglify;
-using NUglify.JavaScript;
 using Volo.Abp.AspNetCore.Mvc.UI.Minification.Scripts;
-using Volo.Abp.DependencyInjection;
 
 namespace Volo.Abp.AspNetCore.Mvc.UI.Minification.NUglify
 {

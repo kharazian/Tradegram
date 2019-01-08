@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.Application.Services;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.UI;
 
 namespace Volo.Abp.Http.DynamicProxying
 {

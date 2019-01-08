@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Modularity;
+﻿using Volo.Abp.Modularity;
 
 namespace Volo.Abp.AutoMapper
 {
