@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Volo.Abp.Reflection;
 
 namespace Volo.Abp.Domain.Values
 {
     //Inspired from https://blogs.msdn.microsoft.com/cesardelatorre/2011/06/06/implementing-a-value-object-base-class-supertype-patternddd-patterns-related/
-    
+
+    /// <inheritdoc />
     /// <summary>
     /// Base class for value objects.
     /// </summary>
@@ -13,66 +18,61 @@ namespace Volo.Abp.Domain.Values
     public abstract class ValueObject<TValueObject> : IEquatable<TValueObject>
         where TValueObject : ValueObject<TValueObject>
     {
+        private static readonly ConcurrentDictionary<Type, IReadOnlyCollection<PropertyInfo>> TypeProperties =
+            new ConcurrentDictionary<Type, IReadOnlyCollection<PropertyInfo>>();
+
         public bool Equals(TValueObject other)
         {
-            if ((object)other == null)
+            if ((object) other == null)
             {
                 return false;
             }
 
-            var publicProperties = GetType().GetTypeInfo().GetProperties();
-            if (!publicProperties.Any())
+            var properties = GetProperties();
+
+            if (!properties.Any())
             {
                 return true;
             }
 
-            return publicProperties.All(property => Equals(property.GetValue(this, null), property.GetValue(other, null)));
+            return properties
+                .All(property => Equals(property.GetValue(this, null), property.GetValue(other, null)));
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
-            var item = obj as ValueObject<TValueObject>;
-            return (object)item != null && Equals((TValueObject)item);
+            if (GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            var other = obj as ValueObject<TValueObject>;
+
+            return other != null && GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
         public override int GetHashCode()
         {
-            //TODO: Can we cache the hash value assuming value objects are always immutable? We can make a Reset-like method to reset it's mutated.
-
-            const int index = 1;
-            const int initialHasCode = 31;
-
-            var publicProperties = GetType().GetTypeInfo().GetProperties();
-
-            if (!publicProperties.Any())
+            unchecked
             {
-                return initialHasCode;
+                return GetEqualityComponents()
+                    .Aggregate(17, (current, obj) => current * 23 + (obj?.GetHashCode() ?? 0));
             }
+        }
 
-            var hashCode = initialHasCode;
-            var changeMultiplier = false;
-
-            foreach (var property in publicProperties)
-            {
-                var value = property.GetValue(this, null);
-
-                if (value == null)
-                {
-                    //support {"a",null,null,"a"} != {null,"a","a",null}
-                    hashCode = hashCode ^ (index * 13);
-                    continue;
-                }
-
-                hashCode = hashCode * (changeMultiplier ? 59 : 114) + value.GetHashCode();
-                changeMultiplier = !changeMultiplier;
-            }
-
-            return hashCode;
+        public override string ToString()
+        {
+            return $"{{{string.Join(", ", GetProperties().Select(f => $"{f.Name}: {f.GetValue(this)}"))}}}";
         }
 
         public static bool operator ==(ValueObject<TValueObject> x, ValueObject<TValueObject> y)
@@ -82,7 +82,7 @@ namespace Volo.Abp.Domain.Values
                 return true;
             }
 
-            if (((object)x == null) || ((object)y == null))
+            if ((object) x == null || (object) y == null)
             {
                 return false;
             }
@@ -93,6 +93,46 @@ namespace Volo.Abp.Domain.Values
         public static bool operator !=(ValueObject<TValueObject> x, ValueObject<TValueObject> y)
         {
             return !(x == y);
+        }
+
+        protected virtual IEnumerable<object> GetEqualityComponents()
+        {
+            foreach (var property in GetProperties())
+            {
+                var value = property.GetValue(this);
+
+                if (value == null)
+                {
+                    yield return "null";
+                }
+                else
+                {
+                    var valueType = value.GetType();
+
+                    if (valueType.IsAssignableFromGenericList())
+                    {
+                        foreach (var child in (IEnumerable) value)
+                        {
+                            yield return child ?? "null";
+                        }
+                    }
+                    else
+                    {
+                        yield return value;
+                    }
+                }
+            }
+        }
+
+        protected virtual IEnumerable<PropertyInfo> GetProperties()
+        {
+            return TypeProperties.GetOrAdd(
+                GetType(),
+                t => t
+                    .GetTypeInfo()
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .OrderBy(p => p.Name)
+                    .ToList());
         }
     }
 }
