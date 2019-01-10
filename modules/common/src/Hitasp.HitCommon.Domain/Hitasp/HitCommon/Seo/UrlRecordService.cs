@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Hitasp.HitCommon.Helpers;
-using Hitasp.HitCommon.Models;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 
@@ -42,12 +41,12 @@ namespace Hitasp.HitCommon.Seo
             await _urlRecordRepository.UpdateAsync(urlRecord, true, cancellationToken);
         }
 
-        public async Task<string> GetActiveSlugAsync(Guid entityId, string contentTypeId,
+        public async Task<string> GetActiveSlugAsync(Guid entityId, string entityTypeId,
             CancellationToken cancellationToken = default)
         {
             var urlRecord = await _urlRecordRepository.FindByEntityIdAsync(entityId, cancellationToken);
 
-            return urlRecord.ContentItemTypeId == contentTypeId && urlRecord.IsActive ? urlRecord.Slug : string.Empty;
+            return urlRecord.EntityTypeId == entityTypeId && urlRecord.IsActive ? urlRecord.Slug : string.Empty;
         }
 
         public async Task SaveSlugAsync<T>(T entity, string slug, CancellationToken cancellationToken = default)
@@ -56,12 +55,12 @@ namespace Hitasp.HitCommon.Seo
             Check.NotNull(entity, nameof(entity));
 
             var entityId = entity.Id;
-            var contentTypeId = entity.GetType().Name;
+            var entityTypeId = entity.GetType().Name;
             var itemName = entity.Name;
 
             var query = from ur in _urlRecordRepository.GetList()
                 where ur.EntityId == entityId &&
-                      ur.ContentItemTypeId == contentTypeId
+                      ur.EntityTypeId == entityTypeId
                 orderby ur.Id descending
                 select ur;
 
@@ -91,7 +90,7 @@ namespace Hitasp.HitCommon.Seo
                     var urlRecord = new UrlRecord(
                         GuidGenerator.Create(),
                         entityId,
-                        contentTypeId,
+                        entityTypeId,
                         itemName,
                         slug);
 
@@ -138,7 +137,7 @@ namespace Hitasp.HitCommon.Seo
                 var urlRecord = new UrlRecord(
                     GuidGenerator.Create(),
                     entityId,
-                    contentTypeId,
+                    entityTypeId,
                     itemName,
                     slug
                 );
@@ -156,15 +155,15 @@ namespace Hitasp.HitCommon.Seo
         {
             Check.NotNull(entity, nameof(entity));
 
-            var contentTypeId = entity.GetType().Name;
+            var entityTypeId = entity.GetType().Name;
 
-            return await GetSeNameAsync(entity.Id, contentTypeId, cancellationToken);
+            return await GetSeNameAsync(entity.Id, entityTypeId, cancellationToken);
         }
 
-        public async Task<string> GetSeNameAsync(Guid entityId, string contentTypeId,
+        public async Task<string> GetSeNameAsync(Guid entityId, string entityTypeId,
             CancellationToken cancellationToken = default)
         {
-            return await GetActiveSlugAsync(entityId, contentTypeId, cancellationToken);
+            return await GetActiveSlugAsync(entityId, entityTypeId, cancellationToken);
         }
 
         public async Task<string> GetSeNameAsync(string name, bool convertNonWesternChars, bool allowUnicodeCharsInUrls,
@@ -221,12 +220,12 @@ namespace Hitasp.HitCommon.Seo
         {
             Check.NotNull(entity, nameof(entity));
 
-            var contentTypeId = entity.GetType().Name;
+            var entityTypeId = entity.GetType().Name;
 
-            return await ValidateSeNameAsync(entity.Id, contentTypeId, seName, name, ensureNotEmpty, cancellationToken);
+            return await ValidateSeNameAsync(entity.Id, entityTypeId, seName, name, ensureNotEmpty, cancellationToken);
         }
 
-        public async Task<string> ValidateSeNameAsync(Guid entityId, string contentTypeId, string seName, string name,
+        public async Task<string> ValidateSeNameAsync(Guid entityId, string entityTypeId, string seName, string name,
             bool ensureNotEmpty, CancellationToken cancellationToken = default)
         {
             //use name if sename is not specified
@@ -261,7 +260,7 @@ namespace Hitasp.HitCommon.Seo
                 var urlRecord = await _urlRecordRepository.FindBySlugAsync(tempSeName, cancellationToken);
 
                 var reserved = urlRecord != null && !(urlRecord.EntityId == entityId &&
-                                                      urlRecord.ContentItemTypeId.Equals(contentTypeId,
+                                                      urlRecord.EntityTypeId.Equals(entityTypeId,
                                                           StringComparison.InvariantCultureIgnoreCase));
 
                 //TODO more validation

@@ -1,6 +1,6 @@
 ﻿using System;
-using Hitasp.HitCommon.Medias;
-using Hitasp.HitCommon.Models;
+using Hitasp.HitCommon.Entities;
+using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
 using Volo.Abp;
 using Volo.Abp.MongoDB;
@@ -19,9 +19,9 @@ namespace Hitasp.HitCommon.MongoDB
 
             optionsAction?.Invoke(options);
 
-            builder.Entity<Media>(b =>
+            builder.Entity<Image>(b =>
             {
-                b.CollectionName = options.CollectionPrefix + "Media";
+                b.CollectionName = options.CollectionPrefix + "Media_Images";
             });
             
             builder.Entity<UrlRecord>(b =>
@@ -29,9 +29,9 @@ namespace Hitasp.HitCommon.MongoDB
                 b.CollectionName = options.CollectionPrefix + "UrlRecords";
             });
             
-            builder.Entity<ContentItemType>(b =>
+            builder.Entity<EntityType>(b =>
             {
-                b.CollectionName = options.CollectionPrefix + "ContentItemTypes";
+                b.CollectionName = options.CollectionPrefix + "EntityTypes";
             });
         }
     }

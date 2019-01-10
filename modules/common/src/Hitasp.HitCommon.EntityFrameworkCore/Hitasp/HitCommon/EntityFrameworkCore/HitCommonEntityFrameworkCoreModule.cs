@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Medias;
+﻿using Hitasp.HitCommon.Media;
+using Hitasp.HitCommon.Medias;
 using Hitasp.HitCommon.Seo;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<HitCommonDbContext>(options =>
             {
-                options.AddRepository<Media, EfCoreMediaRepository>();
+                options.AddRepository<Image, EfCoreMediaRepository<Image>>();
                 options.AddRepository<UrlRecord, EfCoreUrlRecordRepository>();
 
             });

@@ -1,5 +1,5 @@
-﻿using Hitasp.HitCommon.Medias;
-using Hitasp.HitCommon.Models;
+﻿using Hitasp.HitCommon.Entities;
+using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
 using MongoDB.Driver;
 using Volo.Abp.Data;
@@ -12,11 +12,11 @@ namespace Hitasp.HitCommon.MongoDB
     {
         public static string CollectionPrefix { get; set; } = HitCommonConsts.DefaultDbTablePrefix;
 
-        public IMongoCollection<Media> Media => Collection<Media>();
+        public IMongoCollection<Image> Images => Collection<Image>();
         
         public IMongoCollection<UrlRecord> UrlRecords => Collection<UrlRecord>();
 
-        public IMongoCollection<ContentItemType> ContentItemType => Collection<ContentItemType>();
+        public IMongoCollection<EntityType> EntityTypes => Collection<EntityType>();
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
