@@ -12,13 +12,34 @@ namespace Hitasp.HitCommon.Assets
 {
     public abstract class AssetBase : AuditedAggregateRoot<Guid>, IHasLanguage, ISlugSupported
     {
+        public string RelativeUrl { get; set; }
+
+        public string Url { get; set; }
+
+        public string TypeId { get; protected set; }
+
+        public string GroupName { get; protected set; }
+
+        public string Name { get; protected set; }
+
+        public string Slug { get; protected set; }
+        
+        public string Extension { get; protected set; }
+
+        public string LanguageCode { get; set; }
+
+        public string UniqueName { get; private set; }
+
+        public string SeoObjectType => GetType().Name;
+
+        
         protected AssetBase(
             Guid id,
             [NotNull] string name,
             [NotNull] string groupName,
             [NotNull] string slug,
             [NotNull] string extension
-            )
+        )
         {
             Check.NotNullOrWhiteSpace(groupName, nameof(groupName));
             Check.NotNullOrWhiteSpace(name, nameof(name));
@@ -34,27 +55,16 @@ namespace Hitasp.HitCommon.Assets
             UniqueName = $"{DateTime.Now.Ticks.ToString()}.{Extension}";
             TypeId = GetType().Name;
         }
-
-        public string RelativeUrl { get; set; }
-
-        public string Url { get; set; }
-
-        public string TypeId { get; protected set; }
-
-        public string GroupName { get; protected set; }
-
-        public string Name { get; protected set; }
-
-        public string Slug { get; protected set; }
-
-        public string Extension { get; protected set; }
-
-        public string LanguageCode { get; set; }
-
-        public string UniqueName { get; private set; }
-
-        public string SeoObjectType => GetType().Name;
         
+        public virtual void SetName(string name)
+        {
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+        }
+
+        public virtual void SetSlug(string slug)
+        {
+            Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
+        }
  
         public override string ToString()
         {

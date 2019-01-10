@@ -7,7 +7,7 @@ using Volo.Abp.Localization;
 
 namespace Hitasp.HitCommon.Contents
 {
-    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, IHasLanguage, ISlugSupported
+    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, IHasMetaData, IHasLanguage, ISlugSupported
     {
         [NotNull] 
         public string Name { get; protected set; }
