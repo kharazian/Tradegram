@@ -22,6 +22,11 @@ namespace Hitasp.HitCommerce.Catalog.Products
             LinkType = linkType;
         }
 
+        public virtual void SetLinkType(ProductLinkType linkType)
+        {
+            LinkType = linkType;
+        }
+
         public override object[] GetKeys()
         {
             return new object[]{ProductId, LinkedProductId};

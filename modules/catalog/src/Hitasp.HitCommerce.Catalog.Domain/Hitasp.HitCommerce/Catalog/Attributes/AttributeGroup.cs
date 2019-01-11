@@ -1,27 +1,26 @@
-using System;
+﻿using System;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes
+namespace Hitasp.HitCommerce.Catalog.Attributes
 {
-    public class SpecificationAttribute : AggregateRoot<Guid>
+    public class AttributeGroup : AggregateRoot<Guid>
     {
         [NotNull]
         public virtual string Name { get; protected set; }
-        
 
-        protected SpecificationAttribute()
+        protected AttributeGroup()
         {
         }
 
-        public SpecificationAttribute([NotNull] string name)
+        public AttributeGroup([NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             Name = name;
         }
-        
+                
         public virtual void SetName([NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));

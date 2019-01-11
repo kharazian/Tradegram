@@ -1,9 +1,9 @@
 using System;
-using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class ProductVendor : Entity
+    public class ProductVendor : CreationAuditedEntity
     {
         public virtual Guid ProductId { get; protected set; }
         

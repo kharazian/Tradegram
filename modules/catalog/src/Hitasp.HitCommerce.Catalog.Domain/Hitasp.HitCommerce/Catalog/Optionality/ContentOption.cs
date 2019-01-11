@@ -1,24 +1,23 @@
-using System;
+﻿using System;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes
+namespace Hitasp.HitCommerce.Catalog.Optionality
 {
-    public class SpecificationAttribute : AggregateRoot<Guid>
+    public class ContentOption : AggregateRoot<Guid>
     {
         [NotNull]
         public virtual string Name { get; protected set; }
-        
 
-        protected SpecificationAttribute()
+        protected ContentOption()
         {
         }
 
-        public SpecificationAttribute([NotNull] string name)
+        public ContentOption([NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
-
+            
             Name = name;
         }
         

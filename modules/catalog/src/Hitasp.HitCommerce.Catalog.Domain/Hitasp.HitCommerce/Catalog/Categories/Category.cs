@@ -1,36 +1,36 @@
 ﻿using System;
-using Hitasp.HitCommon.Models;
+using Hitasp.HitCommon.Contents;
 using JetBrains.Annotations;
 
 namespace Hitasp.HitCommerce.Catalog.Categories
 {
-    public class Category : ContentItem
+    public class Category : ContentBase
     {
         public virtual Guid CategoryTemplateId { get; protected set; }
         
         public virtual Guid? ParentCategoryId { get; protected set; }
 
-        public virtual string PriceRanges { get; set; }
+        public virtual bool ShowOnHomePage { get; protected set; }
 
-        public virtual bool ShowOnHomePage { get; set; }
-
-        public virtual bool IncludeInTopMenu { get; set; }
+        public virtual bool IncludeInTopMenu { get; protected set; }
         
+        public virtual string PriceRanges { get; protected set; }
+        
+
         protected Category()
         {
         }
 
         public Category(
-            Guid id, 
             [NotNull] string name, 
             [NotNull] string slug,
             [CanBeNull] string description,
-            Guid pictureId,
+            Guid imageId,
             Guid categoryTemplateId,
             Guid? parentCategoryId = null)
-            : base(id, name, slug, description)
+            : base(name, slug, description)
         {
-            PictureId = pictureId;
+            ImageId = imageId;
             CategoryTemplateId = categoryTemplateId; 
             ParentCategoryId = parentCategoryId;
         }
@@ -43,6 +43,21 @@ namespace Hitasp.HitCommerce.Catalog.Categories
         public virtual void SetParentCategory(Guid parentCategoryId)
         {
             ParentCategoryId = parentCategoryId;
+        }
+        
+        public virtual void SetAsMenuItem(bool includeInTopMenu = true)
+        {
+            IncludeInTopMenu = includeInTopMenu;
+        }
+        
+        public virtual void SetAsHomePageItem(bool showOnHomePage = true)
+        {
+            ShowOnHomePage = showOnHomePage;
+        }
+        
+        public virtual void SetPriceRange(string priceRanges)
+        {
+            PriceRanges = priceRanges;
         }
     }
 }

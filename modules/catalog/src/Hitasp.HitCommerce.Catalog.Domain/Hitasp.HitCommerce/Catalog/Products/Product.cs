@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Hitasp.HitCommon.Models;
+using Hitasp.HitCommon.Contents;
 using JetBrains.Annotations;
 using Volo.Abp;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class Product : ContentItem
+    public class Product : ContentBase
     {
         [NotNull] 
         public virtual string ShortDescription { get; protected set; }
@@ -36,10 +36,8 @@ namespace Hitasp.HitCommerce.Catalog.Products
         
         public virtual bool StockTrackingIsEnabled { get; set; }
         
-        [StringLength(450)]
         public virtual string Sku { get; set; }
 
-        [StringLength(450)]
         public virtual string Gtin { get; set; }
 
         [Range(0, int.MaxValue)]
@@ -62,19 +60,27 @@ namespace Hitasp.HitCommerce.Catalog.Products
         [Range(1.0, 5.0)]
         public virtual double RatingAverage { get; protected set; }
         
-        public virtual Guid? ManufacturerId { get; set; }
+        public virtual Guid? BrandId { get; protected set; }
+        
+        public virtual Guid? TaxClassId { get; protected set; }
+        
+        public virtual Guid ProductTemplateId { get; protected set; }
 
-        public virtual Collection<ProductPicture> ProductPictures { get; protected set; }
+        public virtual Collection<ProductPicture> Pictures { get; protected set; }
 
         public virtual Collection<ProductLink> ProductLinks { get; protected set; }
+        
+        public virtual Collection<ProductAttributeValue> AttributeValues { get; protected set; }
+
+        public virtual Collection<ProductOptionValue> OptionValues { get; protected set; }
+        
+        public virtual Collection<ProductOptionCombination> OptionCombinations { get; protected set; }
 
         public virtual Collection<ProductLink> LinkedProductLinks { get; protected set; }
 
         public virtual Collection<ProductCategory> ProductCategories { get; protected set; }
 
         public virtual Collection<ProductPriceHistory> PriceHistories { get; protected set; }
-        
-        public virtual Collection<ProductManufacturer> Manufacturers { get; protected set; }
         
         public virtual Collection<ProductTag> Tags { get; protected set; }
         
@@ -87,23 +93,31 @@ namespace Hitasp.HitCommerce.Catalog.Products
         }
 
         public Product(
-            Guid id,
             [NotNull] string name, 
             [NotNull] string slug,
             [NotNull] string shortDescription,
             [CanBeNull] string description,
             decimal price,
-            Guid pictureId) : base(id, name, slug, description)
+            Guid imageId,
+            Guid productTemplateId) : base(name, slug, description)
         {
-            ProductPictures = new Collection<ProductPicture>();
+            Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));
+            
+            ShortDescription = shortDescription;
+            Price = price;
+            ImageId = imageId;
+            ProductTemplateId = productTemplateId;
+            
+            Pictures = new Collection<ProductPicture>();
             ProductLinks = new Collection<ProductLink>();
+            AttributeValues = new Collection<ProductAttributeValue>();
+            OptionValues = new Collection<ProductOptionValue>();
+            OptionCombinations = new Collection<ProductOptionCombination>();
             LinkedProductLinks = new Collection<ProductLink>();
             ProductCategories = new Collection<ProductCategory>();
             PriceHistories = new Collection<ProductPriceHistory>();
-            
-            ShortDescription = Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));;
-            Price = price;
-            PictureId = pictureId;
+            Tags = new Collection<ProductTag>();
+            Vendors = new Collection<ProductVendor>();
         }
         
         public virtual void SetShortDescription([NotNull] string shortDescription)
@@ -153,6 +167,16 @@ namespace Hitasp.HitCommerce.Catalog.Products
             NormalizedName = normalizedName;
         }
 
+        public virtual void SetBrand(Guid brandId)
+        {
+            BrandId = brandId;
+        }
+        
+        public virtual void SetTaxClass(Guid taxClassId)
+        {
+            TaxClassId = taxClassId;
+        }
+
         public virtual void AddCategory(Guid categoryId)
         {
             if (ProductCategories.Any(x => x.CategoryId == categoryId))
@@ -165,14 +189,53 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual void AddMedia(Guid pictureId)
         {
-            if (ProductPictures.Any(x => x.PictureId == pictureId))
+            if (Pictures.Any(x => x.PictureId == pictureId))
             {
-                ProductPictures.RemoveAll(x => x.PictureId == pictureId);
+                Pictures.RemoveAll(x => x.PictureId == pictureId);
             }
 
-            ProductPictures.Add(new ProductPicture(Id, pictureId));
+            Pictures.Add(new ProductPicture(Id, pictureId));
+        }
+        
+        public virtual void AddAttributeValue(Guid attributeValueId)
+        {
+            if (AttributeValues.Any(x => x.AttributeId == attributeValueId))
+            {
+                AttributeValues.RemoveAll(x => x.AttributeId == attributeValueId);
+            }
+
+            AttributeValues.Add(new ProductAttributeValue(Id, attributeValueId));
         }
 
+        public virtual void AddOptionValue(Guid optionId)
+        {
+            if (OptionValues.Any(x => x.OptionId == optionId))
+            {
+                OptionValues.RemoveAll(x => x.OptionId == optionId);
+            }
+
+            OptionValues.Add(new ProductOptionValue(Id, optionId));
+        }
+
+        public virtual void AddOptionCombination(Guid optionId)
+        {
+            if (OptionCombinations.Any(x => x.OptionId == optionId))
+            {
+                OptionCombinations.RemoveAll(x => x.OptionId == optionId);
+            }
+
+            OptionCombinations.Add(new ProductOptionCombination(Id, optionId));
+        }
+
+        public virtual void AddTag(Guid tagId)
+        {
+            if (Tags.Any(x => x.TagId == tagId))
+            {
+                Tags.RemoveAll(x => x.TagId == tagId);
+            }
+
+            Tags.Add(new ProductTag(Id, tagId));
+        }
 
         public virtual void AddProductLinks(Guid productLinkId,
             ProductLinkType productLinkType = ProductLinkType.Undefined)
