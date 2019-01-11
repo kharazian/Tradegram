@@ -1,17 +1,27 @@
 using System;
-using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class ProductTag : Entity
+    public class ProductTag : CreationAuditedEntity
     {
-        public Guid ProductId { get; set; }
+        public virtual Guid ProductId { get; protected set; }
 
-        public Guid ProductTagId { get; set; }
-        
+        public virtual Guid TagId { get; protected set; }
+
+        protected ProductTag()
+        {
+        }
+
+        public ProductTag(Guid productId, Guid tagId)
+        {
+            ProductId = productId;
+            TagId = tagId;
+        }
+
         public override object[] GetKeys()
         {
-            throw new System.NotImplementedException();
+            return new object[] {ProductId, TagId};
         }
     }
 }

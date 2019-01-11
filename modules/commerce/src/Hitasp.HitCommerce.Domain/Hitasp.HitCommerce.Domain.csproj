@@ -4,6 +4,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+      <AssemblyName>Hitasp.HitCommerce.Domain</AssemblyName>
+      <PackageId>Hitasp.HitCommerce.Domain</PackageId>
     <RootNamespace />
   </PropertyGroup>
 
@@ -12,10 +14,6 @@
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Ddd.Domain\Volo.Abp.Ddd.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\modules\users\src\Volo.Abp.Users.Domain\Volo.Abp.Users.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\modules\common\src\Hitasp.HitCommon.Domain\Hitasp.HitCommon.Domain.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Mime-Detective" Version="0.0.6-beta5" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,12 +2,11 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommon.Models
+namespace Hitasp.HitCommon.Entities
 {
-    public class ContentItemType : AggregateRoot<string>
+    public class EntityType : AggregateRoot<string>
     {
-        [NotNull]
-        public virtual string Name => Id;
+        [NotNull] public virtual string Name { get; protected set; }
 
         public virtual bool IsMenuable { get; set; }
 
@@ -20,14 +19,16 @@ namespace Hitasp.HitCommon.Models
         [CanBeNull]
         public virtual string RoutingAction { get; protected set; }
 
-        protected ContentItemType()
+        protected EntityType()
         {
         }
 
-        public ContentItemType([NotNull] string id)
+        public EntityType([NotNull] string id, string name)
         {
             Check.NotNullOrWhiteSpace(id, nameof(id));
+            
             Id = id;
+            Name = string.IsNullOrWhiteSpace(name) ? id : name;
         }
 
         public virtual void SetRouter(

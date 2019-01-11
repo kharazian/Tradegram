@@ -19,12 +19,11 @@ namespace Hitasp.HitCommerce.Catalog.Categories
         {
         }
 
-        public CategoryTemplate(Guid id, [NotNull] string name, [NotNull] string viewPath)
+        public CategoryTemplate([NotNull] string name, [NotNull] string viewPath)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
             Check.NotNullOrWhiteSpace(viewPath, nameof(viewPath));
 
-            Id = id;
             Name = name;
             ViewPath = viewPath;
         }

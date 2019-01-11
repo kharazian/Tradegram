@@ -1,5 +1,6 @@
-﻿using Hitasp.HitCommon.Medias;
-using Hitasp.HitCommon.Models;
+﻿using Hitasp.HitCommon.Assets;
+using Hitasp.HitCommon.Entities;
+using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
@@ -21,56 +22,44 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
                 tablePrefix = "";
             }
 
-            builder.Entity<Media>(b =>
+            builder.Entity<Image>(b =>
             {
-                b.ToTable(tablePrefix + "Media", schema);
+                b.ToTable(tablePrefix + "Media_Image", schema);
                 b.HasKey(x => x.Id);
-                b.HasIndex(x => x.UniqueFileName).IsUnique();
+                
+                b.ConfigureAsset();
 
+                b.Property(x => x.MimeType).HasColumnName(nameof(Image.MimeType));
+                b.Property(x => x.BinaryData).HasColumnName(nameof(Image.BinaryData));
+                b.Property(x => x.DisplayOrder).HasColumnName(nameof(Image.DisplayOrder));
 
-                b.Property(x => x.FileExtension).HasColumnName(nameof(Media.FileExtension));
-                b.Property(x => x.FileName).IsRequired().HasColumnName(nameof(Media.FileName));
-                b.Property(x => x.RootDirectory).IsRequired().HasColumnName(nameof(Media.RootDirectory));
-                b.Property(x => x.UniqueFileName).HasColumnName(nameof(Media.UniqueFileName));
-                b.Property(x => x.MimeType).HasColumnName(nameof(Media.MimeType));
             });
 
             builder.Entity<UrlRecord>(b =>
             {
                 b.ToTable(tablePrefix + "UrlRecords", schema);
                 b.HasKey(x => x.Id);
-                b.HasIndex(x => x.ContentItemTypeId);
+                b.HasIndex(x => x.EntityTypeId);
 
-
-                b.Property(x => x.Name).IsRequired().HasMaxLength(SeoConsts.MaxNameLength)
-                    .HasColumnName(nameof(UrlRecord.Name));
-
-                b.Property(x => x.Slug).IsRequired().HasMaxLength(SeoConsts.MaxSlugLength)
-                    .HasColumnName(nameof(UrlRecord.Slug));
+                b.Property(x => x.Name).IsRequired().HasColumnName(nameof(UrlRecord.Name));
+                b.Property(x => x.Slug).IsRequired().HasColumnName(nameof(UrlRecord.Slug));
 
                 b.Property(x => x.EntityId).IsRequired().HasColumnName(nameof(UrlRecord.EntityId));
-                b.Property(x => x.ContentItemTypeId).IsRequired().HasColumnName(nameof(UrlRecord.ContentItemTypeId));
+                b.Property(x => x.EntityTypeId).IsRequired().HasColumnName(nameof(UrlRecord.EntityTypeId));
                 b.Property(x => x.IsActive).HasDefaultValue(true).HasColumnName(nameof(UrlRecord.IsActive));
             });
-
-            builder.Entity<ContentItemType>(b =>
+            
+            builder.Entity<EntityType>(b =>
             {
-                b.ToTable(tablePrefix + "ContentItemTypes", schema);
+                b.ToTable(tablePrefix + "EntityTypes", schema);
                 b.HasKey(x => x.Id);
                 b.HasIndex(x => x.AreaName);
 
-
-                b.Property(x => x.Name).IsRequired().HasColumnName(nameof(ContentItemType.Name));
-                b.Property(x => x.IsMenuable).HasDefaultValue(false).HasColumnName(nameof(ContentItemType.IsMenuable));
-
-                b.Property(x => x.AreaName).HasMaxLength(ModelConsts.MaxAreaNameLength)
-                    .HasColumnName(nameof(ContentItemType.AreaName));
-
-                b.Property(x => x.RoutingController).HasMaxLength(ModelConsts.MaxRoutingControllerLength)
-                    .HasColumnName(nameof(ContentItemType.RoutingController));
-
-                b.Property(x => x.RoutingAction).HasMaxLength(ModelConsts.MaxRoutingActionLength)
-                    .HasColumnName(nameof(ContentItemType.RoutingAction));
+                b.Property(x => x.Name).IsRequired().HasColumnName(nameof(EntityType.Name));
+                b.Property(x => x.AreaName).HasColumnName(nameof(EntityType.AreaName));
+                b.Property(x => x.RoutingAction).HasColumnName(nameof(EntityType.RoutingAction));
+                b.Property(x => x.RoutingController).HasColumnName(nameof(EntityType.RoutingController));
+                b.Property(x => x.IsMenuable).HasDefaultValue(false).HasColumnName(nameof(EntityType.IsMenuable));
             });
         }
     }

@@ -16,7 +16,7 @@ namespace Hitasp.HitCommon.Seo
         public virtual Guid EntityId { get; protected set; }
 
         [NotNull]
-        public virtual string ContentItemTypeId { get; protected set; }
+        public virtual string EntityTypeId { get; protected set; }
         
         public virtual bool IsActive { get; protected internal set; }
         
@@ -28,17 +28,18 @@ namespace Hitasp.HitCommon.Seo
         public UrlRecord(
             Guid id,
             Guid entityId,
-            [NotNull] string contentItemTypeId,
+            [NotNull] string entityTypeId,
             [NotNull] string name,
             [NotNull] string slug)
         {
             Check.NotNullOrWhiteSpace(slug, nameof(slug));
             Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.NotNullOrWhiteSpace(contentItemTypeId, nameof(contentItemTypeId));
+            Check.NotNullOrWhiteSpace(entityTypeId, nameof(entityTypeId));
+
             
             Id = id;
             EntityId = entityId;
-            ContentItemTypeId = contentItemTypeId;
+            EntityTypeId = entityTypeId;
             Name = name;
             Slug = slug;
             IsActive = true;

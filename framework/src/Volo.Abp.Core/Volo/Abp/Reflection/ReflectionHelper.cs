@@ -25,7 +25,8 @@ namespace Volo.Abp.Reflection
 
             foreach (var interfaceType in givenTypeInfo.GetInterfaces())
             {
-                if (interfaceType.GetTypeInfo().IsGenericType && interfaceType.GetGenericTypeDefinition() == genericType)
+                if (interfaceType.GetTypeInfo().IsGenericType &&
+                    interfaceType.GetGenericTypeDefinition() == genericType)
                 {
                     return true;
                 }
@@ -44,6 +45,7 @@ namespace Volo.Abp.Reflection
         {
             var result = new List<Type>();
             AddImplementedGenericTypes(result, givenType, genericType);
+
             return result;
         }
 
@@ -58,7 +60,8 @@ namespace Volo.Abp.Reflection
 
             foreach (var interfaceType in givenTypeInfo.GetInterfaces())
             {
-                if (interfaceType.GetTypeInfo().IsGenericType && interfaceType.GetGenericTypeDefinition() == genericType)
+                if (interfaceType.GetTypeInfo().IsGenericType &&
+                    interfaceType.GetGenericTypeDefinition() == genericType)
                 {
                     result.Add(interfaceType);
                 }
@@ -80,7 +83,8 @@ namespace Volo.Abp.Reflection
         /// <param name="memberInfo">MemberInfo</param>
         /// <param name="defaultValue">Default value (null as default)</param>
         /// <param name="inherit">Inherit attribute from base classes</param>
-        public static TAttribute GetSingleAttributeOrDefault<TAttribute>(MemberInfo memberInfo, TAttribute defaultValue = default, bool inherit = true)
+        public static TAttribute GetSingleAttributeOrDefault<TAttribute>(MemberInfo memberInfo,
+            TAttribute defaultValue = default, bool inherit = true)
             where TAttribute : Attribute
         {
             //Get attribute on the member
@@ -100,11 +104,13 @@ namespace Volo.Abp.Reflection
         /// <param name="memberInfo">MemberInfo</param>
         /// <param name="defaultValue">Default value (null as default)</param>
         /// <param name="inherit">Inherit attribute from base classes</param>
-        public static TAttribute GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<TAttribute>(MemberInfo memberInfo, TAttribute defaultValue = default, bool inherit = true)
+        public static TAttribute GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<TAttribute>(MemberInfo memberInfo,
+            TAttribute defaultValue = default, bool inherit = true)
             where TAttribute : class
         {
             return memberInfo.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault()
-                   ?? memberInfo.DeclaringType?.GetTypeInfo().GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault()
+                   ?? memberInfo.DeclaringType?.GetTypeInfo().GetCustomAttributes(true).OfType<TAttribute>()
+                       .FirstOrDefault()
                    ?? defaultValue;
         }
 
@@ -117,6 +123,7 @@ namespace Volo.Abp.Reflection
             var currentType = objectType;
             var objectPath = currentType.FullName;
             var absolutePropertyPath = propertyPath;
+
             if (absolutePropertyPath.StartsWith(objectPath))
             {
                 absolutePropertyPath = absolutePropertyPath.Replace(objectPath + ".", "");
@@ -141,6 +148,7 @@ namespace Volo.Abp.Reflection
             PropertyInfo property;
             var objectPath = currentType.FullName;
             var absolutePropertyPath = propertyPath;
+
             if (absolutePropertyPath.StartsWith(objectPath))
             {
                 absolutePropertyPath = absolutePropertyPath.Replace(objectPath + ".", "");
@@ -152,6 +160,7 @@ namespace Volo.Abp.Reflection
             {
                 property = objectType.GetProperty(properties.First());
                 property.SetValue(obj, value);
+
                 return;
             }
 
@@ -164,6 +173,42 @@ namespace Volo.Abp.Reflection
 
             property = currentType.GetProperty(properties.Last());
             property.SetValue(obj, value);
+        }
+
+        public static bool IsAssignableFromGenericList(this Type type)
+        {
+            return type.GetInterfaces().Any(intType =>
+                intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IList<>));
+        }
+
+        public static Type[] GetTypeInheritanceChain(this Type type)
+        {
+            var retVal = new List<Type> {type};
+
+            var baseType = type.BaseType;
+
+            while (baseType != typeof(object))
+            {
+                retVal.Add(baseType);
+                baseType = baseType.BaseType;
+            }
+
+            return retVal.ToArray();
+        }
+
+        public static Type[] GetTypeInheritanceChainTo(this Type type, Type toBaseType)
+        {
+            var retVal = new List<Type> {type};
+
+            var baseType = type.BaseType;
+
+            while (baseType != toBaseType && baseType != typeof(object))
+            {
+                retVal.Add(baseType);
+                baseType = baseType.BaseType;
+            }
+
+            return retVal.ToArray();
         }
     }
 }

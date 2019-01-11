@@ -1,29 +1,28 @@
 ﻿using System;
-using Hitasp.HitCommon.Models;
+using Hitasp.HitCommon.Contents;
 using JetBrains.Annotations;
 
 namespace Hitasp.HitCommerce.Catalog.Brands
 {
-    public class Brand : ContentItem
+    public class Brand : ContentBase
     {
         public virtual Guid BrandTemplateId { get; protected set; }
 
-        public virtual string PriceRanges { get; set; }
+        public virtual string PriceRanges { get; protected set; }
 
         protected Brand()
         {
         }
 
         public Brand(
-            Guid id,
             [NotNull] string name,
             [NotNull] string slug,
             [CanBeNull] string description,
-            Guid pictureId,
+            Guid imageId,
             Guid brandTemplateId)
-            : base(id, name, slug, description)
+            : base(name, slug, description)
         {
-            PictureId = pictureId;
+            ImageId = imageId;
             BrandTemplateId = brandTemplateId;
         }
         
@@ -31,7 +30,10 @@ namespace Hitasp.HitCommerce.Catalog.Brands
         {
             BrandTemplateId = templateId;
         }
-        
 
+        public virtual void SetPriceRange(string priceRanges)
+        {
+            PriceRanges = priceRanges;
+        }
     }
 }

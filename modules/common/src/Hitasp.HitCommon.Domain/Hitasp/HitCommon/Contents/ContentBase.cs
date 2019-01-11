@@ -1,47 +1,47 @@
-﻿using System;
+using System;
 using Hitasp.HitCommon.Seo;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Localization;
 
-namespace Hitasp.HitCommon.Models
+namespace Hitasp.HitCommon.Contents
 {
-    public abstract class ContentItem : FullAuditedAggregateRoot<Guid>, ISlugSupported
+    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, IHasMetaData, IHasLanguage, ISlugSupported
     {
-        [NotNull]
-        public virtual string Name { get; protected set; }
+        [NotNull] 
+        public string Name { get; protected set; }
 
         [NotNull]
-        public virtual string Slug { get; protected set; }
-        
-        public virtual string Description { get; protected set; }
+        public string Slug { get; protected set; }
 
-        public virtual string MetaTitle { get; protected set; }
+        public string Description { get; protected set; }
 
-        public virtual string MetaKeywords { get; protected set; }
+        public string MetaTitle { get; protected set; }
 
-        public virtual string MetaDescription { get; protected set; }
+        public string MetaKeywords { get; protected set; }
 
-        public virtual bool IsPublished { get; protected set; }
-        
-        public virtual Guid? PictureId { get; protected set; }
+        public string MetaDescription { get; protected set; }
+
+        public bool IsPublished { get; protected set; }
+
+        public Guid? ImageId { get; protected set; }
 
         public DateTime? PublishedOn { get; protected set; }
-        
-        public virtual int DisplayOrder { get; set; }
 
-        protected ContentItem()
+        public int DisplayOrder { get; set; }
+
+        public string LanguageCode { get; set; }
+
+        protected ContentBase()
         {
-            
         }
 
-        protected ContentItem(
-            Guid id, 
-            [NotNull] string name, 
+        public ContentBase(
+            [NotNull] string name,
             [NotNull] string slug,
             [CanBeNull] string description)
         {
-            Id = id;
             Name = name;
             Slug = slug;
             Description = description;
@@ -62,28 +62,29 @@ namespace Hitasp.HitCommon.Models
         {
             Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
         }
-        
+
         public virtual void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
         {
             MetaTitle = metaTitle;
             MetaKeywords = metaKeywords;
             MetaDescription = metaDescription;
         }
-        
+
         public virtual void ChangePublishStatus(bool status = false)
         {
             if (!IsPublished && status)
             {
                 Publish();
+
                 return;
             }
-            
+
             IsPublished = status;
         }
-        
-        public virtual void SetPicture(Guid pictureId)
+
+        public virtual void SetPicture(Guid imageId)
         {
-            PictureId = pictureId;
+            ImageId = imageId;
         }
 
         public virtual void SetDescription(string description)

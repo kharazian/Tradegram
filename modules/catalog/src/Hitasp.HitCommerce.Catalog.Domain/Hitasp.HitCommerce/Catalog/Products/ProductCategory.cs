@@ -5,13 +5,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
 {
     public class ProductCategory : Entity
     {
-        public Guid ProductId { get; protected set; }
+        public virtual Guid ProductId { get; protected set; }
 
-        public Guid CategoryId { get; protected set; }
+        public virtual Guid CategoryId { get; protected set; }
 
-        public bool IsFeaturedProduct { get; set; }
+        public virtual bool IsFeaturedProduct { get; protected set; }
 
-        public int DisplayOrder { get; set; }
+        public virtual int DisplayOrder { get; set; }
 
         protected ProductCategory()
         {
@@ -26,6 +26,11 @@ namespace Hitasp.HitCommerce.Catalog.Products
         public override object[] GetKeys()
         {
             return new object[] {ProductId, CategoryId};
+        }
+
+        public virtual void SetAsFeaturedProduct(bool isFeaturedProduct = true)
+        {
+            IsFeaturedProduct = isFeaturedProduct;
         }
     }
 }

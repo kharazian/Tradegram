@@ -35,7 +35,7 @@ namespace Hitasp.HitCommon.Seo
         {
             foreach (var id in ids)
             {
-                await DeleteAsync(id, cancellationToken: cancellationToken);
+                await DeleteAsync(id, cancellationToken: GetCancellationToken(cancellationToken));
             }
         }
 
