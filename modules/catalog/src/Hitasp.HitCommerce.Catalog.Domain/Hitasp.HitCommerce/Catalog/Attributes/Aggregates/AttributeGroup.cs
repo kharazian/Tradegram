@@ -3,25 +3,24 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.Optionality
+namespace Hitasp.HitCommerce.Catalog.Attributes.Aggregates
 {
-    //TODO: Move to common module
-    public class ContentOption : AggregateRoot<Guid>
+    public class AttributeGroup : AggregateRoot<Guid>
     {
         [NotNull]
         public virtual string Name { get; protected set; }
 
-        protected ContentOption()
+        protected AttributeGroup()
         {
         }
 
-        public ContentOption([NotNull] string name)
+        public AttributeGroup([NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
-            
+
             Name = name;
         }
-        
+                
         public virtual void SetName([NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
