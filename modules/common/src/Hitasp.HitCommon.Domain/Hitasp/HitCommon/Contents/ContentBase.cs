@@ -33,13 +33,15 @@ namespace Hitasp.HitCommon.Contents
 
         public string LanguageCode { get; set; }
 
-        protected ContentBase(
-            Guid id,
+        protected ContentBase()
+        {
+        }
+
+        public ContentBase(
             [NotNull] string name,
             [NotNull] string slug,
             [CanBeNull] string description)
         {
-            Id = id;
             Name = name;
             Slug = slug;
             Description = description;
