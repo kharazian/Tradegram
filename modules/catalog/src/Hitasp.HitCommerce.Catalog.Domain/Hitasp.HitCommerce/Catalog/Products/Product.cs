@@ -23,7 +23,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
         public virtual DateTime? SpecialPriceStart { get; protected set; }
 
         public virtual DateTime? SpecialPriceEnd { get; protected set; }
+
+        public virtual bool IsAllowedCustomerEntersPrice  { get; protected set; }
         
+        public virtual decimal? MinimumCustomerEnteredPrice { get; protected set; }
+
+        public virtual decimal? MaximumCustomerEnteredPrice { get; protected set; }
+
         public virtual bool HasOptions { get; set; }
 
         public virtual bool IsVisibleIndividually { get; set; }
@@ -70,9 +76,9 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual Collection<ProductLink> ProductLinks { get; protected set; }
         
-        public virtual Collection<ProductAttributeValue> AttributeValues { get; protected set; }
+        public virtual Collection<ProductAttribute> AttributeValues { get; protected set; }
 
-        public virtual Collection<ProductOptionValue> OptionValues { get; protected set; }
+        public virtual Collection<ProductOption> OptionValues { get; protected set; }
         
         public virtual Collection<ProductOptionCombination> OptionCombinations { get; protected set; }
 
@@ -110,14 +116,19 @@ namespace Hitasp.HitCommerce.Catalog.Products
             
             Pictures = new Collection<ProductPicture>();
             ProductLinks = new Collection<ProductLink>();
-            AttributeValues = new Collection<ProductAttributeValue>();
-            OptionValues = new Collection<ProductOptionValue>();
+            AttributeValues = new Collection<ProductAttribute>();
+            OptionValues = new Collection<ProductOption>();
             OptionCombinations = new Collection<ProductOptionCombination>();
             LinkedProductLinks = new Collection<ProductLink>();
             ProductCategories = new Collection<ProductCategory>();
             PriceHistories = new Collection<ProductPriceHistory>();
             Tags = new Collection<ProductTag>();
             Vendors = new Collection<ProductVendor>();
+        }
+        
+        public virtual void SetTemplate(Guid templateId)
+        {
+            ProductTemplateId = templateId;
         }
         
         public virtual void SetShortDescription([NotNull] string shortDescription)
@@ -154,6 +165,22 @@ namespace Hitasp.HitCommerce.Catalog.Products
             SpecialPrice = specialPrice;
             SpecialPriceStart = startDate;
             SpecialPriceEnd = endDate;
+        }
+
+        public virtual void AllowCustomerEntersPrice(decimal minPrice, decimal maxPerice)
+        {
+            IsAllowedCustomerEntersPrice = true;
+
+            MinimumCustomerEnteredPrice = minPrice;
+            MaximumCustomerEnteredPrice = maxPerice;
+        }
+        
+        public virtual void DisableCustomerEntersPrice()
+        {
+            IsAllowedCustomerEntersPrice = false;
+
+            MinimumCustomerEnteredPrice = null;
+            MaximumCustomerEnteredPrice = null;
         }
 
         public virtual void SetNormalizedName(string normalizedName = "")
@@ -204,7 +231,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 AttributeValues.RemoveAll(x => x.AttributeId == attributeValueId);
             }
 
-            AttributeValues.Add(new ProductAttributeValue(Id, attributeValueId));
+            AttributeValues.Add(new ProductAttribute(Id, attributeValueId));
         }
 
         public virtual void AddOptionValue(Guid optionId)
@@ -214,7 +241,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 OptionValues.RemoveAll(x => x.OptionId == optionId);
             }
 
-            OptionValues.Add(new ProductOptionValue(Id, optionId));
+            OptionValues.Add(new ProductOption(Id, optionId));
         }
 
         public virtual void AddOptionCombination(Guid optionId)

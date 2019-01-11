@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes
+namespace Hitasp.HitCommerce.Catalog.Attributes
 {
     public class SpecificationAttribute : AggregateRoot<Guid>
     {

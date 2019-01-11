@@ -4,26 +4,22 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class ProductOptionValue : Entity
+    public class ProductAttribute : Entity
     {
         public virtual Guid ProductId { get; protected set; }
-
-        public virtual Guid OptionId { get; protected set; }
+        
+        public virtual Guid AttributeId { get; protected set; }
 
         public virtual string Value { get; protected set; }
 
-        public virtual string DisplayType { get; set; }
-
-        public virtual int SortIndex { get; set; }
-
-        protected ProductOptionValue()
+        protected ProductAttribute()
         {
         }
 
-        public ProductOptionValue(Guid productId, Guid optionId)
+        public ProductAttribute(Guid productId, Guid attributeId)
         {
             ProductId = productId;
-            OptionId = optionId;
+            AttributeId = attributeId;
         }
 
         public virtual void SetValue(string value)
@@ -31,10 +27,10 @@ namespace Hitasp.HitCommerce.Catalog.Products
             Check.NotNullOrWhiteSpace(value, nameof(value));
             Value = value;
         }
-        
+
         public override object[] GetKeys()
         {
-            return new object[] {ProductId, OptionId};
+            return new object[]{ ProductId, AttributeId};
         }
     }
 }
