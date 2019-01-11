@@ -1,7 +1,7 @@
 # Tradegram
 Modular Trade Platform 
 
-[![Build Status](https://travis-ci.com/Hitasp/HitCommerce.svg?branch=master)](https://travis-ci.com/Hitasp/HitCommerce)
+[![Build Status](https://travis-ci.com/Hitasp/Tradegram.svg?branch=master)](https://travis-ci.com/Hitasp/HitCommerce)
 
 This project is the forked version of the
 [ABP vNext](https://github.com/abpframework/abp) repository with special changes for eCommerce scenario.
