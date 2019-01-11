@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\..\..\common.props" />
 
@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Storage\Volo.Abp.Storage.csproj" />
-    <ProjectReference Include="..\Hitasp.HitCommon.Abstractions\Hitasp.HitCommon.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.DDD.Domain\Volo.Abp.DDD.Domain.csproj" />
     <ProjectReference Include="..\Hitasp.HitCommon.Domain.Shared\Hitasp.HitCommon.Domain.Shared.csproj" />
   </ItemGroup>
 

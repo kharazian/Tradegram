@@ -41,7 +41,8 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
                 b.HasKey(x => x.Id);
                 b.HasIndex(x => x.EntityTypeId);
 
-                b.ConfigureSeo();
+                b.Property(x => x.Name).IsRequired().HasColumnName(nameof(UrlRecord.Name));
+                b.Property(x => x.Slug).IsRequired().HasColumnName(nameof(UrlRecord.Slug));
 
                 b.Property(x => x.EntityId).IsRequired().HasColumnName(nameof(UrlRecord.EntityId));
                 b.Property(x => x.EntityTypeId).IsRequired().HasColumnName(nameof(UrlRecord.EntityTypeId));
