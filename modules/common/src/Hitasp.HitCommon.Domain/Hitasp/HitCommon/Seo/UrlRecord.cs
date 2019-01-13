@@ -7,15 +7,12 @@ namespace Hitasp.HitCommon.Seo
 {
     public class UrlRecord : AggregateRoot<Guid>
     {
-        [NotNull] 
         public virtual string Name { get; protected set; }
         
-        [NotNull]
         public virtual string Slug { get; protected set; }
 
         public virtual Guid EntityId { get; protected set; }
 
-        [NotNull]
         public virtual string EntityTypeId { get; protected set; }
         
         public virtual bool IsActive { get; protected internal set; }

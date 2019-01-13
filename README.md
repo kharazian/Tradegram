@@ -1,7 +1,7 @@
 # Tradegram
 Modular Trade Platform 
 
-[![Build Status](https://travis-ci.com/Hitasp/HitCommerce.svg?branch=master)](https://travis-ci.com/Hitasp/HitCommerce)
+[![Build Status](https://travis-ci.com/Hitasp/Tradegram.svg?branch=master)](https://travis-ci.com/Hitasp/Tradegram)
 
 This project is the forked version of the
 [ABP vNext](https://github.com/abpframework/abp) repository with special changes for eCommerce scenario.
@@ -65,29 +65,29 @@ start developing a module/template:
 
 #### Commerce Modules
 
-| Module    |   Status    | Services                                               |   PR assent   |
-|:----------|:-----------:|:-------------------------------------------------------|:-------------:|
-| Commerce  | In-Progress | Core module for eCommerce modules                      | It's an honor |
-| Catalog   | In-Progress | Manage Categories, Product, Manufacturers, Brands, ... |    Future     |
-| Basket    |   Pending   | Produce shopping cart                                  |    Future     |
-| Marketing |   Pending   | Create campaigns and produce marketing scenarios       |    Future     |
-| Ordering  |   Pending   | Manage orders and shipping                             |    Future     |
-| Payment   |   Pending   | Produce payment methods                                |    Future     |
+| Module    |   Status    | Services                                               | PR assent |
+|:----------|:-----------:|:-------------------------------------------------------|:---------:|
+| Commerce  | In-Progress | Core module for eCommerce modules                      |  Future   |
+| Catalog   | In-Progress | Manage Categories, Product, Manufacturers, Brands, ... |  Future   |
+| Basket    |   Pending   | Produce shopping cart                                  |  Future   |
+| Marketing |   Pending   | Create campaigns and produce marketing scenarios       |  Future   |
+| Ordering  |   Pending   | Manage orders and shipping                             |  Future   |
+| Payment   |   Pending   | Produce payment methods                                |  Future   |
 
 #### Additional Modules
 
 | Module   |    Status     | Services                                 |   PR assent   |
 |:---------|:-------------:|:-----------------------------------------|:-------------:|
-| Common   |  In-Progress  | Abstract Services for additional modules | It's an honor |
+| Common   | In-Developing | Abstract Services for additional modules | It's an honor |
 | Blogging | In-Developing | Create fancy blogs                       | It's an honor |
 | Docs     | In-Developing | Create technical documentation pages     | It's an honor |
 | Forums   |    Pending    | Create technical support forums          |    Future     |
-| Location |  In-Progress  | GeoLocation providers and services       | It's an honor |
+| Location | In-Developing | GeoLocation providers and services       | It's an honor |
 
 ### Roadmap
 
 * Phase 1: *(In-Progress)*
-    * Deploy [modules](modules/) as package reference without dependence on each other
+    * Deploy [modules](modules/) as package reference without dependence on each other *(In-Progress)*
     * Deploy [demo app](demo/) 
         * Back-End
         * Front-End

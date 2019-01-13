@@ -7,12 +7,10 @@ using Volo.Abp.Localization;
 
 namespace Hitasp.HitCommon.Contents
 {
-    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, IHasMetaData, IHasLanguage, ISlugSupported
+    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, IHasLanguage, ISlugSupported
     {
-        [NotNull] 
         public string Name { get; protected set; }
 
-        [NotNull]
         public string Slug { get; protected set; }
 
         public string Description { get; protected set; }
@@ -29,29 +27,10 @@ namespace Hitasp.HitCommon.Contents
 
         public DateTime? PublishedOn { get; protected set; }
 
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; protected set; }
 
-        public string LanguageCode { get; set; }
-
-        protected ContentBase()
-        {
-        }
-
-        public ContentBase(
-            [NotNull] string name,
-            [NotNull] string slug,
-            [CanBeNull] string description)
-        {
-            Name = name;
-            Slug = slug;
-            Description = description;
-        }
-
-        protected virtual void Publish()
-        {
-            IsPublished = true;
-            PublishedOn = DateTime.Now;
-        }
+        public string LanguageCode { get; protected set; }
+        
 
         public virtual void SetName([NotNull] string name)
         {
@@ -70,16 +49,21 @@ namespace Hitasp.HitCommon.Contents
             MetaDescription = metaDescription;
         }
 
-        public virtual void ChangePublishStatus(bool status = false)
+        public virtual void SetAsPublished(bool publish = true)
         {
-            if (!IsPublished && status)
+            if (publish && PublishedOn.HasValue)
             {
-                Publish();
-
+                //skip changing publish date
+                IsPublished = true;
                 return;
             }
 
-            IsPublished = status;
+            if (publish)
+            {
+                PublishedOn = DateTime.Now;
+            }
+            
+            IsPublished = publish;
         }
 
         public virtual void SetPicture(Guid imageId)
@@ -91,5 +75,9 @@ namespace Hitasp.HitCommon.Contents
         {
             Description = description;
         }
+
+        public abstract void SetDisplayOrder(int displayOrder);
+        
+        public abstract void SetLanguageCode(string languageCode);
     }
 }

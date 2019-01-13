@@ -1,55 +1,77 @@
-using System;
 using System.Linq;
 using Volo.Abp.Domain.Values;
 
 namespace Hitasp.HitCommon.Addresses
 {
-    public class Address : ValueObject<Address>, ICloneable
+    public class Address : ValueObject<Address>
     {
-        public AddressType AddressType { get; set; }
+        public string CountryCode { get; private set;}
         
-        public string Name { get; set; }
+        public string CountryName { get; private set;}
         
-        public string Organization { get; set; }
+        public string Phone { get; private set;}
+
+        public string AddressLine1 { get; private set;}
+
+        public string AddressLine2 { get; private set;}
+
+        public string City { get; private set;}
+
+        public string ZipCode { get; private set;}
         
-        public string CountryCode { get; set; }
+        public string PostalCode { get; private set;}
+
+        public string RegionName { get; private set;}
+
+        public string DistrictName { get; private set;}
         
-        public string CountryName { get; set; }
+        public string FirstName { get; private set;}
+
+        public string LastName { get; private set;}
         
-        public string City { get; set; }
-        
-        public string PostalCode { get; set; }
-        
-        public string Zip { get; set; }
-        
-        public string Line1 { get; set; }
-        
-        public string Line2 { get; set; }
-        
-        public string RegionId { get; set; }
-        
-        public string RegionName { get; set; }
-        
-        public string FirstName { get; set; }
-        
-        public string MiddleName { get; set; }
-        
-        public string LastName { get; set; }
-        
-        public string Phone { get; set; }
-        
-        public string Email { get; set; }
+        public string Email { get; private set;}
         
 
-        public object Clone()
+        private Address()
         {
-            return MemberwiseClone() as Address;
+        }
+
+        public Address(
+            string countryCode,
+            string countryName,
+            string phone,
+            string addressLine1,
+            string addressLine2,
+            string city,
+            string zipCode,
+            string postalCode,
+            string regionName,
+            string districtName,
+            string firstName,
+            string lastName,
+            string email)
+        {
+            //TODO: validate inputs
+            
+            CountryCode = countryCode;
+            CountryName = countryName;
+            Phone = phone;
+            AddressLine1 = addressLine1;
+            AddressLine2 = addressLine2;
+            City = city;
+            ZipCode = zipCode;
+            PostalCode = postalCode;
+            RegionName = regionName;
+            DistrictName = districtName;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
         }
 
         public override string ToString()
         {
             return string.Join(", ",
-                new[] {FirstName, LastName, Line1, City, RegionName, PostalCode ?? Zip, CountryName}.Where(x =>
+                new[] {FirstName, LastName, AddressLine1, DistrictName ?? AddressLine2, City, RegionName, PostalCode ?? ZipCode, CountryName}.Where(x =>
                     !string.IsNullOrWhiteSpace(x)));
         }
     }

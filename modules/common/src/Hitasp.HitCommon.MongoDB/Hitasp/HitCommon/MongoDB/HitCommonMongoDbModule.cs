@@ -1,5 +1,4 @@
 ﻿using Hitasp.HitCommon.Media;
-using Hitasp.HitCommon.Medias;
 using Hitasp.HitCommon.Seo;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;

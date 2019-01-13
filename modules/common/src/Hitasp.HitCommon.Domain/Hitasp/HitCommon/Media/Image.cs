@@ -1,24 +1,41 @@
-using System;
 using Hitasp.HitCommon.Assets;
 using JetBrains.Annotations;
+using Volo.Abp;
 
 namespace Hitasp.HitCommon.Media
 {
     public class Image : AssetBase, IMedia
     {
-        public string MimeType { get; set; }
+        public virtual string MimeType { get; protected set; }
         
-        public byte[] BinaryData { get; set; }
+        public virtual byte[] BinaryData { get; protected set; }
         
-        public int DisplayOrder { get; set; }
+        public virtual int DisplayOrder { get; set; }
+
+        protected Image()
+        {
+        }
 
         public Image(
-            Guid id,
             [NotNull] string name,
             [NotNull] string groupName,
-            [NotNull] string slug,
-            [NotNull] string extension) : base(id, name, groupName, slug, extension)
+            [NotNull] string mimeType,
+            [NotNull] string extension)
         {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(groupName, nameof(groupName));
+            Check.NotNullOrWhiteSpace(mimeType, nameof(mimeType));
+            Check.NotNullOrWhiteSpace(extension, nameof(extension));
+
+            Name = name;
+            GroupName = groupName;
+            MimeType = mimeType;
+            Extension = extension;
+        }
+
+        public virtual void SetBinaryData(byte[] binaryData)
+        {
+            BinaryData = binaryData;
         }
     }
 }
