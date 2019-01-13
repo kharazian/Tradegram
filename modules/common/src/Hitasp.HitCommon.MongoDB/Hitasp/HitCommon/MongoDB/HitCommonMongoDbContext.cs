@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Entities;
+﻿using Hitasp.HitCommon.Contents;
+using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
 using MongoDB.Driver;
@@ -17,6 +18,14 @@ namespace Hitasp.HitCommon.MongoDB
         public IMongoCollection<UrlRecord> UrlRecords => Collection<UrlRecord>();
 
         public IMongoCollection<EntityType> EntityTypes => Collection<EntityType>();
+        
+        public IMongoCollection<ContentAttribute> ContentAttributes => Collection<ContentAttribute>();
+        
+        public IMongoCollection<ContentAttributeGroup> ContentAttributeGroups => Collection<ContentAttributeGroup>();
+        
+        public IMongoCollection<ContentOption> ContentOptions => Collection<ContentOption>();
+        
+        public IMongoCollection<Tag> Tags => Collection<Tag>();
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {

@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Entities;
+﻿using Hitasp.HitCommon.Contents;
+using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
 using MongoDB.Driver;
@@ -15,5 +16,13 @@ namespace Hitasp.HitCommon.MongoDB
         IMongoCollection<UrlRecord> UrlRecords { get; }
         
         IMongoCollection<EntityType> EntityTypes { get; }
+        
+        IMongoCollection<ContentAttribute> ContentAttributes { get; }
+        
+        IMongoCollection<ContentAttributeGroup> ContentAttributeGroups { get; }
+        
+        IMongoCollection<ContentOption> ContentOptions { get; }
+        
+        IMongoCollection<Tag> Tags { get; }
     }
 }
