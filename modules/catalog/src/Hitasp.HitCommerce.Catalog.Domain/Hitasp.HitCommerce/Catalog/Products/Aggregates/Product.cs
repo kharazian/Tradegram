@@ -106,11 +106,16 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             [CanBeNull] string description,
             decimal price,
             Guid imageId,
-            Guid productTemplateId) : base(name, slug, description)
+            Guid productTemplateId)
         {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(slug, nameof(slug));
             Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));
-            
+
+            Name = name;
+            Slug = slug;
             ShortDescription = shortDescription;
+            Description = description;
             Price = price;
             ImageId = imageId;
             ProductTemplateId = productTemplateId;
@@ -344,6 +349,16 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             OnReorder = false;
 
             return StockQuantity - original;
+        }
+        
+        public override void SetDisplayOrder(int displayOrder)
+        {
+            DisplayOrder = displayOrder;
+        }
+
+        public override void SetLanguageCode(string languageCode)
+        {
+            LanguageCode = languageCode;
         }
     }
 }

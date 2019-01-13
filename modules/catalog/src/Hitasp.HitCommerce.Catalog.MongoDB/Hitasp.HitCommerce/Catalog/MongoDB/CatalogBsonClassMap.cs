@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Threading;
+﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+using MongoDB.Bson.Serialization;
+using Volo.Abp.Threading;
 
 namespace Hitasp.HitCommerce.Catalog.MongoDB
 {
@@ -10,11 +12,15 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         {
             OneTimeRunner.Run(() =>
             {
-                //Register mappings here. Example:
-                //BsonClassMap.RegisterClassMap<Question>(map =>
-                //{
-                //    map.AutoMap();
-                //});
+                BsonClassMap.RegisterClassMap<Brand>(map =>
+                {
+                    map.AutoMap();
+                });
+                
+                BsonClassMap.RegisterClassMap<BrandTemplate>(map =>
+                {
+                    map.AutoMap();
+                });
             });
         }
     }

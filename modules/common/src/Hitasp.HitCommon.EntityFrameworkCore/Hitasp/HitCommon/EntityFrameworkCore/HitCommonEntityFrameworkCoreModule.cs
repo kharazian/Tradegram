@@ -1,5 +1,8 @@
-﻿using Hitasp.HitCommon.Media;
+﻿using Hitasp.HitCommon.Contents;
+using Hitasp.HitCommon.Entities;
+using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
+using Hitasp.HitCommon.Tagging;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
@@ -16,9 +19,13 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<HitCommonDbContext>(options =>
             {
-                options.AddRepository<Image, EfCoreMediaRepository<Image>>();
+                options.AddRepository<Image, EfCoreImageRepository>();
                 options.AddRepository<UrlRecord, EfCoreUrlRecordRepository>();
-
+                options.AddRepository<EntityType, EfCoreEntityTypeRepository>();
+                options.AddRepository<ContentAttribute, EfCoreContentAttributeRepository>();
+                options.AddRepository<ContentAttributeGroup, EfCoreContentAttributeGroupRepository>();
+                options.AddRepository<ContentOption, EfCoreContentOptionRepository>();
+                options.AddRepository<Tag, EfCoreTagRepository>();
             });
         }
     }
