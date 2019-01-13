@@ -1,5 +1,8 @@
-﻿using Hitasp.HitCommon.Media;
+﻿using Hitasp.HitCommon.Contents;
+using Hitasp.HitCommon.Entities;
+using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
+using Hitasp.HitCommon.Tagging;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
@@ -14,14 +17,17 @@ namespace Hitasp.HitCommon.MongoDB
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
-            {
-                options.AddRepository<Image, MongoMediaRepository<Image>>();
-            });
+            HitCommonBsonClassMap.Configure();
             
             context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
             {
+                options.AddRepository<Image, MongoMediaRepository<Image>>();
                 options.AddRepository<UrlRecord, MongoUrlRecordRepository>();
+                options.AddRepository<EntityType, MongoEntityTypeRepository>();
+                options.AddRepository<ContentAttribute, MongoContentAttributeRepository>();
+                options.AddRepository<ContentAttributeGroup, MongoContentAttributeGroupRepository>();
+                options.AddRepository<ContentOption, MongoContentOptionRepository>();
+                options.AddRepository<Tag, MongoTagRepository>();
             });
         }
     }
