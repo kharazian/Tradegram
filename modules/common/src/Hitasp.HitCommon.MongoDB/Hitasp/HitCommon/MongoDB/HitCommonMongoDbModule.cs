@@ -21,7 +21,7 @@ namespace Hitasp.HitCommon.MongoDB
             
             context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
             {
-                options.AddRepository<Picture, MongoMediaRepository<Picture>>();
+                options.AddRepository<Picture, MongoPictureRepository>();
                 options.AddRepository<UrlRecord, MongoUrlRecordRepository>();
                 options.AddRepository<EntityType, MongoEntityTypeRepository>();
                 options.AddRepository<ContentAttribute, MongoContentAttributeRepository>();

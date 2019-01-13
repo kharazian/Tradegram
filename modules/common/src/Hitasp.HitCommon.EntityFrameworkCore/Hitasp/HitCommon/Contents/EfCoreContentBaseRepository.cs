@@ -1,17 +1,18 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Hitasp.HitCommon.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hitasp.HitCommon.Contents
 {
-    public class EfCoreContentBaseRepository<TContent> : EfCoreRepository<IHitCommonDbContext, TContent, Guid>,
-        IContentBaseRepository<TContent> where TContent : ContentBase
+    public class EfCoreContentBaseRepository<TContent, TContext> : EfCoreRepository<TContext, TContent, Guid>,
+        IContentBaseRepository<TContent> 
+        where TContent : ContentBase
+        where TContext : IEfCoreDbContext
     {
-        public EfCoreContentBaseRepository(IDbContextProvider<IHitCommonDbContext> dbContextProvider) : base(
+        public EfCoreContentBaseRepository(IDbContextProvider<TContext> dbContextProvider) : base(
             dbContextProvider)
         {
         }

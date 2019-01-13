@@ -10,11 +10,12 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommon.Assets
 {
-    public class MongoAssetBaseRepository<TAsset> : MongoDbRepository<IHitCommonMongoDbContext, TAsset, Guid>,
+    public class MongoAssetBaseRepository<TAsset, TContext> : MongoDbRepository<TContext, TAsset, Guid>,
         IAssetBaseRepository<TAsset>
         where TAsset : AssetBase
+        where TContext : IAbpMongoDbContext
     {
-        public MongoAssetBaseRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider)
+        public MongoAssetBaseRepository(IMongoDbContextProvider<TContext> dbContextProvider)
             : base(dbContextProvider)
         {
         }

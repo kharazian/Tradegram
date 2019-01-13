@@ -4,10 +4,11 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommon.Media
 {
-    public class MongoMediaRepository<TMedia> : MongoAssetBaseRepository<TMedia>, IMediaRepository<TMedia>
+    public class MongoMediaRepository<TMedia, TContext> : MongoAssetBaseRepository<TMedia, TContext>, IMediaRepository<TMedia>
         where TMedia : AssetBase, IMedia
+        where TContext : IAbpMongoDbContext
     {
-        public MongoMediaRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider)
+        public MongoMediaRepository(IMongoDbContextProvider<TContext> dbContextProvider)
             : base(dbContextProvider)
         {
 
