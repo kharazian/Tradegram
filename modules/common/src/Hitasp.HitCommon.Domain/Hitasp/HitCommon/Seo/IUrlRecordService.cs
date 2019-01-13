@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Hitasp.HitCommon.Common;
 using Volo.Abp.Domain.Services;
 
 namespace Hitasp.HitCommon.Seo

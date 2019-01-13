@@ -5,6 +5,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Optionality
 {
+    //TODO: Move to common module
     public class ContentOption : AggregateRoot<Guid>
     {
         [NotNull]
