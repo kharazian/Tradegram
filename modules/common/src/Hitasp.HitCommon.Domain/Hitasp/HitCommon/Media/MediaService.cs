@@ -29,7 +29,7 @@ namespace Hitasp.HitCommon.Media
 
         public async Task<string> GetMediaUrl(string uniqueName)
         {
-            var media = await _mediaRepository.FindByUniqueName(uniqueName);
+            var media = await _mediaRepository.FindByUniqueNameAsync(uniqueName);
             var file = await _store.GetAsync(media.ToString());
 
             return file.Path;
@@ -55,7 +55,7 @@ namespace Hitasp.HitCommon.Media
 
         public async Task DeleteMediaAsync(string uniqueName)
         {
-            var media = await _mediaRepository.FindByUniqueName(uniqueName);
+            var media = await _mediaRepository.FindByUniqueNameAsync(uniqueName);
             await DeleteMediaAsync(media);
         }
     }

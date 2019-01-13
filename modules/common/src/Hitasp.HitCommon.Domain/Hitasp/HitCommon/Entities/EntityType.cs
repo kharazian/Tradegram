@@ -6,17 +6,14 @@ namespace Hitasp.HitCommon.Entities
 {
     public class EntityType : AggregateRoot<string>
     {
-        [NotNull] public virtual string Name { get; protected set; }
+        public virtual string Name { get; private set; }
 
-        public virtual bool IsMenuable { get; set; }
+        public virtual bool IsMenuable { get; protected set; }
 
-        [CanBeNull]
         public virtual string AreaName { get; protected set; }
 
-        [CanBeNull]
         public virtual string RoutingController { get; protected set; }
 
-        [CanBeNull]
         public virtual string RoutingAction { get; protected set; }
 
         protected EntityType()
@@ -29,6 +26,11 @@ namespace Hitasp.HitCommon.Entities
             
             Id = id;
             Name = string.IsNullOrWhiteSpace(name) ? id : name;
+        }
+
+        public virtual void SetAsMenuable(bool isMenuable = true)
+        {
+            IsMenuable = isMenuable;
         }
 
         public virtual void SetRouter(

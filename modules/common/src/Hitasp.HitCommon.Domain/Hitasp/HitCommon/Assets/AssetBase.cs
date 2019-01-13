@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Hitasp.HitCommon.Seo;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -10,60 +7,42 @@ using Volo.Abp.Localization;
 
 namespace Hitasp.HitCommon.Assets
 {
-    public abstract class AssetBase : AuditedAggregateRoot<Guid>, IHasLanguage, ISlugSupported
+    public abstract class AssetBase : AuditedAggregateRoot<Guid>
     {
-        public string RelativeUrl { get; set; }
+        public string RelativeUrl { get; protected set; }
 
-        public string Url { get; set; }
-
-        public string TypeId { get; protected set; }
+        public string Url { get; protected set; }
 
         public string GroupName { get; protected set; }
 
         public string Name { get; protected set; }
 
-        public string Slug { get; protected set; }
-        
         public string Extension { get; protected set; }
 
-        public string LanguageCode { get; set; }
-
         public string UniqueName { get; private set; }
-
-        public string SeoObjectType => GetType().Name;
+        
+        public string TypeId { get; private set; }
 
         
-        protected AssetBase(
-            Guid id,
-            [NotNull] string name,
-            [NotNull] string groupName,
-            [NotNull] string slug,
-            [NotNull] string extension
-        )
+        protected AssetBase()
         {
-            Check.NotNullOrWhiteSpace(groupName, nameof(groupName));
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.NotNullOrWhiteSpace(slug, nameof(slug));
-            Check.NotNullOrWhiteSpace(extension, nameof(extension));
-
-            Id = id;
-            GroupName = groupName;
-            Name = name;
-            Slug = slug;
-            Extension = extension;
-            
-            UniqueName = $"{DateTime.Now.Ticks.ToString()}.{Extension}";
             TypeId = GetType().Name;
+            UniqueName = $"{DateTime.Now.Ticks.ToString()}.{Extension}";
         }
         
-        public virtual void SetName(string name)
+        public virtual void SetName([NotNull] string name)
         {
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));
         }
 
-        public virtual void SetSlug(string slug)
+        public virtual void SetRelativeUrl([NotNull] string relativeUrl)
         {
-            Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
+            RelativeUrl = Check.NotNullOrWhiteSpace(relativeUrl, nameof(relativeUrl));
+        }
+        
+        public virtual void SetUrl([NotNull] string url)
+        {
+            Url = Check.NotNullOrWhiteSpace(url, nameof(url));
         }
  
         public override string ToString()

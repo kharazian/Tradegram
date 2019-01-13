@@ -9,9 +9,5 @@ namespace Hitasp.HitCommon.Seo
         string Name { get; }
 
         string Slug  { get; }
-
-        void SetName([NotNull] string name);
-
-        void SetSlug([NotNull] string slug);
     }
 }

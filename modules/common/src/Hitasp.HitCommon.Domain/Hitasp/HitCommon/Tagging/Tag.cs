@@ -3,11 +3,12 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Hitasp.HitCommerce.Catalog.Tagging.Aggregates
+namespace Hitasp.HitCommon.Tagging
 {
     public class Tag : FullAuditedAggregateRoot<Guid>
     {
-        [NotNull]
+        public virtual string EntityTypeId { get; private set; }
+
         public virtual string Name { get; protected set; }
 
         public virtual string Description { get; protected set; }
@@ -16,21 +17,23 @@ namespace Hitasp.HitCommerce.Catalog.Tagging.Aggregates
 
         protected Tag()
         {
-
         }
 
-        public Tag([NotNull] string name, int usageCount = 0, string description = null)
+        public Tag([NotNull] string entityTypeId, [NotNull] string name, int usageCount = 0, string description = null)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(entityTypeId, nameof(entityTypeId));
 
-            Name = name; 
+            EntityTypeId = entityTypeId;
+            Name = name;
             Description = description;
             UsageCount = usageCount;
         }
 
         public virtual void SetName(string name)
         {
-            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Name = name;
         }
 
         public virtual void IncreaseUsageCount(int number = 1)
@@ -44,6 +47,7 @@ namespace Hitasp.HitCommerce.Catalog.Tagging.Aggregates
             {
                 return;
             }
+
             UsageCount -= number;
         }
 
