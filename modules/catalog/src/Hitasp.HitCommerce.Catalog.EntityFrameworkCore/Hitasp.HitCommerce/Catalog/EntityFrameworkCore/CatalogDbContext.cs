@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+﻿using Hitasp.HitCommerce.Catalog.Brands;
+using Hitasp.HitCommerce.Catalog.Categories;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -14,6 +15,12 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
 
         public DbSet<Brand> Brands { get; set; }
+        
+        public DbSet<BrandTemplate> BrandTemplates { get; set; }
+        
+        public DbSet<Category> Categories { get; set; }
+        
+        public DbSet<CategoryTemplate> CategoryTemplates { get; set; }
 
         public CatalogDbContext(DbContextOptions<CatalogDbContext> options) 
             : base(options)

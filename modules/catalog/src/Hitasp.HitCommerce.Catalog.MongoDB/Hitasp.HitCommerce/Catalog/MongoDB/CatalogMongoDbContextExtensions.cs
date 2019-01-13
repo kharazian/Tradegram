@@ -1,4 +1,6 @@
 ﻿using System;
+using Hitasp.HitCommerce.Catalog.Brands;
+using Hitasp.HitCommerce.Catalog.Categories;
 using Volo.Abp;
 using Volo.Abp.MongoDB;
 
@@ -15,6 +17,26 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
             var options = new CatalogMongoModelBuilderConfigurationOptions();
 
             optionsAction?.Invoke(options);
+            
+            builder.Entity<Brand>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Brands";
+            });
+            
+            builder.Entity<BrandTemplate>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "BrandTemplates";
+            });
+            
+            builder.Entity<Category>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Categories";
+            });
+            
+            builder.Entity<CategoryTemplate>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "CategoryTemplates";
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+﻿using Hitasp.HitCommerce.Catalog.Brands;
+using Hitasp.HitCommerce.Catalog.Categories;
 using MongoDB.Driver;
 using Volo.Abp.Data;
 using Volo.Abp.MongoDB;
@@ -13,6 +14,10 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         public IMongoCollection<Brand> Brands => Collection<Brand>();
         
         public IMongoCollection<BrandTemplate> BrandTemplates => Collection<BrandTemplate>();
+        
+        public IMongoCollection<Category> Categories => Collection<Category>();
+        
+        public IMongoCollection<CategoryTemplate> CategoryTemplates => Collection<CategoryTemplate>();
         
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)

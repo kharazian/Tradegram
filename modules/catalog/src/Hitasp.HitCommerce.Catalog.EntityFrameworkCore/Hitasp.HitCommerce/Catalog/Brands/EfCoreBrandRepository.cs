@@ -1,5 +1,3 @@
-using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
-using Hitasp.HitCommerce.Catalog.Brands.Repositories;
 using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;

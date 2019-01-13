@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+﻿using Hitasp.HitCommerce.Catalog.Brands;
+using Hitasp.HitCommerce.Catalog.Categories;
 using MongoDB.Bson.Serialization;
 using Volo.Abp.Threading;
 
@@ -18,6 +19,16 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 });
                 
                 BsonClassMap.RegisterClassMap<BrandTemplate>(map =>
+                {
+                    map.AutoMap();
+                });
+                
+                BsonClassMap.RegisterClassMap<Category>(map =>
+                {
+                    map.AutoMap();
+                });
+                
+                BsonClassMap.RegisterClassMap<CategoryTemplate>(map =>
                 {
                     map.AutoMap();
                 });
