@@ -1,23 +1,19 @@
-﻿using Hitasp.HitCommon.Seo;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Hitasp.HitCommon.Assets
 {
-    public static class AssetDbContextModelCreatingExtensions
+    public static class AssetBaseDbContextModelCreatingExtensions
     {
-        public static void ConfigureAsset<TAsset>(this EntityTypeBuilder<TAsset> b)
+        public static void ConfigureAsAsset<TAsset>(this EntityTypeBuilder<TAsset> b)
             where TAsset : AssetBase
         {
-            b.ConfigureSeo();
-            
             b.ConfigureAudited();
 
             b.HasIndex(x => x.UniqueName).IsUnique();
             
-            b.Property(x => x.LanguageCode).HasColumnName(nameof(AssetBase.LanguageCode));
-            
+            b.Property(x => x.Name).IsRequired().HasColumnName(nameof(AssetBase.Name));
             b.Property(x => x.GroupName).IsRequired().HasColumnName(nameof(AssetBase.GroupName));
             b.Property(x => x.Extension).HasColumnName(nameof(AssetBase.Extension));
             b.Property(x => x.UniqueName).IsRequired().HasColumnName(nameof(AssetBase.UniqueName));

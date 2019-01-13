@@ -1,6 +1,8 @@
-﻿using Hitasp.HitCommon.Entities;
+﻿using Hitasp.HitCommon.Contents;
+using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
+using Hitasp.HitCommon.Tagging;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -19,6 +21,14 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         public DbSet<UrlRecord> UrlRecords { get; set; }
         
         public DbSet<EntityType> EntityTypes { get; set; }
+        
+        public DbSet<ContentAttribute> ContentAttributes { get; set; }
+        
+        public DbSet<ContentAttributeGroup> ContentAttributeGroups { get; set; }
+        
+        public DbSet<ContentOption> ContentOptions { get; set; }
+        
+        public DbSet<Tag> Tags { get; set; }
 
         public HitCommonDbContext(DbContextOptions<HitCommonDbContext> options)
             : base(options)
@@ -30,7 +40,11 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
-            builder.ConfigureHitCommon(TablePrefix, Schema);
+            builder.ConfigureEntityTypes(TablePrefix, Schema);
+            builder.ConfigureContents(TablePrefix, Schema);
+            builder.ConfigureImages(TablePrefix, Schema);
+            builder.ConfigureUrlRecord(TablePrefix, Schema);
+            builder.ConfigureTagging(TablePrefix, Schema);
         }
     }
 }
