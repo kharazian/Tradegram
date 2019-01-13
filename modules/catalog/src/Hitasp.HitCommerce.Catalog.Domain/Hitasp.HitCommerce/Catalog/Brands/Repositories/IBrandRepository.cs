@@ -1,10 +1,9 @@
-using System;
 using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
-using Volo.Abp.Domain.Repositories;
+using Hitasp.HitCommon.Contents;
 
 namespace Hitasp.HitCommerce.Catalog.Brands.Repositories
 {
-    public interface IBrandRepository : IBasicRepository<Brand, Guid>
+    public interface IBrandRepository : IContentBaseRepository<Brand>
     {
         
     }

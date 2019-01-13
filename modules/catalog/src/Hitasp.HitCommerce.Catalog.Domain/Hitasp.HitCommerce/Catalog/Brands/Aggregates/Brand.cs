@@ -1,6 +1,7 @@
 ﻿using System;
 using Hitasp.HitCommon.Contents;
 using JetBrains.Annotations;
+using Volo.Abp;
 
 namespace Hitasp.HitCommerce.Catalog.Brands.Aggregates
 {
@@ -20,8 +21,13 @@ namespace Hitasp.HitCommerce.Catalog.Brands.Aggregates
             [CanBeNull] string description,
             Guid imageId,
             Guid brandTemplateId)
-            : base(name, slug, description)
         {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(slug, nameof(slug));
+
+            Name = name;
+            Slug = slug;
+            Description = description;
             ImageId = imageId;
             BrandTemplateId = brandTemplateId;
         }
@@ -34,6 +40,16 @@ namespace Hitasp.HitCommerce.Catalog.Brands.Aggregates
         public virtual void SetPriceRange(string priceRanges)
         {
             PriceRanges = priceRanges;
+        }
+
+        public override void SetDisplayOrder(int displayOrder)
+        {
+            DisplayOrder = displayOrder;
+        }
+
+        public override void SetLanguageCode(string languageCode)
+        {
+            LanguageCode = languageCode;
         }
     }
 }
