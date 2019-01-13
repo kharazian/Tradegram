@@ -1,6 +1,7 @@
 ﻿using System;
 using Hitasp.HitCommon.Contents;
 using JetBrains.Annotations;
+using Volo.Abp;
 
 namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 {
@@ -28,8 +29,13 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             Guid imageId,
             Guid categoryTemplateId,
             Guid? parentCategoryId = null)
-            : base(name, slug, description)
         {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(slug, nameof(slug));
+
+            Name = name;
+            Slug = slug;
+            Description = description;
             ImageId = imageId;
             CategoryTemplateId = categoryTemplateId; 
             ParentCategoryId = parentCategoryId;
@@ -58,6 +64,16 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
         public virtual void SetPriceRange(string priceRanges)
         {
             PriceRanges = priceRanges;
+        }
+        
+        public override void SetDisplayOrder(int displayOrder)
+        {
+            DisplayOrder = displayOrder;
+        }
+
+        public override void SetLanguageCode(string languageCode)
+        {
+            LanguageCode = languageCode;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Hitasp.HitCommerce.Catalog.Brands;
+using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -14,9 +16,8 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<CatalogDbContext>(options =>
             {
-                /* Add custom repositories here. Example:
-                 * options.AddRepository<Question, EfCoreQuestionRepository>();
-                 */
+                options.AddRepository<Brand, EfCoreBrandRepository>();
+                options.AddRepository<BrandTemplate, EfCoreBrandTemplateRepository>();
             });
         }
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+using Hitasp.HitCommon.Contents;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 
@@ -16,23 +18,19 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
             optionsAction?.Invoke(options);
 
-            /* Configure all entities here. Example:
-
-            builder.Entity<Question>(b =>
+            
+            builder.Entity<Brand>(b =>
             {
-                //Configure table & schema name
-                //b.ToTable(options.TablePrefix + "Questions", options.Schema);
+                b.ToTable(options.TablePrefix + "Brands", options.Schema);
                 
-                //Properties
-                //b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
+                b.ConfigureAsContent();
                 
-                //Configure relations
-                //b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
-
-                //Configure indexes
-                //b.HasIndex(q => q.CreationTime);
+                b.Property(x => x.BrandTemplateId).IsRequired().HasColumnName(nameof(Brand.BrandTemplateId));
+                b.Property(x => x.PriceRanges).HasColumnName(nameof(Brand.PriceRanges));
+                
+                b.HasOne<BrandTemplate>().WithMany().HasForeignKey(x => x.BrandTemplateId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
-            */
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -11,9 +12,8 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
         public static string Schema { get; set; } = CatalogConsts.DefaultDbSchema;
 
-        /* Add DbSet for each Aggregate Root here. Example:
-         * public DbSet<Question> Questions { get; set; }
-         */
+
+        public DbSet<Brand> Brands { get; set; }
 
         public CatalogDbContext(DbContextOptions<CatalogDbContext> options) 
             : base(options)
