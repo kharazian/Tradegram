@@ -16,7 +16,7 @@ namespace Hitasp.HitCommon.MongoDB
         {
             OneTimeRunner.Run(() =>
             {
-                BsonClassMap.RegisterClassMap<Image>(map =>
+                BsonClassMap.RegisterClassMap<Picture>(map =>
                 {
                     map.AutoMap();
                 });

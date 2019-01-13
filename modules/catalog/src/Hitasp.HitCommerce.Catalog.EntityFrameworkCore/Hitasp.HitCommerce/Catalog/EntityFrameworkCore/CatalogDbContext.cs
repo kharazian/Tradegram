@@ -1,4 +1,6 @@
-﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+﻿using Hitasp.HitCommerce.Catalog.Brands;
+using Hitasp.HitCommerce.Catalog.Categories;
+using Hitasp.HitCommerce.Catalog.Products;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -14,6 +16,37 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
 
         public DbSet<Brand> Brands { get; set; }
+        
+        public DbSet<BrandTemplate> BrandTemplates { get; set; }
+        
+        public DbSet<Category> Categories { get; set; }
+        
+        public DbSet<CategoryTemplate> CategoryTemplates { get; set; }
+        
+        public DbSet<Product> Products { get; set; }
+        
+        public DbSet<ProductTemplate> ProductTemplates { get; set; }
+        
+        public DbSet<ProductPriceHistory> ProductPriceHistories { get; set; }
+        
+        public DbSet<ProductAttribute> ProductAttributes { get; set; }
+        
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        
+        public DbSet<ProductLink> ProductLinks { get; set; }
+        
+        public DbSet<ProductOption> ProductOptions { get; set; }
+        
+        public DbSet<ProductOptionCombination> ProductOptionCombinations { get; set; }
+        
+        public DbSet<ProductPicture> ProductPictures { get; set; }
+        
+        public DbSet<ProductTag> ProductTags { get; set; }
+        
+        public DbSet<ProductTemplateAttribute> ProductTemplateAttributes { get; set; }
+        
+        public DbSet<ProductVendor> ProductVendors { get; set; }
+        
 
         public CatalogDbContext(DbContextOptions<CatalogDbContext> options) 
             : base(options)

@@ -23,7 +23,7 @@ namespace Hitasp.HitCommon.Contents
 
         public bool IsPublished { get; protected set; }
 
-        public Guid? ImageId { get; protected set; }
+        public Guid? PictureId { get; protected set; }
 
         public DateTime? PublishedOn { get; protected set; }
 
@@ -66,9 +66,9 @@ namespace Hitasp.HitCommon.Contents
             IsPublished = publish;
         }
 
-        public virtual void SetPicture(Guid imageId)
+        public virtual void SetPicture(Guid pictureId)
         {
-            ImageId = imageId;
+            PictureId = pictureId;
         }
 
         public virtual void SetDescription(string description)

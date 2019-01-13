@@ -21,7 +21,7 @@ namespace Hitasp.HitCommon.MongoDB
 
             optionsAction?.Invoke(options);
 
-            builder.Entity<Image>(b =>
+            builder.Entity<Picture>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Media_Images";
             });

@@ -8,11 +8,12 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommon.Contents
 {
-    public class MongoContentBaseRepository<TContent> : MongoDbRepository<IHitCommonMongoDbContext, TContent, Guid>,
+    public class MongoContentBaseRepository<TContent, TContext> : MongoDbRepository<TContext, TContent, Guid>,
         IContentBaseRepository<TContent>
         where TContent : ContentBase
+        where TContext : IAbpMongoDbContext
     {
-        public MongoContentBaseRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider)
+        public MongoContentBaseRepository(IMongoDbContextProvider<TContext> dbContextProvider)
             : base(dbContextProvider)
         {
         }

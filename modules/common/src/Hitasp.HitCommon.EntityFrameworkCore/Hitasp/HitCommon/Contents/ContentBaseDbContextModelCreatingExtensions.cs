@@ -18,7 +18,7 @@ namespace Hitasp.HitCommon.Contents
             b.Property(x => x.MetaKeywords).HasColumnName(nameof(ContentBase.MetaKeywords));
             b.Property(x => x.MetaDescription).HasColumnName(nameof(ContentBase.MetaDescription));
             b.Property(x => x.IsPublished).HasColumnName(nameof(ContentBase.IsPublished));
-            b.Property(x => x.ImageId).IsRequired().HasColumnName(nameof(ContentBase.ImageId));
+            b.Property(x => x.PictureId).IsRequired().HasColumnName(nameof(ContentBase.PictureId));
             b.Property(x => x.PublishedOn).HasColumnName(nameof(ContentBase.PublishedOn));
             b.Property(x => x.DisplayOrder).HasColumnName(nameof(ContentBase.DisplayOrder));
             b.Property(x => x.LanguageCode).HasColumnName(nameof(ContentBase.LanguageCode));
