@@ -19,7 +19,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<HitCommonDbContext>(options =>
             {
-                options.AddRepository<Image, EfCoreImageRepository>();
+                options.AddRepository<Picture, EfCorePictureRepository>();
                 options.AddRepository<UrlRecord, EfCoreUrlRecordRepository>();
                 options.AddRepository<EntityType, EfCoreEntityTypeRepository>();
                 options.AddRepository<ContentAttribute, EfCoreContentAttributeRepository>();

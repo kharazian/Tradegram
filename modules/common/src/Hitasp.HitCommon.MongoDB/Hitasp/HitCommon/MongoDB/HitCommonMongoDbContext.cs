@@ -13,7 +13,7 @@ namespace Hitasp.HitCommon.MongoDB
     {
         public static string CollectionPrefix { get; set; } = HitCommonConsts.DefaultDbTablePrefix;
 
-        public IMongoCollection<Image> Images => Collection<Image>();
+        public IMongoCollection<Picture> Pictures => Collection<Picture>();
         
         public IMongoCollection<UrlRecord> UrlRecords => Collection<UrlRecord>();
 

@@ -12,7 +12,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
     [ConnectionStringName("HitCommon")]
     public interface IHitCommonDbContext : IEfCoreDbContext
     {
-        DbSet<Image> Images { get; set; }
+        DbSet<Picture> Pictures { get; set; }
         
         DbSet<UrlRecord> UrlRecords { get; set; }
         

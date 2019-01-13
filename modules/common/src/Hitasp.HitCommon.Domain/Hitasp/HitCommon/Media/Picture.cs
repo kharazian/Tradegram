@@ -4,7 +4,7 @@ using Volo.Abp;
 
 namespace Hitasp.HitCommon.Media
 {
-    public class Image : AssetBase, IMedia
+    public class Picture : AssetBase, IMedia
     {
         public virtual string MimeType { get; protected set; }
         
@@ -12,11 +12,11 @@ namespace Hitasp.HitCommon.Media
         
         public virtual int DisplayOrder { get; set; }
 
-        protected Image()
+        protected Picture()
         {
         }
 
-        public Image(
+        public Picture(
             [NotNull] string name,
             [NotNull] string groupName,
             [NotNull] string mimeType,

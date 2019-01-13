@@ -11,7 +11,7 @@ namespace Hitasp.HitCommon.MongoDB
     [ConnectionStringName("HitCommon")]
     public interface IHitCommonMongoDbContext : IAbpMongoDbContext
     {
-        IMongoCollection<Image> Images { get; }
+        IMongoCollection<Picture> Pictures { get; }
         
         IMongoCollection<UrlRecord> UrlRecords { get; }
         

@@ -16,7 +16,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
 
         public static string Schema { get; set; } = HitCommonConsts.DefaultDbSchema;
 
-        public DbSet<Image> Images { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         
         public DbSet<UrlRecord> UrlRecords { get; set; }
         
@@ -42,7 +42,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
 
             builder.ConfigureEntityTypes(TablePrefix, Schema);
             builder.ConfigureContents(TablePrefix, Schema);
-            builder.ConfigureImages(TablePrefix, Schema);
+            builder.ConfigurePictures(TablePrefix, Schema);
             builder.ConfigureUrlRecord(TablePrefix, Schema);
             builder.ConfigureTagging(TablePrefix, Schema);
         }
