@@ -1,12 +1,12 @@
+using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Hitasp.HitCommon.Contents;
-using Hitasp.HitCommon.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hitasp.HitCommerce.Catalog.Brands
 {
-    public class EfCoreBrandRepository : EfCoreContentBaseRepository<Brand>, IBrandRepository
+    public class EfCoreBrandRepository : EfCoreContentBaseRepository<Brand, ICatalogDbContext>, IBrandRepository
     {
-        public EfCoreBrandRepository(IDbContextProvider<IHitCommonDbContext> dbContextProvider) 
+        public EfCoreBrandRepository(IDbContextProvider<ICatalogDbContext> dbContextProvider) 
             : base(dbContextProvider)
         {
         }

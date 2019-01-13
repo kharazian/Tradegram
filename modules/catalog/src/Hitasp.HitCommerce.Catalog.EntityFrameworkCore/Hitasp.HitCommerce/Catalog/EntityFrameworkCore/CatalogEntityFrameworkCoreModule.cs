@@ -21,14 +21,11 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
             {
                 options.AddRepository<Brand, EfCoreBrandRepository>();
                 options.AddRepository<BrandTemplate, EfCoreBrandTemplateRepository>();
-                
                 options.AddRepository<Category, EfCoreCategoryRepository>();
                 options.AddRepository<CategoryTemplate, EfCoreCategoryTemplateRepository>();
-                
                 options.AddRepository<Product, EfCoreProductRepository>();
                 options.AddRepository<ProductTemplate, EfCoreProductTemplateRepository>();
                 options.AddRepository<ProductPriceHistory, EfCoreProductPriceHistoryRepository>();
-                
                 options.AddRepository<ProductAttribute, EfCoreProductAttributeRepository>();
                 options.AddRepository<ProductCategory, EfCoreProductCategoryRepository>();
                 options.AddRepository<ProductLink, EfCoreProductLinkRepository>();

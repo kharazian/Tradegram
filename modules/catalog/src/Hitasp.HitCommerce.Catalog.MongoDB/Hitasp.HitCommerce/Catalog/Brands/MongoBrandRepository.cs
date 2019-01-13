@@ -4,10 +4,9 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommerce.Catalog.Brands
 {
-    public class MongoBrandRepository : MongoContentBaseRepository<Brand>, IBrandRepository
+    public class MongoBrandRepository : MongoContentBaseRepository<Brand, IHitCommonMongoDbContext>, IBrandRepository
     {
-        public MongoBrandRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider) 
-            : base(dbContextProvider)
+        public MongoBrandRepository(IMongoDbContextProvider<IHitCommonMongoDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
