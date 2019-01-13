@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Data;
+﻿using Hitasp.HitCommerce.Catalog.Brands.Aggregates;
+using MongoDB.Driver;
+using Volo.Abp.Data;
 using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommerce.Catalog.MongoDB
@@ -8,9 +10,10 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
     {
         public static string CollectionPrefix { get; set; } = CatalogConsts.DefaultDbTablePrefix;
 
-        /* Add mongo collections here. Example:
-         * public IMongoCollection<Question> Questions => Collection<Question>();
-         */
+        public IMongoCollection<Brand> Brands => Collection<Brand>();
+        
+        public IMongoCollection<BrandTemplate> BrandTemplates => Collection<BrandTemplate>();
+        
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
