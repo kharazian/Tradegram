@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Hitasp.HitCommon.Contents;
 using JetBrains.Annotations;
 using Volo.Abp;
@@ -16,6 +17,10 @@ namespace Hitasp.HitCommerce.Catalog.Categories
         public virtual bool IncludeInTopMenu { get; protected set; }
         
         public virtual string PriceRanges { get; protected set; }
+        
+        public virtual Category ParentCategory { get; set; }
+        
+        public virtual Collection<Category> Children { get; protected set; }
         
 
         protected Category()
@@ -39,6 +44,8 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             PictureId = pictureId;
             CategoryTemplateId = categoryTemplateId; 
             ParentCategoryId = parentCategoryId;
+            
+            Children = new Collection<Category>();
         }
         
         public virtual void SetTemplate(Guid templateId)

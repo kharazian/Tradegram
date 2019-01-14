@@ -15,8 +15,6 @@ namespace Hitasp.HitCommerce.Catalog.Brands.Dtos
 
         public string Description { get; set; }
 
-        public string PriceRanges { get; set; }
-
         public string MetaTitle { get; set; }
 
         public string MetaKeywords { get; set; }
