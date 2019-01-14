@@ -3,13 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hitasp.HitCommerce.Widgets.Dtos
 {
-    public class WidgetInstanceCreateOrEditDto
+    public class WidgetInstanceUpdateDto
     {
-        public WidgetInstanceCreateOrEditDto()
-        {
-            PublishStart = DateTimeOffset.Now;
-        }
-        
         public Guid WidgetId { get; set; }
 
         public int WidgetZoneId { get; set; }
@@ -17,9 +12,9 @@ namespace Hitasp.HitCommerce.Widgets.Dtos
         [Required]
         public string Name { get; set; }
 
-        public DateTimeOffset PublishStart { get; set; }
+        public DateTime PublishStart { get; set; }
 
-        public DateTimeOffset? PublishEnd { get; set; }
+        public DateTime? PublishEnd { get; set; }
 
         public int DisplayOrder { get; set; }
 

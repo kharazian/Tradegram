@@ -6,7 +6,7 @@ using Hitasp.HitCommerce.UserGroups.Dtos;
 namespace Hitasp.HitCommerce.UserGroups
 {
     public interface IUserGroupAppService : IAsyncCrudAppService<UserGroupDto, Guid,
-        UserGroupGetListInput, UserGroupCreateOrEditDto, UserGroupCreateOrEditDto>
+        UserGroupGetListInput, UserGroupCreateDto, UserGroupUpdateDto>
     {
         Task<UserGroupDto> GetByNameAsync(UserGroupGetByNameInput input);
     }

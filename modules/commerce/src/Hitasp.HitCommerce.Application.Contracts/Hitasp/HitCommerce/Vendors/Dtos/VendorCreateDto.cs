@@ -1,10 +1,8 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Vendors.Dtos
 {
-    public class VendorCreateOrEditDto : EntityDto<Guid>
+    public class VendorCreateDto
     {
         [Required]
         public string Name { get; set; }

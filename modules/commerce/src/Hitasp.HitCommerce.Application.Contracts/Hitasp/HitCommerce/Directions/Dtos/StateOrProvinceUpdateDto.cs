@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hitasp.HitCommerce.Directions.Dtos
 {
-    public class StateOrProvinceCreateOrEditDto
+    public class StateOrProvinceUpdateDto
     {
         public Guid CountryId { get; set; }
 

@@ -6,20 +6,13 @@ using Volo.Abp.Application.Services;
 
 namespace Hitasp.HitCommerce.Addresses
 {
-    public interface IAddressAppService : IApplicationService
+    public interface IAddressAppService : IAsyncCrudAppService<AddressDto, Guid,
+        AddressGetListInput, AddressCreateDto, AddressUpdateDto>
     {
-        Task<PagedResultDto<AddressWithDetailDto>> GetListAsync(AddressGetListInput input);
+        Task<int> GetAddressTotalByCountryId(Guid countryId);
 
-        Task<AddressForEditOutput> GetForEditAsync(Guid addressId);
-
-        Task<AddressWithDetailDto> CreateOrEditAsync(AddressCreateOrEditDto input);
-
-        Task DeleteAsync(Guid addressId);
+        Task<int> GetAddressTotalByStateOrProvinceId(Guid stateOrProvinceId);
         
-        Task<AddressReportRequestOutput> GetAddressTotalByCountryId(Guid countryId);
-
-        Task<AddressReportRequestOutput> GetAddressTotalByStateOrProvinceId(Guid stateOrProvinceId);
-        
-        Task<AddressReportRequestOutput> GetAddressTotalByDistrictId(Guid districtId);
+        Task<int> GetAddressTotalByDistrictId(Guid districtId);
     }
 }

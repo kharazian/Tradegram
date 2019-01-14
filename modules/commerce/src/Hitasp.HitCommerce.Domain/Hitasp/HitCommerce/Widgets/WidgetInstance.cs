@@ -31,9 +31,8 @@ namespace Hitasp.HitCommerce.Widgets
         {
         }
 
-        public WidgetInstance(Guid id, Guid widgetId, int widgetZoneId, [NotNull] string name)
+        public WidgetInstance(Guid widgetId, int widgetZoneId, [NotNull] string name)
         {
-            Id = id;
             WidgetId = widgetId;
             WidgetZoneId = widgetZoneId;
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));

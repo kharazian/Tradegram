@@ -1,16 +1,19 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using Volo.Abp.Application.Dtos;
 
-namespace Hitasp.HitCommerce.UserGroups.Dtos
+namespace Hitasp.HitCommerce.Vendors.Dtos
 {
-    public class UserGroupCreateOrEditDto : CreationAuditedEntityDto<Guid>
+    public class VendorUpdateDto
     {
         [Required]
         public string Name { get; set; }
-        
+
+        [Required]
+        public string Slug { get; set; }
+
         public string Description { get; set; }
-        
+
+        public string Email { get; set; }
+
         public bool IsActive { get; set; }
     }
 }

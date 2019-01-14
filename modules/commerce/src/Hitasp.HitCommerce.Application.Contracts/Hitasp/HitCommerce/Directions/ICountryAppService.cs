@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 namespace Hitasp.HitCommerce.Directions
 {
     public interface ICountryAppService : IAsyncCrudAppService<CountryDto, Guid, 
-        CountryGetListInput, CountryCreateOrEditDto, CountryCreateOrEditDto>
+        CountryGetListInput, CountryCreateDto, CountryUpdateDto>
     {
         Task<ListResultDto<CountryDto>> GetCountriesForBilling();
         

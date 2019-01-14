@@ -11,9 +11,8 @@ namespace Hitasp.HitCommerce.Widgets
 
         public virtual string Description { get; set; }
         
-        public WidgetZone(int id, [NotNull] string name)
+        public WidgetZone([NotNull] string name)
         {
-            Id = id;
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));
         }
         

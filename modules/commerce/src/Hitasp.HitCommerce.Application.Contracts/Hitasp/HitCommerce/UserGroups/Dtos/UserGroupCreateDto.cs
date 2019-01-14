@@ -1,12 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Hitasp.HitCommerce.Widgets.Dtos
+namespace Hitasp.HitCommerce.UserGroups.Dtos
 {
-    public class WidgetZoneCreateOrEditDto
+    public class UserGroupCreateDto
     {
         [Required]
         public string Name { get; set; }
-
+        
         public string Description { get; set; }
+        
+        public bool IsActive { get; set; }
     }
 }

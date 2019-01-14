@@ -24,9 +24,8 @@ namespace Hitasp.HitCommerce.Widgets
         {
         }
 
-        public Widget(Guid id, [NotNull] string name)
+        public Widget([NotNull] string name)
         {
-            Id = id;
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));
         }
         

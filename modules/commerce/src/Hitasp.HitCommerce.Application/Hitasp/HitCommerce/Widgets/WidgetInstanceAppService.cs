@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 namespace Hitasp.HitCommerce.Widgets
 {
     public class WidgetInstanceAppService : AsyncCrudAppService<WidgetInstance, WidgetInstanceDto, Guid,
-        WidgetInstanceGetListInput, WidgetInstanceCreateOrEditDto, WidgetInstanceCreateOrEditDto>,
+        WidgetInstanceGetListInput, WidgetInstanceCreateDto, WidgetInstanceUpdateDto>,
         IWidgetInstanceAppService
     {
         private readonly IWidgetInstanceRepository _repository;

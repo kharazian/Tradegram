@@ -15,9 +15,8 @@ namespace Hitasp.HitCommerce.UserGroups
 
         public virtual bool IsActive { get; protected set; }
 
-        public UserGroup(Guid id, [NotNull] string name)
+        public UserGroup([NotNull] string name)
         {
-            Id = id;
             Name = name;
         }
 

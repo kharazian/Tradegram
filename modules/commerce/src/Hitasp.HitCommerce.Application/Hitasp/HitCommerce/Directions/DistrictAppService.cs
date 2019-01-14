@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 namespace Hitasp.HitCommerce.Directions
 {
     public class DistrictAppService : AsyncCrudAppService<District, DistrictDto, Guid,
-        DistrictGetListInput, DistrictCreateOrEditDto, DistrictCreateOrEditDto>, IDistrictAppService
+        DistrictGetListInput, DistrictCreateDto, DistrictUpdateDto>, IDistrictAppService
     {
         private readonly IDistrictRepository _repository;
         public DistrictAppService(IDistrictRepository repository) : base(repository)

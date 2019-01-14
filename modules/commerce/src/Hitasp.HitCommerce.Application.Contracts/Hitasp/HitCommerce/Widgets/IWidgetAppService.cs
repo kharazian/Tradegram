@@ -7,7 +7,7 @@ using Hitasp.HitCommerce.Widgets.Dtos;
 namespace Hitasp.HitCommerce.Widgets
 {
     public interface IWidgetAppService : IAsyncCrudAppService<WidgetDto, Guid,
-        WidgetGetListInput, WidgetCreateOrEditDto, WidgetCreateOrEditDto>
+        WidgetGetListInput, WidgetCreateDto, WidgetUpdateDto>
     {
         Task<ListResultDto<WidgetDto>> GetPublishedAsync();
     }

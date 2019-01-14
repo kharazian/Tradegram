@@ -7,7 +7,7 @@ using Hitasp.HitCommerce.Vendors.Dtos;
 namespace Hitasp.HitCommerce.Vendors
 {
     public interface IVendorAppService : IAsyncCrudAppService<VendorDto, Guid,
-        VendorGetLitInput, VendorCreateOrEditDto, VendorCreateOrEditDto>
+        VendorGetLitInput, VendorCreateDto, VendorUpdateDto>
     {
         Task<ListResultDto<VendorDto>> GetActiveVendorsAsync();
     }

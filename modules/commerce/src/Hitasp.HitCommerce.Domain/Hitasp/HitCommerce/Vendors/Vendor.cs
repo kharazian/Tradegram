@@ -24,9 +24,8 @@ namespace Hitasp.HitCommerce.Vendors
         {
         }
 
-        public Vendor(Guid id, [NotNull] string name, [NotNull] string slug)
+        public Vendor([NotNull] string name, [NotNull] string slug)
         {
-            Id = id;
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));
             Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
         }

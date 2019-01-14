@@ -20,9 +20,8 @@ namespace Hitasp.HitCommerce.Directions
         {
         }
 
-        public StateOrProvince(Guid id, Guid countryId, [NotNull] string name)
+        public StateOrProvince(Guid countryId, [NotNull] string name)
         {
-            Id = id;
             CountryId = countryId;
             Name = Check.NotNullOrWhiteSpace(name, nameof(name));
         }

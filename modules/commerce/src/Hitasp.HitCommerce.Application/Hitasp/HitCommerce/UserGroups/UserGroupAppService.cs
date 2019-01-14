@@ -6,7 +6,7 @@ using Volo.Abp.Application.Services;
 namespace Hitasp.HitCommerce.UserGroups
 {
     public class UserGroupAppService : AsyncCrudAppService<UserGroup, UserGroupDto, Guid,
-            UserGroupGetListInput, UserGroupCreateOrEditDto, UserGroupCreateOrEditDto>
+            UserGroupGetListInput, UserGroupCreateDto, UserGroupUpdateDto>
         , IUserGroupAppService
     {
         private readonly IUserGroupRepository _userGroupRepository;

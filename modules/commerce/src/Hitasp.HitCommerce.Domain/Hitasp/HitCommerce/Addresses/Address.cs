@@ -32,7 +32,6 @@ namespace Hitasp.HitCommerce.Addresses
         }
 
         public Address(
-            Guid id,
             [NotNull] string phone,
             [NotNull] string addressLine1,
             [CanBeNull] string addressLine2,
@@ -42,7 +41,6 @@ namespace Hitasp.HitCommerce.Addresses
             Guid stateOrProvinceId,
             Guid? districtId = null)
         {
-            Id = id;
             Phone = Check.NotNullOrWhiteSpace(phone, nameof(phone));
             AddressLine1 = Check.NotNullOrWhiteSpace(addressLine1, nameof(addressLine1));
             AddressLine2 = addressLine2;

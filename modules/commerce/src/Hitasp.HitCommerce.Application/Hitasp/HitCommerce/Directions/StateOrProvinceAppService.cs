@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 namespace Hitasp.HitCommerce.Directions
 {
     public class StateOrProvinceAppService : AsyncCrudAppService<StateOrProvince, StateOrProvinceDto, Guid,
-            StateOrProvinceGetListInput, StateOrProvinceCreateOrEditDto, StateOrProvinceCreateOrEditDto>,
+            StateOrProvinceGetListInput, StateOrProvinceCreateDto, StateOrProvinceUpdateDto>,
         IStateOrProvinceAppService
     {
         private readonly IStateOrProvinceRepository _repository;

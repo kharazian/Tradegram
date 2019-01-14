@@ -7,11 +7,11 @@ using Volo.Abp.Application.Services;
 
 namespace Hitasp.HitCommerce.Directions
 {
-    public class CountryAppService : AsyncCrudAppService<Country, CountryDto, Guid, 
-        CountryGetListInput, CountryCreateOrEditDto, CountryCreateOrEditDto>, ICountryAppService
+    public class CountryAppService : AsyncCrudAppService<Country, CountryDto, Guid,
+        CountryGetListInput, CountryCreateDto, CountryUpdateDto>, ICountryAppService
     {
         private readonly ICountryRepository _repository;
-        
+
         public CountryAppService(ICountryRepository repository) : base(repository)
         {
             _repository = repository;
@@ -22,8 +22,8 @@ namespace Hitasp.HitCommerce.Directions
             var billingAvailableCountries = await _repository.FindAllCountriesForBilling();
 
             return new ListResultDto<CountryDto>(
-                    ObjectMapper.Map<List<Country>, List<CountryDto>>(billingAvailableCountries)
-                );
+                ObjectMapper.Map<List<Country>, List<CountryDto>>(billingAvailableCountries)
+            );
         }
 
         public async Task<ListResultDto<CountryDto>> GetCountriesForShipping()
