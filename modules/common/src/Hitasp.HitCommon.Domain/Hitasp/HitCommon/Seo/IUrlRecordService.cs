@@ -6,7 +6,7 @@ namespace Hitasp.HitCommon.Seo
 {
     public interface IUrlRecordService : IDomainService
     {
-        Task<string> ToSafeSlugAsync(string slug, Guid entityId, string entityTypeId);
+        Task<string> ToSafeSlugAsync(string slug, string entityTypeId);
 
         Task<UrlRecord> GetAsync(Guid entityId, string entityTypeId);
 

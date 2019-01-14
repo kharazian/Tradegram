@@ -20,13 +20,13 @@ namespace Hitasp.HitCommon.Seo
         }
 
 
-        public async Task<string> ToSafeSlugAsync(string slug, Guid entityId, string entityTypeId)
+        public async Task<string> ToSafeSlugAsync(string slug, string entityTypeId)
         {
             var i = 2;
             while (true)
             {
                 var urlRecord = await _urlRecordRepository.FindBySlugAsync(slug);
-                if (urlRecord != null && !(urlRecord.EntityId == entityId && urlRecord.EntityTypeId == entityTypeId))
+                if (urlRecord != null && urlRecord.EntityTypeId != entityTypeId)
                 {
                     slug = $"{slug}-{i}";
                     i++;
