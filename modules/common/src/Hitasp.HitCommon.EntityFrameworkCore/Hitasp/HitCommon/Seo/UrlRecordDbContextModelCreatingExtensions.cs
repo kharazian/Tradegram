@@ -31,7 +31,6 @@ namespace Hitasp.HitCommon.Seo
 
                 b.Property(x => x.EntityId).IsRequired().HasColumnName(nameof(UrlRecord.EntityId));
                 b.Property(x => x.EntityTypeId).IsRequired().HasColumnName(nameof(UrlRecord.EntityTypeId));
-                b.Property(x => x.IsActive).HasDefaultValue(true).HasColumnName(nameof(UrlRecord.IsActive));
 
                 b.HasOne<EntityType>().WithMany().IsRequired().HasForeignKey(x => x.EntityTypeId)
                     .OnDelete(DeleteBehavior.Restrict);

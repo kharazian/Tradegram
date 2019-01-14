@@ -21,11 +21,6 @@ namespace Hitasp.HitCommon.Seo
             return await this.FirstOrDefaultAsync(u => u.Slug == slug, GetCancellationToken(cancellationToken));
         }
 
-        public async Task<UrlRecord> FindByEntityNameAsync(string entityName, CancellationToken cancellationToken = default)
-        {
-            return await this.FirstOrDefaultAsync(u => u.Name == entityName, GetCancellationToken(cancellationToken));
-        }
-
         public async Task<UrlRecord> FindByEntityIdAsync(Guid entityId, CancellationToken cancellationToken = default)
         {
             return await this.FirstOrDefaultAsync(u => u.EntityId == entityId, GetCancellationToken(cancellationToken));

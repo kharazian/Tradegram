@@ -15,15 +15,12 @@ namespace Hitasp.HitCommon.Seo
 
         public virtual string EntityTypeId { get; protected set; }
         
-        public virtual bool IsActive { get; protected internal set; }
-        
 
         protected UrlRecord()
         {
         }
 
         public UrlRecord(
-            Guid id,
             Guid entityId,
             [NotNull] string entityTypeId,
             [NotNull] string name,
@@ -34,12 +31,20 @@ namespace Hitasp.HitCommon.Seo
             Check.NotNullOrWhiteSpace(entityTypeId, nameof(entityTypeId));
 
             
-            Id = id;
             EntityId = entityId;
             EntityTypeId = entityTypeId;
             Name = name;
             Slug = slug;
-            IsActive = true;
+        }
+        
+        public virtual void SetName([NotNull] string name)
+        {
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+        }
+
+        public virtual void SetSlug([NotNull] string slug)
+        {
+            Slug = Check.NotNullOrWhiteSpace(slug, nameof(slug));
         }
     }
 }
