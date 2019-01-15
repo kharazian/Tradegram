@@ -29,7 +29,7 @@ namespace Hitasp.HitCommon.BinaryObjects
                 b.Property(x => x.FileName).IsRequired().HasColumnName(nameof(ThumbnailImage.FileName));
                 b.Property(x => x.MimeType).IsRequired().HasColumnName(nameof(ThumbnailImage.MimeType));
 
-                b.Property(x => x.BinaryData).IsRequired().HasMaxLength(BinaryDataConsts.MaxThumbnailBinaryLength)
+                b.Property(x => x.BinaryData).IsRequired().HasMaxLength(BinaryObjectConsts.MaxThumbnailBinaryLength)
                     .HasColumnName(nameof(ThumbnailImage.BinaryData));
 
                 b.Property(x => x.DisplayOrder).HasColumnName(nameof(ThumbnailImage.DisplayOrder));
