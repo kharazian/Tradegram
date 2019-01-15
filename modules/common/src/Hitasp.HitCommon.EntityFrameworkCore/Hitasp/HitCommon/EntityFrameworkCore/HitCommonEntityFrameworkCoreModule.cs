@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -19,7 +20,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<HitCommonDbContext>(options =>
             {
-                options.AddRepository<Picture, EfCorePictureRepository>();
+                options.AddRepository<ThumbnailImage, EfCoreThumbnailImageRepository>();
                 options.AddRepository<UrlRecord, EfCoreUrlRecordRepository>();
                 options.AddRepository<EntityType, EfCoreEntityTypeRepository>();
                 options.AddRepository<ContentAttribute, EfCoreContentAttributeRepository>();

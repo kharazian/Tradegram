@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -13,7 +14,7 @@ namespace Hitasp.HitCommon.MongoDB
     {
         public static string CollectionPrefix { get; set; } = HitCommonConsts.DefaultDbTablePrefix;
 
-        public IMongoCollection<Picture> Pictures => Collection<Picture>();
+        public IMongoCollection<ThumbnailImage> ThumbnailImages => Collection<ThumbnailImage>();
         
         public IMongoCollection<UrlRecord> UrlRecords => Collection<UrlRecord>();
 

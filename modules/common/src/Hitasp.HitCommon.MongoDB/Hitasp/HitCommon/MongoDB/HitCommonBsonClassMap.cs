@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -16,7 +17,7 @@ namespace Hitasp.HitCommon.MongoDB
         {
             OneTimeRunner.Run(() =>
             {
-                BsonClassMap.RegisterClassMap<Picture>(map =>
+                BsonClassMap.RegisterClassMap<ThumbnailImage>(map =>
                 {
                     map.AutoMap();
                 });

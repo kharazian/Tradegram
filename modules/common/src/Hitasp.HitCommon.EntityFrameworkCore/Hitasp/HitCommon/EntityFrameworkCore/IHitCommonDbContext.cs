@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -12,7 +13,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
     [ConnectionStringName("HitCommon")]
     public interface IHitCommonDbContext : IEfCoreDbContext
     {
-        DbSet<Picture> Pictures { get; set; }
+        DbSet<ThumbnailImage> ThumbnailImages { get; set; }
         
         DbSet<UrlRecord> UrlRecords { get; set; }
         

@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -16,7 +17,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
 
         public static string Schema { get; set; } = HitCommonConsts.DefaultDbSchema;
 
-        public DbSet<Picture> Pictures { get; set; }
+        public DbSet<ThumbnailImage> ThumbnailImages { get; set; }
         
         public DbSet<UrlRecord> UrlRecords { get; set; }
         
@@ -42,7 +43,7 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
 
             builder.ConfigureEntityTypes(TablePrefix, Schema);
             builder.ConfigureContents(TablePrefix, Schema);
-            builder.ConfigurePictures(TablePrefix, Schema);
+            builder.ConfigureBinaryObjects(TablePrefix, Schema);
             builder.ConfigureUrlRecord(TablePrefix, Schema);
             builder.ConfigureTagging(TablePrefix, Schema);
         }

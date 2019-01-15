@@ -1,7 +1,7 @@
 ﻿using System;
+using Hitasp.HitCommon.BinaryObjects;
 using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
-using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
 using Hitasp.HitCommon.Tagging;
 using Volo.Abp;
@@ -21,9 +21,9 @@ namespace Hitasp.HitCommon.MongoDB
 
             optionsAction?.Invoke(options);
 
-            builder.Entity<Picture>(b =>
+            builder.Entity<ThumbnailImage>(b =>
             {
-                b.CollectionName = options.CollectionPrefix + "Media_Images";
+                b.CollectionName = options.CollectionPrefix + "BinaryObjects";
             });
             
             builder.Entity<UrlRecord>(b =>

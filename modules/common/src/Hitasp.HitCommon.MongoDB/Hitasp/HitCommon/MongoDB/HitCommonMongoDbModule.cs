@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -21,7 +22,7 @@ namespace Hitasp.HitCommon.MongoDB
             
             context.Services.AddMongoDbContext<HitCommonMongoDbContext>(options =>
             {
-                options.AddRepository<Picture, MongoPictureRepository>();
+                options.AddRepository<ThumbnailImage, MongoThumbnailImageRepository>();
                 options.AddRepository<UrlRecord, MongoUrlRecordRepository>();
                 options.AddRepository<EntityType, MongoEntityTypeRepository>();
                 options.AddRepository<ContentAttribute, MongoContentAttributeRepository>();

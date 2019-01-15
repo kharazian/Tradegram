@@ -1,4 +1,5 @@
-﻿using Hitasp.HitCommon.Contents;
+﻿using Hitasp.HitCommon.BinaryObjects;
+using Hitasp.HitCommon.Contents;
 using Hitasp.HitCommon.Entities;
 using Hitasp.HitCommon.Media;
 using Hitasp.HitCommon.Seo;
@@ -11,7 +12,7 @@ namespace Hitasp.HitCommon.MongoDB
     [ConnectionStringName("HitCommon")]
     public interface IHitCommonMongoDbContext : IAbpMongoDbContext
     {
-        IMongoCollection<Picture> Pictures { get; }
+        IMongoCollection<ThumbnailImage> ThumbnailImages { get; }
         
         IMongoCollection<UrlRecord> UrlRecords { get; }
         
