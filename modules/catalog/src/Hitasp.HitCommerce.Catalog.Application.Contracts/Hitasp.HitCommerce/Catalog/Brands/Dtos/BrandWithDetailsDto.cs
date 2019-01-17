@@ -2,7 +2,7 @@ using Hitasp.HitCommerce.Catalog.Dtos;
 
 namespace Hitasp.HitCommerce.Catalog.Brands.Dtos
 {
-    public class BrandWithDetailDto
+    public class BrandWithDetailsDto
     {
         public BrandDto Brand { get; set; }
         

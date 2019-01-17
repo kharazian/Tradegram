@@ -3,6 +3,8 @@ using Hitasp.HitCommerce.Catalog.Brands;
 using Hitasp.HitCommerce.Catalog.Brands.Dtos;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Dtos;
+using Hitasp.HitCommerce.Catalog.Dtos;
+using Hitasp.HitCommon.BinaryObjects;
 
 namespace Hitasp.HitCommerce.Catalog
 {
@@ -59,6 +61,7 @@ namespace Hitasp.HitCommerce.Catalog
             #region Categories
 
             CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategoryThumbnailDto>();
 
             CreateMap<CategoryCreateDto, Category>()
                 .ConstructUsing(x =>
@@ -107,6 +110,12 @@ namespace Hitasp.HitCommerce.Catalog
                     dest.SetName(src.Name);
                     dest.SetViewPath(src.ViewPath);
                 });
+
+            #endregion
+
+            #region Common
+
+            CreateMap<ThumbnailImage, ThumbnailImageDto>();
 
             #endregion
         }

@@ -18,7 +18,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories
         
         public virtual string PriceRanges { get; protected set; }
         
-        public virtual Category ParentCategory { get; set; }
+        public virtual Category ParentCategory { get; protected set; }
         
         public virtual Collection<Category> Children { get; protected set; }
         

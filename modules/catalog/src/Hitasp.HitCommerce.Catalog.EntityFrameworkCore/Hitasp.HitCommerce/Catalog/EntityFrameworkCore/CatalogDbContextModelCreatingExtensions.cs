@@ -96,7 +96,7 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
                 b.Property(x => x.SpecialPrice).HasColumnName(nameof(Product.SpecialPrice));
                 b.Property(x => x.SpecialPriceStart).HasColumnName(nameof(Product.SpecialPriceStart));
                 b.Property(x => x.SpecialPriceEnd).HasColumnName(nameof(Product.SpecialPriceEnd));
-                b.Property(x => x.IsAllowedCustomerEntersPrice).HasColumnName(nameof(Product.IsAllowedCustomerEntersPrice));
+                b.Property(x => x.IsAllowCustomerEntersPrice).HasColumnName(nameof(Product.IsAllowCustomerEntersPrice));
                 b.Property(x => x.MinimumCustomerEnteredPrice).HasColumnName(nameof(Product.MinimumCustomerEnteredPrice));
                 b.Property(x => x.MaximumCustomerEnteredPrice).HasColumnName(nameof(Product.MaximumCustomerEnteredPrice));
                 b.Property(x => x.HasOptions).HasColumnName(nameof(Product.HasOptions));

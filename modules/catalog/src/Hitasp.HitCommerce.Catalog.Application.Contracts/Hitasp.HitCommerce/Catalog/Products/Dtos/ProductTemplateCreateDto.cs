@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Hitasp.HitCommerce.Catalog.Categories.Dtos
+namespace Hitasp.HitCommerce.Catalog.Products.Dtos
 {
-    public class CategoryTemplateCreateDto
+    public class ProductTemplateCreateDto
     {
         [Required]
         public string Name { get; set; }

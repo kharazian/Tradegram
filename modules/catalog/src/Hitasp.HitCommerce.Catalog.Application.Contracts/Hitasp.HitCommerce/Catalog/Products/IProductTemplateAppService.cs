@@ -1,5 +1,4 @@
 using System;
-using Hitasp.HitCommerce.Catalog.Categories.Dtos;
 using Hitasp.HitCommerce.Catalog.Products.Dtos;
 using Volo.Abp.Application.Services;
 

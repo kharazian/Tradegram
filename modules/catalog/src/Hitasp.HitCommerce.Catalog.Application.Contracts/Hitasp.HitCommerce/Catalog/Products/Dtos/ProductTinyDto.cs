@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Dtos
 {
-    public class ProductTiny : EntityDto<Guid>
+    public class ProductTinyDto : EntityDto<Guid>
     {
         public string Name { get; set; }
         

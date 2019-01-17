@@ -1,13 +1,13 @@
 using System;
-using Hitasp.HitCommerce.Catalog.Categories.Dtos;
+using Hitasp.HitCommerce.Catalog.Products.Dtos;
 using Volo.Abp.Application.Services;
 
-namespace Hitasp.HitCommerce.Catalog.Categories
+namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class CategoryTemplateAppService: AsyncCrudAppService<CategoryTemplate, CategoryTemplateDto, Guid,
-        CategoryTemplateGetListInput, CategoryTemplateCreateDto, CategoryTemplateUpdateDto>, ICategoryTemplateAppService
+    public class ProductTemplateAppService: AsyncCrudAppService<ProductTemplate, ProductTemplateDto, Guid,
+        ProductTemplateGetListInput, ProductTemplateCreateDto, ProductTemplateUpdateDto>, IProductTemplateAppService
     {
-        public CategoryTemplateAppService(ICategoryTemplateRepository repository) : base(repository)
+        public ProductTemplateAppService(IProductTemplateRepository repository) : base(repository)
         {
         }
     }

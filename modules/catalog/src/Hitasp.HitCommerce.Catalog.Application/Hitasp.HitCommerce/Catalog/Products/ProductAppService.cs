@@ -1,82 +1,121 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hitasp.HitCommerce.Catalog.Categories.Dtos;
+using Hitasp.HitCommerce.Catalog.Products.Dtos;
 using Hitasp.HitCommon.Seo;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
-namespace Hitasp.HitCommerce.Catalog.Categories
+namespace Hitasp.HitCommerce.Catalog.Products
 {
-    public class CategoryAppService : AsyncCrudAppService<Category, CategoryDto, Guid,
-        CategoryGetListInput, CategoryCreateDto, CategoryUpdateDto>, ICategoryAppService
+    public class ProductAppService : AsyncCrudAppService<Product, ProductDto, Guid,
+        ProductGetListInput, ProductCreateDto, ProductUpdateDto>, IProductAppService
     {
-        private const string CategoryEntityTypeId = "Category";
-        
+        private const string ProductEntityTypeId = "Product";
+
+        private readonly IProductRepository _repository;
         private readonly IUrlRecordService _urlRecordService;
+        private readonly IProductCategoryRepository _productCategoryRepository;
         
-        public CategoryAppService(ICategoryRepository repository, IUrlRecordService urlRecordService) : base(repository)
+        public ProductAppService(
+            IProductRepository repository,
+            IUrlRecordService urlRecordService, 
+            IProductCategoryRepository productCategoryRepository) : base(repository)
         {
+            _repository = repository;
             _urlRecordService = urlRecordService;
+            _productCategoryRepository = productCategoryRepository;
         }
 
-        public override async Task<PagedResultDto<CategoryDto>> GetListAsync(CategoryGetListInput input)
+        public override async Task<ProductDto> CreateAsync(ProductCreateDto input)
         {
-            await CheckGetAllPolicyAsync();
-
-            var query = CreateFilteredQuery(input);
-
-            var totalCount = await AsyncQueryableExecuter.CountAsync(query);
-
-            query = ApplySorting(query, input);
-            query = ApplyPaging(query, input);
-
-            var entities = await AsyncQueryableExecuter.ToListAsync(query);
-
-            var output = entities.Select(MapToEntityDto).ToList();
-
-            foreach (var category in output)
-            {
-                var parentCategory = category.ParentCategory;
-                while (parentCategory != null)
-                {
-                    category.Name = $"{parentCategory.Name} >> {category.Name}";
-                    parentCategory = parentCategory.ParentCategory;
-                }
-            }
-
-            return new PagedResultDto<CategoryDto>(
-                totalCount,
-                output
-            );
-        }
-
-        public override async Task<CategoryDto> CreateAsync(CategoryCreateDto input)
-        {
-            input.Slug = await _urlRecordService.ToSafeSlugAsync(input.Slug, CategoryEntityTypeId);
+            input.Slug = await _urlRecordService.ToSafeSlugAsync(input.Slug, ProductEntityTypeId);
             
             var output = await base.CreateAsync(input);
             
-            await _urlRecordService.AddAsync(output.Name, output.Slug, output.Id, CategoryEntityTypeId);
+            await _urlRecordService.AddAsync(output.Name, output.Slug, output.Id, ProductEntityTypeId);
 
             return output;
         }
 
-        public override async Task<CategoryDto> UpdateAsync(Guid id, CategoryUpdateDto input)
+        public override async Task<ProductDto> UpdateAsync(Guid id, ProductUpdateDto input)
         {
-            input.Slug = await _urlRecordService.ToSafeSlugAsync(input.Slug, CategoryEntityTypeId);
+            input.Slug = await _urlRecordService.ToSafeSlugAsync(input.Slug, ProductEntityTypeId);
             
             var output = await base.UpdateAsync(id, input);
             
-            await _urlRecordService.UpdateAsync(output.Name, output.Slug, output.Id, CategoryEntityTypeId);
+            await _urlRecordService.UpdateAsync(output.Name, output.Slug, output.Id, ProductEntityTypeId);
 
             return output;
         }
 
         public override async Task DeleteAsync(Guid id)
         {
-            await _urlRecordService.RemoveAsync(id, CategoryEntityTypeId);
             await base.DeleteAsync(id);
+            
+            await _urlRecordService.RemoveAsync(id, ProductEntityTypeId);
+        }
+
+        public async Task<PagedResultDto<ProductListItemDto>> GetListItemsAsync(ProductGetListInput input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ListResultDto<ProductTinyDto>> GetProductListInCategoryAsync(Guid id)
+        {
+            await CheckGetAllPolicyAsync();
+            
+            var productIds = await _productCategoryRepository.GetListByCategoryId(id);
+
+            var products = await _repository.GetListAsync(productIds.Select(x => x.ProductId));
+            
+            return new ListResultDto<ProductTinyDto>(
+                ObjectMapper.Map<List<Product>, List<ProductTinyDto>>(products)
+            );
+        }
+
+        public async Task<ProductWithDetailsDto> GetWithDetailsAsync(Guid productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual async Task<CalculatedProductPrice> CalculateProductPriceAsync(Guid productId)
+        {
+            var product = await base.GetAsync(productId);
+
+            return CalculatePrice(product.Price, product.OldPrice, product.SpecialPrice,
+                product.SpecialPriceStart, product.SpecialPriceEnd);
+        }
+
+        private static CalculatedProductPrice CalculatePrice(
+            decimal price, decimal? oldPrice, decimal? specialPrice, DateTime? specialPriceStart,
+            DateTime? specialPriceEnd)
+        {
+            var percentOfSaving = 0;
+            var calculatedPrice = price;
+
+            if (specialPrice.HasValue && specialPriceStart < DateTime.Now && DateTime.Now < specialPriceEnd)
+            {
+                calculatedPrice = specialPrice.Value;
+
+                if (!oldPrice.HasValue || oldPrice < price)
+                {
+                    oldPrice = price;
+                }
+            }
+
+            if (oldPrice.HasValue && oldPrice.Value > 0 && oldPrice > calculatedPrice)
+            {
+                percentOfSaving = (int)(100 - Math.Ceiling((calculatedPrice / oldPrice.Value) * 100));
+            }
+
+            return new CalculatedProductPrice
+            {
+                Price = calculatedPrice,
+                OldPrice = oldPrice,
+                PercentOfSaving = percentOfSaving
+            }; 
         }
     }
 }

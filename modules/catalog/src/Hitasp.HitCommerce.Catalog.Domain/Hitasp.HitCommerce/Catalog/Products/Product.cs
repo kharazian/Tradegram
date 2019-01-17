@@ -24,7 +24,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual DateTime? SpecialPriceEnd { get; protected set; }
 
-        public virtual bool IsAllowedCustomerEntersPrice  { get; protected set; }
+        public virtual bool IsAllowCustomerEntersPrice  { get; protected set; }
         
         public virtual decimal? MinimumCustomerEnteredPrice { get; protected set; }
 
@@ -174,7 +174,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
         public virtual void AllowCustomerEntersPrice(decimal minPrice, decimal maxPerice)
         {
-            IsAllowedCustomerEntersPrice = true;
+            IsAllowCustomerEntersPrice = true;
 
             MinimumCustomerEnteredPrice = minPrice;
             MaximumCustomerEnteredPrice = maxPerice;
@@ -182,7 +182,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
         
         public virtual void DisableCustomerEntersPrice()
         {
-            IsAllowedCustomerEntersPrice = false;
+            IsAllowCustomerEntersPrice = false;
 
             MinimumCustomerEnteredPrice = null;
             MaximumCustomerEnteredPrice = null;

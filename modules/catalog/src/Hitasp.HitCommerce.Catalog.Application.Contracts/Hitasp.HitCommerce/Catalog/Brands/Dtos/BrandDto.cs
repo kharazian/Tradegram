@@ -11,8 +11,6 @@ namespace Hitasp.HitCommerce.Catalog.Brands.Dtos
 
         public string Description { get; set; }
 
-        public string PriceRanges { get; set; }
-
         public string MetaTitle { get; set; }
 
         public string MetaKeywords { get; set; }
@@ -21,11 +19,7 @@ namespace Hitasp.HitCommerce.Catalog.Brands.Dtos
         
         public int DisplayOrder { get; set; }
 
-        public string LanguageCode { get; set; }
-
         public bool IsPublished { get; set; }
-
-        public DateTime? PublishedOn { get; set; }
 
         public Guid BrandTemplateId { get; set; }
 

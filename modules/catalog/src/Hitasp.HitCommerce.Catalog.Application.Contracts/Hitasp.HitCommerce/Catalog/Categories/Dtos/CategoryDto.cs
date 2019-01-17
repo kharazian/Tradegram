@@ -37,9 +37,5 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Dtos
         public Guid CategoryTemplateId { get; set; }
 
         public Guid PictureId { get; set; }
-        
-        public CategoryDto ParentCategory { get; set; }
-        
-        public IReadOnlyList<CategoryDto> Children { get; set; }
     }
 }

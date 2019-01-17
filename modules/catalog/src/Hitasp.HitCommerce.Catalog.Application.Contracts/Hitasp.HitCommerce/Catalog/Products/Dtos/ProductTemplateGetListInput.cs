@@ -2,7 +2,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Dtos
 {
-    public class CategoryTemplateGetListInput : PagedAndSortedResultRequestDto
+    public class ProductTemplateGetListInput : PagedAndSortedResultRequestDto
     {
         
     }

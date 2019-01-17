@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Dtos
 {
-    public class CategoryTemplateUpdateDto
+    public class ProductTemplateUpdateDto
     {
         [Required]
         public string Name { get; set; }
