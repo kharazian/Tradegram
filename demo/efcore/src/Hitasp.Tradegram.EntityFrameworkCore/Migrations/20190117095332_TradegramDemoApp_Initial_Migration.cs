@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hitasp.Tradegram.Migrations
 {
-    public partial class Initial_DemoApp_Migration : Migration
+    public partial class TradegramDemoApp_Initial_Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -379,9 +379,9 @@ namespace Hitasp.Tradegram.Migrations
                 name: "AbpUserLogins",
                 columns: table => new
                 {
-                    TenantId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false),
                     LoginProvider = table.Column<string>(maxLength: 64, nullable: false),
+                    TenantId = table.Column<Guid>(nullable: true),
                     ProviderKey = table.Column<string>(maxLength: 196, nullable: false),
                     ProviderDisplayName = table.Column<string>(maxLength: 128, nullable: true)
                 },
@@ -400,9 +400,9 @@ namespace Hitasp.Tradegram.Migrations
                 name: "AbpUserRoles",
                 columns: table => new
                 {
-                    TenantId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false),
-                    RoleId = table.Column<Guid>(nullable: false)
+                    RoleId = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -425,10 +425,10 @@ namespace Hitasp.Tradegram.Migrations
                 name: "AbpUserTokens",
                 columns: table => new
                 {
-                    TenantId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false),
                     LoginProvider = table.Column<string>(maxLength: 64, nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
+                    TenantId = table.Column<Guid>(nullable: true),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -484,8 +484,7 @@ namespace Hitasp.Tradegram.Migrations
                     NewValue = table.Column<string>(maxLength: 512, nullable: true),
                     OriginalValue = table.Column<string>(maxLength: 512, nullable: true),
                     PropertyName = table.Column<string>(maxLength: 128, nullable: false),
-                    PropertyTypeFullName = table.Column<string>(maxLength: 64, nullable: false),
-                    EntityChangeId1 = table.Column<Guid>(nullable: true)
+                    PropertyTypeFullName = table.Column<string>(maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -496,12 +495,6 @@ namespace Hitasp.Tradegram.Migrations
                         principalTable: "AbpEntityChanges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId1",
-                        column: x => x.EntityChangeId1,
-                        principalTable: "AbpEntityChanges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -543,10 +536,10 @@ namespace Hitasp.Tradegram.Migrations
                 name: "BlgPostTags",
                 columns: table => new
                 {
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    CreatorId = table.Column<Guid>(nullable: true),
                     PostId = table.Column<Guid>(nullable: false),
-                    TagId = table.Column<Guid>(nullable: false)
+                    TagId = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -604,11 +597,6 @@ namespace Hitasp.Tradegram.Migrations
                 name: "IX_AbpEntityPropertyChanges_EntityChangeId",
                 table: "AbpEntityPropertyChanges",
                 column: "EntityChangeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AbpEntityPropertyChanges_EntityChangeId1",
-                table: "AbpEntityPropertyChanges",
-                column: "EntityChangeId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AbpPermissionGrants_Name_ProviderName_ProviderKey",

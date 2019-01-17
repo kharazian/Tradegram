@@ -6,19 +6,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Volo.Abp.BackgroundJobs;
 
 namespace Hitasp.Tradegram.Migrations
 {
     [DbContext(typeof(TradegramDbContext))]
-    [Migration("20181229150125_Initial_DemoApp_Migration")]
-    partial class Initial_DemoApp_Migration
+    [Migration("20190117095332_TradegramDemoApp_Initial_Migration")]
+    partial class TradegramDemoApp_Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -179,8 +178,6 @@ namespace Hitasp.Tradegram.Migrations
 
                     b.Property<Guid>("EntityChangeId");
 
-                    b.Property<Guid?>("EntityChangeId1");
-
                     b.Property<string>("NewValue")
                         .HasColumnName("NewValue")
                         .HasMaxLength(512);
@@ -204,8 +201,6 @@ namespace Hitasp.Tradegram.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EntityChangeId");
-
-                    b.HasIndex("EntityChangeId1");
 
                     b.ToTable("AbpEntityPropertyChanges");
                 });
@@ -993,13 +988,9 @@ namespace Hitasp.Tradegram.Migrations
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityPropertyChange", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.EntityChange")
-                        .WithMany()
+                        .WithMany("PropertyChanges")
                         .HasForeignKey("EntityChangeId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Volo.Abp.AuditLogging.EntityChange")
-                        .WithMany("PropertyChanges")
-                        .HasForeignKey("EntityChangeId1");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRoleClaim", b =>

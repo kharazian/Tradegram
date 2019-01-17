@@ -5,6 +5,6 @@
     "Menu:Blogs": "Blogs",
     "Menu:Docs": "Documents",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This is a Demo project on top of our services. Designed as Monolithic and have local references to the modules."
   }
 }
