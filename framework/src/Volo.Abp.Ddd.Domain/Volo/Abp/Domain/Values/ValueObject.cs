@@ -1,123 +1,98 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Volo.Abp.Reflection;
 
 namespace Volo.Abp.Domain.Values
 {
     //Inspired from https://blogs.msdn.microsoft.com/cesardelatorre/2011/06/06/implementing-a-value-object-base-class-supertype-patternddd-patterns-related/
-
-    /// <inheritdoc />
+    
     /// <summary>
     /// Base class for value objects.
     /// </summary>
     /// <typeparam name="TValueObject">The type of the value object.</typeparam>
-     public class ValueObject<TValueObject> : IEquatable<TValueObject>
+    public abstract class ValueObject<TValueObject> : IEquatable<TValueObject>
         where TValueObject : ValueObject<TValueObject>
     {
-
-        #region IEquatable and Override Equals operators
         public bool Equals(TValueObject other)
         {
             if ((object)other == null)
-                return false;
-
-            if (Object.ReferenceEquals(this, other))
-                return true;
-
-            //compare all public properties
-            PropertyInfo[] publicProperties = this.GetType().GetProperties();
-
-            if ((object)publicProperties != null
-                &&
-                publicProperties.Any())
             {
-                return publicProperties.All(p =>
-                {
-                    var left = p.GetValue(this, null);
-                    var right = p.GetValue(other, null);
-
-
-                    if (typeof(TValueObject).IsAssignableFrom(left.GetType()))
-                    {
-                        //check not self-references...
-                        return Object.ReferenceEquals(left, right);
-                    }
-                    else
-                        return left.Equals(right);
-
-
-                });
+                return false;
             }
-            else
+
+            var publicProperties = GetType().GetTypeInfo().GetProperties();
+            if (!publicProperties.Any())
+            {
                 return true;
+            }
+
+            return publicProperties.All(property => Equals(property.GetValue(this, null), property.GetValue(other, null)));
         }
+
         public override bool Equals(object obj)
         {
-            if ((object)obj == null)
+            if (obj == null)
+            {
                 return false;
+            }
 
-            if (Object.ReferenceEquals(this, obj))
-                return true;
-
-            ValueObject<TValueObject> item = obj as ValueObject<TValueObject>;
-
-            if ((object)item != null)
-                return Equals((TValueObject)item);
-            else
-                return false;
-
+            var item = obj as ValueObject<TValueObject>;
+            return (object)item != null && Equals((TValueObject)item);
         }
+
         public override int GetHashCode()
         {
-            int hashCode = 31;
-            bool changeMultiplier = false;
-            int index = 1;
+            //TODO: Can we cache the hash value assuming value objects are always immutable? We can make a Reset-like method to reset it's mutated.
 
-            //compare all public properties
-            PropertyInfo[] publicProperties = this.GetType().GetProperties();
+            const int index = 1;
+            const int initialHasCode = 31;
 
+            var publicProperties = GetType().GetTypeInfo().GetProperties();
 
-            if ((object)publicProperties != null
-                &&
-                publicProperties.Any())
+            if (!publicProperties.Any())
             {
-                foreach (var item in publicProperties)
+                return initialHasCode;
+            }
+
+            var hashCode = initialHasCode;
+            var changeMultiplier = false;
+
+            foreach (var property in publicProperties)
+            {
+                var value = property.GetValue(this, null);
+
+                if (value == null)
                 {
-                    object value = item.GetValue(this, null);
-
-                    if ((object)value != null)
-                    {
-
-                        hashCode = hashCode * ((changeMultiplier) ? 59 : 114) + value.GetHashCode();
-
-                        changeMultiplier = !changeMultiplier;
-                    }
-                    else
-                        hashCode = hashCode ^ (index * 13);//only for support {"a",null,null,"a"} <> {null,"a","a",null}
+                    //support {"a",null,null,"a"} != {null,"a","a",null}
+                    hashCode = hashCode ^ (index * 13);
+                    continue;
                 }
+
+                hashCode = hashCode * (changeMultiplier ? 59 : 114) + value.GetHashCode();
+                changeMultiplier = !changeMultiplier;
             }
 
             return hashCode;
         }
 
-        public static bool operator ==(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
+        public static bool operator ==(ValueObject<TValueObject> x, ValueObject<TValueObject> y)
         {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null)) ? true : false;
-            else
-                return left.Equals(right);
+            if (ReferenceEquals(x, y))
+            {
+                return true;
+            }
 
+            if (((object)x == null) || ((object)y == null))
+            {
+                return false;
+            }
+
+            return x.Equals(y);
         }
 
-        public static bool operator !=(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
+        public static bool operator !=(ValueObject<TValueObject> x, ValueObject<TValueObject> y)
         {
-            return !(left == right);
+            return !(x == y);
         }
-
-        #endregion
     }
 }

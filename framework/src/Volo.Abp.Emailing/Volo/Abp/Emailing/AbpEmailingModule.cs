@@ -1,4 +1,5 @@
-﻿using Volo.Abp.BackgroundJobs;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Emailing.Templates;
 using Volo.Abp.Emailing.Templates.Virtual;
 using Volo.Abp.Localization;

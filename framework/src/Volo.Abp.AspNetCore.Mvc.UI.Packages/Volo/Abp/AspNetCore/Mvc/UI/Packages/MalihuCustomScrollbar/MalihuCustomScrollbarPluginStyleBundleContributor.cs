@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 
 namespace Volo.Abp.AspNetCore.Mvc.UI.Packages.MalihuCustomScrollbar

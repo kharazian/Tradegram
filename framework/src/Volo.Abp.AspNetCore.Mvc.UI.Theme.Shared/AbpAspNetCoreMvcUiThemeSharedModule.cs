@@ -1,4 +1,5 @@
-﻿using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Packages;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;

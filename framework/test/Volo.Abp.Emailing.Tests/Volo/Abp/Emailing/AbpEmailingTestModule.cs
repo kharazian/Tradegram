@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Emailing.Templates;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Emailing.Templates;
 using Volo.Abp.Emailing.Templates.Virtual;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;

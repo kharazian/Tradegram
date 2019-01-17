@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Modularity;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 
 namespace Volo.Abp.AspNetCore.MultiTenancy

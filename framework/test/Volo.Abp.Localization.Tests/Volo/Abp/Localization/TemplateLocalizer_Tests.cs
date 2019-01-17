@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Shouldly;
 using Volo.Abp.Localization.TestResources.Source;
 using Volo.Abp.Modularity;
