@@ -24,7 +24,6 @@ namespace Hitasp.HitCommerce.Catalog
                     dest.SetMetaData(src.MetaTitle, src.MetaKeywords, src.MetaDescription);
                     dest.SetAsPublished(src.IsPublished);
                     dest.SetDisplayOrder(src.DisplayOrder);
-                    dest.SetLanguageCode(src.LanguageCode);
                 });
 
             CreateMap<BrandUpdateDto, Brand>()
@@ -38,7 +37,6 @@ namespace Hitasp.HitCommerce.Catalog
 
                     dest.SetDescription(src.Description);
                     dest.SetDisplayOrder(src.DisplayOrder);
-                    dest.SetLanguageCode(src.LanguageCode);
 
                     dest.SetTemplate(src.BrandTemplateId);
                 });
@@ -71,7 +69,6 @@ namespace Hitasp.HitCommerce.Catalog
                     dest.SetMetaData(src.MetaTitle, src.MetaKeywords, src.MetaDescription);
                     dest.SetAsPublished(src.IsPublished);
                     dest.SetDisplayOrder(src.DisplayOrder);
-                    dest.SetLanguageCode(src.LanguageCode);
                     
                     dest.SetAsMenuItem(src.IncludeInTopMenu);
                     dest.SetAsHomePageItem(src.ShowOnHomePage);
@@ -87,7 +84,6 @@ namespace Hitasp.HitCommerce.Catalog
                     dest.SetPicture(src.PictureId);
                     dest.SetDescription(src.Description);
                     dest.SetDisplayOrder(src.DisplayOrder);
-                    dest.SetLanguageCode(src.LanguageCode);
                     dest.SetTemplate(src.CategoryTemplateId);
                     dest.SetAsMenuItem(src.IncludeInTopMenu);
                     dest.SetAsHomePageItem(src.ShowOnHomePage);

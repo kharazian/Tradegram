@@ -21,7 +21,6 @@ namespace Hitasp.HitCommon.Contents
             b.Property(x => x.PictureId).IsRequired().HasColumnName(nameof(ContentBase.PictureId));
             b.Property(x => x.PublishedOn).HasColumnName(nameof(ContentBase.PublishedOn));
             b.Property(x => x.DisplayOrder).HasColumnName(nameof(ContentBase.DisplayOrder));
-            b.Property(x => x.LanguageCode).HasColumnName(nameof(ContentBase.LanguageCode));
         }
     }
 }

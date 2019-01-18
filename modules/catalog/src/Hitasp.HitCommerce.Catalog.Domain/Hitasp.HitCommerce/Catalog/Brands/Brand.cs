@@ -46,10 +46,5 @@ namespace Hitasp.HitCommerce.Catalog.Brands
         {
             DisplayOrder = displayOrder;
         }
-
-        public override void SetLanguageCode(string languageCode)
-        {
-            LanguageCode = languageCode;
-        }
     }
 }

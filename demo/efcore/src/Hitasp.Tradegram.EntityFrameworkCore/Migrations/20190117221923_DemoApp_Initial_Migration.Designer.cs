@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hitasp.Tradegram.Migrations
 {
     [DbContext(typeof(TradegramDbContext))]
-    [Migration("20190117095332_TradegramDemoApp_Initial_Migration")]
-    partial class TradegramDemoApp_Initial_Migration
+    [Migration("20190117221923_DemoApp_Initial_Migration")]
+    partial class DemoApp_Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

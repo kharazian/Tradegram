@@ -3,11 +3,10 @@ using Hitasp.HitCommon.Seo;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
-using Volo.Abp.Localization;
 
 namespace Hitasp.HitCommon.Contents
 {
-    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, IHasLanguage, ISlugSupported
+    public abstract class ContentBase : FullAuditedAggregateRoot<Guid>, ISlugSupported
     {
         public string Name { get; protected set; }
 
@@ -28,9 +27,7 @@ namespace Hitasp.HitCommon.Contents
         public DateTime? PublishedOn { get; protected set; }
 
         public int DisplayOrder { get; protected set; }
-
-        public string LanguageCode { get; protected set; }
-        
+       
 
         public virtual void SetName([NotNull] string name)
         {
@@ -77,7 +74,5 @@ namespace Hitasp.HitCommon.Contents
         }
 
         public abstract void SetDisplayOrder(int displayOrder);
-        
-        public abstract void SetLanguageCode(string languageCode);
     }
 }

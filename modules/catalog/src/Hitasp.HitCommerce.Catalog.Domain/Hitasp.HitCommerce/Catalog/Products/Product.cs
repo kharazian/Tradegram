@@ -354,10 +354,5 @@ namespace Hitasp.HitCommerce.Catalog.Products
         {
             DisplayOrder = displayOrder;
         }
-
-        public override void SetLanguageCode(string languageCode)
-        {
-            LanguageCode = languageCode;
-        }
     }
 }

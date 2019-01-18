@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hitasp.Tradegram.Migrations
 {
-    public partial class TradegramDemoApp_Initial_Migration : Migration
+    public partial class DemoApp_Initial_Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
