@@ -5,8 +5,8 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommon.Assets
 {
-    public interface IAssetBaseRepository<TAsset> : IBasicRepository<TAsset, Guid>
-        where TAsset : AssetBase
+    public interface IAssetBaseRepository<TAsset> : IRepository<TAsset, Guid>
+        where TAsset : Asset
     {
         Task<TAsset> FindByUniqueNameAsync(string uniqueName, CancellationToken cancellationToken = default);
     }

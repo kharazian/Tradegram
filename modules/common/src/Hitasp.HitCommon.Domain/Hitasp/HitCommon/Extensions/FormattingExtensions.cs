@@ -5,7 +5,7 @@
 		public static string ToHumanReadableSize(this long len)
 		{
 			string[] sizes = { "Bytes", "KB", "MB", "GB", "TB" };
-			int order = 0;
+			var order = 0;
 			while (len >= 1024 && order + 1 < sizes.Length)
 			{
 				order++;

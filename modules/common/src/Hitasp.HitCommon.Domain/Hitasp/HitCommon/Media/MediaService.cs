@@ -8,7 +8,7 @@ using Volo.Abp.Storage;
 namespace Hitasp.HitCommon.Media
 {
     public class MediaService<TMedia> : IMediaService<TMedia>, ITransientDependency
-        where TMedia : AssetBase, IMedia
+        where TMedia : Asset, IMedia
     {
         private const string DefaultStoreName = "MediaStore";
         private readonly IMediaRepository<TMedia> _mediaRepository;

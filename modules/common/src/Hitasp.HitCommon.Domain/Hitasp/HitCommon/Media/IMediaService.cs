@@ -4,7 +4,7 @@ using Hitasp.HitCommon.Assets;
 
 namespace Hitasp.HitCommon.Media
 {
-    public interface IMediaService<TMedia> where TMedia : AssetBase, IMedia
+    public interface IMediaService<TMedia> where TMedia : Asset, IMedia
     {
         Task<string> GetMediaUrl(TMedia media);
 
