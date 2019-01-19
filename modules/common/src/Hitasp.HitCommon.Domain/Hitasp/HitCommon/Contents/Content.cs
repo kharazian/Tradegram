@@ -7,7 +7,7 @@ namespace Hitasp.HitCommon.Contents
 {
     public abstract class Content : FullAuditedAggregateRoot<Guid>
     {
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public string Description { get; private set; }
 
@@ -20,21 +20,21 @@ namespace Hitasp.HitCommon.Contents
         public bool IsPublished { get; private set; }
 
 
-        protected void SetName([NotNull] string name)
+        protected void SetTitle([NotNull] string title)
         {
-            if (Name == name)
+            if (Title == title)
             {
                 return;
             }
             
-            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Check.NotNullOrWhiteSpace(title, nameof(title));
 
-            if (name.Length >= ContentConsts.MaxNameLength)
+            if (title.Length >= ContentConsts.MaxTitleLength)
             {
-                throw new ArgumentException($"Name can not be longer than {ContentConsts.MaxNameLength}");
+                throw new ArgumentException($"Title can not be longer than {ContentConsts.MaxTitleLength}");
             }
 
-            Name = name;
+            Title = title;
         }
         
         protected void SetDescription(string description)
@@ -46,7 +46,7 @@ namespace Hitasp.HitCommon.Contents
             
             if (description.Length >= ContentConsts.MaxDescriptionLength)
             {
-                throw new ArgumentException($"Name can not be longer than {ContentConsts.MaxDescriptionLength}");
+                throw new ArgumentException($"Description can not be longer than {ContentConsts.MaxDescriptionLength}");
             }
 
             Description = description;

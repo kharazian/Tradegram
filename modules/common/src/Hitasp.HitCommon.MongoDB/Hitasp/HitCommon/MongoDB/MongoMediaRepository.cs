@@ -1,8 +1,8 @@
 ﻿using Hitasp.HitCommon.Assets;
-using Hitasp.HitCommon.MongoDB;
+using Hitasp.HitCommon.Media;
 using Volo.Abp.MongoDB;
 
-namespace Hitasp.HitCommon.Media
+namespace Hitasp.HitCommon.MongoDB
 {
     public class MongoMediaRepository<TMedia, TContext> : MongoAssetBaseRepository<TMedia, TContext>, IMediaRepository<TMedia>
         where TMedia : Asset, IMedia

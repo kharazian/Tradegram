@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Hitasp.HitCommon.MongoDB;
+using Hitasp.HitCommon.Contents;
 using MongoDB.Driver.Linq;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
 
-namespace Hitasp.HitCommon.Contents
+namespace Hitasp.HitCommon.MongoDB
 {
     public class MongoContentBaseRepository<TContent, TContext> : MongoDbRepository<TContext, TContent, Guid>,
         IContentBaseRepository<TContent>
@@ -18,11 +18,11 @@ namespace Hitasp.HitCommon.Contents
         {
         }
 
-        public virtual async Task<TContent> FindByNameAsync(string name,
+        public virtual async Task<TContent> FindByTitleAsync(string title,
             CancellationToken cancellationToken = default)
         {
             return await GetMongoQueryable()
-                .FirstOrDefaultAsync(x => x.Name == name, GetCancellationToken(cancellationToken));
+                .FirstOrDefaultAsync(x => x.Title == title, GetCancellationToken(cancellationToken));
         }
     }
 }

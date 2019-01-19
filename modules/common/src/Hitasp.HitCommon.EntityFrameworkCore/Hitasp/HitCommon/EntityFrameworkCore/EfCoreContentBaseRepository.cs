@@ -18,9 +18,9 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
         }
 
-        public async Task<TContent> FindByNameAsync(string name, CancellationToken cancellationToken = default)
+        public async Task<TContent> FindByTitleAsync(string title, CancellationToken cancellationToken = default)
         {
-            return await DbSet.FirstOrDefaultAsync(x => x.Name == name,
+            return await DbSet.FirstOrDefaultAsync(x => x.Title == title,
                 GetCancellationToken(cancellationToken));
         }
         

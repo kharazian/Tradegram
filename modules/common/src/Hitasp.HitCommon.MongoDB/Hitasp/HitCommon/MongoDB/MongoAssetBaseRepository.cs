@@ -2,13 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Hitasp.HitCommon.Assets;
-using Hitasp.HitCommon.Media;
-using Hitasp.HitCommon.MongoDB;
 using MongoDB.Driver.Linq;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
 
-namespace Hitasp.HitCommon.Assets
+namespace Hitasp.HitCommon.MongoDB
 {
     public class MongoAssetBaseRepository<TAsset, TContext> : MongoDbRepository<TContext, TAsset, Guid>,
         IAssetBaseRepository<TAsset>

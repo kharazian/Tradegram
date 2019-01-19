@@ -8,6 +8,6 @@ namespace Hitasp.HitCommon.Contents
     public interface IContentBaseRepository<TContent> : IRepository<TContent, Guid>
         where TContent : Content
     {
-        Task<TContent> FindByNameAsync(string name, CancellationToken cancellationToken = default);
+        Task<TContent> FindByTitleAsync(string title, CancellationToken cancellationToken = default);
     }
 }
