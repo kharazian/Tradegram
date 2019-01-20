@@ -7,6 +7,10 @@ namespace Hitasp.HitCommon.Contents
 {
     public abstract class Content : FullAuditedAggregateRoot<Guid>
     {
+        public Guid? SpaceId { get; private set; }
+        
+        public string Name { get; private set; }
+        
         public string Title { get; private set; }
 
         public string Description { get; private set; }
@@ -19,15 +23,47 @@ namespace Hitasp.HitCommon.Contents
 
         public bool IsPublished { get; private set; }
 
-
-        protected void SetTitle([NotNull] string title)
+        
+        protected void SetSpace(Guid? spaceId)
         {
-            if (Title == title)
+            if (spaceId == Guid.Empty || !spaceId.HasValue)
+            {
+                SpaceId = null;
+            }
+
+            if (SpaceId == spaceId)
+            {
+                return;
+            }
+
+            SpaceId = spaceId;
+        }
+        
+        protected void SetName(string name)
+        {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+
+            if (Name == name)
             {
                 return;
             }
             
+            if (name.Length >= ContentConsts.MaxTitleLength)
+            {
+                throw new ArgumentException($"Name can not be longer than {ContentConsts.MaxNameLength}");
+            }
+
+            Name = name;
+        }
+
+        protected void SetTitle([NotNull] string title)
+        {
             Check.NotNullOrWhiteSpace(title, nameof(title));
+
+            if (Title == title)
+            {
+                return;
+            }
 
             if (title.Length >= ContentConsts.MaxTitleLength)
             {

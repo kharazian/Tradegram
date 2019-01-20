@@ -7,6 +7,8 @@ namespace Hitasp.HitCommon.Assets
 {
     public abstract class Asset : AuditedAggregateRoot<Guid>
     {
+        public Guid? SpaceId { get; private set; }
+        
         public string Url { get; private set; }
 
         public string FileName { get; private set; }
@@ -17,6 +19,21 @@ namespace Hitasp.HitCommon.Assets
 
         public string UniqueName { get; private set; }
 
+        
+        protected void SetSpace(Guid? spaceId)
+        {
+            if (spaceId == Guid.Empty || !spaceId.HasValue)
+            {
+                SpaceId = null;
+            }
+
+            if (SpaceId == spaceId)
+            {
+                return;
+            }
+
+            SpaceId = spaceId;
+        }
 
         protected void SetFileName([NotNull] string name)
         {
@@ -27,9 +44,9 @@ namespace Hitasp.HitCommon.Assets
             
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
-            if (name.Length >= AssetConsts.MaxNameLength)
+            if (name.Length >= AssetConsts.MaxFileNameLength)
             {
-                throw new ArgumentException($"Name can not be longer than {AssetConsts.MaxNameLength}");
+                throw new ArgumentException($"Name can not be longer than {AssetConsts.MaxFileNameLength}");
             }
 
             FileName = name;
@@ -44,9 +61,9 @@ namespace Hitasp.HitCommon.Assets
             
             Check.NotNullOrWhiteSpace(contentType, nameof(contentType));
 
-            if (contentType.Length >= AssetConsts.MaxContentTypeLength)
+            if (contentType.Length >= AssetConsts.MaxMimeTypeLength)
             {
-                throw new ArgumentException($"Content type can not be longer than {AssetConsts.MaxContentTypeLength}");
+                throw new ArgumentException($"Content type can not be longer than {AssetConsts.MaxMimeTypeLength}");
             }
 
             MimeType = contentType;
@@ -63,7 +80,7 @@ namespace Hitasp.HitCommon.Assets
             
             if (url.Length >= AssetConsts.MaxUrlLength)
             {
-                throw new ArgumentException($"Name can not be longer than {AssetConsts.MaxUrlLength}");
+                throw new ArgumentException($"Url can not be longer than {AssetConsts.MaxUrlLength}");
             }
 
             Url = url;

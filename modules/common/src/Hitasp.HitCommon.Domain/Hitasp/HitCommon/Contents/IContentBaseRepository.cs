@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
@@ -9,5 +10,10 @@ namespace Hitasp.HitCommon.Contents
         where TContent : Content
     {
         Task<TContent> FindByTitleAsync(string title, CancellationToken cancellationToken = default);
+
+        Task<List<TContent>> GetListAsync(Guid spaceId, bool includeDetails = false,
+            CancellationToken cancellationToken = default);
+
+        List<TContent> GetList(Guid spaceId, bool includeDetails = false);
     }
 }

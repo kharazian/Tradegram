@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Hitasp.HitCommon.Assets;
@@ -22,6 +24,21 @@ namespace Hitasp.HitCommon.EntityFrameworkCore
         {
             return await DbSet.FirstOrDefaultAsync(x => x.UniqueName == uniqueFileName,
                 GetCancellationToken(cancellationToken));
+        }
+        
+        public virtual List<TAsset> GetList(Guid spaceId, bool includeDetails = false)
+        {
+            return includeDetails
+                ? WithDetails().Where(x => x.SpaceId == spaceId).ToList()
+                : DbSet.ToList();
+        }
+
+        public virtual async Task<List<TAsset>> GetListAsync(Guid spaceId, bool includeDetails = false, CancellationToken cancellationToken = default)
+        {
+            return includeDetails
+                ? await WithDetails().Where(x => x.SpaceId == spaceId)
+                    .ToListAsync(GetCancellationToken(cancellationToken))
+                : await DbSet.ToListAsync(GetCancellationToken(cancellationToken));
         }
     }
 }
