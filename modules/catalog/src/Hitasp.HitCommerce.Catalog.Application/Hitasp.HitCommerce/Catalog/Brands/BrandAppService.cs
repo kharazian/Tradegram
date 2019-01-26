@@ -2,13 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Catalog.Brands.Dtos;
 using Hitasp.HitCommerce.Catalog.Dtos;
-using Hitasp.HitCommon.BinaryObjects;
-using Hitasp.HitCommon.Seo;
 using Volo.Abp.Application.Services;
 
 namespace Hitasp.HitCommerce.Catalog.Brands
 {
-    public class BrandAppService : AsyncCrudAppService<Brand, BrandDto, Guid,
+    public class BrandAppService : AsyncCrudAppService<Manufacturer, BrandDto, Guid,
         BrandGetListInput, BrandCreateDto, BrandUpdateDto>, IBrandAppService
     {
         private const string BrandEntityTypeId = "Brand";

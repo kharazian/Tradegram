@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Dtos;
 using Hitasp.HitCommerce.Catalog.Dtos;
-using Hitasp.HitCommon.BinaryObjects;
-using Hitasp.HitCommon.Seo;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;

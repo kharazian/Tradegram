@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Hitasp.HitCommerce.Catalog.Brands;
 using Hitasp.HitCommerce.Catalog.Brands.Dtos;
-using Hitasp.HitCommerce.Catalog.Categories;
+using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Dtos;
 using Hitasp.HitCommerce.Catalog.Dtos;
-using Hitasp.HitCommon.BinaryObjects;
 
 namespace Hitasp.HitCommerce.Catalog
 {
@@ -14,11 +12,11 @@ namespace Hitasp.HitCommerce.Catalog
         {
             #region Brands
 
-            CreateMap<Brand, BrandDto>();
+            CreateMap<Manufacturer, BrandDto>();
 
-            CreateMap<BrandCreateDto, Brand>()
+            CreateMap<BrandCreateDto, Manufacturer>()
                 .ConstructUsing(x =>
-                    new Brand(x.Name, x.Slug, x.Description, x.PictureId, x.BrandTemplateId))
+                    new Manufacturer(x.Name, x.Slug, x.Description, x.PictureId, x.BrandTemplateId))
                 .BeforeMap((src, dest) =>
                 {
                     dest.SetMetaData(src.MetaTitle, src.MetaKeywords, src.MetaDescription);
@@ -26,7 +24,7 @@ namespace Hitasp.HitCommerce.Catalog
                     dest.SetDisplayOrder(src.DisplayOrder);
                 });
 
-            CreateMap<BrandUpdateDto, Brand>()
+            CreateMap<BrandUpdateDto, Manufacturer>()
                 .BeforeMap((src, dest) =>
                 {
                     dest.SetName(src.Name);
@@ -84,7 +82,7 @@ namespace Hitasp.HitCommerce.Catalog
                     dest.SetPicture(src.PictureId);
                     dest.SetDescription(src.Description);
                     dest.SetDisplayOrder(src.DisplayOrder);
-                    dest.SetTemplate(src.CategoryTemplateId);
+                    dest.SetCategoryTemplate(src.CategoryTemplateId);
                     dest.SetAsMenuItem(src.IncludeInTopMenu);
                     dest.SetAsHomePageItem(src.ShowOnHomePage);
                     

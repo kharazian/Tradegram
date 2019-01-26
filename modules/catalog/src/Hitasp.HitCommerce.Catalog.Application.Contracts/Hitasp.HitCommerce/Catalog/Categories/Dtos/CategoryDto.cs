@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Catalog.Categories.Dtos
