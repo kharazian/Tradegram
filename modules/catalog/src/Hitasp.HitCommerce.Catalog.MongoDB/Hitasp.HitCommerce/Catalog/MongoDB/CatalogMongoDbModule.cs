@@ -16,8 +16,9 @@ using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
 using Hitasp.HitCommerce.Catalog.Tagging;
+using Hitasp.HitCommerce.Catalog.Tagging.Repositories;
 using Hitasp.HitCommerce.Catalog.Templates;
-using Hitasp.HitCommon.MongoDB;
+using Hitasp.HitCommerce.Catalog.Templates.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
@@ -26,7 +27,6 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 {
     [DependsOn(
         typeof(CatalogDomainModule),
-        typeof(HitCommonMongoDbModule),
         typeof(AbpMongoDbModule)
     )]
     public class CatalogMongoDbModule : AbpModule
@@ -42,6 +42,9 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
             context.Services.AddMongoDbContext<CatalogMongoDbContext>(options =>
             {
+                options.AddRepository<Template, MongoTemplateRepository>();
+                options.AddRepository<Tag, MongoTagRepository>();
+                
                 options.AddRepository<CatalogAttribute, MongoCatalogAttributeRepository>();
                 options.AddRepository<PredefinedAttributeValue, MongoPredefinedAttributeValueRepository>();
                 options.AddRepository<SpecificationAttribute, MongoSpecificationAttributeRepository>();
@@ -81,6 +84,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 options.AddRepository<ProductWarehouseInventory, MongoProductWarehouseInventoryRepository>();
                 options.AddRepository<RelatedProduct, MongoRelatedProductRepository>();
                 options.AddRepository<StockQuantityHistory, MongoStockQuantityHistoryRepository>();
+                options.AddRepository<BackInStockSubscription, MongoBackInStockSubscriptionRepository>();
             });
         }
     }

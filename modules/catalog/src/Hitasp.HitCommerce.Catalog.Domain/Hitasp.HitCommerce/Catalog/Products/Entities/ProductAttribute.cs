@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Hitasp.HitCommon.Contents;
+using Hitasp.HitCommerce.Catalog.Attributes;
 using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities

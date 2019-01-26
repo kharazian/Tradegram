@@ -54,6 +54,7 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
         public DbSet<RelatedProduct> RelatedProducts { get; set; }
+        public DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Template> Templates { get; set; }
 

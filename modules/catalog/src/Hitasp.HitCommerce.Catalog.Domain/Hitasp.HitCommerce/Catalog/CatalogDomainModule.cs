@@ -1,5 +1,4 @@
 ﻿using Hitasp.HitCommerce.Catalog.Localization;
-using Hitasp.HitCommon;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
@@ -8,8 +7,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace Hitasp.HitCommerce.Catalog
 {
     [DependsOn(
-        typeof(CatalogDomainSharedModule),
-        typeof(HitCommonDomainModule)
+        typeof(CatalogDomainSharedModule)
         )]
     public class CatalogDomainModule : AbpModule
     {

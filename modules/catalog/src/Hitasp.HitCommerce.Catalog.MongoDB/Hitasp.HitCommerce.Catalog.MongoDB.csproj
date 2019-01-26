@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Hitasp.HitCommerce.Catalog.Domain\Hitasp.HitCommerce.Catalog.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.MongoDB\Volo.Abp.MongoDB.csproj" />
-    <ProjectReference Include="..\..\..\..\modules\common\src\Hitasp.HitCommon.MongoDB\Hitasp.HitCommon.MongoDB.csproj" />
   </ItemGroup>
 
 </Project>

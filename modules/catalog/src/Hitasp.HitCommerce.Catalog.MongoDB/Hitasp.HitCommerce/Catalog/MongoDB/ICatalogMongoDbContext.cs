@@ -73,6 +73,8 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         IMongoCollection<ProductWarehouseInventory> ProductWarehouseInventories { get; }
 
         IMongoCollection<RelatedProduct> RelatedProducts { get; }
+        
+        IMongoCollection<BackInStockSubscription> BackInStockSubscriptions { get; }
 
         IMongoCollection<Tag> Tags { get; }
         

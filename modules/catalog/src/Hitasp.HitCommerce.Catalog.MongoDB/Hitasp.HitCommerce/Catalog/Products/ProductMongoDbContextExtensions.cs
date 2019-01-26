@@ -20,6 +20,11 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
             optionsAction?.Invoke(options);
             
+            builder.Entity<BackInStockSubscription>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "BackInStockSubscriptions";
+            });
+            
             builder.Entity<Product>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Products";

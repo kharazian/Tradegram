@@ -52,6 +52,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         public IMongoCollection<ProductTag> ProductTags => Collection<ProductTag>();
         public IMongoCollection<ProductWarehouseInventory> ProductWarehouseInventories => Collection<ProductWarehouseInventory>();
         public IMongoCollection<RelatedProduct> RelatedProducts => Collection<RelatedProduct>();
+        public IMongoCollection<BackInStockSubscription> BackInStockSubscriptions => Collection<BackInStockSubscription>();
         public IMongoCollection<Tag> Tags => Collection<Tag>();
         public IMongoCollection<Template> Templates => Collection<Template>();
 

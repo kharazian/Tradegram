@@ -12,7 +12,10 @@ using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
-using Hitasp.HitCommon.EntityFrameworkCore;
+using Hitasp.HitCommerce.Catalog.Tagging;
+using Hitasp.HitCommerce.Catalog.Tagging.Repositories;
+using Hitasp.HitCommerce.Catalog.Templates;
+using Hitasp.HitCommerce.Catalog.Templates.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
@@ -21,7 +24,6 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 {
     [DependsOn(
         typeof(CatalogDomainModule),
-        typeof(HitCommonEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreModule)
     )]
     public class CatalogEntityFrameworkCoreModule : AbpModule
@@ -30,6 +32,9 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<CatalogDbContext>(options =>
             {
+                options.AddRepository<Template, EfCoreTemplateRepository>();
+                options.AddRepository<Tag, EfCoreTagRepository>();
+                
                 options.AddRepository<CatalogAttribute, EfCoreCatalogAttributeRepository>();
                 options.AddRepository<PredefinedAttributeValue, EfCorePredefinedAttributeValueRepository>();
                 options.AddRepository<SpecificationAttribute, EfCoreSpecificationAttributeRepository>();
@@ -48,6 +53,7 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
                 options.AddRepository<CategoryDiscount, EfCoreCategoryDiscountRepository>();
 
                 options.AddRepository<Product, EfCoreProductRepository>();
+                options.AddRepository<BackInStockSubscription, EfCoreBackInStockSubscriptionRepository>();
                 options.AddRepository<CrossSellProduct, EfCoreCrossSellProductRepository>();
                 options.AddRepository<ProductAttributeCombination, EfCoreProductAttributeCombinationRepository>();
                 options.AddRepository<ProductAttribute, EfCoreProductAttributeRepository>();

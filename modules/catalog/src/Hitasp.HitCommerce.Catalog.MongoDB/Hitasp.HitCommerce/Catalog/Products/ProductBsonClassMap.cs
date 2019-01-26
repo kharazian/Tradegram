@@ -44,6 +44,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 BsonClassMap.RegisterClassMap<ProductTag>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductWarehouseInventory>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<RelatedProduct>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<BackInStockSubscription>(map => { map.AutoMap(); });
             });
         }
     }

@@ -7,6 +7,7 @@ using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Templates;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Hitasp.HitCommerce.Catalog.Products
 {
@@ -34,6 +35,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.HasIndex(x => x.SpaceId);
                 b.HasIndex(x => x.ProductType);
+                b.ConfigureFullAudited();
 
                 b.Property(x => x.ProductType).IsRequired().HasMaxLength(10).HasColumnName(nameof(Product.ProductType));
                 b.Property(x => x.SpaceId).IsRequired(false).HasColumnName(nameof(Product.SpaceId));
@@ -434,6 +436,19 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.Property(x => x.RelatedProductId).HasColumnName(nameof(RelatedProduct.RelatedProductId));
 
                 b.HasKey(x => new {x.ProductId, x.RelatedProductId});
+            });
+            
+            builder.Entity<BackInStockSubscription>(b =>
+            {
+                b.ToTable(options.TablePrefix + "BackInStockSubscriptions", options.Schema);
+
+                b.ConfigureCreationAudited();
+                b.HasKey(x => x.Id);
+                b.HasIndex(x => x.ProductId);
+                
+                b.Property(x => x.ProductId).HasColumnName(nameof(BackInStockSubscription.ProductId));
+                b.Property(x => x.CustomerId).HasColumnName(nameof(BackInStockSubscription.CustomerId));
+                b.Property(x => x.SpaceId).HasColumnName(nameof(BackInStockSubscription.SpaceId));
             });
         }
     }
