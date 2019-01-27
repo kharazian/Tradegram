@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
@@ -17,16 +15,6 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Repositories
         public EfCoreManufacturerRepository(IDbContextProvider<ICatalogDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
-        }
-
-        public async Task<List<Manufacturer>> GetListAsync(Guid spaceId, bool includeDetails = false,
-            CancellationToken cancellationToken = default)
-        {
-            return includeDetails
-                ? await WithDetails().Where(x => x.SpaceId == spaceId)
-                    .ToListAsync(GetCancellationToken(cancellationToken))
-                : await DbSet.Where(x => x.SpaceId == spaceId)
-                    .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
         public async Task<Manufacturer> FindByNameAsync(string name,

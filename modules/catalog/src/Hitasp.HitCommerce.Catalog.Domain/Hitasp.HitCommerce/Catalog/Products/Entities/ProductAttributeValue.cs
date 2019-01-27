@@ -8,11 +8,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class ProductAttributeValue : Entity<Guid>
     {
-        public virtual Guid ProductAttributeId { get; protected set; }
+        public virtual Guid ProductProductAttributeId { get; protected set; }
 
         public virtual Guid? PictureId { get; set; }
 
-        public virtual string Name { get; protected set; }
+        public virtual string Name { get; set; }
 
         public virtual string ColorSquaresRgb { get; set; }
 
@@ -33,34 +33,22 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         public virtual bool IsPreSelected { get; set; }
 
         public virtual int DisplayOrder { get; set; }
+        
+        public virtual AttributeValueType AttributeValueType { get; set; }
+        
+        public virtual ProductProductAttribute ProductProductAttribute { get; set; }
 
+        
         protected ProductAttributeValue()
         {
         }
 
-        public ProductAttributeValue(Guid id, Guid productAttributeId, [NotNull] string name)
+        public ProductAttributeValue(Guid id, Guid productProductAttributeId, [NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             Id = id;
-            ProductAttributeId = productAttributeId;
-            Name = name;
-        }
-
-        public void SetName([NotNull] string name)
-        {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            if (name.Length >= AttributeConsts.MaxNameLength)
-            {
-                throw new ArgumentException($"Name can not be longer than {AttributeConsts.MaxNameLength}");
-            }
-
-            if (Name == name)
-            {
-                return;
-            }
-
+            ProductProductAttributeId = productProductAttributeId;
             Name = name;
         }
     }

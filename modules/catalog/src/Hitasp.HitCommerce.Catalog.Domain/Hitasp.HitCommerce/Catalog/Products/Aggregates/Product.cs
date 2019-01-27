@@ -11,8 +11,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
     {
         public string ProductType { get; protected set; }
 
-        public Guid? SpaceId { get; protected set; }
-
         public Guid ProductTemplateId { get; protected set; }
 
         public Guid ProductCodeId { get; protected set; }
@@ -53,11 +51,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public ICollection<ProductPicture> ProductPictures { get; protected set; }
 
-        public ICollection<ProductTag> ProductTags { get; protected set; }
+        public ICollection<ProductProductTag> ProductTags { get; protected set; }
 
         public ICollection<ProductDiscount> ProductDiscounts { get; protected set; }
 
-        public ICollection<ProductAttribute> ProductAttributes { get; protected set; }
+        public ICollection<ProductProductAttribute> ProductAttributes { get; protected set; }
         
         public ICollection<CrossSellProduct> CrossSellProducts { get; protected set; }
         
@@ -67,21 +65,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public ICollection<ProductAttributeCombination> AttributeCombinations { get; protected set; }
 
-
-        internal void SetSpace(Guid? spaceId)
-        {
-            if (spaceId == Guid.Empty || !spaceId.HasValue)
-            {
-                SpaceId = null;
-            }
-
-            if (SpaceId == spaceId)
-            {
-                return;
-            }
-
-            SpaceId = spaceId;
-        }
 
         internal void SetProductTemplate(Guid productTemplateId)
         {
@@ -203,14 +186,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void AddTag(Guid tagId)
         {
-            ProductTags.Add(new ProductTag(Id, tagId));
+            ProductTags.Add(new ProductProductTag(Id, tagId));
         }
 
         public void RemoveTag(Guid tagId)
         {
-            if (ProductTags.Any(x => x.TagId == tagId))
+            if (ProductTags.Any(x => x.ProductTagId == tagId))
             {
-                ProductTags.RemoveAll(x => x.TagId == tagId);
+                ProductTags.RemoveAll(x => x.ProductTagId == tagId);
             }
         }
 

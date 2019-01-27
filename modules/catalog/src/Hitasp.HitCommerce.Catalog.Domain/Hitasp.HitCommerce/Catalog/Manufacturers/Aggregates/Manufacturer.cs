@@ -9,8 +9,6 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
 {
     public class Manufacturer : FullAuditedAggregateRoot<Guid>
     {
-        public virtual Guid? SpaceId { get; protected set; }
-        
         public virtual Guid ManufacturerTemplateId { get; protected set; }
 
         public virtual Guid ManufacturerInfoId { get; protected set; }
@@ -45,22 +43,6 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
         }
         
                 
-        public void SetSpaceId(Guid? spaceId)
-        {
-            if (spaceId == Guid.NewGuid() || spaceId == null)
-            {
-                SpaceId = null;
-                return;
-            }
-
-            if (SpaceId == spaceId)
-            {
-                return;
-            }
-
-            SpaceId = spaceId;
-        }
-        
         internal void SetManufacturerInfo(ManufacturerInfo categoryInfo)
         {
             ManufacturerInfoId = categoryInfo.Id;

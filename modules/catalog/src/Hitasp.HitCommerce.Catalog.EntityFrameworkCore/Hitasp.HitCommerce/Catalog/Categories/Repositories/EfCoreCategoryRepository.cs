@@ -24,16 +24,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
             return base.WithDetails().Where(x => x.ParentCategoryId == null);
         }
 
-        public async Task<List<Category>> GetListAsync(Guid spaceId, bool includeDetails = false,
-            CancellationToken cancellationToken = default)
-        {
-            return includeDetails
-                ? await WithDetails().Where(x => x.SpaceId == spaceId)
-                    .ToListAsync(GetCancellationToken(cancellationToken))
-                : await DbSet.Where(x => x.SpaceId == spaceId)
-                    .ToListAsync(GetCancellationToken(cancellationToken));
-        }
-
         public async Task<List<Category>> GetListByParentIdAsync(Guid parentId,
             bool includeDetails = false, CancellationToken cancellationToken = default)
         {

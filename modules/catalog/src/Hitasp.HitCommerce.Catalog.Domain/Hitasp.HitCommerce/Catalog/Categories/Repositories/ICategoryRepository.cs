@@ -10,9 +10,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
 {
     public interface ICategoryRepository : IRepository<Category, Guid>
     {
-        Task<List<Category>> GetListAsync(Guid spaceId, bool includeDetails = false,
-            CancellationToken cancellationToken = default);
-
         Task<List<Category>> GetListByParentIdAsync(Guid parentId, bool includeDetails = false,
             CancellationToken cancellationToken = default);
 

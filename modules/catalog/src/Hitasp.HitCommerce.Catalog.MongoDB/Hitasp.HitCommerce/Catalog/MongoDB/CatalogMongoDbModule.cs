@@ -1,5 +1,9 @@
 ﻿using Hitasp.HitCommerce.Catalog.Attributes;
+using Hitasp.HitCommerce.Catalog.Attributes.Entities;
 using Hitasp.HitCommerce.Catalog.Attributes.Repositories;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Repositories;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
@@ -15,9 +19,15 @@ using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Repositories;
 using Hitasp.HitCommerce.Catalog.Tagging;
+using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
 using Hitasp.HitCommerce.Catalog.Tagging.Repositories;
 using Hitasp.HitCommerce.Catalog.Templates;
+using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
 using Hitasp.HitCommerce.Catalog.Templates.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
@@ -33,58 +43,71 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            AttributeBsonClassMap.Configure();
-            TemplateBsonClassMap.Configure();
-            TagBsonClassMap.Configure();
-            CategoryBsonClassMap.Configure();
-            ManufacturerBsonClassMap.Configure();
-            ProductBsonClassMap.Configure();
+            AttributesBsonClassMap.Configure();
+            BackInStockSubscriptionsBsonClassMap.Configure();
+            CategoriesBsonClassMap.Configure();
+            ManufacturersBsonClassMap.Configure();
+            ProductsBsonClassMap.Configure();
+            SpecificationAttributesBsonClassMap.Configure();
+            TaggingBsonClassMap.Configure();
+            TemplatesBsonClassMap.Configure();
 
             context.Services.AddMongoDbContext<CatalogMongoDbContext>(options =>
             {
-                options.AddRepository<Template, MongoTemplateRepository>();
-                options.AddRepository<Tag, MongoTagRepository>();
-                
-                options.AddRepository<CatalogAttribute, MongoCatalogAttributeRepository>();
+                //Attributes
+                options.AddRepository<ProductAttribute, MongoProductAttributeRepository>();
                 options.AddRepository<PredefinedAttributeValue, MongoPredefinedAttributeValueRepository>();
-                options.AddRepository<SpecificationAttribute, MongoSpecificationAttributeRepository>();
-                options.AddRepository<SpecificationAttributeOption, MongoSpecificationAttributeOptionRepository>();
-                
+
+                //BackInStockSubscriptions
+                options.AddRepository<BackInStockSubscription, MongoBackInStockSubscriptionRepository>();
+
+                //Categories
+                options.AddRepository<Category, MongoCategoryRepository>();
+                options.AddRepository<CategoryInfo, MongoCategoryInfoRepository>();
+                options.AddRepository<CategoryMeta, MongoCategoryMetaRepository>();
+                options.AddRepository<CategoryPublishingInfo, MongoCategoryPublishingInfoRepository>();
+                options.AddRepository<CategoryDiscount, MongoCategoryDiscountRepository>();
+
+                //Manufacturers
                 options.AddRepository<Manufacturer, MongoManufacturerRepository>();
                 options.AddRepository<ManufacturerInfo, MongoManufacturerInfoRepository>();
                 options.AddRepository<ManufacturerMeta, MongoManufacturerMetaRepository>();
                 options.AddRepository<ManufacturerPublishingInfo, MongoManufacturerPublishingInfoRepository>();
                 options.AddRepository<ManufacturerDiscount, MongoManufacturerDiscountRepository>();
 
-                options.AddRepository<Category, MongoCategoryRepository>();
-                options.AddRepository<CategoryInfo, MongoCategoryInfoRepository>();
-                options.AddRepository<CategoryMeta, MongoCategoryMetaRepository>();
-                options.AddRepository<CategoryPublishingInfo, MongoCategoryPublishingInfoRepository>();
-                options.AddRepository<CategoryDiscount, MongoCategoryDiscountRepository>();
-                
+                //Products
                 options.AddRepository<Product, MongoProductRepository>();
-                options.AddRepository<CrossSellProduct, MongoCrossSellProductRepository>();
                 options.AddRepository<ProductAttributeCombination, MongoProductAttributeCombinationRepository>();
-                options.AddRepository<ProductAttribute, MongoProductAttributeRepository>();
                 options.AddRepository<ProductAttributeValue, MongoProductAttributeValueRepository>();
-                options.AddRepository<ProductCategory, MongoProductCategoryRepository>();
                 options.AddRepository<ProductCode, MongoProductCodeRepository>();
-                options.AddRepository<ProductDiscount, MongoProductDiscountRepository>();
                 options.AddRepository<ProductInfo, MongoProductInfoRepository>();
-                options.AddRepository<ProductManufacturer, MongoProductManufacturerRepository>();
                 options.AddRepository<ProductMeta, MongoProductMetaRepository>();
                 options.AddRepository<ProductOrderingInfo, MongoProductOrderingInfoRepository>();
-                options.AddRepository<ProductPicture, MongoProductPictureRepository>();
                 options.AddRepository<ProductPriceInfo, MongoProductPriceInfoRepository>();
+                options.AddRepository<ProductProductAttribute, MongoProductProductAttributeRepository>();
                 options.AddRepository<ProductPublishingInfo, MongoProductPublishingInfoRepository>();
                 options.AddRepository<ProductRate, MongoProductRateRepository>();
                 options.AddRepository<ProductShippingInfo, MongoProductShippingInfoRepository>();
+                options.AddRepository<StockQuantityHistory, MongoStockQuantityHistoryRepository>();
+                options.AddRepository<CrossSellProduct, MongoCrossSellProductRepository>();
+                options.AddRepository<ProductCategory, MongoProductCategoryRepository>();
+                options.AddRepository<ProductDiscount, MongoProductDiscountRepository>();
+                options.AddRepository<ProductManufacturer, MongoProductManufacturerRepository>();
+                options.AddRepository<ProductPicture, MongoProductPictureRepository>();
+                options.AddRepository<ProductProductTag, MongoProductProductTagRepository>();
                 options.AddRepository<ProductSpecificationAttribute, MongoProductSpecificationAttributeRepository>();
-                options.AddRepository<ProductTag, MongoProductTagRepository>();
                 options.AddRepository<ProductWarehouseInventory, MongoProductWarehouseInventoryRepository>();
                 options.AddRepository<RelatedProduct, MongoRelatedProductRepository>();
-                options.AddRepository<StockQuantityHistory, MongoStockQuantityHistoryRepository>();
-                options.AddRepository<BackInStockSubscription, MongoBackInStockSubscriptionRepository>();
+
+                //SpecificationAttributes
+                options.AddRepository<SpecificationAttribute, MongoSpecificationAttributeRepository>();
+                options.AddRepository<SpecificationAttributeOption, MongoSpecificationAttributeOptionRepository>();
+
+                //Tagging
+                options.AddRepository<ProductTag, MongoProductTagRepository>();
+
+                //Templates
+                options.AddRepository<Template, MongoTemplateRepository>();
             });
         }
     }

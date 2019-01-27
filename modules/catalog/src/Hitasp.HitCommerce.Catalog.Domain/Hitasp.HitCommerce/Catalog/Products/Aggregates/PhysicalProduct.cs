@@ -19,13 +19,13 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public virtual bool IsAllowBackInStockSubscriptions { get; protected set; }
 
-        public virtual LowStockActivity LowStockActivity { get; protected set; }
-
-        public virtual ManageInventoryMethod ManageInventoryMethod { get; protected set; }
-
         public virtual int MinStockQuantity { get; protected set; }
 
         public virtual int NotifyAdminForQuantityBelow { get; protected set; }
+        
+        public virtual LowStockActivity LowStockActivity { get; protected set; }
+
+        public virtual ManageInventoryMethod ManageInventoryMethod { get; protected set; }
 
         public virtual ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
 
@@ -36,8 +36,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductManufacturers = new HashSet<ProductManufacturer>();
             ProductPictures = new HashSet<ProductPicture>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
-            ProductTags = new HashSet<ProductTag>();
-            ProductAttributes = new HashSet<ProductAttribute>();
+            ProductTags = new HashSet<ProductProductTag>();
+            ProductAttributes = new HashSet<ProductProductAttribute>();
             ProductDiscounts = new HashSet<ProductDiscount>();
             AttributeCombinations = new HashSet<ProductAttributeCombination>();
             CrossSellProducts = new HashSet<CrossSellProduct>();
@@ -54,8 +54,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductManufacturers = new HashSet<ProductManufacturer>();
             ProductPictures = new HashSet<ProductPicture>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
-            ProductTags = new HashSet<ProductTag>();
-            ProductAttributes = new HashSet<ProductAttribute>();
+            ProductTags = new HashSet<ProductProductTag>();
+            ProductAttributes = new HashSet<ProductProductAttribute>();
             ProductDiscounts = new HashSet<ProductDiscount>();
             AttributeCombinations = new HashSet<ProductAttributeCombination>();
             CrossSellProducts = new HashSet<CrossSellProduct>();
@@ -74,7 +74,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
             if (gtin.Length > ProductConsts.MaxGtinLength)
             {
-                throw new ArgumentException($"Gtin can not be longer than {ProductConsts.MaxGtinLength}");
+                throw new ArgumentException($"GTIN can not be longer than {ProductConsts.MaxGtinLength}");
             }
 
             Gtin = gtin;
@@ -90,12 +90,12 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
             var removed = Math.Min(quantityDesired, StockQuantity);
 
-            SetStockCountInternal(StockQuantity - removed);
+            SetStockQuantityInternal(StockQuantity - removed);
         }
 
         public void AddStock(int quantity = 0)
         {
-            SetStockCountInternal(StockQuantity - quantity);
+            SetStockQuantityInternal(StockQuantity + quantity);
         }
 
         public void AddProductWarehouse(Guid warehouseId)
@@ -111,14 +111,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             }
         }
 
-        private void SetStockCountInternal(int stockCount, bool triggerEvent = true)
+        private void SetStockQuantityInternal(int quantity, bool triggerEvent = true)
         {
-            if (stockCount < 0.0f)
+            if (quantity < 0.0f)
             {
-                throw new ArgumentException($"{nameof(stockCount)} can not be less than 0!");
+                throw new ArgumentException($"{nameof(quantity)} can not be less than 0!");
             }
 
-            if (StockQuantity == stockCount)
+            if (StockQuantity == quantity)
             {
                 return;
             }
@@ -126,10 +126,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             //sample distributed event
             if (triggerEvent)
             {
-                AddDistributedEvent(new ProductStockQuantityChangedEto(StockQuantity, stockCount));
+                AddDistributedEvent(new ProductStockQuantityChangedEto(StockQuantity, quantity));
             }
 
-            StockQuantity = stockCount;
+            StockQuantity = quantity;
         }
 
         public void SetAsDisplayStockAvailability(bool isDisplayStockAvailability = true)

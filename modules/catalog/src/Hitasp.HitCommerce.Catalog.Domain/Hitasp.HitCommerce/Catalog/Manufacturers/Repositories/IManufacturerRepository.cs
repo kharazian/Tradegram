@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
@@ -9,9 +8,6 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Repositories
 {
     public interface IManufacturerRepository : IRepository<Manufacturer, Guid>
     {
-        Task<List<Manufacturer>> GetListAsync(Guid spaceId, bool includeDetails = false,
-            CancellationToken cancellationToken = default);
-
         Task<Manufacturer> FindByNameAsync(string name,
             CancellationToken cancellationToken = default);
 

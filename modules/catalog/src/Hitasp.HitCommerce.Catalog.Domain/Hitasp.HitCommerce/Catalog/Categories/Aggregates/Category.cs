@@ -9,8 +9,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 {
     public class Category : FullAuditedAggregateRoot<Guid>
     {
-        public virtual Guid? SpaceId { get; protected set; }
-        
         public virtual Guid CategoryTemplateId { get; protected set; }
 
         public virtual Guid CategoryInfoId { get; protected set; }
@@ -45,36 +43,20 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 
             CategoryDiscounts = new HashSet<CategoryDiscount>();
         }
-        
-        public void SetSpaceId(Guid? spaceId)
-        {
-            if (spaceId == Guid.NewGuid() || spaceId == null)
-            {
-                SpaceId = null;
-                return;
-            }
 
-            if (SpaceId == spaceId)
-            {
-                return;
-            }
-
-            SpaceId = spaceId;
-        }
-
-        public void SetCategoryInfo(CategoryInfo categoryInfo)
+        internal void SetCategoryInfo(CategoryInfo categoryInfo)
         {
             CategoryInfoId = categoryInfo.Id;
             CategoryInfo = categoryInfo;
         }
         
-        public void SetCategoryMeta(CategoryMeta categoryMeta)
+        internal void SetCategoryMeta(CategoryMeta categoryMeta)
         {
             CategoryMetaId = categoryMeta.Id;
             CategoryMeta = categoryMeta;
         }
         
-        public void SetCategoryPublishingInfo(CategoryPublishingInfo categoryPublishingInfo)
+        internal void SetCategoryPublishingInfo(CategoryPublishingInfo categoryPublishingInfo)
         {
             CategoryPublishingInfoId = categoryPublishingInfo.Id;
             CategoryPublishingInfo = categoryPublishingInfo;

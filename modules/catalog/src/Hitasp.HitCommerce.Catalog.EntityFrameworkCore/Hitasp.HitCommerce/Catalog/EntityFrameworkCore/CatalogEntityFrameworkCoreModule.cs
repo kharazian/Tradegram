@@ -1,5 +1,7 @@
-﻿using Hitasp.HitCommerce.Catalog.Attributes;
+﻿using Hitasp.HitCommerce.Catalog.Attributes.Entities;
 using Hitasp.HitCommerce.Catalog.Attributes.Repositories;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Repositories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
@@ -12,9 +14,12 @@ using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
-using Hitasp.HitCommerce.Catalog.Tagging;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Repositories;
+using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
 using Hitasp.HitCommerce.Catalog.Tagging.Repositories;
-using Hitasp.HitCommerce.Catalog.Templates;
+using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
 using Hitasp.HitCommerce.Catalog.Templates.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -32,49 +37,60 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<CatalogDbContext>(options =>
             {
-                options.AddRepository<Template, EfCoreTemplateRepository>();
-                options.AddRepository<Tag, EfCoreTagRepository>();
-                
-                options.AddRepository<CatalogAttribute, EfCoreCatalogAttributeRepository>();
+                //Attributes
+                options.AddRepository<ProductAttribute, EfCoreProductAttributeRepository>();
                 options.AddRepository<PredefinedAttributeValue, EfCorePredefinedAttributeValueRepository>();
-                options.AddRepository<SpecificationAttribute, EfCoreSpecificationAttributeRepository>();
-                options.AddRepository<SpecificationAttributeOption, EfCoreSpecificationAttributeOptionRepository>();
 
-                options.AddRepository<Manufacturer, EfCoreManufacturerRepository>();
-                options.AddRepository<ManufacturerInfo, EfCoreManufacturerInfoRepository>();
-                options.AddRepository<ManufacturerMeta, EfCoreManufacturerMetaRepository>();
-                options.AddRepository<ManufacturerPublishingInfo, EfCoreManufacturerPublishingInfoRepository>();
-                options.AddRepository<ManufacturerDiscount, EfCoreManufacturerDiscountRepository>();
+                //BackInStockSubscriptions
+                options.AddRepository<BackInStockSubscription, EfCoreBackInStockSubscriptionRepository>();
 
+                //Categories
                 options.AddRepository<Category, EfCoreCategoryRepository>();
                 options.AddRepository<CategoryInfo, EfCoreCategoryInfoRepository>();
                 options.AddRepository<CategoryMeta, EfCoreCategoryMetaRepository>();
                 options.AddRepository<CategoryPublishingInfo, EfCoreCategoryPublishingInfoRepository>();
                 options.AddRepository<CategoryDiscount, EfCoreCategoryDiscountRepository>();
 
+                //Manufacturers
+                options.AddRepository<Manufacturer, EfCoreManufacturerRepository>();
+                options.AddRepository<ManufacturerInfo, EfCoreManufacturerInfoRepository>();
+                options.AddRepository<ManufacturerMeta, EfCoreManufacturerMetaRepository>();
+                options.AddRepository<ManufacturerPublishingInfo, EfCoreManufacturerPublishingInfoRepository>();
+                options.AddRepository<ManufacturerDiscount, EfCoreManufacturerDiscountRepository>();
+
+                //Products
                 options.AddRepository<Product, EfCoreProductRepository>();
-                options.AddRepository<BackInStockSubscription, EfCoreBackInStockSubscriptionRepository>();
-                options.AddRepository<CrossSellProduct, EfCoreCrossSellProductRepository>();
                 options.AddRepository<ProductAttributeCombination, EfCoreProductAttributeCombinationRepository>();
-                options.AddRepository<ProductAttribute, EfCoreProductAttributeRepository>();
                 options.AddRepository<ProductAttributeValue, EfCoreProductAttributeValueRepository>();
-                options.AddRepository<ProductCategory, EfCoreProductCategoryRepository>();
                 options.AddRepository<ProductCode, EfCoreProductCodeRepository>();
-                options.AddRepository<ProductDiscount, EfCoreProductDiscountRepository>();
                 options.AddRepository<ProductInfo, EfCoreProductInfoRepository>();
-                options.AddRepository<ProductManufacturer, EfCoreProductManufacturerRepository>();
                 options.AddRepository<ProductMeta, EfCoreProductMetaRepository>();
                 options.AddRepository<ProductOrderingInfo, EfCoreProductOrderingInfoRepository>();
-                options.AddRepository<ProductPicture, EfCoreProductPictureRepository>();
                 options.AddRepository<ProductPriceInfo, EfCoreProductPriceInfoRepository>();
+                options.AddRepository<ProductProductAttribute, EfCoreProductProductAttributeRepository>();
                 options.AddRepository<ProductPublishingInfo, EfCoreProductPublishingInfoRepository>();
                 options.AddRepository<ProductRate, EfCoreProductRateRepository>();
                 options.AddRepository<ProductShippingInfo, EfCoreProductShippingInfoRepository>();
+                options.AddRepository<StockQuantityHistory, EfCoreStockQuantityHistoryRepository>();
+                options.AddRepository<CrossSellProduct, EfCoreCrossSellProductRepository>();
+                options.AddRepository<ProductCategory, EfCoreProductCategoryRepository>();
+                options.AddRepository<ProductDiscount, EfCoreProductDiscountRepository>();
+                options.AddRepository<ProductManufacturer, EfCoreProductManufacturerRepository>();
+                options.AddRepository<ProductPicture, EfCoreProductPictureRepository>();
+                options.AddRepository<ProductProductTag, EfCoreProductProductTagRepository>();
                 options.AddRepository<ProductSpecificationAttribute, EfCoreProductSpecificationAttributeRepository>();
-                options.AddRepository<ProductTag, EfCoreProductTagRepository>();
                 options.AddRepository<ProductWarehouseInventory, EfCoreProductWarehouseInventoryRepository>();
                 options.AddRepository<RelatedProduct, EfCoreRelatedProductRepository>();
-                options.AddRepository<StockQuantityHistory, EfCoreStockQuantityHistoryRepository>();
+
+                //SpecificationAttributes
+                options.AddRepository<SpecificationAttribute, EfCoreSpecificationAttributeRepository>();
+                options.AddRepository<SpecificationAttributeOption, EfCoreSpecificationAttributeOptionRepository>();
+
+                //Tagging
+                options.AddRepository<ProductTag, EfCoreProductTagRepository>();
+
+                //Templates
+                options.AddRepository<Template, EfCoreTemplateRepository>();
             });
         }
     }

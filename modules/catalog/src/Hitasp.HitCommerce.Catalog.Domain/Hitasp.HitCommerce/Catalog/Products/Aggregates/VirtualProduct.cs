@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Hitasp.HitCommerce.Catalog.Attributes;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 
@@ -38,8 +37,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductManufacturers = new HashSet<ProductManufacturer>();
             ProductPictures = new HashSet<ProductPicture>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
-            ProductTags = new HashSet<ProductTag>();
-            ProductAttributes = new HashSet<ProductAttribute>();
+            ProductTags = new HashSet<ProductProductTag>();
+            ProductAttributes = new HashSet<ProductProductAttribute>();
             ProductDiscounts = new HashSet<ProductDiscount>();
             AttributeCombinations = new HashSet<ProductAttributeCombination>();
         }
