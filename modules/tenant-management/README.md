@@ -1,1 +1,2 @@
-# Tenant Management Module
+# abp-tenantmanagement
+Tenant management module for ABP framework.

@@ -70,7 +70,6 @@ start developing a module/template:
 
 | Module   |    Status     | Services                                 |   PR assent   |
 |:---------|:-------------:|:-----------------------------------------|:-------------:|
-| Common   | In-Developing | Abstract Services for additional modules | It's an honor |
 | Blogging | In-Developing | Create fancy blogs                       | It's an honor |
 | Docs     | In-Developing | Create technical documentation pages     | It's an honor |
 | Forums   |    Pending    | Create technical support forums          |    Future     |
@@ -80,9 +79,6 @@ start developing a module/template:
 
 * Phase 1: *(In-Progress)*
     * Deploy [modules](modules/) as package reference without dependence on each other *(In-Progress)*
-    * Deploy [demo app](demo/) 
-        * Back-End
-        * Front-End
 * Phase 2:
     * Code refactoring
     * Apply Local Events and Event Handlers
@@ -92,9 +88,8 @@ start developing a module/template:
 
 ### Contribution
 
-HitCommerce is an open source project. Will remain open-source for ever.
-So, avoid using commercial codes/libraries.
+Avoid using commercial codes/libraries. This project is nothing without your contribution.
 
 For PRs which made changes to ABP Framework and that not important for
-eCommerce scenario; please use the
+Tradegram scenario; please use the
 [ABP vNext repository](https://github.com/abpframework/abp).

@@ -15,14 +15,12 @@ $solutionPaths = (
     "modules/account",
     "modules/audit-logging",
     "modules/background-jobs",
-    "modules/common",
     "modules/docs",
     "modules/blogging",
     "modules/commerce",
     "modules/catalog",
     "modules/location",
-    "demo/efcore",
-    "demo/mongodb"
+    "modules/social"
 )
 
 # Build all solutions

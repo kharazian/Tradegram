@@ -7,13 +7,11 @@ using Hitasp.HitCommerce.Directions;
 using Hitasp.HitCommerce.UserGroups;
 using Hitasp.HitCommerce.Vendors;
 using Hitasp.HitCommerce.Widgets;
-using Hitasp.HitCommon.MongoDB;
 
 namespace Hitasp.HitCommerce.MongoDB
 {
     [DependsOn(
         typeof(HitCommerceDomainModule),
-        typeof(HitCommonMongoDbModule),
         typeof(AbpMongoDbModule)
         )]
     public class HitCommerceMongoDbModule : AbpModule

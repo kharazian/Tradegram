@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hitasp.HitCommerce.Catalog.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hitasp.HitCommerce.Catalog.Application.Tests", "test\Hitasp.HitCommerce.Catalog.Application.Tests\Hitasp.HitCommerce.Catalog.Application.Tests.csproj", "{13A9EAD6-F3A4-4357-BA4A-A7E8FEB4A264}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{92A31A97-EC09-4139-89D5-2537B3AE6C79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hitasp.HitCommerce.Catalog.DemoApp", "app\Hitasp.HitCommerce.Catalog.DemoApp\Hitasp.HitCommerce.Catalog.DemoApp.csproj", "{70511EAF-9420-4098-AB71-80DB6F8CE301}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +101,10 @@ Global
 		{13A9EAD6-F3A4-4357-BA4A-A7E8FEB4A264}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13A9EAD6-F3A4-4357-BA4A-A7E8FEB4A264}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13A9EAD6-F3A4-4357-BA4A-A7E8FEB4A264}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70511EAF-9420-4098-AB71-80DB6F8CE301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70511EAF-9420-4098-AB71-80DB6F8CE301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70511EAF-9420-4098-AB71-80DB6F8CE301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70511EAF-9420-4098-AB71-80DB6F8CE301}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +124,7 @@ Global
 		{E5906DE1-B2F5-472E-BE1B-1D96A68B834D} = {CCD2960C-23CC-4AB4-B84D-60C7AAA52F4D}
 		{AA783A34-86E4-41A5-AE21-5D9FBD98D858} = {CCD2960C-23CC-4AB4-B84D-60C7AAA52F4D}
 		{13A9EAD6-F3A4-4357-BA4A-A7E8FEB4A264} = {CCD2960C-23CC-4AB4-B84D-60C7AAA52F4D}
+		{70511EAF-9420-4098-AB71-80DB6F8CE301} = {92A31A97-EC09-4139-89D5-2537B3AE6C79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}

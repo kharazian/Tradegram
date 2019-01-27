@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Hitasp.HitSocial.Domain.Shared\Hitasp.HitSocial.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Ddd.Domain\Volo.Abp.Ddd.Domain.csproj" />
-    <ProjectReference Include="..\..\..\..\modules\common\src\Hitasp.HitCommon.Domain\Hitasp.HitCommon.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

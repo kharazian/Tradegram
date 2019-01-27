@@ -1,12 +1,11 @@
 ﻿using System;
-using Hitasp.HitCommon.Seo;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Vendors
 {
-    public class Vendor : FullAuditedAggregateRoot<Guid>, ISlugSupported
+    public class Vendor : FullAuditedAggregateRoot<Guid>
     {
         [NotNull]
         public virtual string Name { get; protected set; }

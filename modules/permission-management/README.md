@@ -1,1 +1,2 @@
-# Permission Management Module
+# abp-permissionmanagement
+Permission management module for ABP framework.

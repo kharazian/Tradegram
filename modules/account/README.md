@@ -1,1 +1,2 @@
-# Account Module
+# abp-account
+Account module for ABP framework.
