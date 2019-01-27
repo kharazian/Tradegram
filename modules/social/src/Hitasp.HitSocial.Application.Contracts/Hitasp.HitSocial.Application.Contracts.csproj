@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hitasp.HitSocial.Domain.Shared\Hitasp.HitSocial.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Ddd.Application\Volo.Abp.Ddd.Application.csproj" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Hitasp\HitSocial\Localization\ApplicationContracts\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Hitasp\HitSocial\Localization\ApplicationContracts\*.json" />
+  </ItemGroup>
+
+</Project>
