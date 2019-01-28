@@ -37,7 +37,6 @@ script:
   - dotnet test framework/test/Volo.Abp.MongoDB.Tests
   - dotnet test framework/test/Volo.Abp.MultiTenancy.Tests
   - dotnet test framework/test/Volo.Abp.Serialization.Tests
-  - dotnet test framework/test/Volo.Abp.Storage.Tests
   - dotnet test framework/test/Volo.Abp.TestApp.Tests
   - dotnet test framework/test/Volo.Abp.UI.Navigation.Tests
   - dotnet test framework/test/Volo.Abp.Uow.Tests
