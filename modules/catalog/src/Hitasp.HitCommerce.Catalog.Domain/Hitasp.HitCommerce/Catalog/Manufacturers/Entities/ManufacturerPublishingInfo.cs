@@ -9,11 +9,8 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Entities
 
         public virtual bool ShowOnHomePage { get; protected set; }
 
-        public virtual string PageSize { get; protected set; }
+        public virtual int DisplayOrder { get; protected set; }
 
-        public virtual bool IsAllowCustomersToSelectPageSize { get; protected set; }
-
-        public virtual string PageSizeOptions { get; protected set; }
 
         protected ManufacturerPublishingInfo()
         {
@@ -21,7 +18,11 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Entities
 
         internal ManufacturerPublishingInfo(Guid categoryId) : base(categoryId)
         {
+            SetAsPublished(false);
+            SetAsHomePageItem(false);
+            SetDisplayOrder();
         }
+
 
         public void SetAsPublished(bool publish = true)
         {
@@ -32,35 +33,30 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Entities
 
             IsPublished = publish;
         }
-        
+
         public void SetAsHomePageItem(bool showOnHomePage = true)
         {
             if (ShowOnHomePage == showOnHomePage)
             {
-                return;;
+                return;
             }
 
             ShowOnHomePage = showOnHomePage;
         }
 
-        public void SetPageSize(string pageSize)
+        public void SetDisplayOrder(int displayOrder = 0)
         {
-            if (pageSize.Length > ManufacturerConsts.MaxPageSizeLength)
+            if (displayOrder > 0)
             {
-                throw new ArgumentException($"{nameof(pageSize)} can not be longer than {ManufacturerConsts.MaxPageSizeLength}");
-            }
-        }
-
-        public void AllowCustomersToSelectPageSize(bool isAllowCustomersToSelectPageSize = true,
-            string pageSizeOption = ManufacturerConsts.DefaultPageSizeOption)
-        {
-            if (isAllowCustomersToSelectPageSize)
-            {
-                IsAllowCustomersToSelectPageSize = true;
-                PageSizeOptions = pageSizeOption;
+                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
             }
 
-            IsAllowCustomersToSelectPageSize = false;
+            if (DisplayOrder == displayOrder)
+            {
+                return;
+            }
+
+            DisplayOrder = displayOrder;
         }
     }
 }

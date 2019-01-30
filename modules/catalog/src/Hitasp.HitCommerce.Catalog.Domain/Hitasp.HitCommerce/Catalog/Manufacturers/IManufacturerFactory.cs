@@ -8,7 +8,6 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
 {
     public interface IManufacturerFactory : IDomainService
     {
-        Task<Manufacturer> CreateManufacturerAsync(Guid manufacturerTemplateId,[NotNull] string name, [NotNull] string title, 
-            bool isPublished);
+        Task<Manufacturer> CreateManufacturerAsync(Guid manufacturerTemplateId,[NotNull] string name, [NotNull] string title);
     }
 }
