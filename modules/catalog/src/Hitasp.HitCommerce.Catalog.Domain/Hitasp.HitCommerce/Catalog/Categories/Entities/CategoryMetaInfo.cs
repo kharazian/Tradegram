@@ -3,7 +3,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Categories.Entities
 {
-    public class CategoryMeta : Entity<Guid>
+    public class CategoryMetaInfo : Entity<Guid>
     {
         public virtual string MetaTitle { get; protected set; }
 
@@ -12,41 +12,45 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
         public virtual string MetaDescription { get; protected set; }
 
         
-        protected CategoryMeta()
+        protected CategoryMetaInfo()
         {
         }
 
-        internal CategoryMeta(Guid categoryId) 
+        internal CategoryMetaInfo(Guid categoryId) 
             : base(categoryId)
         {
         }
 
         public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
         {
-            if (MetaTitle == metaTitle && MetaKeywords == metaKeywords && MetaDescription == metaDescription)
+            if (MetaTitle == metaTitle &&
+                MetaKeywords == metaKeywords &&
+                MetaDescription == metaDescription)
             {
                 return;
             }
-            
+
             if (metaTitle.Length >= CategoryConsts.MaxMetaTitleLength)
             {
-                throw new ArgumentException($"Meta Title can not be longer than {CategoryConsts.MaxMetaTitleLength}");
+                throw new ArgumentException(
+                    $"Meta Title can not be longer than {CategoryConsts.MaxMetaTitleLength}");
             }
-            
+
             if (metaKeywords.Length >= CategoryConsts.MaxMetaKeywordsLength)
             {
-                throw new ArgumentException($"Meta Keywords can not be longer than {CategoryConsts.MaxMetaKeywordsLength}");
+                throw new ArgumentException(
+                    $"Meta Keywords can not be longer than {CategoryConsts.MaxMetaKeywordsLength}");
             }
-            
+
             if (metaDescription.Length >= CategoryConsts.MaxMetaDescriptionLength)
             {
-                throw new ArgumentException($"Meta Description can not be longer than {CategoryConsts.MaxMetaDescriptionLength}");
+                throw new ArgumentException(
+                    $"Meta Description can not be longer than {CategoryConsts.MaxMetaDescriptionLength}");
             }
-            
+
             MetaTitle = metaTitle;
             MetaKeywords = metaKeywords;
             MetaDescription = metaDescription;
         }
-
     }
 }

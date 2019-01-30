@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
+using Hitasp.HitCommerce.Catalog.Exceptions;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
@@ -11,15 +12,11 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
     {
         public virtual Guid CategoryTemplateId { get; protected set; }
 
-        public virtual Guid CategoryInfoId { get; protected set; }
-
         public virtual CategoryInfo CategoryInfo { get; protected set; }
 
-        public virtual Guid CategoryMetaId { get; protected set; }
+        public virtual CategoryMetaInfo CategoryMetaInfo { get; protected set; }
 
-        public virtual CategoryMeta CategoryMeta { get; protected set; }
-
-        public virtual Guid CategoryPublishingInfoId { get; protected set; }
+        public virtual CategoryPageInfo CategoryPageInfo { get; protected set; }
 
         public virtual CategoryPublishingInfo CategoryPublishingInfo { get; protected set; }
 
@@ -46,20 +43,42 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 
         internal void SetCategoryInfo(CategoryInfo categoryInfo)
         {
-            CategoryInfoId = categoryInfo.Id;
-            CategoryInfo = categoryInfo;
+            if (Id == categoryInfo.Id)
+            {
+                CategoryInfo = categoryInfo;
+            }
+            
+            throw new InvalidIdentityException(nameof(categoryInfo));
         }
-        
-        internal void SetCategoryMeta(CategoryMeta categoryMeta)
+
+        internal void SetCategoryMetaInfo(CategoryMetaInfo categoryMetaInfo)
         {
-            CategoryMetaId = categoryMeta.Id;
-            CategoryMeta = categoryMeta;
+            if (Id == categoryMetaInfo.Id)
+            {
+                CategoryMetaInfo = categoryMetaInfo;
+            }
+            
+            throw new InvalidIdentityException(nameof(categoryMetaInfo));
         }
-        
+
+        internal void SetCategoryPageInfo(CategoryPageInfo categoryPageInfo)
+        {
+            if(Id == categoryPageInfo.Id)
+            {
+                CategoryPageInfo = categoryPageInfo;
+            }
+            
+            throw new InvalidIdentityException(nameof(categoryPageInfo));
+        }
+
         internal void SetCategoryPublishingInfo(CategoryPublishingInfo categoryPublishingInfo)
         {
-            CategoryPublishingInfoId = categoryPublishingInfo.Id;
-            CategoryPublishingInfo = categoryPublishingInfo;
+            if(Id == categoryPublishingInfo.Id)
+            {
+                CategoryPublishingInfo = categoryPublishingInfo;
+            }
+            
+            throw new InvalidIdentityException(nameof(categoryPublishingInfo));
         }
 
         public void SetCategoryTemplate(Guid categoryTemplateId)
@@ -71,7 +90,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 
             if (categoryTemplateId == Guid.Empty)
             {
-                throw new ArgumentException($"{nameof(categoryTemplateId)} must be a valid identity");
+                throw new InvalidIdentityException(nameof(categoryTemplateId));
             }
 
             CategoryTemplateId = categoryTemplateId;
@@ -108,8 +127,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 
             PictureId = pictureId;
         }
-        
-                
+
         public void AddDiscount(Guid discountId)
         {
             CategoryDiscounts.Add(new CategoryDiscount(Id, discountId));
@@ -117,6 +135,11 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 
         public void RemoveDiscount(Guid discountId)
         {
+            if (CategoryDiscounts == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(CategoryDiscounts));
+            }
+
             if (CategoryDiscounts.Any(x => x.DiscountId == discountId))
             {
                 CategoryDiscounts.RemoveAll(x => x.DiscountId == discountId);

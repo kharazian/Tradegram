@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
+using Hitasp.HitCommerce.Catalog.Categories.Exceptions;
 using Hitasp.HitCommerce.Catalog.Categories.Repositories;
 using Volo.Abp.Domain.Services;
 
@@ -10,24 +11,19 @@ namespace Hitasp.HitCommerce.Catalog.Categories
     public class CategoryFactory : DomainService, ICategoryFactory
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ICategoryInfoRepository _infoRepository;
-        private readonly ICategoryMetaRepository _metaRepository;
-        private readonly ICategoryPublishingInfoRepository _publishingInfoRepository;
 
-        public CategoryFactory(
-            ICategoryRepository categoryRepository,
-            ICategoryInfoRepository infoRepository,
-            ICategoryMetaRepository metaRepository,
-            ICategoryPublishingInfoRepository publishingInfoRepository)
+        public CategoryFactory(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
-            _infoRepository = infoRepository;
-            _metaRepository = metaRepository;
-            _publishingInfoRepository = publishingInfoRepository;
         }
 
         public async Task<Category> CreateCategoryAsync(Guid categoryTemplateId, string name, string title)
         {
+            if (await _categoryRepository.FindByNameAsync(name) != null)
+            {
+                throw new CategoryNameAlreadyExistsException(name);
+            }
+            
             var categoryId = GuidGenerator.Create();
 
             var category = new Category(
@@ -36,16 +32,20 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             );
 
             var categoryInfo = new CategoryInfo(categoryId);
+            var categoryMeta = new CategoryMetaInfo(categoryId);
+            var categoryPageInfo = new CategoryPageInfo(categoryId);
+            var publishingInfo = new CategoryPublishingInfo(categoryId);
+            
             categoryInfo.SetName(name);
             categoryInfo.SetTitle(title);
-            category.SetCategoryInfo(await _infoRepository.InsertAsync(categoryInfo));
-
-            var categoryMeta = new CategoryMeta(categoryId);
-            category.SetCategoryMeta(await _metaRepository.InsertAsync(categoryMeta));
-
-            var publishingInfo = new CategoryPublishingInfo(categoryId);
-            category.SetCategoryPublishingInfo(await _publishingInfoRepository.InsertAsync(publishingInfo));
-
+            publishingInfo.SetAsPublished(false);
+            
+            
+            category.SetCategoryInfo(categoryInfo);
+            category.SetCategoryMetaInfo(categoryMeta);
+            category.SetCategoryPageInfo(categoryPageInfo);
+            category.SetCategoryPublishingInfo(publishingInfo);
+            
             return await _categoryRepository.InsertAsync(category);
         }
     }

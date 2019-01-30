@@ -9,12 +9,9 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
 
         public virtual bool ShowOnHomePage { get; protected set; }
 
-        public virtual int PageSize { get; protected set; }
+        public virtual int DisplayOrder { get; protected set; }
 
-        public virtual bool IsAllowCustomersToSelectPageSize { get; protected set; }
-
-        public virtual string PageSizeOptions { get; protected set; }
-
+        
         protected CategoryPublishingInfo()
         {
         }
@@ -22,7 +19,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
         internal CategoryPublishingInfo(Guid categoryId) : base(categoryId)
         {
         }
-
+        
         public void SetAsPublished(bool publish = true)
         {
             if (IsPublished == publish)
@@ -37,39 +34,25 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
         {
             if (ShowOnHomePage == showOnHomePage)
             {
-                return;;
+                return;
             }
 
             ShowOnHomePage = showOnHomePage;
         }
-        public void SetPageSize(int? pageSize = null)
+
+        public void SetDisplayOrder(int displayOrder)
         {
-            if (PageSize == pageSize)
+            if (displayOrder > 0)
+            {
+                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
+            }
+
+            if (DisplayOrder == displayOrder)
             {
                 return;
             }
 
-            if (!pageSize.HasValue)
-            {
-                PageSize = CategoryConsts.DefaultPageSize;
-            }
-            
-            if (pageSize >= 0)
-            {
-                throw new ArgumentException($"{nameof(pageSize)} can not be less than one!");
-            }
-        }
-
-        public void AllowCustomersToSelectPageSize(bool isAllowCustomersToSelectPageSize = true,
-            string pageSizeOption = CategoryConsts.DefaultPageSizeOptions)
-        {
-            if (isAllowCustomersToSelectPageSize)
-            {
-                IsAllowCustomersToSelectPageSize = true;
-                PageSizeOptions = pageSizeOption;
-            }
-
-            IsAllowCustomersToSelectPageSize = false;
+            DisplayOrder = displayOrder;
         }
     }
 }

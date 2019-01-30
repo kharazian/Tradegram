@@ -13,9 +13,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
 
         public virtual string Description { get; protected set; }
 
-        public virtual int DisplayOrder { get; protected set; }
-
-        
+   
         protected CategoryInfo()
         {
         }
@@ -24,7 +22,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
             : base(categoryId)
         {
         }
-
+        
         public void SetName(string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
@@ -73,21 +71,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
             }
 
             Description = description;
-        }
-
-        public void SetDisplayOrder(int displayOrder)
-        {
-            if (displayOrder > 0)
-            {
-                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
-            }
-
-            if (DisplayOrder == displayOrder)
-            {
-                return;
-            }
-
-            DisplayOrder = displayOrder;
         }
     }
 }
