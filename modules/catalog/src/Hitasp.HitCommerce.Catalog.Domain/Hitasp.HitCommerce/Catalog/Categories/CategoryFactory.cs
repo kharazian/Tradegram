@@ -23,7 +23,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             {
                 throw new CategoryNameAlreadyExistsException(name);
             }
-            
+
             var categoryId = GuidGenerator.Create();
 
             var category = new Category(
@@ -35,17 +35,16 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             var categoryMeta = new CategoryMetaInfo(categoryId);
             var categoryPageInfo = new CategoryPageInfo(categoryId);
             var publishingInfo = new CategoryPublishingInfo(categoryId);
-            
+
             categoryInfo.SetName(name);
             categoryInfo.SetTitle(title);
             publishingInfo.SetAsPublished(false);
-            
-            
+
             category.SetCategoryInfo(categoryInfo);
             category.SetCategoryMetaInfo(categoryMeta);
             category.SetCategoryPageInfo(categoryPageInfo);
             category.SetCategoryPublishingInfo(publishingInfo);
-            
+
             return await _categoryRepository.InsertAsync(category);
         }
     }

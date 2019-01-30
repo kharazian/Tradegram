@@ -43,42 +43,42 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
 
         internal void SetCategoryInfo(CategoryInfo categoryInfo)
         {
-            if (Id == categoryInfo.Id)
+            if (Id != categoryInfo.Id)
             {
-                CategoryInfo = categoryInfo;
+                throw new InvalidIdentityException(nameof(categoryInfo));
             }
-            
-            throw new InvalidIdentityException(nameof(categoryInfo));
+
+            CategoryInfo = categoryInfo;
         }
 
         internal void SetCategoryMetaInfo(CategoryMetaInfo categoryMetaInfo)
         {
-            if (Id == categoryMetaInfo.Id)
+            if (Id != categoryMetaInfo.Id)
             {
-                CategoryMetaInfo = categoryMetaInfo;
+                throw new InvalidIdentityException(nameof(categoryMetaInfo));
             }
-            
-            throw new InvalidIdentityException(nameof(categoryMetaInfo));
+
+            CategoryMetaInfo = categoryMetaInfo;
         }
 
         internal void SetCategoryPageInfo(CategoryPageInfo categoryPageInfo)
         {
-            if(Id == categoryPageInfo.Id)
+            if (Id != categoryPageInfo.Id)
             {
-                CategoryPageInfo = categoryPageInfo;
+                throw new InvalidIdentityException(nameof(categoryPageInfo));
             }
-            
-            throw new InvalidIdentityException(nameof(categoryPageInfo));
+
+            CategoryPageInfo = categoryPageInfo;
         }
 
         internal void SetCategoryPublishingInfo(CategoryPublishingInfo categoryPublishingInfo)
         {
-            if(Id == categoryPublishingInfo.Id)
+            if (Id != categoryPublishingInfo.Id)
             {
-                CategoryPublishingInfo = categoryPublishingInfo;
+                throw new InvalidIdentityException(nameof(categoryPublishingInfo));
             }
-            
-            throw new InvalidIdentityException(nameof(categoryPublishingInfo));
+
+            CategoryPublishingInfo = categoryPublishingInfo;
         }
 
         public void SetCategoryTemplate(Guid categoryTemplateId)
