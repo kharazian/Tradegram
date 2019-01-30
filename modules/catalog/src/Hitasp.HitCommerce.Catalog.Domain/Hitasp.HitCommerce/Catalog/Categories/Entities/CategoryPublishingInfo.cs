@@ -18,6 +18,9 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
 
         internal CategoryPublishingInfo(Guid categoryId) : base(categoryId)
         {
+            SetAsPublished(false);
+            SetAsHomePageItem(false);
+            SetDisplayOrder();
         }
         
         public void SetAsPublished(bool publish = true)
@@ -40,7 +43,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Entities
             ShowOnHomePage = showOnHomePage;
         }
 
-        public void SetDisplayOrder(int displayOrder)
+        public void SetDisplayOrder(int displayOrder = 0)
         {
             if (displayOrder > 0)
             {
