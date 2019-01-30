@@ -38,7 +38,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories
 
             categoryInfo.SetName(name);
             categoryInfo.SetTitle(title);
-            publishingInfo.SetAsPublished(false);
 
             category.SetCategoryInfo(categoryInfo);
             category.SetCategoryMetaInfo(categoryMeta);
