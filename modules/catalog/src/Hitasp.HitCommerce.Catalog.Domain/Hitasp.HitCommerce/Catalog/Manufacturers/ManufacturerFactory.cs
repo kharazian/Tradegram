@@ -11,15 +11,18 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
     public class ManufacturerFactory : DomainService, IManufacturerFactory
     {
         private readonly IManufacturerRepository _manufacturerRepository;
+        private readonly IManufacturerInfoRepository _infoRepository;
 
-        public ManufacturerFactory(IManufacturerRepository manufacturerRepository)
+        public ManufacturerFactory(IManufacturerRepository manufacturerRepository,
+            IManufacturerInfoRepository infoRepository)
         {
             _manufacturerRepository = manufacturerRepository;
+            _infoRepository = infoRepository;
         }
 
         public async Task<Manufacturer> CreateManufacturerAsync(Guid manufacturerTemplateId, string name, string title)
         {
-            if (await _manufacturerRepository.FindByNameAsync(name) != null)
+            if (await _infoRepository.FindByNameAsync(name) != null)
             {
                 throw new ManufacturerNameAlreadyExistsException(name);
             }
