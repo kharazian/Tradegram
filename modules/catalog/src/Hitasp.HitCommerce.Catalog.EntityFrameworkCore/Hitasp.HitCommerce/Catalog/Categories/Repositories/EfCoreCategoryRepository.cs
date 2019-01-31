@@ -19,11 +19,16 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
         {
         }
 
-        public override IQueryable<Category> WithDetails()
+        public async Task<List<Category>> GetListRootCategory(bool includeDetails = false,
+            CancellationToken cancellationToken = default)
         {
-            return base.WithDetails().Where(x => x.ParentCategoryId == null);
+            return includeDetails
+                ? await WithDetails().Where(x => x.ParentCategoryId == null)
+                    .ToListAsync(GetCancellationToken(cancellationToken))
+                : await DbSet.Where(x => x.ParentCategoryId == null)
+                    .ToListAsync(GetCancellationToken(cancellationToken));
         }
-
+        
         public async Task<List<Category>> GetListByParentIdAsync(Guid parentId,
             bool includeDetails = false, CancellationToken cancellationToken = default)
         {
@@ -32,20 +37,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
                     .ToListAsync(GetCancellationToken(cancellationToken))
                 : await DbSet.Where(x => x.ParentCategoryId == parentId)
                     .ToListAsync(GetCancellationToken(cancellationToken));
-        }
-
-        public async Task<Category> FindByNameAsync(string name,
-            CancellationToken cancellationToken = default)
-        {
-            return await WithDetails().FirstOrDefaultAsync(x => x.CategoryInfo.Name == name,
-                GetCancellationToken(cancellationToken));
-        }
-
-        public async Task<Category> FindByTitleAsync(string title,
-            CancellationToken cancellationToken = default)
-        {
-            return await WithDetails().FirstOrDefaultAsync(x => x.CategoryInfo.Title == title,
-                GetCancellationToken(cancellationToken));
         }
     }
 }

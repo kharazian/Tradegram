@@ -12,8 +12,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
         Task<List<Category>> GetListByParentIdAsync(Guid parentId, bool includeDetails = false,
             CancellationToken cancellationToken = default);
 
-        Task<Category> FindByNameAsync(string name, CancellationToken cancellationToken = default);
-
-        Task<Category> FindByTitleAsync(string title, CancellationToken cancellationToken = default);
+        Task<List<Category>> GetListRootCategory(bool includeDetails = false,
+            CancellationToken cancellationToken = default);
     }
 }

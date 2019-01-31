@@ -11,15 +11,17 @@ namespace Hitasp.HitCommerce.Catalog.Categories
     public class CategoryFactory : DomainService, ICategoryFactory
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryInfoRepository _infoRepository;
 
-        public CategoryFactory(ICategoryRepository categoryRepository)
+        public CategoryFactory(ICategoryRepository categoryRepository, ICategoryInfoRepository infoRepository)
         {
             _categoryRepository = categoryRepository;
+            _infoRepository = infoRepository;
         }
 
         public async Task<Category> CreateCategoryAsync(Guid categoryTemplateId, string name, string title)
         {
-            if (await _categoryRepository.FindByNameAsync(name) != null)
+            if (await _infoRepository.FindByNameAsync(name) != null)
             {
                 throw new CategoryNameAlreadyExistsException(name);
             }
