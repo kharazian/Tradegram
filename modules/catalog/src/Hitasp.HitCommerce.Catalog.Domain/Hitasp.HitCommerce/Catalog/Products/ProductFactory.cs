@@ -11,21 +11,27 @@ namespace Hitasp.HitCommerce.Catalog.Products
     public class ProductFactory : DomainService, IProductFactory
     {
         private readonly IProductRepository _productRepository;
+        private readonly IProductCodeRepository _codeRepository;
+        private readonly IProductInfoRepository _infoRepository;
 
-        public ProductFactory(IProductRepository productRepository)
+        public ProductFactory(IProductRepository productRepository,
+            IProductCodeRepository codeRepository,
+            IProductInfoRepository infoRepository)
         {
             _productRepository = productRepository;
+            _codeRepository = codeRepository;
+            _infoRepository = infoRepository;
         }
 
         public async Task<Product> CreatePhysicalProductAsync(Guid productTemplateId, string code, string name,
             string title, string shortDescription, decimal price, int stockQuantity)
         {
-            if (await _productRepository.IsCodeExistsAsync(code))
+            if (await _codeRepository.IsCodeExistsAsync(code))
             {
                 throw new ProductCodeAlreadyExistsException(code);
             }
 
-            if (await _productRepository.FindByNameAsync(name) != null)
+            if (await _infoRepository.FindByNameAsync(name) != null)
             {
                 throw new ProductCodeAlreadyExistsException(code);
             }
@@ -65,12 +71,12 @@ namespace Hitasp.HitCommerce.Catalog.Products
         public async Task<Product> CreateVirtualProductAsync(Guid productTemplateId, string code, string name,
             string title, string shortDescription, decimal price)
         {
-            if (await _productRepository.IsCodeExistsAsync(code))
+            if (await _codeRepository.IsCodeExistsAsync(code))
             {
                 throw new ProductCodeAlreadyExistsException(code);
             }
 
-            if (await _productRepository.FindByNameAsync(name) != null)
+            if (await _infoRepository.FindByNameAsync(name) != null)
             {
                 throw new ProductCodeAlreadyExistsException(code);
             }
