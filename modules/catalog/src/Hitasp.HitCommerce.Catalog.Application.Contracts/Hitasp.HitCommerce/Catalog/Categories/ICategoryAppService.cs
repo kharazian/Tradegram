@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hitasp.HitCommerce.Catalog.Categories.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -16,7 +15,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories
 
         Task<ListResultDto<CategoryDto>> GetListDisplayedOnHomePageAsync(bool showHidden = false);
 
-        Task<IList<Guid>> GetChildCategoryIdsAsync(Guid parentCategoryId, bool showHidden = false);
+        Task<ListResultDto<Guid>> GetListChildIdsAsync(Guid parentCategoryId, bool showHidden = false);
 
         Task<ListResultDto<CategoryDto>> GetListByIdsAsync(Guid[] categoryIds);
 
