@@ -5,6 +5,10 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Dtos
 {
     public class CategoryPublishingInfoDto : EntityDto<Guid>
     {
-        
+        public bool Published { get; set; }
+
+        public bool ShowOnHomePage { get; set; }
+
+        public int DisplayOrder { get; set; }
     }
 }
