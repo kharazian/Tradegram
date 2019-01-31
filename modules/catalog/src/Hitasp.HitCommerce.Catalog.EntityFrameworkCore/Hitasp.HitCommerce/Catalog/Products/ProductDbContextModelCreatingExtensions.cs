@@ -34,26 +34,11 @@ namespace Hitasp.HitCommerce.Catalog.Products
                     .HasValue<PhysicalProduct>(nameof(PhysicalProduct));
 
                 b.HasIndex(x => x.ProductType);
+                
                 b.ConfigureFullAudited();
 
-                b.Property(x => x.ProductType).IsRequired().HasMaxLength(10).HasColumnName(nameof(Product.ProductType));
+                b.Property(x => x.ProductType).IsRequired().HasMaxLength(15).HasColumnName(nameof(Product.ProductType));
                 b.Property(x => x.ProductTemplateId).IsRequired().HasColumnName(nameof(Product.ProductTemplateId));
-                b.Property(x => x.ProductCodeId).IsRequired().HasColumnName(nameof(Product.ProductCodeId));
-                b.Property(x => x.ProductInfoId).IsRequired().HasColumnName(nameof(Product.ProductInfoId));
-                b.Property(x => x.ProductMetaId).IsRequired().HasColumnName(nameof(Product.ProductMetaId));
-                b.Property(x => x.ProductPriceInfoId).IsRequired().HasColumnName(nameof(Product.ProductPriceInfoId));
-
-                b.Property(x => x.ProductPublishingInfoId).IsRequired()
-                    .HasColumnName(nameof(Product.ProductPublishingInfoId));
-
-                b.Property(x => x.ProductOrderingInfoId).IsRequired()
-                    .HasColumnName(nameof(Product.ProductOrderingInfoId));
-
-                b.Property(x => x.ProductRateId).IsRequired().HasColumnName(nameof(Product.ProductRateId));
-
-                b.Property(x => x.ProductShippingInfoId).IsRequired()
-                    .HasColumnName(nameof(Product.ProductShippingInfoId));
-
 
                 b.HasOne<ProductCode>().WithOne().IsRequired().HasForeignKey<ProductCode>(x => x.Id)
                     .OnDelete(DeleteBehavior.Cascade);
@@ -61,7 +46,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.HasOne<ProductInfo>().WithOne().IsRequired().HasForeignKey<ProductInfo>(x => x.Id)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasOne<ProductMeta>().WithOne().IsRequired().HasForeignKey<ProductMeta>(x => x.Id)
+                b.HasOne<ProductMetaInfo>().WithOne().IsRequired().HasForeignKey<ProductMetaInfo>(x => x.Id)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne<ProductPriceInfo>().WithOne().IsRequired().HasForeignKey<ProductPriceInfo>(x => x.Id)
@@ -177,9 +162,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.HasKey(x => x.Id);
 
-                b.Property(x => x.ProductProductAttributeId)
-                    .HasColumnName(nameof(ProductAttributeValue.ProductProductAttributeId));
-
                 b.Property(x => x.PictureId).HasColumnName(nameof(ProductAttributeValue.PictureId));
                 b.Property(x => x.Name).HasColumnName(nameof(ProductAttributeValue.Name)).IsRequired();
                 b.Property(x => x.ColorSquaresRgb).HasColumnName(nameof(ProductAttributeValue.ColorSquaresRgb));
@@ -200,8 +182,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.Property(x => x.DisplayOrder).HasColumnName(nameof(ProductAttributeValue.DisplayOrder));
                 b.Property(x => x.AttributeValueType).HasColumnName(nameof(ProductAttributeValue.AttributeValueType));
 
-                b.HasOne<ProductProductAttribute>().WithMany().HasForeignKey(x => x.ProductProductAttributeId)
-                    .IsRequired()
+                b.HasOne<ProductProductAttribute>().WithMany(x => x.ProductAttributeValues).IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -235,25 +216,23 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.Property(x => x.Description).HasMaxLength(ProductConsts.MaxDescriptionLength)
                     .HasColumnName(nameof(ProductInfo.Description));
-
-                b.Property(x => x.DisplayOrder).HasDefaultValue(0).HasColumnName(nameof(ProductInfo.DisplayOrder));
             });
 
-            builder.Entity<ProductMeta>(b =>
+            builder.Entity<ProductMetaInfo>(b =>
             {
                 b.ToTable(options.TablePrefix + "Products_Meta", options.Schema);
 
                 b.HasKey(x => x.Id);
 
                 b.Property(x => x.MetaTitle).IsRequired(false).HasMaxLength(ProductConsts.MaxMetaTitleLength)
-                    .HasColumnName(nameof(ProductMeta.MetaTitle));
+                    .HasColumnName(nameof(ProductMetaInfo.MetaTitle));
 
                 b.Property(x => x.MetaKeywords).IsRequired(false).HasMaxLength(ProductConsts.MaxMetaKeywordsLength)
-                    .HasColumnName(nameof(ProductMeta.MetaKeywords));
+                    .HasColumnName(nameof(ProductMetaInfo.MetaKeywords));
 
                 b.Property(x => x.MetaDescription).IsRequired(false)
                     .HasMaxLength(ProductConsts.MaxMetaDescriptionLength)
-                    .HasColumnName(nameof(ProductMeta.MetaDescription));
+                    .HasColumnName(nameof(ProductMetaInfo.MetaDescription));
             });
 
             builder.Entity<ProductOrderingInfo>(b =>
@@ -325,7 +304,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
             builder.Entity<ProductProductAttribute>(b =>
             {
                 b.ToTable(options.TablePrefix + "Products_Attributes", options.Schema);
-                b.HasKey(x => x.Id);
+                b.HasKey(x => new {x.ProductId, x.ProductAttributeId});
 
                 b.Property(x => x.ProductId).HasColumnName(nameof(ProductProductAttribute.ProductId));
                 b.Property(x => x.ProductAttributeId).HasColumnName(nameof(ProductProductAttribute.ProductAttributeId));
@@ -358,9 +337,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.HasOne<ProductAttribute>().WithMany().HasForeignKey(x => x.ProductAttributeId).IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasMany<ProductAttributeValue>().WithOne().HasForeignKey(x => x.ProductProductAttributeId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<ProductPublishingInfo>(b =>
@@ -384,6 +360,9 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.Property(x => x.ShowOnHomePage).HasDefaultValue(false)
                     .HasColumnName(nameof(ProductPublishingInfo.ShowOnHomePage));
+                
+                b.Property(x => x.DisplayOrder).HasColumnName(nameof(ProductPublishingInfo.DisplayOrder));
+
             });
 
             builder.Entity<ProductRate>(b =>

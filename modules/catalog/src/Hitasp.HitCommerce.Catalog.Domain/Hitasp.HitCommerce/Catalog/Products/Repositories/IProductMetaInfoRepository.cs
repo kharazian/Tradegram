@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Repositories
 {
-    public interface IProductMetaRepository : IRepository<ProductMeta, Guid>
+    public interface IProductMetaInfoRepository : IRepository<ProductMetaInfo, Guid>
     {
         
     }

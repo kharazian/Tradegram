@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hitasp.HitCommerce.Catalog.Exceptions;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Etos;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
@@ -22,7 +23,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         public virtual int MinStockQuantity { get; protected set; }
 
         public virtual int NotifyAdminForQuantityBelow { get; protected set; }
-        
+
         public virtual LowStockActivity LowStockActivity { get; protected set; }
 
         public virtual ManageInventoryMethod ManageInventoryMethod { get; protected set; }
@@ -103,8 +104,13 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductWarehouseInventories.Add(new ProductWarehouseInventory(Id, warehouseId));
         }
 
-        public void ProductWarehouse(Guid warehouseId)
+        public void RemoveProductWarehouse(Guid warehouseId)
         {
+            if (ProductWarehouseInventories == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductWarehouseInventories));
+            }
+
             if (ProductWarehouseInventories.Any(x => x.WarehouseId == warehouseId))
             {
                 ProductWarehouseInventories.RemoveAll(x => x.WarehouseId == warehouseId);

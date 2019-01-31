@@ -9,6 +9,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
         public const int MaxMetaDescriptionLength = 450;
         public const int MaxMetaKeywordsLength = 450;
         public const int MaxPageSizeLength = 64;
-        public const string DefaultPageSizeOption = "5,10,20";
+        public const string DefaultPageSizeOptions = "5,10,20";
+        public const int DefaultPageSize = 6;
     }
 }

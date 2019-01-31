@@ -3,7 +3,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class ProductMeta : Entity<Guid>
+    public class ProductMetaInfo : Entity<Guid>
     {
         public virtual string MetaTitle { get; protected set; }
 
@@ -11,17 +11,19 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         public virtual string MetaDescription { get; protected set; }
 
-        protected ProductMeta()
+        protected ProductMetaInfo()
         {
         }
 
-        internal ProductMeta(Guid productId) : base(productId)
+        internal ProductMetaInfo(Guid productId) : base(productId)
         {
         }
-
+        
         public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
         {
-            if (MetaTitle == metaTitle && MetaKeywords == metaKeywords && MetaDescription == metaDescription)
+            if (MetaTitle == metaTitle &&
+                MetaKeywords == metaKeywords &&
+                MetaDescription == metaDescription)
             {
                 return;
             }
@@ -47,5 +49,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             MetaKeywords = metaKeywords;
             MetaDescription = metaDescription;
         }
+
     }
 }

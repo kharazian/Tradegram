@@ -8,8 +8,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class ProductAttributeValue : Entity<Guid>
     {
-        public virtual Guid ProductProductAttributeId { get; protected set; }
-
         public virtual Guid? PictureId { get; set; }
 
         public virtual string Name { get; set; }
@@ -35,20 +33,17 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         public virtual int DisplayOrder { get; set; }
         
         public virtual AttributeValueType AttributeValueType { get; set; }
-        
-        public virtual ProductProductAttribute ProductProductAttribute { get; set; }
 
         
         protected ProductAttributeValue()
         {
         }
 
-        public ProductAttributeValue(Guid id, Guid productProductAttributeId, [NotNull] string name)
+        public ProductAttributeValue(Guid id, [NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             Id = id;
-            ProductProductAttributeId = productProductAttributeId;
             Name = name;
         }
     }

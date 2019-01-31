@@ -1,5 +1,5 @@
 ﻿using Hitasp.HitCommerce.Catalog.Attributes.Entities;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
@@ -9,7 +9,6 @@ using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
 using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
@@ -32,7 +31,9 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
         DbSet<CategoryInfo> CategoryInfos { get; set; }
 
-        DbSet<CategoryMeta> CategoryMetas { get; set; }
+        DbSet<CategoryMetaInfo> CategoryMetas { get; set; }
+        
+        DbSet<CategoryPageInfo> CategoryPageInfos { get; set; }
 
         DbSet<CategoryPublishingInfo> CategoryPublishingInfos { get; set; }
 
@@ -42,7 +43,9 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
         DbSet<ManufacturerInfo> ManufacturerInfos { get; set; }
 
-        DbSet<ManufacturerMeta> ManufacturerMetas { get; set; }
+        DbSet<ManufacturerMetaInfo> ManufacturerMetas { get; set; }
+        
+        DbSet<ManufacturerPageInfo> ManufacturerPageInfos { get; set; }
 
         DbSet<ManufacturerPublishingInfo> ManufacturerPublishingInfos { get; set; }
 
@@ -62,7 +65,7 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
         DbSet<ProductInfo> ProductInfos { get; set; }
 
-        DbSet<ProductMeta> ProductMetas { get; set; }
+        DbSet<ProductMetaInfo> ProductMetas { get; set; }
 
         DbSet<ProductOrderingInfo> ProductOrderingInfos { get; set; }
 

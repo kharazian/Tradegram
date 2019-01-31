@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hitasp.HitCommerce.Catalog.Exceptions;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -13,35 +14,21 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public Guid ProductTemplateId { get; protected set; }
 
-        public Guid ProductCodeId { get; protected set; }
+        public Guid? PictureId { get; protected set; }
 
         public ProductCode ProductCode { get; protected set; }
 
-        public Guid ProductInfoId { get; protected set; }
-
         public ProductInfo ProductInfo { get; protected set; }
 
-        public Guid ProductMetaId { get; protected set; }
-
-        public ProductMeta ProductMeta { get; protected set; }
-
-        public Guid ProductPriceInfoId { get; protected set; }
+        public ProductMetaInfo ProductMetaInfo { get; protected set; }
 
         public ProductPriceInfo ProductPriceInfo { get; protected set; }
 
-        public Guid ProductPublishingInfoId { get; protected set; }
-
         public ProductPublishingInfo ProductPublishingInfo { get; protected set; }
-
-        public Guid ProductOrderingInfoId { get; protected set; }
 
         public ProductOrderingInfo ProductOrderingInfo { get; protected set; }
 
-        public Guid ProductRateId { get; protected set; }
-
         public ProductRate ProductRate { get; protected set; }
-
-        public Guid ProductShippingInfoId { get; protected set; }
 
         public ProductShippingInfo ProductShippingInfo { get; protected set; }
 
@@ -56,9 +43,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         public ICollection<ProductDiscount> ProductDiscounts { get; protected set; }
 
         public ICollection<ProductProductAttribute> ProductAttributes { get; protected set; }
-        
+
         public ICollection<CrossSellProduct> CrossSellProducts { get; protected set; }
-        
+
         public ICollection<RelatedProduct> RelatedProducts { get; protected set; }
 
         public ICollection<ProductSpecificationAttribute> ProductSpecificationAttributes { get; protected set; }
@@ -66,11 +53,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         public ICollection<ProductAttributeCombination> AttributeCombinations { get; protected set; }
 
 
-        internal void SetProductTemplate(Guid productTemplateId)
+        public void SetProductTemplate(Guid productTemplateId)
         {
             if (productTemplateId == Guid.Empty)
             {
-                throw new ArgumentException($"{nameof(productTemplateId)} must be a valid identity");
+                throw new InvalidIdentityException(nameof(productTemplateId));
             }
 
             if (ProductTemplateId == productTemplateId)
@@ -81,51 +68,98 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductTemplateId = productTemplateId;
         }
 
+        public void SetPictureId(Guid? pictureId)
+        {
+            if (pictureId == Guid.Empty || pictureId == null)
+            {
+                PictureId = null;
+            }
+
+            if (PictureId == pictureId)
+            {
+                return;
+            }
+
+            PictureId = pictureId;
+        }
+
         internal void SetProductCode(ProductCode productCode)
         {
-            ProductCodeId = productCode.Id;
+            if (Id != productCode.Id)
+            {
+                throw new InvalidIdentityException(nameof(productCode));
+            }
+
             ProductCode = productCode;
         }
 
         internal void SetProductInfo(ProductInfo productInfo)
         {
-            ProductInfoId = productInfo.Id;
+            if (Id != productInfo.Id)
+            {
+                throw new InvalidIdentityException(nameof(productInfo));
+            }
+
             ProductInfo = productInfo;
         }
 
-        internal void SetProductMetaData(ProductMeta productMetaData)
+        internal void SetProductMetaInfo(ProductMetaInfo productMetaInfo)
         {
-            ProductMetaId = productMetaData.Id;
-            ProductMeta = productMetaData;
+            if (Id != productMetaInfo.Id)
+            {
+                throw new InvalidIdentityException(nameof(productMetaInfo));
+            }
+
+            ProductMetaInfo = productMetaInfo;
+        }
+
+        internal void SetProductOrderingInfo(ProductOrderingInfo productOrderingInfo)
+        {
+            if (Id != productOrderingInfo.Id)
+            {
+                throw new InvalidIdentityException(nameof(productOrderingInfo));
+            }
+
+            ProductOrderingInfo = productOrderingInfo;
         }
 
         internal void SetProductPriceInfo(ProductPriceInfo productPriceInfo)
         {
-            ProductPriceInfoId = productPriceInfo.Id;
+            if (Id != productPriceInfo.Id)
+            {
+                throw new InvalidIdentityException(nameof(productPriceInfo));
+            }
+
             ProductPriceInfo = productPriceInfo;
         }
 
         internal void SetProductPublishingInfo(ProductPublishingInfo productPublishingInfo)
         {
-            ProductPublishingInfoId = productPublishingInfo.Id;
-            ProductPublishingInfo = productPublishingInfo;
-        }
+            if (Id != productPublishingInfo.Id)
+            {
+                throw new InvalidIdentityException(nameof(productPublishingInfo));
+            }
 
-        internal void SetProductOrderingInfo(ProductOrderingInfo productOrderingInfo)
-        {
-            ProductOrderingInfoId = productOrderingInfo.Id;
-            ProductOrderingInfo = productOrderingInfo;
+            ProductPublishingInfo = productPublishingInfo;
         }
 
         internal void SetProductRate(ProductRate productRate)
         {
-            ProductRateId = productRate.Id;
+            if (Id != productRate.Id)
+            {
+                throw new InvalidIdentityException(nameof(productRate));
+            }
+
             ProductRate = productRate;
         }
 
         internal void SetProductShippingInfo(ProductShippingInfo productShippingInfo)
         {
-            ProductShippingInfoId = productShippingInfo.Id;
+            if (Id != productShippingInfo.Id)
+            {
+                throw new InvalidIdentityException(nameof(productShippingInfo));
+            }
+
             ProductShippingInfo = productShippingInfo;
         }
 
@@ -136,6 +170,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveCategory(Guid categoryId)
         {
+            if (ProductCategories == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductCategories));
+            }
+
             if (ProductCategories.Any(x => x.CategoryId == categoryId))
             {
                 ProductCategories.RemoveAll(x => x.CategoryId == categoryId);
@@ -149,6 +188,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveManufacturer(Guid manufacturerId)
         {
+            if (ProductManufacturers == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductManufacturers));
+            }
+
             if (ProductManufacturers.Any(x => x.ManufacturerId == manufacturerId))
             {
                 ProductManufacturers.RemoveAll(x => x.ManufacturerId == manufacturerId);
@@ -162,6 +206,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemovePicture(Guid pictureId)
         {
+            if (ProductPictures == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductPictures));
+            }
+
             if (ProductPictures.Any(x => x.PictureId == pictureId))
             {
                 ProductPictures.RemoveAll(x => x.PictureId == pictureId);
@@ -176,6 +225,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveSpecificationAttribute(Guid specificationAttributeOptionId)
         {
+            if (ProductSpecificationAttributes == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductSpecificationAttributes));
+            }
+
             if (ProductSpecificationAttributes.Any(x =>
                 x.SpecificationAttributeOptionId == specificationAttributeOptionId))
             {
@@ -191,6 +245,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveTag(Guid tagId)
         {
+            if (ProductTags == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductTags));
+            }
+
             if (ProductTags.Any(x => x.ProductTagId == tagId))
             {
                 ProductTags.RemoveAll(x => x.ProductTagId == tagId);
@@ -204,12 +263,17 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveDiscount(Guid discountId)
         {
+            if (ProductDiscounts == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(ProductDiscounts));
+            }
+
             if (ProductDiscounts.Any(x => x.DiscountId == discountId))
             {
                 ProductDiscounts.RemoveAll(x => x.DiscountId == discountId);
             }
         }
-        
+
         public void AddCrossSellProduct(Guid crossSellProductId)
         {
             CrossSellProducts.Add(new CrossSellProduct(Id, crossSellProductId));
@@ -217,12 +281,17 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveCrossSellProduct(Guid crossSellProductId)
         {
+            if (CrossSellProducts == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(CrossSellProducts));
+            }
+
             if (CrossSellProducts.Any(x => x.CrossSellProductId == crossSellProductId))
             {
                 CrossSellProducts.RemoveAll(x => x.CrossSellProductId == crossSellProductId);
             }
         }
-        
+
         public void AddRelatedProduct(Guid relatedProductId)
         {
             RelatedProducts.Add(new RelatedProduct(Id, relatedProductId));
@@ -230,6 +299,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveRelatedProduct(Guid relatedProductId)
         {
+            if (RelatedProducts == null)
+            {
+                throw new ReferenceNotLoadedException(nameof(RelatedProducts));
+            }
+
             if (RelatedProducts.Any(x => x.RelatedProductId == relatedProductId))
             {
                 RelatedProducts.RemoveAll(x => x.RelatedProductId == relatedProductId);

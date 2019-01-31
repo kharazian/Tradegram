@@ -54,6 +54,9 @@ namespace Hitasp.HitCommerce.Catalog.Attributes
                     .HasDefaultValue(false);
 
                 b.Property(x => x.DisplayOrder).HasColumnName(nameof(PredefinedAttributeValue.DisplayOrder));
+
+                b.HasOne<ProductAttribute>().WithMany().HasForeignKey(x => x.ProductAttributeId).IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

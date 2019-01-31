@@ -1,5 +1,5 @@
 ﻿using System;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.MongoDB;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
@@ -41,7 +41,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.CollectionName = options.CollectionPrefix + "Products_Info";
             });
 
-            builder.Entity<ProductMeta>(b =>
+            builder.Entity<ProductMetaInfo>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Products_Meta";
             });

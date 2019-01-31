@@ -1,6 +1,6 @@
 using System;
 using Hitasp.HitCommerce.Catalog.MongoDB;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
 

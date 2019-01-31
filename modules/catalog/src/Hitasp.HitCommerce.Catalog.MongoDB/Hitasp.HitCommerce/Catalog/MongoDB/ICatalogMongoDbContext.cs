@@ -1,5 +1,5 @@
 ﻿using Hitasp.HitCommerce.Catalog.Attributes.Entities;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
@@ -9,7 +9,6 @@ using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
 using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
@@ -32,7 +31,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<CategoryInfo> CategoryInfos { get; }
 
-        IMongoCollection<CategoryMeta> CategoryMetas { get; }
+        IMongoCollection<CategoryMetaInfo> CategoryMetas { get; }
 
         IMongoCollection<CategoryPublishingInfo> CategoryPublishingInfos { get; }
 
@@ -42,7 +41,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<ManufacturerInfo> ManufacturerInfos { get; }
 
-        IMongoCollection<ManufacturerMeta> ManufacturerMetas { get; }
+        IMongoCollection<ManufacturerMetaInfo> ManufacturerMetas { get; }
 
         IMongoCollection<ManufacturerPublishingInfo> ManufacturerPublishingInfos { get; }
 
@@ -62,7 +61,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<ProductInfo> ProductInfos { get; }
 
-        IMongoCollection<ProductMeta> ProductMetas { get; }
+        IMongoCollection<ProductMetaInfo> ProductMetas { get; }
 
         IMongoCollection<ProductOrderingInfo> ProductOrderingInfos { get; }
 

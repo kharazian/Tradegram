@@ -1,4 +1,4 @@
-﻿using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+﻿using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
@@ -29,7 +29,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 BsonClassMap.RegisterClassMap<ProductAttributeCombination>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductCode>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductMeta>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ProductMetaInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductOrderingInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductPriceInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductPublishingInfo>(map => { map.AutoMap(); });

@@ -5,8 +5,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class ProductPublishingInfo : Entity<Guid>
     {
-        public virtual bool VisibleIndividually { get; protected set; }
-
         public virtual bool IsNew { get; protected set; }
 
         public virtual bool IsPublished { get; protected set; }
@@ -19,8 +17,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         public virtual DateTime? AvailableEndDate { get; protected set; }
 
-        public virtual bool ShowOnHomePage { get; set; }
+        public virtual bool ShowOnHomePage { get; protected set; }
 
+        public virtual bool VisibleIndividually { get; protected set; }
+
+        public virtual int DisplayOrder { get; protected set; }
 
         protected ProductPublishingInfo()
         {
@@ -122,6 +123,21 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             }
 
             IsPublished = publish;
+        }
+
+        public void SetDisplayOrder(int displayOrder)
+        {
+            if (displayOrder < 0)
+            {
+                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
+            }
+
+            if (DisplayOrder == displayOrder)
+            {
+                return;
+            }
+
+            DisplayOrder = displayOrder;
         }
     }
 }

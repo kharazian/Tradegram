@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Hitasp.HitCommerce.Catalog.Attributes;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates
+namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities
 {
-    public class SpecificationAttribute : AggregateRoot<Guid>
+    public class SpecificationAttribute : Entity<Guid>
     {
         public virtual string Name { get; protected set; }
 
@@ -30,7 +29,7 @@ namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates
 
             SpecificationAttributeOptions = new HashSet<SpecificationAttributeOption>();
         }
-        
+
         public void SetName([NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
@@ -47,7 +46,7 @@ namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates
 
             Name = name;
         }
-        
+
         public void SetDisplayOrder(int displayOrder)
         {
             DisplayOrder = displayOrder;

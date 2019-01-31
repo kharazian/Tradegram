@@ -1,5 +1,5 @@
 using System;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;

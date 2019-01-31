@@ -1,6 +1,6 @@
 using System;
 using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
+using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 

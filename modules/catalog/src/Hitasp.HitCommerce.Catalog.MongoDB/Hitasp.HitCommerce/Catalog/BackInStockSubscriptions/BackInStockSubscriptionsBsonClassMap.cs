@@ -1,4 +1,4 @@
-﻿using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+﻿using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using MongoDB.Bson.Serialization;
 using Volo.Abp.Threading;
 

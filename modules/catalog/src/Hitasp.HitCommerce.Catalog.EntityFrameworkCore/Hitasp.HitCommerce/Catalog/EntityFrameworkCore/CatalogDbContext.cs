@@ -1,7 +1,7 @@
 ﻿using Hitasp.HitCommerce.Catalog.Attributes;
 using Hitasp.HitCommerce.Catalog.Attributes.Entities;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
@@ -15,7 +15,6 @@ using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Hitasp.HitCommerce.Catalog.Tagging;
 using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
@@ -40,12 +39,14 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryInfo> CategoryInfos { get; set; }
-        public DbSet<CategoryMeta> CategoryMetas { get; set; }
+        public DbSet<CategoryMetaInfo> CategoryMetas { get; set; }
+        public DbSet<CategoryPageInfo> CategoryPageInfos { get; set; }
         public DbSet<CategoryPublishingInfo> CategoryPublishingInfos { get; set; }
         public DbSet<CategoryDiscount> CategoryDiscounts { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<ManufacturerInfo> ManufacturerInfos { get; set; }
-        public DbSet<ManufacturerMeta> ManufacturerMetas { get; set; }
+        public DbSet<ManufacturerMetaInfo> ManufacturerMetas { get; set; }
+        public DbSet<ManufacturerPageInfo> ManufacturerPageInfos { get; set; }
         public DbSet<ManufacturerPublishingInfo> ManufacturerPublishingInfos { get; set; }
         public DbSet<ManufacturerDiscount> ManufacturerDiscounts { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -55,7 +56,7 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
         public DbSet<ProductCode> ProductCodes { get; set; }
         public DbSet<ProductInfo> ProductInfos { get; set; }
-        public DbSet<ProductMeta> ProductMetas { get; set; }
+        public DbSet<ProductMetaInfo> ProductMetas { get; set; }
         public DbSet<ProductOrderingInfo> ProductOrderingInfos { get; set; }
         public DbSet<ProductPriceInfo> ProductPriceInfos { get; set; }
         public DbSet<ProductPublishingInfo> ProductPublishingInfos { get; set; }

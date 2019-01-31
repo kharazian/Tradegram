@@ -6,10 +6,10 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace Hitasp.HitCommerce.Catalog.Manufacturers.Repositories
 {
-    public class EfCoreManufacturerMetaRepository : EfCoreRepository<ICatalogDbContext, ManufacturerMeta, Guid>,
-        IManufacturerMetaRepository
+    public class EfCoreManufacturerMetaInfoRepository : EfCoreRepository<ICatalogDbContext, ManufacturerMetaInfo, Guid>,
+        IManufacturerMetaInfoRepository
     {
-        public EfCoreManufacturerMetaRepository(IDbContextProvider<ICatalogDbContext> dbContextProvider) : base(dbContextProvider)
+        public EfCoreManufacturerMetaInfoRepository(IDbContextProvider<ICatalogDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

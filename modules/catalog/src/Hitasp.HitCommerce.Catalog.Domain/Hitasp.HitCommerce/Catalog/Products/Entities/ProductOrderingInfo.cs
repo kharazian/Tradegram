@@ -22,7 +22,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         public virtual bool IsWishListButtonDisabled { get; protected set; }
 
         public virtual bool NotReturnable { get; protected set; }
-        
+
         public virtual bool IsRecurring { get; protected set; }
 
         public virtual int RecurringCycleLength { get; protected set; }
@@ -30,7 +30,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         public virtual int RecurringTotalCycles { get; protected set; }
 
         public virtual RecurringProductCyclePeriod RecurringCyclePeriod { get; protected set; }
-        
+
         public virtual bool IsRental { get; protected set; }
 
         public virtual int RentalPriceLength { get; protected set; }
@@ -45,6 +45,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         internal ProductOrderingInfo(Guid productId) : base(productId)
         {
         }
+
 
         public void DisableBuyButton(bool isBuyButtonDisabled = false)
         {
@@ -62,7 +63,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             if (allowedQuantities.Any(x => x <= 0))
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"{nameof(allowedQuantities)} can not be have value less than one!");
             }
 
             if (!string.IsNullOrWhiteSpace(AllowedQuantities))
@@ -92,7 +93,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 throw new ArgumentException();
             }
 
-            if (OrderMinimumQuantity == orderMinimumQuantity && OrderMaximumQuantity == orderMaximumQuantity)
+            if (OrderMinimumQuantity == orderMinimumQuantity &&
+                OrderMaximumQuantity == orderMaximumQuantity)
             {
                 return;
             }
@@ -126,7 +128,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 return;
             }
 
-            NotReturnable = NotReturnable;
+            NotReturnable = notReturnable;
         }
 
         public void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
@@ -142,7 +144,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 throw new ArgumentException();
             }
 
-            if (RecurringCycleLength == recurringCycleLength && RecurringTotalCycles == recurringTotalCycles &&
+            if (RecurringCycleLength == recurringCycleLength &&
+                RecurringTotalCycles == recurringTotalCycles &&
                 RecurringCyclePeriod == recurringCyclePeriod)
             {
                 return;
@@ -163,7 +166,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 throw new ArgumentException();
             }
 
-            if (RentalPriceLength == rentalPriceLength && RentalPricePeriod == rentalPricePeriod)
+            if (RentalPriceLength == rentalPriceLength &&
+                RentalPricePeriod == rentalPricePeriod)
             {
                 return;
             }

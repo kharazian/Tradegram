@@ -1,5 +1,5 @@
 ﻿using System;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.MongoDB;
 using Volo.Abp;
 using Volo.Abp.MongoDB;

@@ -15,9 +15,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         public virtual string Description { get; protected set; }
 
-        public virtual int DisplayOrder { get; protected set; }
-
-
         protected ProductInfo()
         {
         }
@@ -25,8 +22,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         internal ProductInfo(Guid productId) : base(productId)
         {
         }
-
-        public void SetName(string name)
+        
+         public void SetName(string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
@@ -35,7 +32,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 return;
             }
 
-            if (name.Length >= ProductConsts.MaxTitleLength)
+            if (name.Length >= ProductConsts.MaxNameLength)
             {
                 throw new ArgumentException($"Name can not be longer than {ProductConsts.MaxNameLength}");
             }
@@ -69,7 +66,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             if (description.Length >= ProductConsts.MaxDescriptionLength)
             {
-                throw new ArgumentException($"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
+                throw new ArgumentException(
+                    $"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
             }
 
             Description = description;
@@ -91,21 +89,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             }
 
             ShortDescription = shortDescription;
-        }
-
-        public void SetDisplayOrder(int displayOrder)
-        {
-            if (displayOrder < 0)
-            {
-                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
-            }
-
-            if (DisplayOrder == displayOrder)
-            {
-                return;
-            }
-
-            DisplayOrder = displayOrder;
         }
     }
 }

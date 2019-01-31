@@ -17,7 +17,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             {
                 BsonClassMap.RegisterClassMap<Category>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<CategoryInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<CategoryMeta>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<CategoryMetaInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<CategoryPublishingInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductTag>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<Template>(map => { map.AutoMap(); });

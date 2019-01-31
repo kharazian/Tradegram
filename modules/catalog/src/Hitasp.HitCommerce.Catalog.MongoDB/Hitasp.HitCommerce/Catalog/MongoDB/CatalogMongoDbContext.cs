@@ -1,7 +1,7 @@
 ﻿using Hitasp.HitCommerce.Catalog.Attributes;
 using Hitasp.HitCommerce.Catalog.Attributes.Entities;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
 using Hitasp.HitCommerce.Catalog.Categories.Entities;
@@ -15,7 +15,6 @@ using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Hitasp.HitCommerce.Catalog.Tagging;
 using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
@@ -42,12 +41,12 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         public IMongoCollection<Category> Categories => Collection<Category>();
         public IMongoCollection<CategoryInfo> CategoryInfos => Collection<CategoryInfo>();
-        public IMongoCollection<CategoryMeta> CategoryMetas => Collection<CategoryMeta>();
+        public IMongoCollection<CategoryMetaInfo> CategoryMetas => Collection<CategoryMetaInfo>();
         public IMongoCollection<CategoryPublishingInfo> CategoryPublishingInfos => Collection<CategoryPublishingInfo>();
         public IMongoCollection<CategoryDiscount> CategoryDiscounts => Collection<CategoryDiscount>();
         public IMongoCollection<Manufacturer> Manufacturers => Collection<Manufacturer>();
         public IMongoCollection<ManufacturerInfo> ManufacturerInfos => Collection<ManufacturerInfo>();
-        public IMongoCollection<ManufacturerMeta> ManufacturerMetas => Collection<ManufacturerMeta>();
+        public IMongoCollection<ManufacturerMetaInfo> ManufacturerMetas => Collection<ManufacturerMetaInfo>();
 
         public IMongoCollection<ManufacturerPublishingInfo> ManufacturerPublishingInfos =>
             Collection<ManufacturerPublishingInfo>();
@@ -63,7 +62,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         public IMongoCollection<ProductAttributeValue> ProductAttributeValues => Collection<ProductAttributeValue>();
         public IMongoCollection<ProductCode> ProductCodes => Collection<ProductCode>();
         public IMongoCollection<ProductInfo> ProductInfos => Collection<ProductInfo>();
-        public IMongoCollection<ProductMeta> ProductMetas => Collection<ProductMeta>();
+        public IMongoCollection<ProductMetaInfo> ProductMetas => Collection<ProductMetaInfo>();
         public IMongoCollection<ProductOrderingInfo> ProductOrderingInfos => Collection<ProductOrderingInfo>();
         public IMongoCollection<ProductPriceInfo> ProductPriceInfos => Collection<ProductPriceInfo>();
         public IMongoCollection<ProductPublishingInfo> ProductPublishingInfos => Collection<ProductPublishingInfo>();

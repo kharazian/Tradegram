@@ -6,8 +6,8 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
 {
-    public class MongoCategoryMetaRepository : MongoDbRepository<ICatalogMongoDbContext, CategoryMeta, Guid>,
-        ICategoryMetaRepository
+    public class MongoCategoryMetaRepository : MongoDbRepository<ICatalogMongoDbContext, CategoryMetaInfo, Guid>,
+        ICategoryMetaInfoRepository
     {
         public MongoCategoryMetaRepository(IMongoDbContextProvider<ICatalogMongoDbContext> dbContextProvider) : base(dbContextProvider)
         {

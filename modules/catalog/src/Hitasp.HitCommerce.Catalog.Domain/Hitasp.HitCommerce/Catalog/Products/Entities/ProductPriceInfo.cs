@@ -65,17 +65,22 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             {
                 if (basePriceUnitId == null || basePriceUnitId <= 0)
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException($"{nameof(basePriceUnitId)} is not valid");
                 }
 
                 if (basePriceBaseUnitId == null || basePriceBaseUnitId <= 0)
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException($"{nameof(basePriceBaseUnitId)} is not valid");
                 }
 
-                if (basePriceAmount == null || basePriceBaseAmount == null)
+                if (basePriceAmount == null || basePriceAmount <= decimal.Zero)
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException($"{nameof(basePriceAmount)} is not valid");
+                }
+
+                if (basePriceBaseAmount == null || basePriceBaseAmount <= decimal.Zero)
+                {
+                    throw new ArgumentException($"{nameof(basePriceBaseAmount)} is not valid");
                 }
 
                 BasePriceEnabled = true;
@@ -94,17 +99,30 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             }
         }
 
-        public void AllowCustomerEntersPrice(decimal minPrice, decimal maxPerice)
+        public void AllowCustomerEntersPrice(bool allow = false, decimal? minPrice = null, decimal? maxPerice = null)
         {
-            if (IsAllowCustomerEntersPrice && MinimumCustomerEnteredPrice == minPrice &&
-                MaximumCustomerEnteredPrice == maxPerice)
+            if (allow)
             {
-                return;
+                if (minPrice <= decimal.Zero || minPrice >= maxPerice)
+                {
+                    throw new ArgumentException($"{nameof(minPrice)} is not valid");
+                }
+
+                if (IsAllowCustomerEntersPrice &&
+                    MinimumCustomerEnteredPrice == minPrice &&
+                    MaximumCustomerEnteredPrice == maxPerice)
+                {
+                    return;
+                }
+
+                IsAllowCustomerEntersPrice = true;
+                MinimumCustomerEnteredPrice = minPrice;
+                MaximumCustomerEnteredPrice = maxPerice;
             }
 
-            IsAllowCustomerEntersPrice = true;
-            MinimumCustomerEnteredPrice = minPrice;
-            MaximumCustomerEnteredPrice = maxPerice;
+            IsAllowCustomerEntersPrice = false;
+            MinimumCustomerEnteredPrice = null;
+            MaximumCustomerEnteredPrice = null;
         }
 
         public void DisableCustomerEntersPrice()
@@ -161,7 +179,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             CallForPrice = callForPrice;
         }
-        
+
         public void SetAsTaxExempt(bool isTaxExempt = true, Guid? taxCategoryId = null)
         {
             if (IsTaxExempt == isTaxExempt && TaxCategoryId == taxCategoryId)

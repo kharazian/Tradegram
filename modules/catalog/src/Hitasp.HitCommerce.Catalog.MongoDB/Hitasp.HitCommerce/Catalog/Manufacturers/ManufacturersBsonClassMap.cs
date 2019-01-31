@@ -15,7 +15,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
             {
                 BsonClassMap.RegisterClassMap<Manufacturer>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ManufacturerInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ManufacturerMeta>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ManufacturerMetaInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ManufacturerPublishingInfo>(map => { map.AutoMap(); });
             });
         }

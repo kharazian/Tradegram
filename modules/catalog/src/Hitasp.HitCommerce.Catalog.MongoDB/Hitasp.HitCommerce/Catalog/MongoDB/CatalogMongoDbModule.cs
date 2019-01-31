@@ -2,7 +2,7 @@
 using Hitasp.HitCommerce.Catalog.Attributes.Entities;
 using Hitasp.HitCommerce.Catalog.Attributes.Repositories;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions;
-using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Aggregates;
+using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Repositories;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
@@ -20,7 +20,6 @@ using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Repositories;
 using Hitasp.HitCommerce.Catalog.Tagging;
@@ -64,14 +63,14 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 //Categories
                 options.AddRepository<Category, MongoCategoryRepository>();
                 options.AddRepository<CategoryInfo, MongoCategoryInfoRepository>();
-                options.AddRepository<CategoryMeta, MongoCategoryMetaRepository>();
+                options.AddRepository<CategoryMetaInfo, MongoCategoryMetaRepository>();
                 options.AddRepository<CategoryPublishingInfo, MongoCategoryPublishingInfoRepository>();
                 options.AddRepository<CategoryDiscount, MongoCategoryDiscountRepository>();
 
                 //Manufacturers
                 options.AddRepository<Manufacturer, MongoManufacturerRepository>();
                 options.AddRepository<ManufacturerInfo, MongoManufacturerInfoRepository>();
-                options.AddRepository<ManufacturerMeta, MongoManufacturerMetaRepository>();
+                options.AddRepository<ManufacturerMetaInfo, MongoManufacturerMetaRepository>();
                 options.AddRepository<ManufacturerPublishingInfo, MongoManufacturerPublishingInfoRepository>();
                 options.AddRepository<ManufacturerDiscount, MongoManufacturerDiscountRepository>();
 
@@ -81,7 +80,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 options.AddRepository<ProductAttributeValue, MongoProductAttributeValueRepository>();
                 options.AddRepository<ProductCode, MongoProductCodeRepository>();
                 options.AddRepository<ProductInfo, MongoProductInfoRepository>();
-                options.AddRepository<ProductMeta, MongoProductMetaRepository>();
+                options.AddRepository<ProductMetaInfo, MongoProductMetaRepository>();
                 options.AddRepository<ProductOrderingInfo, MongoProductOrderingInfoRepository>();
                 options.AddRepository<ProductPriceInfo, MongoProductPriceInfoRepository>();
                 options.AddRepository<ProductProductAttribute, MongoProductProductAttributeRepository>();

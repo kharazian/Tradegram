@@ -1,5 +1,4 @@
-﻿using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Aggregates;
-using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
+﻿using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using MongoDB.Bson.Serialization;
 using Volo.Abp.Threading;
 

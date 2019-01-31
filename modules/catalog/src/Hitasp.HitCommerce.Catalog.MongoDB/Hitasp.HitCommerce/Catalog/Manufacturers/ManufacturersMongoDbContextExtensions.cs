@@ -30,7 +30,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
                 b.CollectionName = options.CollectionPrefix + "Manufacturers_Info";
             });
             
-            builder.Entity<ManufacturerMeta>(b =>
+            builder.Entity<ManufacturerMetaInfo>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Manufacturers_Meta";
             });

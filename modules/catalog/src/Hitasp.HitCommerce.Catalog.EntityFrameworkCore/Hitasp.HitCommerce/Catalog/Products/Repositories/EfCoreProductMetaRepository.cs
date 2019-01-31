@@ -6,8 +6,8 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Repositories
 {
-    public class EfCoreProductMetaRepository : EfCoreRepository<ICatalogDbContext, ProductMeta, Guid>,
-        IProductMetaRepository
+    public class EfCoreProductMetaRepository : EfCoreRepository<ICatalogDbContext, ProductMetaInfo, Guid>,
+        IProductMetaInfoRepository
     {
         public EfCoreProductMetaRepository(IDbContextProvider<ICatalogDbContext> dbContextProvider) : base(dbContextProvider)
         {
