@@ -41,12 +41,14 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         public IMongoCollection<Category> Categories => Collection<Category>();
         public IMongoCollection<CategoryInfo> CategoryInfos => Collection<CategoryInfo>();
-        public IMongoCollection<CategoryMetaInfo> CategoryMetas => Collection<CategoryMetaInfo>();
+        public IMongoCollection<CategoryMetaInfo> CategoryMetaInfos => Collection<CategoryMetaInfo>();
+        public IMongoCollection<CategoryPageInfo> CategoryPageInfos => Collection<CategoryPageInfo>();
         public IMongoCollection<CategoryPublishingInfo> CategoryPublishingInfos => Collection<CategoryPublishingInfo>();
         public IMongoCollection<CategoryDiscount> CategoryDiscounts => Collection<CategoryDiscount>();
         public IMongoCollection<Manufacturer> Manufacturers => Collection<Manufacturer>();
         public IMongoCollection<ManufacturerInfo> ManufacturerInfos => Collection<ManufacturerInfo>();
-        public IMongoCollection<ManufacturerMetaInfo> ManufacturerMetas => Collection<ManufacturerMetaInfo>();
+        public IMongoCollection<ManufacturerMetaInfo> ManufacturerMetaInfos => Collection<ManufacturerMetaInfo>();
+        public IMongoCollection<ManufacturerMetaInfo> ManufacturerPageInfos => Collection<ManufacturerMetaInfo>();
 
         public IMongoCollection<ManufacturerPublishingInfo> ManufacturerPublishingInfos =>
             Collection<ManufacturerPublishingInfo>();

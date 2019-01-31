@@ -71,7 +71,8 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 //Manufacturers
                 options.AddRepository<Manufacturer, MongoManufacturerRepository>();
                 options.AddRepository<ManufacturerInfo, MongoManufacturerInfoRepository>();
-                options.AddRepository<ManufacturerMetaInfo, MongoManufacturerMetaRepository>();
+                options.AddRepository<ManufacturerMetaInfo, MongoManufacturerMetaInfoRepository>();
+                options.AddRepository<ManufacturerPageInfo, MongoManufacturerPageInfoRepository>();
                 options.AddRepository<ManufacturerPublishingInfo, MongoManufacturerPublishingInfoRepository>();
                 options.AddRepository<ManufacturerDiscount, MongoManufacturerDiscountRepository>();
 

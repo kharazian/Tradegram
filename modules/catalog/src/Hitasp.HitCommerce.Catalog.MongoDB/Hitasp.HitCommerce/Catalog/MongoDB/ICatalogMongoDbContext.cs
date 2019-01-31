@@ -31,7 +31,9 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<CategoryInfo> CategoryInfos { get; }
 
-        IMongoCollection<CategoryMetaInfo> CategoryMetas { get; }
+        IMongoCollection<CategoryMetaInfo> CategoryMetaInfos { get; }
+        
+        IMongoCollection<CategoryPageInfo> CategoryPageInfos { get; }
 
         IMongoCollection<CategoryPublishingInfo> CategoryPublishingInfos { get; }
 
@@ -41,7 +43,9 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<ManufacturerInfo> ManufacturerInfos { get; }
 
-        IMongoCollection<ManufacturerMetaInfo> ManufacturerMetas { get; }
+        IMongoCollection<ManufacturerMetaInfo> ManufacturerMetaInfos { get; }
+        
+        IMongoCollection<ManufacturerMetaInfo> ManufacturerPageInfos { get; }
 
         IMongoCollection<ManufacturerPublishingInfo> ManufacturerPublishingInfos { get; }
 

@@ -6,10 +6,10 @@ using Volo.Abp.MongoDB;
 
 namespace Hitasp.HitCommerce.Catalog.Manufacturers.Repositories
 {
-    public class MongoManufacturerMetaRepository : MongoDbRepository<ICatalogMongoDbContext, ManufacturerMetaInfo, Guid>,
+    public class MongoManufacturerPageInfoRepository : MongoDbRepository<ICatalogMongoDbContext, ManufacturerMetaInfo, Guid>,
         IManufacturerMetaInfoRepository
     {
-        public MongoManufacturerMetaRepository(IMongoDbContextProvider<ICatalogMongoDbContext> dbContextProvider) : base(dbContextProvider)
+        public MongoManufacturerPageInfoRepository(IMongoDbContextProvider<ICatalogMongoDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
