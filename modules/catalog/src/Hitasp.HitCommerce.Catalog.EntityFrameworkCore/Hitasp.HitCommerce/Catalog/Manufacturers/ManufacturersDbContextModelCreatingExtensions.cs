@@ -6,6 +6,7 @@ using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Hitasp.HitCommerce.Catalog.Manufacturers
 {
@@ -26,6 +27,9 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
                 b.ToTable(options.TablePrefix + "Manufacturers", options.Schema);
 
                 b.HasKey(x => x.Id);
+
+                b.ConfigureFullAudited();
+                b.ConfigureExtraProperties();
 
                 b.Property(x => x.ManufacturerTemplateId).IsRequired().HasColumnName(nameof(Manufacturer.ManufacturerTemplateId));
                 b.Property(x => x.PictureId).HasColumnName(nameof(Manufacturer.PictureId));

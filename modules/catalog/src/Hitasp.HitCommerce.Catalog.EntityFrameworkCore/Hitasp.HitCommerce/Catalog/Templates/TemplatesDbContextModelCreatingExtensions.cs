@@ -3,6 +3,7 @@ using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Hitasp.HitCommerce.Catalog.Templates
 {
@@ -22,6 +23,7 @@ namespace Hitasp.HitCommerce.Catalog.Templates
             {
                 b.ToTable(options.TablePrefix + "ViewTemplates", options.Schema);
                 b.HasKey(x => x.Id);
+                b.ConfigureExtraProperties();
 
                 b.Property(x => x.Name).IsRequired().HasColumnName(nameof(Template.Name));
                 b.Property(x => x.ViewPath).HasColumnName(nameof(Template.ViewPath));

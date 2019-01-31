@@ -36,6 +36,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.HasIndex(x => x.ProductType);
                 
                 b.ConfigureFullAudited();
+                b.ConfigureExtraProperties();
 
                 b.Property(x => x.ProductType).IsRequired().HasMaxLength(15).HasColumnName(nameof(Product.ProductType));
                 b.Property(x => x.ProductTemplateId).IsRequired().HasColumnName(nameof(Product.ProductTemplateId));
@@ -466,7 +467,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.ToTable(options.TablePrefix + "Products_ProductPicture", options.Schema);
 
                 b.Property(x => x.ProductId).HasColumnName(nameof(ProductPicture.ProductId));
-                b.Property(x => x.PictureId).HasColumnName(nameof(ProductPicture.ProductId));
+                b.Property(x => x.PictureId).HasColumnName(nameof(ProductPicture.PictureId));
                 b.Property(x => x.DisplayOrder).HasColumnName(nameof(ProductPicture.DisplayOrder));
 
                 b.HasKey(x => new {x.ProductId, x.PictureId});

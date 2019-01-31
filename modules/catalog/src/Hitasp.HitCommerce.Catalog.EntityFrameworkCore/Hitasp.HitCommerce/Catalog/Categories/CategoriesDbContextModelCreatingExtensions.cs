@@ -6,6 +6,7 @@ using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Hitasp.HitCommerce.Catalog.Categories
 {
@@ -26,6 +27,9 @@ namespace Hitasp.HitCommerce.Catalog.Categories
                 b.ToTable(options.TablePrefix + "Categories", options.Schema);
 
                 b.HasKey(x => x.Id);
+
+                b.ConfigureFullAudited();
+                b.ConfigureExtraProperties();
 
                 b.Property(x => x.CategoryTemplateId).HasColumnName(nameof(Category.CategoryTemplateId));
                 b.Property(x => x.PictureId).HasColumnName(nameof(Category.PictureId));

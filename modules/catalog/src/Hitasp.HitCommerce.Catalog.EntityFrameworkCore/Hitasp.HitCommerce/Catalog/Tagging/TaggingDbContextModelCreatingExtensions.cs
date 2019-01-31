@@ -3,6 +3,7 @@ using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Hitasp.HitCommerce.Catalog.Tagging
 {
@@ -22,6 +23,7 @@ namespace Hitasp.HitCommerce.Catalog.Tagging
             {
                 b.ToTable(options.TablePrefix + "ProductTags", options.Schema);
                 b.HasKey(x => x.Id);
+                b.ConfigureExtraProperties();
 
                 b.Property(x => x.Name).IsRequired().HasColumnName(nameof(ProductTag.Name));
                 b.Property(x => x.Description).HasColumnName(nameof(ProductTag.Description));
