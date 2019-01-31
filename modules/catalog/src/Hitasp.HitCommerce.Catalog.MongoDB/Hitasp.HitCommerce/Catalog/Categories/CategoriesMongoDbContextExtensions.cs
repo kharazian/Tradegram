@@ -32,7 +32,12 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             
             builder.Entity<CategoryMetaInfo>(b =>
             {
-                b.CollectionName = options.CollectionPrefix + "Categories_Meta";
+                b.CollectionName = options.CollectionPrefix + "Categories_MetaInfo";
+            });
+            
+            builder.Entity<CategoryPageInfo>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Categories_PageInfo";
             });
             
             builder.Entity<CategoryPublishingInfo>(b =>

@@ -24,18 +24,10 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Repositories
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
-        public async Task<Category> FindByNameAsync(string name,
-            CancellationToken cancellationToken = default)
+        public async Task<List<Category>> GetListRootCategory(bool includeDetails = false, CancellationToken cancellationToken = default)
         {
-            return await GetMongoQueryable().FirstOrDefaultAsync(x => x.CategoryInfo.Name == name,
-                GetCancellationToken(cancellationToken));
-        }
-
-        public async Task<Category> FindByTitleAsync(string title,
-            CancellationToken cancellationToken = default)
-        {
-            return await GetMongoQueryable().FirstOrDefaultAsync(x => x.CategoryInfo.Title == title,
-                GetCancellationToken(cancellationToken));
+            return await GetMongoQueryable().Where(x => x.ParentCategoryId == null)
+                .ToListAsync(GetCancellationToken(cancellationToken));
         }
     }
 }

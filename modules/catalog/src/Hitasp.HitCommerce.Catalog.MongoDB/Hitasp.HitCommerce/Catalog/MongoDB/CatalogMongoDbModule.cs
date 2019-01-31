@@ -63,7 +63,8 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 //Categories
                 options.AddRepository<Category, MongoCategoryRepository>();
                 options.AddRepository<CategoryInfo, MongoCategoryInfoRepository>();
-                options.AddRepository<CategoryMetaInfo, MongoCategoryMetaRepository>();
+                options.AddRepository<CategoryMetaInfo, MongoCategoryMetaInfoRepository>();
+                options.AddRepository<CategoryPageInfo, MongoCategoryPageInfoRepository>();
                 options.AddRepository<CategoryPublishingInfo, MongoCategoryPublishingInfoRepository>();
                 options.AddRepository<CategoryDiscount, MongoCategoryDiscountRepository>();
 
