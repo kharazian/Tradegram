@@ -140,6 +140,9 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.Property(x => x.ProductId).HasColumnName(nameof(ProductAttributeCombination.ProductId));
                 b.Property(x => x.PictureId).HasColumnName(nameof(ProductAttributeCombination.PictureId));
+                b.Property(x => x.ManufacturerPartNumber).HasColumnName(nameof(ProductAttributeCombination.ManufacturerPartNumber));
+                b.Property(x => x.Code).HasColumnName(nameof(ProductAttributeCombination.Code));
+
                 b.Property(x => x.StockQuantity).HasColumnName(nameof(ProductAttributeCombination.StockQuantity));
 
                 b.Property(x => x.AllowOutOfStockOrders)

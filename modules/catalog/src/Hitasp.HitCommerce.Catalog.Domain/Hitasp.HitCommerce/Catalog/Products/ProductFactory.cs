@@ -33,7 +33,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
             if (await _infoRepository.FindByNameAsync(name) != null)
             {
-                throw new ProductCodeAlreadyExistsException(code);
+                throw new ProductNameAlreadyExistsException(name);
             }
 
             var productId = GuidGenerator.Create();
@@ -41,8 +41,8 @@ namespace Hitasp.HitCommerce.Catalog.Products
             var product = new PhysicalProduct(productId);
             var productCode = new ProductCode(productId, code);
             var productInfo = new ProductInfo(productId);
-            var productMeta = new ProductMetaInfo(productId);
-            var productPrice = new ProductPriceInfo(productId, price);
+            var productMetaInfo = new ProductMetaInfo(productId);
+            var productPriceInfo = new ProductPriceInfo(productId, price);
             var productPublishingInfo = new ProductPublishingInfo(productId);
             var productOrderingInfo = new ProductOrderingInfo(productId);
             var productRate = new ProductRate(productId);
@@ -51,13 +51,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
             productInfo.SetName(name);
             productInfo.SetTitle(title);
             productInfo.SetShortDescription(shortDescription);
-            productPrice.SetAsTaxExempt();
+            productPriceInfo.SetAsTaxExempt();
 
             product.SetProductTemplate(productTemplateId);
             product.SetProductCode(productCode);
             product.SetProductInfo(productInfo);
-            product.SetProductMetaInfo(productMeta);
-            product.SetProductPriceInfo(productPrice);
+            product.SetProductMetaInfo(productMetaInfo);
+            product.SetProductPriceInfo(productPriceInfo);
             product.SetProductPublishingInfo(productPublishingInfo);
             product.SetProductOrderingInfo(productOrderingInfo);
             product.SetProductRate(productRate);
@@ -78,7 +78,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
             if (await _infoRepository.FindByNameAsync(name) != null)
             {
-                throw new ProductCodeAlreadyExistsException(code);
+                throw new ProductNameAlreadyExistsException(name);
             }
 
             var productId = GuidGenerator.Create();
@@ -86,8 +86,8 @@ namespace Hitasp.HitCommerce.Catalog.Products
             var product = new VirtualProduct(productId);
             var productCode = new ProductCode(productId, code);
             var productInfo = new ProductInfo(productId);
-            var productMeta = new ProductMetaInfo(productId);
-            var productPrice = new ProductPriceInfo(productId, price);
+            var productMetaInfo = new ProductMetaInfo(productId);
+            var productPriceInfo = new ProductPriceInfo(productId, price);
             var productPublishingInfo = new ProductPublishingInfo(productId);
             var productOrderingInfo = new ProductOrderingInfo(productId);
             var productRate = new ProductRate(productId);
@@ -96,13 +96,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
             productInfo.SetName(name);
             productInfo.SetTitle(title);
             productInfo.SetShortDescription(shortDescription);
-            productPrice.SetAsTaxExempt();
+            productPriceInfo.SetAsTaxExempt();
 
             product.SetProductTemplate(productTemplateId);
             product.SetProductCode(productCode);
             product.SetProductInfo(productInfo);
-            product.SetProductMetaInfo(productMeta);
-            product.SetProductPriceInfo(productPrice);
+            product.SetProductMetaInfo(productMetaInfo);
+            product.SetProductPriceInfo(productPriceInfo);
             product.SetProductPublishingInfo(productPublishingInfo);
             product.SetProductOrderingInfo(productOrderingInfo);
             product.SetProductRate(productRate);
