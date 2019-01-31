@@ -7,7 +7,7 @@ using Volo.Abp.Application.Services;
 namespace Hitasp.HitCommerce.Catalog.Manufacturers
 {
     public interface IManufacturerAppService : IAsyncCrudAppService<ManufacturerDto, Guid,
-        ManufacturerGetListInput, ManufacturerCreateDto, ManufacturerUpdateDto>
+        ManufacturerGetListInput, ManufacturerCreateOrUpdateDto>
     {
         Task<ListResultDto<ManufacturerDto>> GetListFilteredAsync(bool showHidden = false);
 

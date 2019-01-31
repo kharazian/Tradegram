@@ -2,7 +2,7 @@ using System;
 
 namespace Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Dtos
 {
-    public class BackInStockSubscriptionUpdateDto
+    public class BackInStockSubscriptionCreateOrUpdateDto
     {
         public Guid ProductId { get; set; }
         

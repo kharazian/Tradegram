@@ -7,7 +7,7 @@ using Volo.Abp.Application.Services;
 namespace Hitasp.HitCommerce.Catalog.Categories
 {
     public interface ICategoryAppService : IAsyncCrudAppService<CategoryDto, Guid,
-        CategoryGetListInput, CategoryCreateDto, CategoryUpdateDto>
+        CategoryGetListInput, CategoryCreateOrUpdateDto>
     {
         Task<ListResultDto<CategoryDto>> GetListFilteredAsync(bool showHidden = false, bool loadCacheableCopy = true);
 
