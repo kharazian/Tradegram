@@ -13,8 +13,6 @@ namespace Hitasp.HitCommerce.Catalog.BackInStockSubscriptions
         
         Task<PagedResultDto<BackInStockSubscriptionDto>> GetListByProductIdAsync(BackInStockSubscriptionGetListByProductIdInput input);
 
-        Task<BackInStockSubscriptionDto> FindAsync(Guid customerId, Guid productId);
-
         Task<int> SendNotificationsToSubscribersAsync(Guid productId);
     }
 }
