@@ -31,46 +31,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.CollectionName = options.CollectionPrefix + "Products";
             });
 
-            builder.Entity<ProductCode>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_Code";
-            });
-
-            builder.Entity<ProductInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_Info";
-            });
-
-            builder.Entity<ProductMetaInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_Meta";
-            });
-
-            builder.Entity<ProductPriceInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_PriceInfo";
-            });
-
-            builder.Entity<ProductPublishingInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_PublishingInfo";
-            });
-
-            builder.Entity<ProductOrderingInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_OrderingInfo";
-            });
-
-            builder.Entity<ProductRate>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_Rate";
-               });
-
-            builder.Entity<ProductShippingInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Products_ShippingInfo";
-            });
-
             builder.Entity<ProductProductAttribute>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Products_Attributes";

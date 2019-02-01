@@ -1,6 +1,5 @@
 ﻿using System;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using Hitasp.HitCommerce.Catalog.MongoDB;
 using Volo.Abp;
@@ -23,26 +22,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             builder.Entity<Category>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Categories";
-            });
-            
-            builder.Entity<CategoryInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Categories_Info";
-            });
-            
-            builder.Entity<CategoryMetaInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Categories_MetaInfo";
-            });
-            
-            builder.Entity<CategoryPageInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Categories_PageInfo";
-            });
-            
-            builder.Entity<CategoryPublishingInfo>(b =>
-            {
-                b.CollectionName = options.CollectionPrefix + "Categories_PublishingInfo";
             });
             
             builder.Entity<CategoryDiscount>(b =>

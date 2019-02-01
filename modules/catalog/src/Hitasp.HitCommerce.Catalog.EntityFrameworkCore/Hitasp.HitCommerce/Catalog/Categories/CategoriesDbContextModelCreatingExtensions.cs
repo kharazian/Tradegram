@@ -1,6 +1,5 @@
 ﻿using System;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using Hitasp.HitCommerce.Catalog.EntityFrameworkCore;
 using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
@@ -35,77 +34,37 @@ namespace Hitasp.HitCommerce.Catalog.Categories
                 b.Property(x => x.PictureId).HasColumnName(nameof(Category.PictureId));
                 b.Property(x => x.ParentCategoryId).HasColumnName(nameof(Category.ParentCategoryId));
 
-                b.HasOne<CategoryInfo>().WithOne().IsRequired().HasForeignKey<CategoryInfo>(x => x.Id)
-                    .OnDelete(DeleteBehavior.Cascade);
+                b.Property(x => x.Name).IsRequired().HasMaxLength(CategoryConsts.MaxNameLength)
+                    .HasColumnName(nameof(Category.Name));
+                b.Property(x => x.Title).IsRequired().HasMaxLength(CategoryConsts.MaxTitleLength)
+                    .HasColumnName(nameof(Category.Title));
+                b.Property(x => x.Description).IsRequired(false).HasMaxLength(CategoryConsts.MaxDescriptionLength)
+                    .HasColumnName(nameof(Category.Description));
                 
-                b.HasOne<CategoryMetaInfo>().WithOne().IsRequired().HasForeignKey<CategoryMetaInfo>(x => x.Id)
-                    .OnDelete(DeleteBehavior.Cascade);
+                b.Property(x => x.MetaTitle).IsRequired(false).HasMaxLength(CategoryConsts.MaxMetaTitleLength)
+                    .HasColumnName(nameof(Category.MetaTitle));
+                b.Property(x => x.MetaKeywords).IsRequired(false).HasMaxLength(CategoryConsts.MaxMetaKeywordsLength)
+                    .HasColumnName(nameof(Category.MetaKeywords));
+                b.Property(x => x.MetaDescription).IsRequired(false).HasMaxLength(CategoryConsts.MaxMetaDescriptionLength)
+                    .HasColumnName(nameof(Category.MetaDescription));
                 
-                b.HasOne<CategoryPageInfo>().WithOne().IsRequired().HasForeignKey<CategoryPageInfo>(x => x.Id)
-                    .OnDelete(DeleteBehavior.Cascade);
+                b.Property(x => x.PageSize).HasColumnName(nameof(Category.PageSize));
+                b.Property(x => x.IsAllowCustomersToSelectPageSize).HasDefaultValue(true)
+                    .HasColumnName(nameof(Category.IsAllowCustomersToSelectPageSize));
+                b.Property(x => x.PageSizeOptions).HasColumnName(nameof(Category.PageSizeOptions));
                 
-                b.HasOne<CategoryPublishingInfo>().WithOne().IsRequired().HasForeignKey<CategoryPublishingInfo>(x => x.Id)
-                    .OnDelete(DeleteBehavior.Cascade);
+                b.Property(x => x.IsPublished).HasDefaultValue(false).HasColumnName(nameof(Category.IsPublished));
+                b.Property(x => x.ShowOnHomePage).HasDefaultValue(false).HasColumnName(nameof(Category.ShowOnHomePage));
+                b.Property(x => x.DisplayOrder).HasDefaultValue(0).HasColumnName(nameof(Category.DisplayOrder));
 
                 b.HasOne<Template>().WithMany().IsRequired().HasForeignKey(x => x.CategoryTemplateId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 b.HasMany<CategoryDiscount>().WithOne().HasForeignKey(x => x.CategoryId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
                 
                 b.HasMany<Category>().WithOne().HasForeignKey(x => x.ParentCategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
-            });
-            
-            builder.Entity<CategoryInfo>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Categories_Info", options.Schema);
-
-                b.HasKey(x => x.Id);
-
-                b.Property(x => x.Name).IsRequired().HasMaxLength(CategoryConsts.MaxNameLength)
-                    .HasColumnName(nameof(CategoryInfo.Name));
-                b.Property(x => x.Title).IsRequired().HasMaxLength(CategoryConsts.MaxTitleLength)
-                    .HasColumnName(nameof(CategoryInfo.Title));
-                b.Property(x => x.Description).IsRequired(false).HasMaxLength(CategoryConsts.MaxDescriptionLength)
-                    .HasColumnName(nameof(CategoryInfo.Description));
-            });
-            
-            builder.Entity<CategoryMetaInfo>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Categories_MetaInfo", options.Schema);
-
-                b.HasKey(x => x.Id);
-
-                b.Property(x => x.MetaTitle).IsRequired(false).HasMaxLength(CategoryConsts.MaxMetaTitleLength)
-                    .HasColumnName(nameof(CategoryMetaInfo.MetaTitle));
-                b.Property(x => x.MetaKeywords).IsRequired(false).HasMaxLength(CategoryConsts.MaxMetaKeywordsLength)
-                    .HasColumnName(nameof(CategoryMetaInfo.MetaKeywords));
-                b.Property(x => x.MetaDescription).IsRequired(false).HasMaxLength(CategoryConsts.MaxMetaDescriptionLength)
-                    .HasColumnName(nameof(CategoryMetaInfo.MetaDescription));
-            });
-            
-            builder.Entity<CategoryPageInfo>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Categories_PageInfo", options.Schema);
-
-                b.HasKey(x => x.Id);
-
-                b.Property(x => x.PageSize).HasColumnName(nameof(CategoryPageInfo.PageSize));
-                b.Property(x => x.IsAllowCustomersToSelectPageSize).HasDefaultValue(true)
-                    .HasColumnName(nameof(CategoryPageInfo.IsAllowCustomersToSelectPageSize));
-                b.Property(x => x.PageSizeOptions).HasColumnName(nameof(CategoryPageInfo.PageSizeOptions));
-            });
-            
-            builder.Entity<CategoryPublishingInfo>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Categories_PublishingInfo", options.Schema);
-
-                b.HasKey(x => x.Id);
-
-                b.Property(x => x.IsPublished).HasDefaultValue(false).HasColumnName(nameof(CategoryPublishingInfo.IsPublished));
-                b.Property(x => x.ShowOnHomePage).HasDefaultValue(false).HasColumnName(nameof(CategoryPublishingInfo.ShowOnHomePage));
-                b.Property(x => x.DisplayOrder).HasDefaultValue(0).HasColumnName(nameof(CategoryPublishingInfo.DisplayOrder));
             });
             
             builder.Entity<CategoryDiscount>(b =>

@@ -27,14 +27,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 BsonClassMap.RegisterClassMap<PhysicalProduct>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductProductAttribute>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductAttributeCombination>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductCode>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductMetaInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductOrderingInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductPriceInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductPublishingInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductRate>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductShippingInfo>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<StockQuantityHistory>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<CrossSellProduct>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductCategory>(map => { map.AutoMap(); });

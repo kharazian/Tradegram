@@ -1,7 +1,5 @@
 ﻿using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
-using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
-using Hitasp.HitCommerce.Catalog.Templates.Aggregates;
+using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using MongoDB.Bson.Serialization;
 using Volo.Abp.Threading;
 
@@ -16,12 +14,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories
             OneTimeRunner.Run(() =>
             {
                 BsonClassMap.RegisterClassMap<Category>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<CategoryInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<CategoryMetaInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<CategoryPageInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<CategoryPublishingInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ProductTag>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<Template>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<CategoryDiscount>(map => { map.AutoMap(); });
             });
         }
     }

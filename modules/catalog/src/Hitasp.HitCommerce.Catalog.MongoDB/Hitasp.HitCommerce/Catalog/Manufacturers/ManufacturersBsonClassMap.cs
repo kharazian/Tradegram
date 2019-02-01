@@ -1,5 +1,5 @@
 ﻿using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
-using Hitasp.HitCommerce.Catalog.Manufacturers.Entities;
+using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using MongoDB.Bson.Serialization;
 using Volo.Abp.Threading;
 
@@ -14,10 +14,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
             OneTimeRunner.Run(() =>
             {
                 BsonClassMap.RegisterClassMap<Manufacturer>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ManufacturerInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ManufacturerMetaInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ManufacturerPageInfo>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<ManufacturerPublishingInfo>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ManufacturerDiscount>(map => { map.AutoMap(); });
             });
         }
     }

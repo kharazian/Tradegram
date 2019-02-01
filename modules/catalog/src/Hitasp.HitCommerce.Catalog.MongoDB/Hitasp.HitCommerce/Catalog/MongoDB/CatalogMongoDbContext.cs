@@ -4,11 +4,9 @@ using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using Hitasp.HitCommerce.Catalog.Manufacturers;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
-using Hitasp.HitCommerce.Catalog.Manufacturers.Entities;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
@@ -40,19 +38,8 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
             Collection<BackInStockSubscription>();
 
         public IMongoCollection<Category> Categories => Collection<Category>();
-        public IMongoCollection<CategoryInfo> CategoryInfos => Collection<CategoryInfo>();
-        public IMongoCollection<CategoryMetaInfo> CategoryMetaInfos => Collection<CategoryMetaInfo>();
-        public IMongoCollection<CategoryPageInfo> CategoryPageInfos => Collection<CategoryPageInfo>();
-        public IMongoCollection<CategoryPublishingInfo> CategoryPublishingInfos => Collection<CategoryPublishingInfo>();
         public IMongoCollection<CategoryDiscount> CategoryDiscounts => Collection<CategoryDiscount>();
         public IMongoCollection<Manufacturer> Manufacturers => Collection<Manufacturer>();
-        public IMongoCollection<ManufacturerInfo> ManufacturerInfos => Collection<ManufacturerInfo>();
-        public IMongoCollection<ManufacturerMetaInfo> ManufacturerMetaInfos => Collection<ManufacturerMetaInfo>();
-        public IMongoCollection<ManufacturerMetaInfo> ManufacturerPageInfos => Collection<ManufacturerMetaInfo>();
-
-        public IMongoCollection<ManufacturerPublishingInfo> ManufacturerPublishingInfos =>
-            Collection<ManufacturerPublishingInfo>();
-
         public IMongoCollection<ManufacturerDiscount> ManufacturerDiscounts => Collection<ManufacturerDiscount>();
         public IMongoCollection<Product> Products => Collection<Product>();
         public IMongoCollection<VirtualProduct> VirtualProducts => Collection<VirtualProduct>();
@@ -62,14 +49,6 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
             Collection<ProductAttributeCombination>();
 
         public IMongoCollection<ProductAttributeValue> ProductAttributeValues => Collection<ProductAttributeValue>();
-        public IMongoCollection<ProductCode> ProductCodes => Collection<ProductCode>();
-        public IMongoCollection<ProductInfo> ProductInfos => Collection<ProductInfo>();
-        public IMongoCollection<ProductMetaInfo> ProductMetas => Collection<ProductMetaInfo>();
-        public IMongoCollection<ProductOrderingInfo> ProductOrderingInfos => Collection<ProductOrderingInfo>();
-        public IMongoCollection<ProductPriceInfo> ProductPriceInfos => Collection<ProductPriceInfo>();
-        public IMongoCollection<ProductPublishingInfo> ProductPublishingInfos => Collection<ProductPublishingInfo>();
-        public IMongoCollection<ProductRate> ProductRates => Collection<ProductRate>();
-        public IMongoCollection<ProductShippingInfo> ProductShippingInfos => Collection<ProductShippingInfo>();
         public IMongoCollection<StockQuantityHistory> StockQuantityHistories => Collection<StockQuantityHistory>();
         public IMongoCollection<CrossSellProduct> CrossSellProducts => Collection<CrossSellProduct>();
         public IMongoCollection<ProductCategory> ProductCategories => Collection<ProductCategory>();
@@ -101,7 +80,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         {
             base.CreateModel(modelBuilder);
 
-            modelBuilder.ConfigureAttributes(options => { options.CollectionPrefix = CollectionPrefix; });           
+            modelBuilder.ConfigureAttributes(options => { options.CollectionPrefix = CollectionPrefix; });
             modelBuilder.ConfigureBackInStockSubscriptions(options => { options.CollectionPrefix = CollectionPrefix; });
             modelBuilder.ConfigureCategories(options => { options.CollectionPrefix = CollectionPrefix; });
             modelBuilder.ConfigureManufacturers(options => { options.CollectionPrefix = CollectionPrefix; });
@@ -109,7 +88,6 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
             modelBuilder.ConfigureSpecificationAttributes(options => { options.CollectionPrefix = CollectionPrefix; });
             modelBuilder.ConfigureTagging(options => { options.CollectionPrefix = CollectionPrefix; });
             modelBuilder.ConfigureTemplates(options => { options.CollectionPrefix = CollectionPrefix; });
-
         }
     }
 }

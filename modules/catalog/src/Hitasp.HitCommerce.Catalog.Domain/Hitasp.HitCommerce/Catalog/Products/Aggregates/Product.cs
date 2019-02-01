@@ -4,6 +4,8 @@ using System.Linq;
 using Hitasp.HitCommerce.Catalog.Exceptions;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
+using JetBrains.Annotations;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
@@ -16,21 +18,129 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public Guid? PictureId { get; protected set; }
 
-        public ProductCode ProductCode { get; protected set; }
+        public string Code { get; protected set; }
 
-        public ProductInfo ProductInfo { get; protected set; }
+        public string Name { get; protected set; }
 
-        public ProductMetaInfo ProductMetaInfo { get; protected set; }
+        public string Title { get; protected set; }
 
-        public ProductPriceInfo ProductPriceInfo { get; protected set; }
+        public string ShortDescription { get; protected set; }
 
-        public ProductPublishingInfo ProductPublishingInfo { get; protected set; }
+        public string Description { get; protected set; }
 
-        public ProductOrderingInfo ProductOrderingInfo { get; protected set; }
+        public string MetaTitle { get; protected set; }
 
-        public ProductRate ProductRate { get; protected set; }
+        public string MetaKeywords { get; protected set; }
 
-        public ProductShippingInfo ProductShippingInfo { get; protected set; }
+        public string MetaDescription { get; protected set; }
+
+        public decimal Price { get; protected set; }
+
+        public decimal OldPrice { get; protected set; }
+
+        public decimal ProductCost { get; protected set; }
+
+        public bool CallForPrice { get; protected set; }
+
+        public bool IsAllowCustomerEntersPrice { get; protected set; }
+
+        public decimal? MinimumCustomerEnteredPrice { get; protected set; }
+
+        public decimal? MaximumCustomerEnteredPrice { get; protected set; }
+
+        public bool BasePriceEnabled { get; protected set; }
+
+        public decimal? BasePriceAmount { get; protected set; }
+
+        public int? BasePriceUnitId { get; protected set; }
+
+        public decimal? BasePriceBaseAmount { get; protected set; }
+
+        public int? BasePriceBaseUnitId { get; protected set; }
+
+        public bool IsTaxExempt { get; protected set; }
+
+        public Guid? TaxCategoryId { get; protected set; }
+
+        public bool IsNew { get; protected set; }
+
+        public bool IsPublished { get; protected set; }
+
+        public DateTime? MarkAsNewStartDate { get; protected set; }
+
+        public DateTime? MarkAsNewEndDate { get; protected set; }
+
+        public DateTime? AvailableStartDate { get; protected set; }
+
+        public DateTime? AvailableEndDate { get; protected set; }
+
+        public bool ShowOnHomePage { get; protected set; }
+
+        public bool VisibleIndividually { get; protected set; }
+
+        public int DisplayOrder { get; protected set; }
+
+        public string AllowedQuantities { get; protected set; }
+
+        public int OrderMinimumQuantity { get; protected set; }
+
+        public int OrderMaximumQuantity { get; protected set; }
+
+        public bool AvailableForPreOrder { get; protected set; }
+
+        public DateTime? PreOrderAvailabilityStartDate { get; protected set; }
+
+        public bool IsBuyButtonDisabled { get; protected set; }
+
+        public bool IsWishListButtonDisabled { get; protected set; }
+
+        public bool NotReturnable { get; protected set; }
+
+        public bool IsRecurring { get; protected set; }
+
+        public int RecurringCycleLength { get; protected set; }
+
+        public int RecurringTotalCycles { get; protected set; }
+
+        public RecurringProductCyclePeriod RecurringCyclePeriod { get; protected set; }
+
+        public bool IsRental { get; protected set; }
+
+        public int RentalPriceLength { get; protected set; }
+
+        public RentalPricePeriod RentalPricePeriod { get; protected set; }
+
+        public double RatingAverage { get; protected set; }
+
+        public int RatingCount { get; protected set; }
+
+        public bool IsShipEnabled { get; set; }
+
+        public bool IsFreeShipping { get; set; }
+
+        public bool ShipSeparately { get; set; }
+
+        public decimal AdditionalShippingCharge { get; set; }
+
+        public int? DeliveryDateId { get; set; }
+
+        public decimal Weight { get; set; }
+
+        public decimal Length { get; set; }
+
+        public decimal Width { get; set; }
+
+        public decimal Height { get; set; }
+
+        public bool UseMultipleWarehouses { get; set; }
+
+        public Guid? WarehouseId { get; set; }
+
+        public Guid? ProductAvailabilityRangeId { get; set; }
+        
+        public bool HasUserAgreement { get; protected set; }
+
+        public string UserAgreementText { get; protected set; }
 
         public ICollection<ProductCategory> ProductCategories { get; protected set; }
 
@@ -83,86 +193,534 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             PictureId = pictureId;
         }
 
-        internal void SetProductCode(ProductCode productCode)
+        public void SetName(string name)
         {
-            if (Id != productCode.Id)
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+
+            if (Name == name)
             {
-                throw new InvalidIdentityException(nameof(productCode));
+                return;
             }
 
-            ProductCode = productCode;
-        }
-
-        internal void SetProductInfo(ProductInfo productInfo)
-        {
-            if (Id != productInfo.Id)
+            if (name.Length >= ProductConsts.MaxNameLength)
             {
-                throw new InvalidIdentityException(nameof(productInfo));
+                throw new ArgumentException($"Name can not be longer than {ProductConsts.MaxNameLength}");
             }
 
-            ProductInfo = productInfo;
+            Name = name;
         }
 
-        internal void SetProductMetaInfo(ProductMetaInfo productMetaInfo)
+        public void SetTitle([NotNull] string title)
         {
-            if (Id != productMetaInfo.Id)
+            Check.NotNullOrWhiteSpace(title, nameof(title));
+
+            if (Title == title)
             {
-                throw new InvalidIdentityException(nameof(productMetaInfo));
+                return;
             }
 
-            ProductMetaInfo = productMetaInfo;
-        }
-
-        internal void SetProductOrderingInfo(ProductOrderingInfo productOrderingInfo)
-        {
-            if (Id != productOrderingInfo.Id)
+            if (title.Length >= ProductConsts.MaxTitleLength)
             {
-                throw new InvalidIdentityException(nameof(productOrderingInfo));
+                throw new ArgumentException($"Title can not be longer than {ProductConsts.MaxTitleLength}");
             }
 
-            ProductOrderingInfo = productOrderingInfo;
+            Title = title;
         }
 
-        internal void SetProductPriceInfo(ProductPriceInfo productPriceInfo)
+        public void SetDescription(string description)
         {
-            if (Id != productPriceInfo.Id)
+            if (Description == description)
             {
-                throw new InvalidIdentityException(nameof(productPriceInfo));
+                return;
             }
 
-            ProductPriceInfo = productPriceInfo;
-        }
-
-        internal void SetProductPublishingInfo(ProductPublishingInfo productPublishingInfo)
-        {
-            if (Id != productPublishingInfo.Id)
+            if (description.Length >= ProductConsts.MaxDescriptionLength)
             {
-                throw new InvalidIdentityException(nameof(productPublishingInfo));
+                throw new ArgumentException(
+                    $"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
             }
 
-            ProductPublishingInfo = productPublishingInfo;
+            Description = description;
         }
 
-        internal void SetProductRate(ProductRate productRate)
+        public void SetShortDescription([NotNull] string shortDescription)
         {
-            if (Id != productRate.Id)
+            Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));
+
+            if (ShortDescription == shortDescription)
             {
-                throw new InvalidIdentityException(nameof(productRate));
+                return;
             }
 
-            ProductRate = productRate;
-        }
-
-        internal void SetProductShippingInfo(ProductShippingInfo productShippingInfo)
-        {
-            if (Id != productShippingInfo.Id)
+            if (shortDescription.Length >= ProductConsts.MaxShortDescriptionLength)
             {
-                throw new InvalidIdentityException(nameof(productShippingInfo));
+                throw new ArgumentException(
+                    $"Short description can not be longer than {ProductConsts.MaxShortDescriptionLength}");
             }
 
-            ProductShippingInfo = productShippingInfo;
+            ShortDescription = shortDescription;
         }
 
+        public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
+        {
+            if (MetaTitle == metaTitle &&
+                MetaKeywords == metaKeywords &&
+                MetaDescription == metaDescription)
+            {
+                return;
+            }
+
+            if (metaTitle.Length >= ProductConsts.MaxMetaTitleLength)
+            {
+                throw new ArgumentException($"Meta Title can not be longer than {ProductConsts.MaxMetaTitleLength}");
+            }
+
+            if (metaKeywords.Length >= ProductConsts.MaxMetaKeywordsLength)
+            {
+                throw new ArgumentException(
+                    $"Meta Keywords can not be longer than {ProductConsts.MaxMetaKeywordsLength}");
+            }
+
+            if (metaDescription.Length >= ProductConsts.MaxMetaDescriptionLength)
+            {
+                throw new ArgumentException(
+                    $"Meta Description can not be longer than {ProductConsts.MaxMetaDescriptionLength}");
+            }
+
+            MetaTitle = metaTitle;
+            MetaKeywords = metaKeywords;
+            MetaDescription = metaDescription;
+        }
+
+        public void DisableBuyButton(bool isBuyButtonDisabled = false)
+        {
+            if (IsBuyButtonDisabled == isBuyButtonDisabled)
+            {
+                return;
+            }
+
+            IsBuyButtonDisabled = isBuyButtonDisabled;
+        }
+
+        public void SetAllowedQuantities(IEnumerable<int> allowedQuantities)
+        {
+            allowedQuantities = allowedQuantities.Distinct().ToArray();
+
+            if (allowedQuantities.Any(x => x <= 0))
+            {
+                throw new ArgumentException($"{nameof(allowedQuantities)} can not be have value less than one!");
+            }
+
+            if (!string.IsNullOrWhiteSpace(AllowedQuantities))
+            {
+                AllowedQuantities = "";
+            }
+
+            AllowedQuantities = string.Join(",", allowedQuantities);
+        }
+
+        public void DisableWishListButton(bool isWishListButtonDisabled = false)
+        {
+            if (IsWishListButtonDisabled == isWishListButtonDisabled)
+            {
+                return;
+            }
+
+            IsWishListButtonDisabled = isWishListButtonDisabled;
+        }
+
+        public void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
+        {
+            if (orderMinimumQuantity <= 0 ||
+                orderMaximumQuantity <= 0 ||
+                orderMaximumQuantity <= orderMinimumQuantity)
+            {
+                throw new ArgumentException();
+            }
+
+            if (OrderMinimumQuantity == orderMinimumQuantity &&
+                OrderMaximumQuantity == orderMaximumQuantity)
+            {
+                return;
+            }
+
+            OrderMinimumQuantity = orderMinimumQuantity;
+            OrderMaximumQuantity = orderMaximumQuantity;
+        }
+
+        public void SetAsAvailableForPreOrder(bool availableForPreOrder = true,
+            DateTime? preOrderAvailabilityStartDate = null)
+        {
+            if (preOrderAvailabilityStartDate.HasValue && preOrderAvailabilityStartDate < DateTime.Now)
+            {
+                throw new ArgumentException();
+            }
+
+            if (AvailableForPreOrder == availableForPreOrder &&
+                PreOrderAvailabilityStartDate == preOrderAvailabilityStartDate)
+            {
+                return;
+            }
+
+            AvailableForPreOrder = availableForPreOrder;
+            PreOrderAvailabilityStartDate = preOrderAvailabilityStartDate;
+        }
+
+        public void SetAsNotReturnable(bool notReturnable = true)
+        {
+            if (NotReturnable == notReturnable)
+            {
+                return;
+            }
+
+            NotReturnable = notReturnable;
+        }
+
+        public void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
+            RecurringProductCyclePeriod recurringCyclePeriod)
+        {
+            if (recurringCycleLength <= 0)
+            {
+                throw new ArgumentException();
+            }
+
+            if (recurringTotalCycles <= 0)
+            {
+                throw new ArgumentException();
+            }
+
+            if (RecurringCycleLength == recurringCycleLength &&
+                RecurringTotalCycles == recurringTotalCycles &&
+                RecurringCyclePeriod == recurringCyclePeriod)
+            {
+                return;
+            }
+
+            RecurringCycleLength = recurringCycleLength;
+            RecurringTotalCycles = recurringTotalCycles;
+            RecurringCyclePeriod = recurringCyclePeriod;
+
+            IsRental = false;
+            IsRecurring = true;
+        }
+
+        public void SetAsRental(int rentalPriceLength, RentalPricePeriod rentalPricePeriod)
+        {
+            if (rentalPriceLength <= 0)
+            {
+                throw new ArgumentException();
+            }
+
+            if (RentalPriceLength == rentalPriceLength &&
+                RentalPricePeriod == rentalPricePeriod)
+            {
+                return;
+            }
+
+            RentalPriceLength = rentalPriceLength;
+            RentalPricePeriod = rentalPricePeriod;
+
+            IsRental = true;
+            IsRecurring = false;
+        }
+
+        public void EnableBasePrice(bool basePriceEnabled = true, decimal? basePriceAmount = null,
+            int? basePriceUnitId = null,
+            decimal? basePriceBaseAmount = null, int? basePriceBaseUnitId = null)
+        {
+            if (BasePriceEnabled == basePriceEnabled &&
+                BasePriceAmount == basePriceAmount &&
+                BasePriceUnitId == basePriceUnitId &&
+                BasePriceBaseAmount == basePriceBaseAmount &&
+                BasePriceBaseUnitId == basePriceBaseUnitId)
+            {
+                return;
+            }
+
+            if (basePriceEnabled)
+            {
+                if (basePriceUnitId == null || basePriceUnitId <= 0)
+                {
+                    throw new ArgumentException($"{nameof(basePriceUnitId)} is not valid");
+                }
+
+                if (basePriceBaseUnitId == null || basePriceBaseUnitId <= 0)
+                {
+                    throw new ArgumentException($"{nameof(basePriceBaseUnitId)} is not valid");
+                }
+
+                if (basePriceAmount == null || basePriceAmount <= decimal.Zero)
+                {
+                    throw new ArgumentException($"{nameof(basePriceAmount)} is not valid");
+                }
+
+                if (basePriceBaseAmount == null || basePriceBaseAmount <= decimal.Zero)
+                {
+                    throw new ArgumentException($"{nameof(basePriceBaseAmount)} is not valid");
+                }
+
+                BasePriceEnabled = true;
+                BasePriceAmount = basePriceAmount;
+                BasePriceUnitId = basePriceUnitId;
+                BasePriceBaseAmount = basePriceBaseAmount;
+                BasePriceBaseUnitId = basePriceBaseUnitId;
+            }
+            else
+            {
+                BasePriceEnabled = false;
+                BasePriceAmount = null;
+                BasePriceUnitId = null;
+                BasePriceBaseAmount = null;
+                BasePriceBaseUnitId = null;
+            }
+        }
+
+        public void AllowCustomerEntersPrice(bool allow = false, decimal? minPrice = null, decimal? maxPerice = null)
+        {
+            if (allow)
+            {
+                if (minPrice <= decimal.Zero || minPrice >= maxPerice)
+                {
+                    throw new ArgumentException($"{nameof(minPrice)} is not valid");
+                }
+
+                if (IsAllowCustomerEntersPrice &&
+                    MinimumCustomerEnteredPrice == minPrice &&
+                    MaximumCustomerEnteredPrice == maxPerice)
+                {
+                    return;
+                }
+
+                IsAllowCustomerEntersPrice = true;
+                MinimumCustomerEnteredPrice = minPrice;
+                MaximumCustomerEnteredPrice = maxPerice;
+            }
+
+            IsAllowCustomerEntersPrice = false;
+            MinimumCustomerEnteredPrice = null;
+            MaximumCustomerEnteredPrice = null;
+        }
+
+        public void DisableCustomerEntersPrice()
+        {
+            if (!IsAllowCustomerEntersPrice)
+            {
+                return;
+            }
+
+            IsAllowCustomerEntersPrice = false;
+            MinimumCustomerEnteredPrice = null;
+            MaximumCustomerEnteredPrice = null;
+        }
+
+        public void SetProductCost(decimal productCost)
+        {
+            if (ProductCost == productCost)
+            {
+                return;
+            }
+
+            ProductCost = productCost;
+        }
+
+        public void ChangePrice(decimal newPrice)
+        {
+            if (newPrice < decimal.Zero)
+            {
+                throw new ArgumentException($"{nameof(newPrice)} can not be less than 0.0!");
+            }
+
+            if (Price == newPrice)
+            {
+                return;
+            }
+
+            OldPrice = Price;
+            Price = newPrice;
+        }
+
+        public void SetAsCallForPrice(bool callForPrice = true)
+        {
+            if (CallForPrice == callForPrice)
+            {
+                return;
+            }
+
+            if (callForPrice && Price > 0)
+            {
+                ChangePrice(decimal.One);
+
+                return;
+            }
+
+            CallForPrice = callForPrice;
+        }
+
+        public void SetAsTaxExempt(bool isTaxExempt = true, Guid? taxCategoryId = null)
+        {
+            if (IsTaxExempt == isTaxExempt && TaxCategoryId == taxCategoryId)
+            {
+                return;
+            }
+
+            if (isTaxExempt)
+            {
+                TaxCategoryId = null;
+                IsTaxExempt = true;
+
+                return;
+            }
+
+            if (taxCategoryId == null || taxCategoryId == Guid.Empty)
+            {
+                throw new ArgumentException($"{nameof(taxCategoryId)} must be a valid identity");
+            }
+
+            TaxCategoryId = taxCategoryId;
+            IsTaxExempt = false;
+        }
+
+        public void SetAsHomePageItem(bool showOnHomePage = true)
+        {
+            if (ShowOnHomePage == showOnHomePage)
+            {
+                return;
+            }
+
+            ShowOnHomePage = showOnHomePage;
+        }
+
+        public void DisplayIndividually(bool visibleIndividually = true)
+        {
+            if (VisibleIndividually == visibleIndividually)
+            {
+                return;
+            }
+
+            VisibleIndividually = visibleIndividually;
+        }
+
+        public void MarkAsNew(DateTime? startDate, DateTime? endDate)
+        {
+            if (IsNew && MarkAsNewStartDate == startDate && MarkAsNewEndDate == endDate)
+            {
+                return;
+            }
+
+            if (startDate.HasValue && startDate < DateTime.Now)
+            {
+                throw new ArgumentException("Can not set start date in the past!",
+                    nameof(startDate));
+            }
+
+            if (endDate.HasValue && endDate <= startDate)
+            {
+                throw new ArgumentException("Can not set end date in the past of start date!",
+                    nameof(endDate));
+            }
+
+            IsNew = true;
+            MarkAsNewStartDate = startDate;
+            MarkAsNewEndDate = endDate;
+        }
+
+        public void RemoveNewMarker()
+        {
+            IsNew = false;
+            MarkAsNewStartDate = null;
+            MarkAsNewEndDate = null;
+        }
+
+        public void SetPublishDate(DateTime startDate,
+            DateTime? endDate)
+        {
+            if (IsPublished && AvailableStartDate == startDate && AvailableEndDate == endDate)
+            {
+                return;
+            }
+
+            if (startDate < DateTime.Now)
+            {
+                throw new ArgumentException("Can not set start date in the past!",
+                    nameof(startDate));
+            }
+
+            if (endDate.HasValue && endDate <= startDate)
+            {
+                throw new ArgumentException("Can not set end date in the past of start date!",
+                    nameof(endDate));
+            }
+
+            if (startDate <= DateTime.Now)
+            {
+                SetAsPublished();
+            }
+            else
+            {
+                SetAsPublished(false);
+            }
+
+            AvailableStartDate = startDate;
+            AvailableEndDate = endDate;
+        }
+
+        private void SetAsPublished(bool publish = true)
+        {
+            if (IsPublished == publish)
+            {
+                return;
+            }
+
+            IsPublished = publish;
+        }
+
+        public void SetDisplayOrder(int displayOrder)
+        {
+            if (displayOrder < 0)
+            {
+                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
+            }
+
+            if (DisplayOrder == displayOrder)
+            {
+                return;
+            }
+
+            DisplayOrder = displayOrder;
+        }
+
+        public void UpdateRatingAverage(double newRate)
+        {
+            var average = (RatingAverage * RatingCount + newRate) / (RatingCount + 1);
+            RatingAverage = Math.Round(average * 2, MidpointRounding.AwayFromZero) / 2;
+
+            IncreaseRatingCount();
+        }
+
+        private void IncreaseRatingCount()
+        {
+            RatingCount++;
+        }
+
+        
+        public void SetUserAgreementText(bool hasUserAgreement, string userAgreementText = "")
+        {
+            if (string.IsNullOrWhiteSpace(userAgreementText))
+            {
+                HasUserAgreement = false;
+
+                return;
+            }
+
+            if (HasUserAgreement == hasUserAgreement && UserAgreementText == userAgreementText)
+            {
+                return;
+            }
+
+            UserAgreementText = userAgreementText;
+            HasUserAgreement = hasUserAgreement;
+        }
+        
         public void AddCategory(Guid categoryId)
         {
             ProductCategories.Add(new ProductCategory(Id, categoryId));

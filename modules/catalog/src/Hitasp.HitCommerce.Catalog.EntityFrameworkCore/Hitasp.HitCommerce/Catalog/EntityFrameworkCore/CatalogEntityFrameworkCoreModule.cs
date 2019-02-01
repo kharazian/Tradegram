@@ -3,11 +3,9 @@ using Hitasp.HitCommerce.Catalog.Attributes.Repositories;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Repositories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using Hitasp.HitCommerce.Catalog.Categories.Repositories;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
-using Hitasp.HitCommerce.Catalog.Manufacturers.Entities;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Repositories;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
@@ -45,33 +43,17 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
                 //Categories
                 options.AddRepository<Category, EfCoreCategoryRepository>();
-                options.AddRepository<CategoryInfo, EfCoreCategoryInfoRepository>();
-                options.AddRepository<CategoryMetaInfo, EfCoreCategoryMetaInfoRepository>();
-                options.AddRepository<CategoryPageInfo, EfCoreCategoryPageInfoRepository>();
-                options.AddRepository<CategoryPublishingInfo, EfCoreCategoryPublishingInfoRepository>();
                 options.AddRepository<CategoryDiscount, EfCoreCategoryDiscountRepository>();
 
                 //Manufacturers
                 options.AddRepository<Manufacturer, EfCoreManufacturerRepository>();
-                options.AddRepository<ManufacturerInfo, EfCoreManufacturerInfoRepository>();
-                options.AddRepository<ManufacturerMetaInfo, EfCoreManufacturerMetaInfoRepository>();
-                options.AddRepository<ManufacturerPageInfo, EfCoreManufacturerPageInfoRepository>();
-                options.AddRepository<ManufacturerPublishingInfo, EfCoreManufacturerPublishingInfoRepository>();
                 options.AddRepository<ManufacturerDiscount, EfCoreManufacturerDiscountRepository>();
 
                 //Products
                 options.AddRepository<Product, EfCoreProductRepository>();
                 options.AddRepository<ProductAttributeCombination, EfCoreProductAttributeCombinationRepository>();
                 options.AddRepository<ProductAttributeValue, EfCoreProductAttributeValueRepository>();
-                options.AddRepository<ProductCode, EfCoreProductCodeRepository>();
-                options.AddRepository<ProductInfo, EfCoreProductInfoRepository>();
-                options.AddRepository<ProductMetaInfo, EfCoreProductMetaRepository>();
-                options.AddRepository<ProductOrderingInfo, EfCoreProductOrderingInfoRepository>();
-                options.AddRepository<ProductPriceInfo, EfCoreProductPriceInfoRepository>();
                 options.AddRepository<ProductProductAttribute, EfCoreProductProductAttributeRepository>();
-                options.AddRepository<ProductPublishingInfo, EfCoreProductPublishingInfoRepository>();
-                options.AddRepository<ProductRate, EfCoreProductRateRepository>();
-                options.AddRepository<ProductShippingInfo, EfCoreProductShippingInfoRepository>();
                 options.AddRepository<StockQuantityHistory, EfCoreStockQuantityHistoryRepository>();
                 options.AddRepository<CrossSellProduct, EfCoreCrossSellProductRepository>();
                 options.AddRepository<ProductCategory, EfCoreProductCategoryRepository>();

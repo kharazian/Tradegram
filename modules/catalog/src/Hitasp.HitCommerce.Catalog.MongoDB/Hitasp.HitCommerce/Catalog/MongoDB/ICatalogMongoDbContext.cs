@@ -1,10 +1,8 @@
 ﻿using Hitasp.HitCommerce.Catalog.Attributes.Entities;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
-using Hitasp.HitCommerce.Catalog.Manufacturers.Entities;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
@@ -29,25 +27,9 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<Category> Categories { get; }
 
-        IMongoCollection<CategoryInfo> CategoryInfos { get; }
-
-        IMongoCollection<CategoryMetaInfo> CategoryMetaInfos { get; }
-        
-        IMongoCollection<CategoryPageInfo> CategoryPageInfos { get; }
-
-        IMongoCollection<CategoryPublishingInfo> CategoryPublishingInfos { get; }
-
         IMongoCollection<CategoryDiscount> CategoryDiscounts { get; }
 
         IMongoCollection<Manufacturer> Manufacturers { get; }
-
-        IMongoCollection<ManufacturerInfo> ManufacturerInfos { get; }
-
-        IMongoCollection<ManufacturerMetaInfo> ManufacturerMetaInfos { get; }
-        
-        IMongoCollection<ManufacturerMetaInfo> ManufacturerPageInfos { get; }
-
-        IMongoCollection<ManufacturerPublishingInfo> ManufacturerPublishingInfos { get; }
 
         IMongoCollection<ManufacturerDiscount> ManufacturerDiscounts { get; }
 
@@ -60,22 +42,6 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         IMongoCollection<ProductAttributeCombination> ProductAttributeCombinations { get; }
 
         IMongoCollection<ProductAttributeValue> ProductAttributeValues { get; }
-
-        IMongoCollection<ProductCode> ProductCodes { get; }
-
-        IMongoCollection<ProductInfo> ProductInfos { get; }
-
-        IMongoCollection<ProductMetaInfo> ProductMetas { get; }
-
-        IMongoCollection<ProductOrderingInfo> ProductOrderingInfos { get; }
-
-        IMongoCollection<ProductPriceInfo> ProductPriceInfos { get; }
-
-        IMongoCollection<ProductPublishingInfo> ProductPublishingInfos { get; }
-
-        IMongoCollection<ProductRate> ProductRates { get; }
-
-        IMongoCollection<ProductShippingInfo> ProductShippingInfos { get; }
 
         IMongoCollection<StockQuantityHistory> StockQuantityHistories { get; }
 

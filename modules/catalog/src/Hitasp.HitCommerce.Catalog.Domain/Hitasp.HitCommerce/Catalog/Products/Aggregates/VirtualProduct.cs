@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
+using JetBrains.Annotations;
+using Volo.Abp;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 {
@@ -19,19 +21,32 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public virtual Guid? SampleDownloadId { get; protected set; }
 
-        public virtual bool HasUserAgreement { get; protected set; }
-
-        public virtual string UserAgreementText { get; protected set; }
-
         public virtual DownloadActivationType DownloadActivationType { get; set; }
 
         protected VirtualProduct()
         {
         }
 
-        internal VirtualProduct(Guid id)
+        internal VirtualProduct(Guid id, [NotNull] string code, [NotNull] string name, decimal price)
         {
+            Check.NotNullOrWhiteSpace(code, nameof(code));
+
+            if (code.Length > ProductConsts.MaxCodeLength)
+            {
+                throw new ArgumentException($"Code can not be longer than {ProductConsts.MaxCodeLength}");
+            }
+            
+            if (price < decimal.Zero)
+            {
+                throw new ArgumentException($"{nameof(price)} can not be less than 0.0!");
+            }
+
+
             Id = id;
+            Code = code;
+            Price = price;
+
+            SetName(name);
 
             ProductCategories = new HashSet<ProductCategory>();
             ProductManufacturers = new HashSet<ProductManufacturer>();
@@ -81,24 +96,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             HasSampleDownload = hasSampleDownload;
             SampleDownloadId = sampleDownloadId;
             DownloadActivationType = downloadActivationType;
-        }
-
-        public void SetUserAgreementText(bool hasUserAgreement, string userAgreementText = "")
-        {
-            if (string.IsNullOrWhiteSpace(userAgreementText))
-            {
-                HasUserAgreement = false;
-
-                return;
-            }
-
-            if (HasUserAgreement == hasUserAgreement && UserAgreementText == userAgreementText)
-            {
-                return;
-            }
-
-            UserAgreementText = userAgreementText;
-            HasUserAgreement = hasUserAgreement;
         }
     }
 }

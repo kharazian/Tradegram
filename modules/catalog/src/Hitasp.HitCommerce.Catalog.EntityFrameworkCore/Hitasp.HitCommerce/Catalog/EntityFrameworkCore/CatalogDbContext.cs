@@ -4,11 +4,9 @@ using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions;
 using Hitasp.HitCommerce.Catalog.BackInStockSubscriptions.Entities;
 using Hitasp.HitCommerce.Catalog.Categories;
 using Hitasp.HitCommerce.Catalog.Categories.Aggregates;
-using Hitasp.HitCommerce.Catalog.Categories.Entities;
 using Hitasp.HitCommerce.Catalog.Categories.Mapping;
 using Hitasp.HitCommerce.Catalog.Manufacturers;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
-using Hitasp.HitCommerce.Catalog.Manufacturers.Entities;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
@@ -38,30 +36,14 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<PredefinedAttributeValue> PredefinedAttributeValues { get; set; }
         public DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryInfo> CategoryInfos { get; set; }
-        public DbSet<CategoryMetaInfo> CategoryMetas { get; set; }
-        public DbSet<CategoryPageInfo> CategoryPageInfos { get; set; }
-        public DbSet<CategoryPublishingInfo> CategoryPublishingInfos { get; set; }
         public DbSet<CategoryDiscount> CategoryDiscounts { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
-        public DbSet<ManufacturerInfo> ManufacturerInfos { get; set; }
-        public DbSet<ManufacturerMetaInfo> ManufacturerMetas { get; set; }
-        public DbSet<ManufacturerPageInfo> ManufacturerPageInfos { get; set; }
-        public DbSet<ManufacturerPublishingInfo> ManufacturerPublishingInfos { get; set; }
         public DbSet<ManufacturerDiscount> ManufacturerDiscounts { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<VirtualProduct> VirtualProducts { get; set; }
         public DbSet<PhysicalProduct> PhysicalProducts { get; set; }
         public DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
         public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
-        public DbSet<ProductCode> ProductCodes { get; set; }
-        public DbSet<ProductInfo> ProductInfos { get; set; }
-        public DbSet<ProductMetaInfo> ProductMetas { get; set; }
-        public DbSet<ProductOrderingInfo> ProductOrderingInfos { get; set; }
-        public DbSet<ProductPriceInfo> ProductPriceInfos { get; set; }
-        public DbSet<ProductPublishingInfo> ProductPublishingInfos { get; set; }
-        public DbSet<ProductRate> ProductRates { get; set; }
-        public DbSet<ProductShippingInfo> ProductShippingInfos { get; set; }
         public DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
         public DbSet<CrossSellProduct> CrossSellProducts { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }

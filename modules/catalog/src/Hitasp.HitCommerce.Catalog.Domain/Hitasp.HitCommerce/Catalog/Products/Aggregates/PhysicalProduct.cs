@@ -5,6 +5,8 @@ using Hitasp.HitCommerce.Catalog.Exceptions;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Etos;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
+using JetBrains.Annotations;
+using Volo.Abp;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 {
@@ -47,10 +49,27 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
         }
 
-        internal PhysicalProduct(Guid id)
+        public PhysicalProduct(Guid id, [NotNull] string code, [NotNull] string name, decimal price)
         {
-            Id = id;
+            Check.NotNullOrWhiteSpace(code, nameof(code));
 
+            if (code.Length > ProductConsts.MaxCodeLength)
+            {
+                throw new ArgumentException($"Code can not be longer than {ProductConsts.MaxCodeLength}");
+            }
+            
+            if (price < decimal.Zero)
+            {
+                throw new ArgumentException($"{nameof(price)} can not be less than 0.0!");
+            }
+
+
+            Id = id;
+            Code = code;
+            Price = price;
+
+            SetName(name);
+            
             ProductCategories = new HashSet<ProductCategory>();
             ProductManufacturers = new HashSet<ProductManufacturer>();
             ProductPictures = new HashSet<ProductPicture>();
@@ -84,7 +103,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         public void RemoveStock(int quantityDesired)
         {
             if (StockQuantity == 0)
-                throw new ArgumentException($"Empty stock, product item {ProductInfo.Name} is sold out");
+                throw new ArgumentException($"Empty stock, product item {Name} is sold out");
 
             if (quantityDesired <= 0)
                 throw new ArgumentException("Item units desired should be greater than zero");
