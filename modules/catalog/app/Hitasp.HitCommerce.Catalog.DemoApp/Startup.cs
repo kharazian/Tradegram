@@ -20,9 +20,9 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp
             return services.BuildServiceProviderFromFactory();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggingBuilder loggingBuilder)
         {
-            loggerFactory
+            loggingBuilder
                 .AddConsole()
                 .AddDebug()
                 .AddSerilog(new LoggerConfiguration()
