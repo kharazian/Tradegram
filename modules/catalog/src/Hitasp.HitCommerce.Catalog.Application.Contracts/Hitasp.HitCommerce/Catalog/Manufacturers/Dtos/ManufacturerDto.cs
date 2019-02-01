@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace Hitasp.HitCommerce.Catalog.Manufacturers.Dtos
@@ -33,7 +32,5 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Dtos
         public int DisplayOrder { get; set; }
 
         public Guid? PictureId { get; set; }
-        
-        public IList<Guid> AppliedDiscounts { get; set; } = new List<Guid>();
     }
 }

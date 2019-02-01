@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Hitasp.HitCommerce.Catalog.Manufacturers.Dtos
 {
@@ -31,5 +32,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Dtos
         public int DisplayOrder { get; set; }
 
         public Guid? PictureId { get; set; }
+        
+        public ICollection<Guid> AppliedDiscounts { get; set; } = new HashSet<Guid>();
     }
 }

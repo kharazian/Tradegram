@@ -7,7 +7,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
     {
         public virtual Guid ProductId { get; protected set; }
 
-        public virtual Guid? PictureId { get; protected set; }
+        public virtual Guid? PictureId { get; set; }
         
         public virtual string ManufacturerPartNumber { get; set; }
 
@@ -30,19 +30,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         {
         }
 
-        internal ProductAttributeCombination(Guid id, Guid productId) : base(id)
+        public ProductAttributeCombination(Guid id, Guid productId) : base(id)
         {
             ProductId = productId;
-        }
-
-        public void SetPicture(Guid pictureId)
-        {
-            if (PictureId == pictureId)
-            {
-                return;
-            }
-
-            PictureId = pictureId;
         }
     }
 }

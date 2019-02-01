@@ -49,8 +49,8 @@ namespace Hitasp.HitCommerce.Catalog.Categories
                     .HasColumnName(nameof(Category.MetaDescription));
                 
                 b.Property(x => x.PageSize).HasColumnName(nameof(Category.PageSize));
-                b.Property(x => x.IsAllowCustomersToSelectPageSize).HasDefaultValue(true)
-                    .HasColumnName(nameof(Category.IsAllowCustomersToSelectPageSize));
+                b.Property(x => x.AllowCustomersToSelectPageSize).HasDefaultValue(true)
+                    .HasColumnName(nameof(Category.AllowCustomersToSelectPageSize));
                 b.Property(x => x.PageSizeOptions).HasColumnName(nameof(Category.PageSizeOptions));
                 
                 b.Property(x => x.IsPublished).HasDefaultValue(false).HasColumnName(nameof(Category.IsPublished));

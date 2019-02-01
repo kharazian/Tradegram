@@ -53,49 +53,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductPictures = new HashSet<ProductPicture>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
             ProductTags = new HashSet<ProductProductTag>();
-            ProductAttributes = new HashSet<ProductProductAttribute>();
+            ProductProductAttributes = new HashSet<ProductProductAttribute>();
             ProductDiscounts = new HashSet<ProductDiscount>();
-            AttributeCombinations = new HashSet<ProductAttributeCombination>();
+            ProductAttributeCombinations = new HashSet<ProductAttributeCombination>();
         }
 
-        public void SetAsDownloadable(Guid downloadId, bool unlimitedDownloads, int maxNumberOfDownloads,
-            int? downloadExpirationDays, bool hasSampleDownload, Guid? sampleDownloadId,
-            DownloadActivationType downloadActivationType)
-        {
-            if (downloadId == Guid.Empty)
-            {
-                throw new ArgumentException($"{nameof(downloadId)} must be a valid identity");
-            }
-
-            if (!unlimitedDownloads && maxNumberOfDownloads <= 0)
-            {
-                throw new ArgumentException($"{nameof(maxNumberOfDownloads)} must be larger than zero");
-            }
-
-            if (hasSampleDownload && !sampleDownloadId.HasValue)
-            {
-                throw new ArgumentException($"{nameof(sampleDownloadId)} must be a valid identity");
-            }
-
-            if (downloadExpirationDays.HasValue && downloadExpirationDays.Value <= 0)
-            {
-                throw new ArgumentException($"{nameof(downloadExpirationDays)} must be larger than zero day");
-            }
-
-            if (DownloadId == downloadId && UnlimitedDownloads == unlimitedDownloads &&
-                MaxNumberOfDownloads == maxNumberOfDownloads && DownloadExpirationDays == downloadExpirationDays &&
-                HasSampleDownload == hasSampleDownload && SampleDownloadId == sampleDownloadId)
-            {
-                return;
-            }
-
-            DownloadId = downloadId;
-            UnlimitedDownloads = unlimitedDownloads;
-            MaxNumberOfDownloads = maxNumberOfDownloads;
-            DownloadExpirationDays = downloadExpirationDays;
-            HasSampleDownload = hasSampleDownload;
-            SampleDownloadId = sampleDownloadId;
-            DownloadActivationType = downloadActivationType;
-        }
+        
     }
 }

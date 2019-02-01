@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hitasp.HitCommerce.Catalog.Exceptions;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
+using Hitasp.HitCommerce.Catalog.Products.Etos;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using JetBrains.Annotations;
 using Volo.Abp;
@@ -10,158 +11,58 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 {
-    public abstract class Product : FullAuditedAggregateRoot<Guid>
+    public class Product : FullAuditedAggregateRoot<Guid>
     {
-        public string ProductType { get; protected set; }
+        #region Grouped product
+
+        public int ProductTypeId { get; protected set; }
+        public bool VisibleIndividually { get; set; }
+        public Guid? ParentGroupedProductId { get; protected set; }
+
+        public ProductType ProductType
+        {
+            get => (ProductType) ProductTypeId;
+            set => ProductTypeId = (int) value;
+        }
+
+        public void SetParentGroupedProduct(Guid? parentGroupedProductId)
+        {
+            if (parentGroupedProductId == Guid.Empty || parentGroupedProductId == null)
+            {
+                ParentGroupedProductId = null;
+                ProductType = ProductType.SimpleProduct;
+                VisibleIndividually = true;
+
+                return;
+            }
+
+            ProductTypeId = (int) ProductType.GroupedProduct;
+            ParentGroupedProductId = parentGroupedProductId;
+            VisibleIndividually = false;
+        }
+
+        #endregion
+
+        #region General
 
         public Guid ProductTemplateId { get; protected set; }
-
-        public Guid? PictureId { get; protected set; }
-
-        public string Code { get; protected set; }
-
         public string Name { get; protected set; }
-
-        public string Title { get; protected set; }
-
         public string ShortDescription { get; protected set; }
-
-        public string Description { get; protected set; }
-
-        public string MetaTitle { get; protected set; }
-
-        public string MetaKeywords { get; protected set; }
-
-        public string MetaDescription { get; protected set; }
-
-        public decimal Price { get; protected set; }
-
-        public decimal OldPrice { get; protected set; }
-
-        public decimal ProductCost { get; protected set; }
-
-        public bool CallForPrice { get; protected set; }
-
-        public bool IsAllowCustomerEntersPrice { get; protected set; }
-
-        public decimal? MinimumCustomerEnteredPrice { get; protected set; }
-
-        public decimal? MaximumCustomerEnteredPrice { get; protected set; }
-
-        public bool BasePriceEnabled { get; protected set; }
-
-        public decimal? BasePriceAmount { get; protected set; }
-
-        public int? BasePriceUnitId { get; protected set; }
-
-        public decimal? BasePriceBaseAmount { get; protected set; }
-
-        public int? BasePriceBaseUnitId { get; protected set; }
-
-        public bool IsTaxExempt { get; protected set; }
-
-        public Guid? TaxCategoryId { get; protected set; }
-
-        public bool IsNew { get; protected set; }
-
-        public bool IsPublished { get; protected set; }
-
-        public DateTime? MarkAsNewStartDate { get; protected set; }
-
-        public DateTime? MarkAsNewEndDate { get; protected set; }
-
-        public DateTime? AvailableStartDate { get; protected set; }
-
-        public DateTime? AvailableEndDate { get; protected set; }
-
-        public bool ShowOnHomePage { get; protected set; }
-
-        public bool VisibleIndividually { get; protected set; }
-
-        public int DisplayOrder { get; protected set; }
-
-        public string AllowedQuantities { get; protected set; }
-
-        public int OrderMinimumQuantity { get; protected set; }
-
-        public int OrderMaximumQuantity { get; protected set; }
-
-        public bool AvailableForPreOrder { get; protected set; }
-
-        public DateTime? PreOrderAvailabilityStartDate { get; protected set; }
-
-        public bool IsBuyButtonDisabled { get; protected set; }
-
-        public bool IsWishListButtonDisabled { get; protected set; }
-
-        public bool NotReturnable { get; protected set; }
-
-        public bool IsRecurring { get; protected set; }
-
-        public int RecurringCycleLength { get; protected set; }
-
-        public int RecurringTotalCycles { get; protected set; }
-
-        public RecurringProductCyclePeriod RecurringCyclePeriod { get; protected set; }
-
-        public bool IsRental { get; protected set; }
-
-        public int RentalPriceLength { get; protected set; }
-
-        public RentalPricePeriod RentalPricePeriod { get; protected set; }
-
+        public string FullDescription { get; protected set; }
+        public string Code { get; private set; }
+        public bool Published { get; set; }
+        public string Gtin { get; protected set; }
+        public string ManufacturerPartNumber { get; set; }
+        public bool ShowOnHomePage { get; set; }
+        public int DisplayOrder { get; set; }
         public double RatingAverage { get; protected set; }
-
         public int RatingCount { get; protected set; }
-
-        public bool IsShipEnabled { get; set; }
-
-        public bool IsFreeShipping { get; set; }
-
-        public bool ShipSeparately { get; set; }
-
-        public decimal AdditionalShippingCharge { get; set; }
-
-        public int? DeliveryDateId { get; set; }
-
-        public decimal Weight { get; set; }
-
-        public decimal Length { get; set; }
-
-        public decimal Width { get; set; }
-
-        public decimal Height { get; set; }
-
-        public bool UseMultipleWarehouses { get; set; }
-
-        public Guid? WarehouseId { get; set; }
-
-        public Guid? ProductAvailabilityRangeId { get; set; }
-        
-        public bool HasUserAgreement { get; protected set; }
-
-        public string UserAgreementText { get; protected set; }
-
-        public ICollection<ProductCategory> ProductCategories { get; protected set; }
-
-        public ICollection<ProductManufacturer> ProductManufacturers { get; protected set; }
-
-        public ICollection<ProductPicture> ProductPictures { get; protected set; }
-
+        public DateTime? AvailableStartDate { get; protected set; }
+        public DateTime? AvailableEndDate { get; protected set; }
+        public bool MarkAsNew { get; protected set; }
+        public DateTime? MarkAsNewStartDate { get; protected set; }
+        public DateTime? MarkAsNewEndDate { get; protected set; }
         public ICollection<ProductProductTag> ProductTags { get; protected set; }
-
-        public ICollection<ProductDiscount> ProductDiscounts { get; protected set; }
-
-        public ICollection<ProductProductAttribute> ProductAttributes { get; protected set; }
-
-        public ICollection<CrossSellProduct> CrossSellProducts { get; protected set; }
-
-        public ICollection<RelatedProduct> RelatedProducts { get; protected set; }
-
-        public ICollection<ProductSpecificationAttribute> ProductSpecificationAttributes { get; protected set; }
-
-        public ICollection<ProductAttributeCombination> AttributeCombinations { get; protected set; }
-
 
         public void SetProductTemplate(Guid productTemplateId)
         {
@@ -170,37 +71,12 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
                 throw new InvalidIdentityException(nameof(productTemplateId));
             }
 
-            if (ProductTemplateId == productTemplateId)
-            {
-                return;
-            }
-
             ProductTemplateId = productTemplateId;
-        }
-
-        public void SetPictureId(Guid? pictureId)
-        {
-            if (pictureId == Guid.Empty || pictureId == null)
-            {
-                PictureId = null;
-            }
-
-            if (PictureId == pictureId)
-            {
-                return;
-            }
-
-            PictureId = pictureId;
         }
 
         public void SetName(string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            if (Name == name)
-            {
-                return;
-            }
 
             if (name.Length >= ProductConsts.MaxNameLength)
             {
@@ -210,47 +86,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             Name = name;
         }
 
-        public void SetTitle([NotNull] string title)
-        {
-            Check.NotNullOrWhiteSpace(title, nameof(title));
-
-            if (Title == title)
-            {
-                return;
-            }
-
-            if (title.Length >= ProductConsts.MaxTitleLength)
-            {
-                throw new ArgumentException($"Title can not be longer than {ProductConsts.MaxTitleLength}");
-            }
-
-            Title = title;
-        }
-
-        public void SetDescription(string description)
-        {
-            if (Description == description)
-            {
-                return;
-            }
-
-            if (description.Length >= ProductConsts.MaxDescriptionLength)
-            {
-                throw new ArgumentException(
-                    $"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
-            }
-
-            Description = description;
-        }
-
         public void SetShortDescription([NotNull] string shortDescription)
         {
             Check.NotNullOrWhiteSpace(shortDescription, nameof(shortDescription));
-
-            if (ShortDescription == shortDescription)
-            {
-                return;
-            }
 
             if (shortDescription.Length >= ProductConsts.MaxShortDescriptionLength)
             {
@@ -261,15 +99,572 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ShortDescription = shortDescription;
         }
 
-        public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
+        public void SetFullDescription(string fullDescription)
         {
-            if (MetaTitle == metaTitle &&
-                MetaKeywords == metaKeywords &&
-                MetaDescription == metaDescription)
+            if (fullDescription.Length >= ProductConsts.MaxDescriptionLength)
+            {
+                throw new ArgumentException($"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
+            }
+
+            FullDescription = fullDescription;
+        }
+
+        public void SetGtin(string gtin)
+        {
+            if (gtin.Length > ProductConsts.MaxGtinLength)
+            {
+                throw new ArgumentException($"{nameof(gtin)} can not be longer than {ProductConsts.MaxGtinLength}");
+            }
+
+            Gtin = gtin;
+        }
+
+        public void AddTag(Guid tagId)
+        {
+            ProductTags.Add(new ProductProductTag(Id, tagId));
+        }
+
+        public void RemoveTag(Guid tagId)
+        {
+            if (ProductTags.Any(x => x.ProductTagId == tagId)) ProductTags.RemoveAll(x => x.ProductTagId == tagId);
+        }
+
+        public void UpdateRatingAverage(double newRate)
+        {
+            var average = (RatingAverage * RatingCount + newRate) / (RatingCount + 1);
+            RatingAverage = Math.Round(average * 2, MidpointRounding.AwayFromZero) / 2;
+            IncreaseRatingCount();
+        }
+
+        private void IncreaseRatingCount()
+        {
+            RatingCount++;
+        }
+
+        public void SetAvailableDate(DateTime startDate, DateTime? endDate)
+        {
+            if (startDate < DateTime.Now)
+            {
+                startDate = DateTime.Now;
+            }
+
+            if (endDate.HasValue && endDate <= startDate)
+            {
+                endDate = DateTime.Now.AddMonths(1);
+            }
+
+            AvailableStartDate = startDate;
+            AvailableEndDate = endDate;
+        }
+
+        public void SetAsNew(bool markAsNew = true, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            if (markAsNew)
+            {
+                if (startDate.HasValue && startDate < DateTime.Now) startDate = DateTime.Now;
+
+                if (endDate.HasValue && endDate <= startDate)
+                    throw new ArgumentException("Can not set end date in the past of start date!", nameof(endDate));
+
+                MarkAsNew = true;
+                MarkAsNewStartDate = startDate;
+                MarkAsNewEndDate = endDate;
+
+                return;
+            }
+
+            MarkAsNew = false;
+            MarkAsNewStartDate = null;
+            MarkAsNewEndDate = null;
+        }
+
+        #endregion
+
+        #region GiftCard
+
+        public bool IsGiftCard { get; set; }
+        public int GiftCardTypeId { get; set; }
+        public decimal? OverriddenGiftCardAmount { get; set; }
+
+        public GiftCardType GiftCardType
+        {
+            get => (GiftCardType) GiftCardTypeId;
+            set => GiftCardTypeId = (int) value;
+        }
+
+        public void SetAsGiftCard(bool isGiftCard = true, int? giftCardTypeId = null,
+            decimal? overriddenGiftCardAmount = null)
+        {
+            if (isGiftCard && giftCardTypeId.HasValue)
+            {
+                switch (giftCardTypeId)
+                {
+                    case 0:
+                        IsGiftCard = true;
+                        GiftCardTypeId = (int) giftCardTypeId;
+
+                        //TODO: is virtual! disable all physical prop!
+                        break;
+                    case 1:
+                        IsGiftCard = true;
+                        GiftCardTypeId = (int) giftCardTypeId;
+
+                        //TODO: is physical! disable all virtual prop! 
+                        break;
+                    default:
+                        IsGiftCard = true;
+                        GiftCardTypeId = 0;
+
+                        //TODO: is virtual! disable all physical prop!
+                        break;
+                }
+
+                if (overriddenGiftCardAmount <= decimal.Zero || overriddenGiftCardAmount == null)
+                {
+                    OverriddenGiftCardAmount = decimal.Zero;
+                }
+
+                return;
+            }
+
+            IsGiftCard = false;
+            GiftCardTypeId = 0;
+            OverriddenGiftCardAmount = decimal.Zero;
+        }
+
+        #endregion
+
+        #region Downloadable
+
+        public bool IsDownload { get; protected set; }
+        public Guid? DownloadId { get; protected set; }
+        public bool UnlimitedDownloads { get; protected set; }
+        public int MaxNumberOfDownloads { get; protected set; }
+        public int? DownloadExpirationDays { get; protected set; }
+        public int DownloadActivationTypeId { get; protected set; }
+        public bool HasSampleDownload { get; protected set; }
+        public Guid? SampleDownloadId { get; protected set; }
+
+        public DownloadActivationType DownloadActivationType
+        {
+            get => (DownloadActivationType) DownloadActivationTypeId;
+            set => DownloadActivationTypeId = (int) value;
+        }
+
+        public void SetAsDownloadable(Guid? downloadId, bool unlimitedDownloads, int maxNumberOfDownloads,
+            int? downloadExpirationDays, bool hasSampleDownload, Guid? sampleDownloadId,
+            int downloadActivationTypeId)
+        {
+            if (downloadId == Guid.Empty || downloadId == null)
+            {
+                IsDownload = false;
+
+                return;
+            }
+
+            if (!unlimitedDownloads && maxNumberOfDownloads <= 0)
+            {
+                unlimitedDownloads = true;
+            }
+
+            if (hasSampleDownload && !sampleDownloadId.HasValue)
+            {
+                hasSampleDownload = false;
+            }
+
+            if (downloadExpirationDays.HasValue && downloadExpirationDays.Value <= 0)
+            {
+                downloadExpirationDays = 1;
+            }
+
+            DownloadId = downloadId;
+            UnlimitedDownloads = unlimitedDownloads;
+            MaxNumberOfDownloads = maxNumberOfDownloads;
+            DownloadExpirationDays = downloadExpirationDays;
+            HasSampleDownload = hasSampleDownload;
+            SampleDownloadId = sampleDownloadId;
+            DownloadActivationTypeId = downloadActivationTypeId;
+
+            //TODO: Disable non-download properties(shipping, stock props, ...)
+        }
+
+        #endregion
+        
+        #region Recurring Product
+
+        public bool IsRecurring { get; protected set; }
+        public int RecurringCycleLength { get; protected set; }
+        public int RecurringCyclePeriodId { get; protected set; }
+        public int RecurringTotalCycles { get; protected set; }
+
+        public RecurringProductCyclePeriod RecurringCyclePeriod
+        {
+            get => (RecurringProductCyclePeriod) RecurringCyclePeriodId;
+            set => RecurringCyclePeriodId = (int) value;
+        }
+
+        public void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
+            int recurringCyclePeriodId)
+        {
+            if (recurringCycleLength <= 0)
+            {
+                throw new ArgumentException($"{nameof(recurringCycleLength)} is not valid!");
+            }
+
+            if (recurringTotalCycles <= 0)
+            {
+                throw new ArgumentException($"{nameof(recurringTotalCycles)} is not valid!");
+            }
+
+            RecurringCycleLength = recurringCycleLength;
+            RecurringTotalCycles = recurringTotalCycles;
+            RecurringCyclePeriodId = recurringCyclePeriodId;
+            IsRental = false;
+            IsRecurring = true;
+        }
+
+        #endregion
+        
+        #region Rental Product
+
+        public bool IsRental { get; protected set; }
+        public int RentalPriceLength { get; protected set; }
+        public int RentalPricePeriodId { get; protected set; }
+
+        public RentalPricePeriod RentalPricePeriod
+        {
+            get => (RentalPricePeriod) RentalPricePeriodId;
+            set => RentalPricePeriodId = (int) value;
+        }
+
+        public void SetAsRental(int rentalPriceLength, int rentalPricePeriodId)
+        {
+            if (rentalPriceLength <= 0)
+            {
+                throw new ArgumentException($"{nameof(rentalPriceLength)} is not valid!");
+            }
+
+            RentalPriceLength = rentalPriceLength;
+            RentalPricePeriodId = rentalPricePeriodId;
+            IsRecurring = false;
+            IsRental = true;
+        }
+
+        #endregion
+        
+        #region Price
+        public decimal Price { get; protected set; }
+        public decimal OldPrice { get; protected set; }
+        public decimal ProductCost { get; set; }
+        public bool DisableBuyButton { get; set; }
+        public bool DisableWishListButton { get; set; }
+        public bool CallForPrice { get; set; }
+
+        #region PreOrder
+
+        public bool AvailableForPreOrder { get; protected set; }
+        public DateTime? PreOrderAvailabilityStartDate { get; protected set; }
+        public void SetAsAvailableForPreOrder(bool availableForPreOrder = true,
+            DateTime? preOrderAvailabilityStartDate = null)
+        {
+            if (preOrderAvailabilityStartDate.HasValue && preOrderAvailabilityStartDate < DateTime.Now)
+            {
+                preOrderAvailabilityStartDate = DateTime.Now;
+            }
+
+            AvailableForPreOrder = availableForPreOrder;
+            PreOrderAvailabilityStartDate = preOrderAvailabilityStartDate;
+        }
+
+        #endregion
+        
+        #region Customer Enters Price
+        public bool CustomerEntersPrice { get; protected set; }
+        public decimal MinimumCustomerEnteredPrice { get; protected set; }
+        public decimal MaximumCustomerEnteredPrice { get; protected set; }
+        public void AllowCustomerEntersPrice(bool allow = false, decimal? minPrice = null, decimal? maxPerice = null)
+        {
+            if (allow)
+            {
+                if (!minPrice.HasValue || !maxPerice.HasValue)
+                {
+                    CustomerEntersPrice = false;
+
+                    return;
+                }
+
+                if (minPrice <= decimal.Zero || minPrice >= maxPerice)
+                {
+                    CustomerEntersPrice = false;
+
+                    return;
+                }
+
+                CustomerEntersPrice = true;
+                MinimumCustomerEnteredPrice = minPrice.Value;
+                MaximumCustomerEnteredPrice = maxPerice.Value;
+
+                return;
+            }
+
+            CustomerEntersPrice = false;
+            MinimumCustomerEnteredPrice = decimal.Zero;
+            MaximumCustomerEnteredPrice = decimal.Zero;
+        }
+        #endregion
+        
+        #region PAngV (base price) 
+        public bool BasePriceEnabled { get; set; }
+        public decimal BasePriceAmount { get; set; }
+        public int BasePriceUnitId { get; set; }
+        public decimal BasePriceBaseAmount { get; set; }
+        public int BasePriceBaseUnitId { get; set; }
+        #endregion
+
+        #region Discount
+
+        public bool HasDiscountsApplied { get; set; }
+        
+        public ICollection<ProductDiscount> ProductDiscounts { get; protected set; }
+
+        public void AddDiscount(Guid discountId)
+        {
+            ProductDiscounts.Add(new ProductDiscount(Id, discountId));
+        }
+
+        public void RemoveDiscount(Guid discountId)
+        {
+            if (ProductDiscounts.Any(x => x.DiscountId == discountId))
+                ProductDiscounts.RemoveAll(x => x.DiscountId == discountId);
+        }
+        #endregion
+
+        #region Tax
+
+        public bool IsTaxExempt { get; protected set; }
+        public Guid? TaxCategoryId { get; protected set; }
+
+        public void SetAsTaxExempt(bool isTaxExempt = true, Guid? taxCategoryId = null)
+        {
+            if (isTaxExempt)
+            {
+                TaxCategoryId = null;
+                IsTaxExempt = true;
+
+                return;
+            }
+
+            if (taxCategoryId == null || taxCategoryId == Guid.Empty)
+            {
+                IsTaxExempt = true;
+                TaxCategoryId = null;
+
+                return;
+            }
+
+            TaxCategoryId = taxCategoryId;
+            IsTaxExempt = false;
+        }
+
+        #endregion
+
+        public void ChangePrice(decimal newPrice)
+        {
+            if (newPrice < decimal.Zero)
+            {
+                throw new ArgumentException($"{nameof(newPrice)} can not be less than 0.0!");
+            }
+
+            ChangePriceInternal(newPrice);
+        }
+
+        private void ChangePriceInternal(decimal newPrice, bool triggerEvent = true)
+        {
+            if (Price == newPrice)
             {
                 return;
             }
 
+            //sample distributed event
+            if (triggerEvent)
+            {
+                AddDistributedEvent(new ProductPriceChangedEto(Price, newPrice));
+            }
+
+            Price = newPrice;
+        }
+        
+        #endregion
+
+        #region Inventory
+
+        //TODO: full review
+        public int ManageInventoryMethodId { get; protected set; }
+        
+        public ManageInventoryMethod ManageInventoryMethod
+        {
+            get => (ManageInventoryMethod) ManageInventoryMethodId;
+            protected set => ManageInventoryMethodId = (int) value;
+        }
+        public int StockQuantity { get; protected set; }
+        public Guid? WarehouseId { get; protected set; }
+        public bool UseMultipleWarehouses { get; protected set; } 
+        public int ProductAvailabilityRangeId { get; set; }
+        public bool DisplayStockAvailability { get; set; }
+        public bool DisplayStockQuantity { get; set; }
+        
+        public int MinStockQuantity { get; set; }
+        public int LowStockActivityId { get; protected set; }
+        public LowStockActivity LowStockActivity
+        {
+            get => (LowStockActivity) LowStockActivityId;
+            protected set => LowStockActivityId = (int) value;
+        }
+        public int NotifyAdminForQuantityBelow { get; set; }
+        public int BackorderModeId { get; set; }
+        public BackorderMode BackorderMode
+        {
+            get => (BackorderMode) BackorderModeId;
+            set => BackorderModeId = (int) value;
+        }
+        public bool AllowBackInStockSubscriptions { get; set; }
+        public int OrderMinimumQuantity { get; protected set; }
+        public int OrderMaximumQuantity { get; protected set; }
+        public void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
+        {
+            if (orderMinimumQuantity <= 0 || orderMaximumQuantity <= 0 || orderMaximumQuantity < orderMinimumQuantity)
+            {
+                orderMinimumQuantity = 1;
+                orderMaximumQuantity = int.MaxValue;
+            }
+
+            OrderMinimumQuantity = orderMinimumQuantity;
+            OrderMaximumQuantity = orderMaximumQuantity;
+        }
+        public string AllowedQuantities { get; protected set; }
+
+        public void SetAllowedQuantities(IEnumerable<int> allowedQuantities)
+        {
+            allowedQuantities = allowedQuantities.Distinct().ToArray();
+
+            if (!string.IsNullOrWhiteSpace(AllowedQuantities))
+            {
+                AllowedQuantities = "";
+            }
+
+            AllowedQuantities = string.Join(",", allowedQuantities);
+        }
+
+        public bool NotReturnable { get; set; }
+        public ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
+
+        public void SetManageInventoryMethod(int manageInventoryMethodId = 0)
+        {
+            var manageMethod = (ManageInventoryMethod) manageInventoryMethodId;
+
+            switch (manageMethod)
+            {
+                case ManageInventoryMethod.ManageStock:
+                    ManageInventoryMethod = manageMethod;
+                    break;
+                
+                case ManageInventoryMethod.DontManageStock:
+                    ManageInventoryMethod = manageMethod;
+                    UseMultipleWarehouses = false;
+                    DisplayStockQuantity = false;
+                    DisplayStockAvailability = false;
+                    LowStockActivity = LowStockActivity.Nothing;
+                    BackorderMode = BackorderMode.NoBackorders;
+                    AllowBackInStockSubscriptions = false;
+                    ProductAvailabilityRangeId = 0;
+                    break;
+ 
+                case ManageInventoryMethod.ManageStockByAttributes:
+                    ManageInventoryMethod = manageMethod;
+                    break;
+
+                default:
+ 
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        public void SetWarehouse(Guid? warehouseId)
+        {
+            if (warehouseId == null || warehouseId == Guid.Empty)
+            {
+                WarehouseId = null;
+
+                return;
+            }
+
+            WarehouseId = warehouseId;
+        }
+        
+        public void SetMultipleWarehouses(IEnumerable<Guid> warehouseInventoryIds)
+        {
+            var hashSet = new HashSet<Guid>(warehouseInventoryIds);
+            
+            if (hashSet.Count <= 1)
+            {
+                UseMultipleWarehouses = false;
+                SetWarehouse(hashSet.FirstOrDefault());
+                return;
+            }
+
+            UseMultipleWarehouses = true;
+            StockQuantity = 0;
+            WarehouseId = null;
+            
+            if (ManageInventoryMethod == ManageInventoryMethod.DontManageStock)
+            {
+                SetManageInventoryMethod();
+            }
+            
+            foreach (var warehouseInventoryId in hashSet)
+            {
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(Id, warehouseInventoryId));
+            }
+        }
+
+        #endregion
+        
+        #region Require Products
+
+        public bool RequireOtherProducts { get; protected set; }
+        public string RequiredProductIds { get; protected set; }
+        public bool AutomaticallyAddRequiredProducts { get; set; }
+
+        public void SetRequireProducts(bool requireOtherProducts = false, string requireProductIds = "")
+        {
+            if (requireOtherProducts)
+            {
+                if (requireProductIds.IsNullOrWhiteSpace())
+                {
+                    RequireOtherProducts = false;
+                    RequiredProductIds = "";
+
+                    return;
+                }
+                RequireOtherProducts = true;
+                RequiredProductIds = requireProductIds;
+                return;
+            }
+            
+            RequireOtherProducts = false;
+            RequiredProductIds = "";
+        }
+        
+
+        #endregion
+
+        #region SEO
+
+        public string MetaKeywords { get; protected set; }
+        public string MetaDescription { get; protected set; }
+        public string MetaTitle { get; protected set; }
+
+        public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
+        {
             if (metaTitle.Length >= ProductConsts.MaxMetaTitleLength)
             {
                 throw new ArgumentException($"Meta Title can not be longer than {ProductConsts.MaxMetaTitleLength}");
@@ -292,435 +687,27 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             MetaDescription = metaDescription;
         }
 
-        public void DisableBuyButton(bool isBuyButtonDisabled = false)
-        {
-            if (IsBuyButtonDisabled == isBuyButtonDisabled)
-            {
-                return;
-            }
+        #endregion
 
-            IsBuyButtonDisabled = isBuyButtonDisabled;
-        }
+        public bool HasUserAgreement { get; set; }
+        public string UserAgreementText { get; set; }
+        public bool IsShipEnabled { get; set; }
+        public bool IsFreeShipping { get; set; }
+        public bool ShipSeparately { get; set; }
+        public decimal AdditionalShippingCharge { get; set; }
+        public int DeliveryDateId { get; set; }
 
-        public void SetAllowedQuantities(IEnumerable<int> allowedQuantities)
-        {
-            allowedQuantities = allowedQuantities.Distinct().ToArray();
 
-            if (allowedQuantities.Any(x => x <= 0))
-            {
-                throw new ArgumentException($"{nameof(allowedQuantities)} can not be have value less than one!");
-            }
+        public decimal Weight { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public decimal Height { get; set; }
 
-            if (!string.IsNullOrWhiteSpace(AllowedQuantities))
-            {
-                AllowedQuantities = "";
-            }
 
-            AllowedQuantities = string.Join(",", allowedQuantities);
-        }
+        #region Mapping
 
-        public void DisableWishListButton(bool isWishListButtonDisabled = false)
-        {
-            if (IsWishListButtonDisabled == isWishListButtonDisabled)
-            {
-                return;
-            }
+        public ICollection<ProductCategory> ProductCategories { get; protected set; }
 
-            IsWishListButtonDisabled = isWishListButtonDisabled;
-        }
-
-        public void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
-        {
-            if (orderMinimumQuantity <= 0 ||
-                orderMaximumQuantity <= 0 ||
-                orderMaximumQuantity <= orderMinimumQuantity)
-            {
-                throw new ArgumentException();
-            }
-
-            if (OrderMinimumQuantity == orderMinimumQuantity &&
-                OrderMaximumQuantity == orderMaximumQuantity)
-            {
-                return;
-            }
-
-            OrderMinimumQuantity = orderMinimumQuantity;
-            OrderMaximumQuantity = orderMaximumQuantity;
-        }
-
-        public void SetAsAvailableForPreOrder(bool availableForPreOrder = true,
-            DateTime? preOrderAvailabilityStartDate = null)
-        {
-            if (preOrderAvailabilityStartDate.HasValue && preOrderAvailabilityStartDate < DateTime.Now)
-            {
-                throw new ArgumentException();
-            }
-
-            if (AvailableForPreOrder == availableForPreOrder &&
-                PreOrderAvailabilityStartDate == preOrderAvailabilityStartDate)
-            {
-                return;
-            }
-
-            AvailableForPreOrder = availableForPreOrder;
-            PreOrderAvailabilityStartDate = preOrderAvailabilityStartDate;
-        }
-
-        public void SetAsNotReturnable(bool notReturnable = true)
-        {
-            if (NotReturnable == notReturnable)
-            {
-                return;
-            }
-
-            NotReturnable = notReturnable;
-        }
-
-        public void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
-            RecurringProductCyclePeriod recurringCyclePeriod)
-        {
-            if (recurringCycleLength <= 0)
-            {
-                throw new ArgumentException();
-            }
-
-            if (recurringTotalCycles <= 0)
-            {
-                throw new ArgumentException();
-            }
-
-            if (RecurringCycleLength == recurringCycleLength &&
-                RecurringTotalCycles == recurringTotalCycles &&
-                RecurringCyclePeriod == recurringCyclePeriod)
-            {
-                return;
-            }
-
-            RecurringCycleLength = recurringCycleLength;
-            RecurringTotalCycles = recurringTotalCycles;
-            RecurringCyclePeriod = recurringCyclePeriod;
-
-            IsRental = false;
-            IsRecurring = true;
-        }
-
-        public void SetAsRental(int rentalPriceLength, RentalPricePeriod rentalPricePeriod)
-        {
-            if (rentalPriceLength <= 0)
-            {
-                throw new ArgumentException();
-            }
-
-            if (RentalPriceLength == rentalPriceLength &&
-                RentalPricePeriod == rentalPricePeriod)
-            {
-                return;
-            }
-
-            RentalPriceLength = rentalPriceLength;
-            RentalPricePeriod = rentalPricePeriod;
-
-            IsRental = true;
-            IsRecurring = false;
-        }
-
-        public void EnableBasePrice(bool basePriceEnabled = true, decimal? basePriceAmount = null,
-            int? basePriceUnitId = null,
-            decimal? basePriceBaseAmount = null, int? basePriceBaseUnitId = null)
-        {
-            if (BasePriceEnabled == basePriceEnabled &&
-                BasePriceAmount == basePriceAmount &&
-                BasePriceUnitId == basePriceUnitId &&
-                BasePriceBaseAmount == basePriceBaseAmount &&
-                BasePriceBaseUnitId == basePriceBaseUnitId)
-            {
-                return;
-            }
-
-            if (basePriceEnabled)
-            {
-                if (basePriceUnitId == null || basePriceUnitId <= 0)
-                {
-                    throw new ArgumentException($"{nameof(basePriceUnitId)} is not valid");
-                }
-
-                if (basePriceBaseUnitId == null || basePriceBaseUnitId <= 0)
-                {
-                    throw new ArgumentException($"{nameof(basePriceBaseUnitId)} is not valid");
-                }
-
-                if (basePriceAmount == null || basePriceAmount <= decimal.Zero)
-                {
-                    throw new ArgumentException($"{nameof(basePriceAmount)} is not valid");
-                }
-
-                if (basePriceBaseAmount == null || basePriceBaseAmount <= decimal.Zero)
-                {
-                    throw new ArgumentException($"{nameof(basePriceBaseAmount)} is not valid");
-                }
-
-                BasePriceEnabled = true;
-                BasePriceAmount = basePriceAmount;
-                BasePriceUnitId = basePriceUnitId;
-                BasePriceBaseAmount = basePriceBaseAmount;
-                BasePriceBaseUnitId = basePriceBaseUnitId;
-            }
-            else
-            {
-                BasePriceEnabled = false;
-                BasePriceAmount = null;
-                BasePriceUnitId = null;
-                BasePriceBaseAmount = null;
-                BasePriceBaseUnitId = null;
-            }
-        }
-
-        public void AllowCustomerEntersPrice(bool allow = false, decimal? minPrice = null, decimal? maxPerice = null)
-        {
-            if (allow)
-            {
-                if (minPrice <= decimal.Zero || minPrice >= maxPerice)
-                {
-                    throw new ArgumentException($"{nameof(minPrice)} is not valid");
-                }
-
-                if (IsAllowCustomerEntersPrice &&
-                    MinimumCustomerEnteredPrice == minPrice &&
-                    MaximumCustomerEnteredPrice == maxPerice)
-                {
-                    return;
-                }
-
-                IsAllowCustomerEntersPrice = true;
-                MinimumCustomerEnteredPrice = minPrice;
-                MaximumCustomerEnteredPrice = maxPerice;
-            }
-
-            IsAllowCustomerEntersPrice = false;
-            MinimumCustomerEnteredPrice = null;
-            MaximumCustomerEnteredPrice = null;
-        }
-
-        public void DisableCustomerEntersPrice()
-        {
-            if (!IsAllowCustomerEntersPrice)
-            {
-                return;
-            }
-
-            IsAllowCustomerEntersPrice = false;
-            MinimumCustomerEnteredPrice = null;
-            MaximumCustomerEnteredPrice = null;
-        }
-
-        public void SetProductCost(decimal productCost)
-        {
-            if (ProductCost == productCost)
-            {
-                return;
-            }
-
-            ProductCost = productCost;
-        }
-
-        public void ChangePrice(decimal newPrice)
-        {
-            if (newPrice < decimal.Zero)
-            {
-                throw new ArgumentException($"{nameof(newPrice)} can not be less than 0.0!");
-            }
-
-            if (Price == newPrice)
-            {
-                return;
-            }
-
-            OldPrice = Price;
-            Price = newPrice;
-        }
-
-        public void SetAsCallForPrice(bool callForPrice = true)
-        {
-            if (CallForPrice == callForPrice)
-            {
-                return;
-            }
-
-            if (callForPrice && Price > 0)
-            {
-                ChangePrice(decimal.One);
-
-                return;
-            }
-
-            CallForPrice = callForPrice;
-        }
-
-        public void SetAsTaxExempt(bool isTaxExempt = true, Guid? taxCategoryId = null)
-        {
-            if (IsTaxExempt == isTaxExempt && TaxCategoryId == taxCategoryId)
-            {
-                return;
-            }
-
-            if (isTaxExempt)
-            {
-                TaxCategoryId = null;
-                IsTaxExempt = true;
-
-                return;
-            }
-
-            if (taxCategoryId == null || taxCategoryId == Guid.Empty)
-            {
-                throw new ArgumentException($"{nameof(taxCategoryId)} must be a valid identity");
-            }
-
-            TaxCategoryId = taxCategoryId;
-            IsTaxExempt = false;
-        }
-
-        public void SetAsHomePageItem(bool showOnHomePage = true)
-        {
-            if (ShowOnHomePage == showOnHomePage)
-            {
-                return;
-            }
-
-            ShowOnHomePage = showOnHomePage;
-        }
-
-        public void DisplayIndividually(bool visibleIndividually = true)
-        {
-            if (VisibleIndividually == visibleIndividually)
-            {
-                return;
-            }
-
-            VisibleIndividually = visibleIndividually;
-        }
-
-        public void MarkAsNew(DateTime? startDate, DateTime? endDate)
-        {
-            if (IsNew && MarkAsNewStartDate == startDate && MarkAsNewEndDate == endDate)
-            {
-                return;
-            }
-
-            if (startDate.HasValue && startDate < DateTime.Now)
-            {
-                throw new ArgumentException("Can not set start date in the past!",
-                    nameof(startDate));
-            }
-
-            if (endDate.HasValue && endDate <= startDate)
-            {
-                throw new ArgumentException("Can not set end date in the past of start date!",
-                    nameof(endDate));
-            }
-
-            IsNew = true;
-            MarkAsNewStartDate = startDate;
-            MarkAsNewEndDate = endDate;
-        }
-
-        public void RemoveNewMarker()
-        {
-            IsNew = false;
-            MarkAsNewStartDate = null;
-            MarkAsNewEndDate = null;
-        }
-
-        public void SetPublishDate(DateTime startDate,
-            DateTime? endDate)
-        {
-            if (IsPublished && AvailableStartDate == startDate && AvailableEndDate == endDate)
-            {
-                return;
-            }
-
-            if (startDate < DateTime.Now)
-            {
-                throw new ArgumentException("Can not set start date in the past!",
-                    nameof(startDate));
-            }
-
-            if (endDate.HasValue && endDate <= startDate)
-            {
-                throw new ArgumentException("Can not set end date in the past of start date!",
-                    nameof(endDate));
-            }
-
-            if (startDate <= DateTime.Now)
-            {
-                SetAsPublished();
-            }
-            else
-            {
-                SetAsPublished(false);
-            }
-
-            AvailableStartDate = startDate;
-            AvailableEndDate = endDate;
-        }
-
-        private void SetAsPublished(bool publish = true)
-        {
-            if (IsPublished == publish)
-            {
-                return;
-            }
-
-            IsPublished = publish;
-        }
-
-        public void SetDisplayOrder(int displayOrder)
-        {
-            if (displayOrder < 0)
-            {
-                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
-            }
-
-            if (DisplayOrder == displayOrder)
-            {
-                return;
-            }
-
-            DisplayOrder = displayOrder;
-        }
-
-        public void UpdateRatingAverage(double newRate)
-        {
-            var average = (RatingAverage * RatingCount + newRate) / (RatingCount + 1);
-            RatingAverage = Math.Round(average * 2, MidpointRounding.AwayFromZero) / 2;
-
-            IncreaseRatingCount();
-        }
-
-        private void IncreaseRatingCount()
-        {
-            RatingCount++;
-        }
-
-        
-        public void SetUserAgreementText(bool hasUserAgreement, string userAgreementText = "")
-        {
-            if (string.IsNullOrWhiteSpace(userAgreementText))
-            {
-                HasUserAgreement = false;
-
-                return;
-            }
-
-            if (HasUserAgreement == hasUserAgreement && UserAgreementText == userAgreementText)
-            {
-                return;
-            }
-
-            UserAgreementText = userAgreementText;
-            HasUserAgreement = hasUserAgreement;
-        }
-        
         public void AddCategory(Guid categoryId)
         {
             ProductCategories.Add(new ProductCategory(Id, categoryId));
@@ -728,16 +715,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveCategory(Guid categoryId)
         {
-            if (ProductCategories == null)
-            {
-                throw new ReferenceNotLoadedException(nameof(ProductCategories));
-            }
-
             if (ProductCategories.Any(x => x.CategoryId == categoryId))
-            {
                 ProductCategories.RemoveAll(x => x.CategoryId == categoryId);
-            }
         }
+
+        public ICollection<ProductManufacturer> ProductManufacturers { get; protected set; }
 
         public void AddManufacturer(Guid manufacturerId)
         {
@@ -746,16 +728,29 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveManufacturer(Guid manufacturerId)
         {
-            if (ProductManufacturers == null)
+            if (ProductManufacturers.Any(x => x.ManufacturerId == manufacturerId))
+                ProductManufacturers.RemoveAll(x => x.ManufacturerId == manufacturerId);
+        }
+
+        public Guid? VendorId { get; protected set; }
+
+        public void SetVendor(Guid? vendorId)
+        {
+            if (vendorId == Guid.Empty || vendorId == null)
             {
-                throw new ReferenceNotLoadedException(nameof(ProductManufacturers));
+                VendorId = null;
+
+                return;
             }
 
-            if (ProductManufacturers.Any(x => x.ManufacturerId == manufacturerId))
-            {
-                ProductManufacturers.RemoveAll(x => x.ManufacturerId == manufacturerId);
-            }
+            VendorId = vendorId;
         }
+
+        #endregion
+
+        #region Related data
+
+        public ICollection<ProductPicture> ProductPictures { get; protected set; }
 
         public void AddPicture(Guid pictureId)
         {
@@ -764,73 +759,27 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemovePicture(Guid pictureId)
         {
-            if (ProductPictures == null)
-            {
-                throw new ReferenceNotLoadedException(nameof(ProductPictures));
-            }
-
             if (ProductPictures.Any(x => x.PictureId == pictureId))
-            {
                 ProductPictures.RemoveAll(x => x.PictureId == pictureId);
-            }
         }
 
-        public void AddSpecificationAttribute(Guid specificationAttributeOptionId)
+
+        public ICollection<ProductProductAttribute> ProductProductAttributes { get; protected set; }
+
+        public void AddProductAttribute(Guid productAttributeId)
         {
-            ProductSpecificationAttributes.Add(
-                new ProductSpecificationAttribute(Id, specificationAttributeOptionId));
+            ProductProductAttributes.Add(new ProductProductAttribute(Id, productAttributeId));
         }
 
-        public void RemoveSpecificationAttribute(Guid specificationAttributeOptionId)
+        public void RemoveProductAttribute(Guid productAttributeId)
         {
-            if (ProductSpecificationAttributes == null)
+            if (ProductProductAttributes.Any(x => x.ProductAttributeId == productAttributeId))
             {
-                throw new ReferenceNotLoadedException(nameof(ProductSpecificationAttributes));
-            }
-
-            if (ProductSpecificationAttributes.Any(x =>
-                x.SpecificationAttributeOptionId == specificationAttributeOptionId))
-            {
-                ProductSpecificationAttributes.RemoveAll(x =>
-                    x.SpecificationAttributeOptionId == specificationAttributeOptionId);
+                ProductProductAttributes.RemoveAll(x => x.ProductAttributeId == productAttributeId);
             }
         }
 
-        public void AddTag(Guid tagId)
-        {
-            ProductTags.Add(new ProductProductTag(Id, tagId));
-        }
-
-        public void RemoveTag(Guid tagId)
-        {
-            if (ProductTags == null)
-            {
-                throw new ReferenceNotLoadedException(nameof(ProductTags));
-            }
-
-            if (ProductTags.Any(x => x.ProductTagId == tagId))
-            {
-                ProductTags.RemoveAll(x => x.ProductTagId == tagId);
-            }
-        }
-
-        public void AddDiscount(Guid discountId)
-        {
-            ProductDiscounts.Add(new ProductDiscount(Id, discountId));
-        }
-
-        public void RemoveDiscount(Guid discountId)
-        {
-            if (ProductDiscounts == null)
-            {
-                throw new ReferenceNotLoadedException(nameof(ProductDiscounts));
-            }
-
-            if (ProductDiscounts.Any(x => x.DiscountId == discountId))
-            {
-                ProductDiscounts.RemoveAll(x => x.DiscountId == discountId);
-            }
-        }
+        public ICollection<CrossSellProduct> CrossSellProducts { get; protected set; }
 
         public void AddCrossSellProduct(Guid crossSellProductId)
         {
@@ -839,16 +788,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveCrossSellProduct(Guid crossSellProductId)
         {
-            if (CrossSellProducts == null)
-            {
-                throw new ReferenceNotLoadedException(nameof(CrossSellProducts));
-            }
-
             if (CrossSellProducts.Any(x => x.CrossSellProductId == crossSellProductId))
-            {
                 CrossSellProducts.RemoveAll(x => x.CrossSellProductId == crossSellProductId);
-            }
         }
+
+        public ICollection<RelatedProduct> RelatedProducts { get; protected set; }
 
         public void AddRelatedProduct(Guid relatedProductId)
         {
@@ -857,15 +801,64 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         public void RemoveRelatedProduct(Guid relatedProductId)
         {
-            if (RelatedProducts == null)
-            {
-                throw new ReferenceNotLoadedException(nameof(RelatedProducts));
-            }
+            if (RelatedProducts == null) throw new ReferenceNotLoadedException(nameof(RelatedProducts));
 
             if (RelatedProducts.Any(x => x.RelatedProductId == relatedProductId))
-            {
                 RelatedProducts.RemoveAll(x => x.RelatedProductId == relatedProductId);
+        }
+
+        public ICollection<ProductSpecificationAttribute> ProductSpecificationAttributes { get; protected set; }
+
+        public void AddSpecificationAttribute(Guid specificationAttributeOptionId)
+        {
+            ProductSpecificationAttributes.Add(new ProductSpecificationAttribute(Id, specificationAttributeOptionId));
+        }
+
+        public void RemoveSpecificationAttribute(Guid specificationAttributeOptionId)
+        {
+            if (ProductSpecificationAttributes.Any(x =>
+                x.SpecificationAttributeOptionId == specificationAttributeOptionId))
+            {
+                ProductSpecificationAttributes.RemoveAll(x =>
+                    x.SpecificationAttributeOptionId == specificationAttributeOptionId);
             }
+        }
+
+        public ICollection<ProductAttributeCombination> ProductAttributeCombinations { get; protected set; }
+
+        #endregion
+
+        protected Product()
+        {
+        }
+
+        public Product(Guid id, [NotNull] string code, [NotNull] string name, [NotNull] string shortDescription,
+            decimal price)
+        {
+            Check.NotNullOrWhiteSpace(code, nameof(code));
+
+            if (code.Length > ProductConsts.MaxCodeLength)
+                throw new ArgumentException($"Code can not be longer than {ProductConsts.MaxCodeLength}");
+
+            if (price < decimal.Zero) throw new ArgumentException($"{nameof(price)} can not be less than 0.0!");
+
+            Id = id;
+            Code = code;
+            Price = price;
+            SetName(name);
+            SetShortDescription(shortDescription);
+
+            ProductCategories = new HashSet<ProductCategory>();
+            ProductManufacturers = new HashSet<ProductManufacturer>();
+            ProductPictures = new HashSet<ProductPicture>();
+            ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
+            ProductTags = new HashSet<ProductProductTag>();
+            ProductProductAttributes = new HashSet<ProductProductAttribute>();
+            ProductDiscounts = new HashSet<ProductDiscount>();
+            ProductAttributeCombinations = new HashSet<ProductAttributeCombination>();
+            CrossSellProducts = new HashSet<CrossSellProduct>();
+            RelatedProducts = new HashSet<RelatedProduct>();
+            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
         }
     }
 }

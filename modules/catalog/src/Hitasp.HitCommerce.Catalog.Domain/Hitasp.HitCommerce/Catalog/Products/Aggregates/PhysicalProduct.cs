@@ -40,9 +40,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductPictures = new HashSet<ProductPicture>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
             ProductTags = new HashSet<ProductProductTag>();
-            ProductAttributes = new HashSet<ProductProductAttribute>();
+            ProductProductAttributes = new HashSet<ProductProductAttribute>();
             ProductDiscounts = new HashSet<ProductDiscount>();
-            AttributeCombinations = new HashSet<ProductAttributeCombination>();
+            ProductAttributeCombinations = new HashSet<ProductAttributeCombination>();
             CrossSellProducts = new HashSet<CrossSellProduct>();
             RelatedProducts = new HashSet<RelatedProduct>();
 
@@ -75,9 +75,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductPictures = new HashSet<ProductPicture>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
             ProductTags = new HashSet<ProductProductTag>();
-            ProductAttributes = new HashSet<ProductProductAttribute>();
+            ProductProductAttributes = new HashSet<ProductProductAttribute>();
             ProductDiscounts = new HashSet<ProductDiscount>();
-            AttributeCombinations = new HashSet<ProductAttributeCombination>();
+            ProductAttributeCombinations = new HashSet<ProductAttributeCombination>();
             CrossSellProducts = new HashSet<CrossSellProduct>();
             RelatedProducts = new HashSet<RelatedProduct>();
 

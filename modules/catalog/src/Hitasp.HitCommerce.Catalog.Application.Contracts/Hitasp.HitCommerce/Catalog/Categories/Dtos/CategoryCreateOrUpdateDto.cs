@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Hitasp.HitCommerce.Catalog.Categories.Dtos
 {
@@ -33,5 +34,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Dtos
         public Guid? PictureId { get; set; }
         
         public Guid? ParentCategoryId { get; set; }
+                
+        public ICollection<Guid> AppliedDiscounts { get; set; } = new HashSet<Guid>();
     }
 }
