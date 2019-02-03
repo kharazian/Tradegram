@@ -9,9 +9,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Mapping
 
         public virtual Guid WarehouseId { get; protected set; }
 
-        public virtual int StockQuantity { get; set; }
+        public virtual int StockQuantity { get; protected set; }
 
-        public virtual int ReservedQuantity { get; set; }
+        public virtual int ReservedQuantity { get; protected set; }
 
         protected ProductWarehouseInventory()
         {

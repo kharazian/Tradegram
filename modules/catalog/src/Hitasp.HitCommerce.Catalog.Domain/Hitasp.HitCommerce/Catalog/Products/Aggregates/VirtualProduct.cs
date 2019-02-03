@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Hitasp.HitCommerce.Catalog.Products.Abstracts;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using JetBrains.Annotations;

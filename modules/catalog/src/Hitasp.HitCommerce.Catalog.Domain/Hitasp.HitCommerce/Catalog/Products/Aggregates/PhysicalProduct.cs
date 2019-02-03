@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hitasp.HitCommerce.Catalog.Exceptions;
+using Hitasp.HitCommerce.Catalog.Products.Abstracts;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Etos;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
@@ -69,19 +70,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             Price = price;
 
             SetName(name);
-            
-            ProductCategories = new HashSet<ProductCategory>();
-            ProductManufacturers = new HashSet<ProductManufacturer>();
-            ProductPictures = new HashSet<ProductPicture>();
-            ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
-            ProductTags = new HashSet<ProductProductTag>();
-            ProductProductAttributes = new HashSet<ProductProductAttribute>();
-            ProductDiscounts = new HashSet<ProductDiscount>();
-            ProductAttributeCombinations = new HashSet<ProductAttributeCombination>();
-            CrossSellProducts = new HashSet<CrossSellProduct>();
-            RelatedProducts = new HashSet<RelatedProduct>();
-
-            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
         }
 
 
