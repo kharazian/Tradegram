@@ -8,32 +8,22 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class ProductInventory : Entity
     {
-        public Guid ProductId { get; private set; }
-        public int StockQuantity { get; protected set; }
-        public Guid? WarehouseId { get; protected set; }
-        public bool UseMultipleWarehouses { get; protected set; }
-        public bool DisplayStockAvailability { get; set; }
-        public bool DisplayStockQuantity { get; set; }
-        public int MinStockQuantity { get; set; }
-        public bool AllowBackInStockSubscriptions { get; set; }
-        public int OrderMinimumQuantity { get; protected set; }
-        public int OrderMaximumQuantity { get; protected set; }
-        public string AllowedQuantities { get; protected set; }
-        public bool NotReturnable { get; set; }
+        public virtual Guid ProductId { get; private set; }
+        public virtual int StockQuantity { get; protected set; }
+        public virtual Guid? WarehouseId { get; protected set; }
+        public virtual bool UseMultipleWarehouses { get; protected set; }
+        public virtual bool DisplayStockAvailability { get; set; }
+        public virtual bool DisplayStockQuantity { get; set; }
+        public virtual int MinStockQuantity { get; set; }
+        public virtual bool AllowBackInStockSubscriptions { get; set; }
+        public virtual int OrderMinimumQuantity { get; protected set; }
+        public virtual int OrderMaximumQuantity { get; protected set; }
+        public virtual string AllowedQuantities { get; protected set; }
+        public virtual bool NotReturnable { get; set; }
         
-        public ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
+        public virtual ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
 
-        protected ProductInventory()
-        {
-            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
-        }
-
-        public ProductInventory(Guid productId)
-        {
-            ProductId = productId;
-        }
-
-        public void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
+        public virtual void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
         {
             if (orderMinimumQuantity <= 0 ||
                 orderMaximumQuantity <= 0 ||
@@ -47,7 +37,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             OrderMaximumQuantity = orderMaximumQuantity;
         }
 
-        public void SetAllowedQuantities(string allowedQuantities = "")
+        public virtual void SetAllowedQuantities(string allowedQuantities = "")
         {
             AllowedQuantities = string.Empty;
 
@@ -66,7 +56,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             AllowedQuantities = string.Join(",", validQuantities);
         }
 
-        public void SetWarehouse(Guid? warehouseId)
+        public virtual void SetWarehouse(Guid? warehouseId)
         {
             if (warehouseId == null || warehouseId == Guid.Empty)
             {
@@ -85,7 +75,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             WarehouseId = warehouseId;
         }
 
-        public void SetMultipleWarehouses(IEnumerable<Guid> warehouseInventoryIds)
+        public virtual void SetMultipleWarehouses(IEnumerable<Guid> warehouseInventoryIds)
         {
             var hashSet = new HashSet<Guid>(warehouseInventoryIds);
 
@@ -113,7 +103,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             StockQuantity = 0;
         }
 
-        public void RemoveWarehouse(Guid warehouseId)
+        public virtual void RemoveWarehouse(Guid warehouseId)
         {
             if (ProductWarehouseInventories.All(x => x.WarehouseId != warehouseId))
             {
@@ -134,6 +124,16 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         internal void SetStockQuantity(int stockQuantity)
         {
             StockQuantity = stockQuantity;
+        }
+        
+        protected ProductInventory()
+        {
+            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
+        }
+
+        public ProductInventory(Guid productId)
+        {
+            ProductId = productId;
         }
 
         public override object[] GetKeys()

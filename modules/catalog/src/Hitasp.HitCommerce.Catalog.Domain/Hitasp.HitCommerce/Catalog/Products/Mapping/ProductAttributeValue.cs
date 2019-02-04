@@ -4,10 +4,13 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.Products.Entities
+namespace Hitasp.HitCommerce.Catalog.Products.Mapping
 {
-    public class ProductAttributeValue : Entity<Guid>
+    public class ProductAttributeValue : Entity
     {
+        public virtual Guid ProductId { get; private set; }
+        
+        public virtual Guid ProductAttributeId { get; private set; }
         public virtual Guid? PictureId { get; set; }
 
         public virtual string Name { get; set; }
@@ -44,12 +47,18 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         {
         }
 
-        public ProductAttributeValue(Guid id, [NotNull] string name)
+        public ProductAttributeValue(Guid productId, Guid productAttributeId, [NotNull] string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
-            Id = id;
+            ProductId = productId;
+            ProductAttributeId = productAttributeId;
             Name = name;
+        }
+
+        public override object[] GetKeys()
+        {
+            return new object[]{ProductId, ProductAttributeId};
         }
     }
 }

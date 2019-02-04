@@ -1,7 +1,7 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Hitasp.HitCommerce.Catalog.Products.Entities
+namespace Hitasp.HitCommerce.Catalog.Products.Mapping
 {
     public class StockQuantityHistory : CreationAuditedEntity<Guid>
     {

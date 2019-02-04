@@ -2,10 +2,9 @@ using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Hitasp.HitCommerce.Catalog.Products.Entities
+namespace Hitasp.HitCommerce.Catalog.Products.Mapping
 {
-    //TODO: protect set accessors same as productBase
-    public class ProductAttributeCombination : Entity
+    public class ProductAttributeCombination : Entity<Guid>
     {
         public virtual Guid ProductId { get; private set; }
 
@@ -13,9 +12,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         public virtual string ManufacturerPartNumber { get; set; }
 
-        public virtual string Code { get; set; }
+        public virtual string Code { get; private set; }
 
-        public virtual int StockQuantity { get; set; }
+        public virtual int StockQuantity { get; protected set; }
 
         public virtual bool AllowOutOfStockOrders { get; set; }
 
@@ -30,17 +29,29 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         {
         }
 
-        public ProductAttributeCombination(Guid productId, Guid? pictureId, string code, int stockQuantity)
+        public ProductAttributeCombination(Guid id, Guid productId, string code, int stockQuantity)
+            : base(id)
         {
             Check.NotNullOrWhiteSpace(code, nameof(code));
 
             if (code.Length > ProductConsts.MaxCodeLength)
             {
-                throw new ArgumentException("");
+                throw new ArgumentException($"Code can not be longer than {ProductConsts.MaxCodeLength}");
             }
+
+            if (stockQuantity < 0)
+            {
+                stockQuantity = 0;
+            }
+
             ProductId = productId;
-            PictureId = pictureId;
-            
+            Code = code;
+            SetStockQuantity(stockQuantity);
+        }
+
+        internal void SetStockQuantity(int stockQuantity)
+        {
+            StockQuantity = stockQuantity;
         }
 
         public override object[] GetKeys()

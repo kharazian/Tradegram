@@ -5,14 +5,26 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class GiftCard : Entity
     {
-        public Guid ProductId { get; private set; }
-        public int GiftCardTypeId { get; private set; }
-        public decimal? OverriddenGiftCardAmount { get; protected set; }
+        public virtual Guid ProductId { get; private set; }
+        public virtual int GiftCardTypeId { get; private set; }
+        public virtual decimal? OverriddenGiftCardAmount { get; protected set; }
 
-        public GiftCardType GiftCardType
+        public virtual GiftCardType GiftCardType
         {
             get => (GiftCardType) GiftCardTypeId;
             protected set => GiftCardTypeId = (int) value;
+        }
+
+        public virtual void ChangeOverriddenGiftCardAmount(decimal overriddenGiftCardAmount)
+        {
+            if (overriddenGiftCardAmount <= decimal.Zero)
+            {
+                OverriddenGiftCardAmount = decimal.Zero;
+
+                return;
+            }
+
+            OverriddenGiftCardAmount = overriddenGiftCardAmount;
         }
 
         protected GiftCard()
@@ -23,18 +35,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         {
             ProductId = productId;
             GiftCardTypeId = giftCardTypeId;
-            OverriddenGiftCardAmount = overriddenGiftCardAmount;
-        }
-
-        public void ChangeOverriddenGiftCardAmount(decimal overriddenGiftCardAmount)
-        {
-            if (overriddenGiftCardAmount <= decimal.Zero)
-            {
-                OverriddenGiftCardAmount = decimal.Zero;
-
-                return;
-            }
-
             OverriddenGiftCardAmount = overriddenGiftCardAmount;
         }
 

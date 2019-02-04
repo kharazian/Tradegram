@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hitasp.HitCommerce.Catalog.Attributes;
-using Hitasp.HitCommerce.Catalog.Exceptions;
-using Hitasp.HitCommerce.Catalog.Products.Entities;
+using JetBrains.Annotations;
 using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Mapping
@@ -50,21 +49,18 @@ namespace Hitasp.HitCommerce.Catalog.Products.Mapping
             ProductAttributeValues = new HashSet<ProductAttributeValue>();
         }
 
-        public void AddAttributeValues(ProductAttributeValue attributeValue)
+        public virtual void AddAttributeValues(Guid attributeId, [NotNull] string name)
         {
-            ProductAttributeValues.Add(attributeValue);
+            ProductAttributeValues.Add(new ProductAttributeValue(ProductId, attributeId, name));
         }
 
-        public void RemoveAttributeValues(Guid attributeValueId)
+        public virtual void RemoveAttributeValues(Guid attributeId , [NotNull] string name)
         {
-            if (ProductAttributeValues == null)
+            if (ProductAttributeValues.Any(x => x.ProductAttributeId == attributeId &&
+                                                x.Name == name))
             {
-                throw new ReferenceNotLoadedException(nameof(ProductAttributeValues));
-            }
-
-            if (ProductAttributeValues.Any(x => x.Id == attributeValueId))
-            {
-                ProductAttributeValues.RemoveAll(x => x.Id == attributeValueId);
+                ProductAttributeValues.RemoveAll(x => x.ProductAttributeId == attributeId &&
+                                                      x.Name == name);
             }
         }
 

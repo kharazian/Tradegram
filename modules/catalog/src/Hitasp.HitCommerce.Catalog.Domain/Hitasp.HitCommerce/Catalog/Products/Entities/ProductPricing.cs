@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hitasp.HitCommerce.Catalog.Products.Etos;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Volo.Abp.Domain.Entities;
 
@@ -165,45 +164,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         #endregion
 
-        #region BasePrice
-
-        public bool BasePriceEnabled { get; protected set; }
-        public ProductBasePrice ProductBasePrice { get; protected set; }
-
-        public void EnableBasePrice(bool basePriceEnabled, decimal basePriceAmount = decimal.Zero,
-            int basePriceUnitId = 0,
-            decimal basePriceBaseAmount = decimal.Zero, int basePriceBaseUnitId = 0)
-        {
-            if (basePriceEnabled)
-            {
-                if (basePriceUnitId <= 0 || basePriceBaseUnitId <= 0)
-                {
-                    BasePriceEnabled = false;
-
-                    return;
-                }
-
-                if (basePriceAmount <= decimal.Zero || basePriceBaseAmount <= decimal.Zero)
-                {
-                    BasePriceEnabled = false;
-
-                    return;
-                }
-
-                BasePriceEnabled = true;
-
-                ProductBasePrice = new ProductBasePrice(ProductId, basePriceAmount, basePriceUnitId,
-                    basePriceBaseAmount, basePriceBaseUnitId);
-            }
-            else
-            {
-                BasePriceEnabled = false;
-            }
-        }
-        
-
-        #endregion
-
         #region Discounts
 
         public bool HasDiscountsApplied { get; protected set; }
@@ -260,6 +220,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         protected ProductPricing()
         {
+            ProductDiscounts = new HashSet<ProductDiscount>();
         }
 
         public ProductPricing(Guid productId, decimal price)
