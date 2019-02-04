@@ -21,7 +21,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         public string ShortDescription { get; protected set; }
         public string FullDescription { get; protected set; }
         public string Code { get; protected set; }
-        public bool Published { get; set; }
         public string Gtin { get; protected set; }
         public string ManufacturerPartNumber { get; set; }
         public bool ShowOnHomePage { get; set; }
@@ -33,6 +32,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         public bool MarkAsNew { get; protected set; }
         public DateTime? MarkAsNewStartDate { get; protected set; }
         public DateTime? MarkAsNewEndDate { get; protected set; }
+        public bool Published { get; set; }
+
         public ICollection<ProductProductTag> ProductTags { get; protected set; }
 
         public void SetProductTemplate(Guid productTemplateId)
@@ -250,7 +251,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         public void RemoveCategory(Guid categoryId)
         {
             if (ProductCategories.Any(x => x.CategoryId == categoryId))
+            {
                 ProductCategories.RemoveAll(x => x.CategoryId == categoryId);
+            }
         }
 
         public ICollection<ProductManufacturer> ProductManufacturers { get; protected set; }
@@ -263,7 +266,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         public void RemoveManufacturer(Guid manufacturerId)
         {
             if (ProductManufacturers.Any(x => x.ManufacturerId == manufacturerId))
+            {
                 ProductManufacturers.RemoveAll(x => x.ManufacturerId == manufacturerId);
+            }
         }
 
         public Guid? VendorId { get; protected set; }
@@ -294,7 +299,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         {
             if (metaTitle.Length >= ProductConsts.MaxMetaTitleLength)
             {
-                throw new ArgumentException($"Meta Title can not be longer than {ProductConsts.MaxMetaTitleLength}");
+                throw new ArgumentException(
+                    $"Meta Title can not be longer than {ProductConsts.MaxMetaTitleLength}");
             }
 
             if (metaKeywords.Length >= ProductConsts.MaxMetaKeywordsLength)
@@ -374,6 +380,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         #endregion
 
         public ICollection<ProductAttributeCombination> ProductAttributeCombinations { get; protected set; }
+
+        public void AddProductAttributeCombination(Guid productAttributeCombination)
+        {
+            //TODO: Should get values at create time
+            ProductAttributeCombinations.Add(new ProductAttributeCombination(Id));
+        }
+        
+        public void RemoveProductAttributeCombination()
 
         #endregion
     }
