@@ -15,11 +15,12 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
     {
         #region General
 
+        public ProductType ProductType { get; set; }
         public Guid ProductTemplateId { get; protected set; }
         public string Name { get; protected set; }
         public string ShortDescription { get; protected set; }
         public string FullDescription { get; protected set; }
-        public string Code { get; private set; }
+        public string Code { get; protected set; }
         public bool Published { get; set; }
         public string Gtin { get; protected set; }
         public string ManufacturerPartNumber { get; set; }
@@ -155,34 +156,48 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
         #endregion
 
-        
+        #region Pricing
 
-        #region RequiredProducts
+        public ProductPricing Pricing { get; protected set; }
 
-        public void SetRequireProducts(bool requireOtherProducts, string requireProductIds)
+        public void ChangePrice(decimal newPrice, bool triggerEvent = true)
         {
-            RequiredProductIds = string.Empty;
-
-            if (requireOtherProducts && !requireProductIds.IsNullOrWhiteSpace())
+            if (newPrice < decimal.Zero)
             {
-                var validProductIds = requireProductIds.Split(",").Where(g => Guid.TryParse(g, out _))
-                    .Select(Guid.Parse)
-                    .ToArray();
-
-                if (validProductIds.Any())
-                {
-                    RequireOtherProducts = true;
-                    RequiredProductIds = string.Join(",", validProductIds);
-
-                    return;
-                }
-
-                RequireOtherProducts = false;
-
+                throw new ArgumentException($"{nameof(newPrice)} can not be less than 0.0!");
+            }
+            
+            if (Pricing.Price == newPrice)
+            {
                 return;
             }
 
-            RequireOtherProducts = false;
+            //sample distributed event
+            if (triggerEvent)
+            {
+                AddDistributedEvent(new ProductPriceChangedEto(Pricing.Price, newPrice));
+            }
+
+            Pricing.SetPrice(newPrice);
+        }
+
+        #endregion
+
+        #region RequiredProducts
+
+        public ICollection<RequiredProduct> RequiredProducts { get; protected set; }
+
+        public void AddRequiredProduct(Guid requiredProductId)
+        {
+            RequiredProducts.Add(new RequiredProduct(Id, requiredProductId));
+        }
+
+        public void RemoveRequiredProduct(Guid requiredProductId)
+        {
+            if (RequiredProducts.Any(x => x.RequiredProductId == requiredProductId))
+            {
+                RequiredProducts.RemoveAll(x => x.RequiredProductId == requiredProductId);
+            }
         }
 
         #endregion

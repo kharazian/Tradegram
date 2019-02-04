@@ -69,7 +69,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                     .HasColumnName(nameof(Product.MetaDescription));
 
 
-                b.Property(x => x.Price).IsRequired().HasColumnName(nameof(Product.Price));
+                b.Property(x => x.Pricing).IsRequired().HasColumnName(nameof(Product.Pricing));
 
                 b.Property(x => x.OldPrice).HasDefaultValue(decimal.Zero)
                     .HasColumnName(nameof(Product.OldPrice));

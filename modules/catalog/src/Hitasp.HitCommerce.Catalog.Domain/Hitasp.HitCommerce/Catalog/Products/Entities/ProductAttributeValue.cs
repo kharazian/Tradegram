@@ -32,9 +32,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         public virtual int DisplayOrder { get; set; }
         
-        public virtual AttributeValueType AttributeValueType { get; set; }
+        public virtual int AttributeValueTypeId { get; set; }
 
-        
+        public virtual AttributeValueType AttributeValueType
+        {
+            get => (AttributeValueType) AttributeValueTypeId;
+            set => AttributeValueTypeId = (int) value;
+        }
+
         protected ProductAttributeValue()
         {
         }

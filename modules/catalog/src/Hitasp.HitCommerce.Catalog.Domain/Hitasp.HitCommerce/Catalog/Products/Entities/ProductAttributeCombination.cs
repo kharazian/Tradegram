@@ -5,7 +5,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class ProductAttributeCombination : Entity<Guid>
     {
-        public virtual Guid ProductId { get; protected set; }
+        public virtual Guid ProductId { get; private set; }
 
         public virtual Guid? PictureId { get; set; }
         

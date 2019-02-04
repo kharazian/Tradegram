@@ -9,46 +9,35 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
     public class ProductInventory : Entity
     {
         public Guid ProductId { get; private set; }
-        public int ManageInventoryMethodId { get; protected set; }
-
-        public ManageInventoryMethod ManageInventoryMethod
-        {
-            get => (ManageInventoryMethod) ManageInventoryMethodId;
-            protected set => ManageInventoryMethodId = (int) value;
-        }
-
         public int StockQuantity { get; protected set; }
         public Guid? WarehouseId { get; protected set; }
         public bool UseMultipleWarehouses { get; protected set; }
-        public int ProductAvailabilityRangeId { get; protected set; }
-        public bool DisplayStockAvailability { get; protected set; }
-        public bool DisplayStockQuantity { get; protected set; }
-
+        public bool DisplayStockAvailability { get; set; }
+        public bool DisplayStockQuantity { get; set; }
         public int MinStockQuantity { get; set; }
-        public int LowStockActivityId { get; protected set; }
-
-        public LowStockActivity LowStockActivity
-        {
-            get => (LowStockActivity) LowStockActivityId;
-            protected set => LowStockActivityId = (int) value;
-        }
-
-        public int NotifyAdminForQuantityBelow { get; protected set; }
-        public int BackorderModeId { get; protected set; }
-
-        public BackorderMode BackorderMode
-        {
-            get => (BackorderMode) BackorderModeId;
-            protected set => BackorderModeId = (int) value;
-        }
-
         public bool AllowBackInStockSubscriptions { get; set; }
         public int OrderMinimumQuantity { get; protected set; }
         public int OrderMaximumQuantity { get; protected set; }
+        public string AllowedQuantities { get; protected set; }
+        public bool NotReturnable { get; set; }
+        
+        public ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
+
+        protected ProductInventory()
+        {
+            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
+        }
+
+        public ProductInventory(Guid productId)
+        {
+            ProductId = productId;
+        }
 
         public void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
         {
-            if (orderMinimumQuantity <= 0 || orderMaximumQuantity <= 0 || orderMaximumQuantity < orderMinimumQuantity)
+            if (orderMinimumQuantity <= 0 ||
+                orderMaximumQuantity <= 0 ||
+                orderMaximumQuantity < orderMinimumQuantity)
             {
                 orderMinimumQuantity = 1;
                 orderMaximumQuantity = int.MaxValue;
@@ -58,52 +47,23 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             OrderMaximumQuantity = orderMaximumQuantity;
         }
 
-        public string AllowedQuantities { get; protected set; }
-
-        public void SetAllowedQuantities(IEnumerable<int> allowedQuantities)
+        public void SetAllowedQuantities(string allowedQuantities = "")
         {
-            allowedQuantities = allowedQuantities.Distinct().ToArray();
-
             AllowedQuantities = string.Empty;
 
-            AllowedQuantities = string.Join(",", allowedQuantities);
-        }
-
-        public bool NotReturnable { get; set; }
-        public ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
-
-        public void SetManageInventoryMethod(int manageInventoryMethodId = 0)
-        {
-            var manageMethod = (ManageInventoryMethod) manageInventoryMethodId;
-
-            switch (manageMethod)
+            if (string.IsNullOrWhiteSpace(allowedQuantities))
             {
-                case ManageInventoryMethod.ManageStock:
-                    ManageInventoryMethod = manageMethod;
-
-                    break;
-
-                case ManageInventoryMethod.DontManageStock:
-                    ManageInventoryMethod = manageMethod;
-                    UseMultipleWarehouses = false;
-                    DisplayStockQuantity = false;
-                    DisplayStockAvailability = false;
-                    LowStockActivity = LowStockActivity.Nothing;
-                    BackorderMode = BackorderMode.NoBackorders;
-                    AllowBackInStockSubscriptions = false;
-                    ProductAvailabilityRangeId = 0;
-
-                    break;
-
-                case ManageInventoryMethod.ManageStockByAttributes:
-                    ManageInventoryMethod = manageMethod;
-
-                    break;
-
-                default:
-
-                    throw new ArgumentOutOfRangeException();
+                return;
             }
+
+            var validQuantities = allowedQuantities.Split(",").Select(int.Parse).ToArray();
+
+            if (!validQuantities.Any())
+            {
+                return;
+            }
+
+            AllowedQuantities = string.Join(",", validQuantities);
         }
 
         public void SetWarehouse(Guid? warehouseId)
@@ -111,6 +71,13 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             if (warehouseId == null || warehouseId == Guid.Empty)
             {
                 WarehouseId = null;
+
+                return;
+            }
+
+            if (UseMultipleWarehouses & ProductWarehouseInventories.Any())
+            {
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(ProductId, warehouseId.Value));
 
                 return;
             }
@@ -131,18 +98,42 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             }
 
             UseMultipleWarehouses = true;
-            StockQuantity = 0;
             WarehouseId = null;
-
-            if (ManageInventoryMethod == ManageInventoryMethod.DontManageStock)
-            {
-                SetManageInventoryMethod();
-            }
 
             foreach (var warehouseInventoryId in hashSet)
             {
                 ProductWarehouseInventories.Add(new ProductWarehouseInventory(ProductId, warehouseInventoryId));
             }
+
+            if (StockQuantity > 0)
+            {
+                ProductWarehouseInventories.First().SetStockQuantity(StockQuantity);
+            }
+
+            StockQuantity = 0;
+        }
+
+        public void RemoveWarehouse(Guid warehouseId)
+        {
+            if (ProductWarehouseInventories.All(x => x.WarehouseId != warehouseId))
+            {
+                return;
+            }
+
+            var totalStockQuantity = ProductWarehouseInventories.Where(x => x.WarehouseId == warehouseId)
+                .Sum(x => x.StockQuantity);
+
+            if (totalStockQuantity > 0)
+            {
+                SetStockQuantity(StockQuantity + totalStockQuantity);
+            }
+
+            ProductWarehouseInventories.RemoveAll(x => x.WarehouseId == warehouseId);
+        }
+
+        internal void SetStockQuantity(int stockQuantity)
+        {
+            StockQuantity = stockQuantity;
         }
 
         public override object[] GetKeys()

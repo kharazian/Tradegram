@@ -5,9 +5,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Mapping
 {
     public class ProductWarehouseInventory : Entity
     {
-        public virtual Guid ProductId { get; protected set; }
+        public virtual Guid ProductId { get; private set; }
 
-        public virtual Guid WarehouseId { get; protected set; }
+        public virtual Guid WarehouseId { get; private set; }
 
         public virtual int StockQuantity { get; protected set; }
 
@@ -21,6 +21,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Mapping
         {
             ProductId = productId;
             WarehouseId = warehouseId;
+        }
+
+        internal void SetStockQuantity(int stockQuantity)
+        {
+            StockQuantity = stockQuantity;
         }
 
         public override object[] GetKeys()

@@ -9,33 +9,15 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
     public class ProductPricing : Entity
     {
+        #region General
+
         public Guid ProductId { get; private set; }
         public decimal Price { get; protected set; }
-
         public decimal OldPrice { get; protected set; }
 
-        public void ChangePrice(decimal newPrice)
+        internal void SetPrice(decimal newPrice)
         {
-            if (newPrice < decimal.Zero)
-            {
-                throw new ArgumentException($"{nameof(newPrice)} can not be less than 0.0!");
-            }
-
-            ChangePriceInternal(newPrice);
-        }
-
-        private void ChangePriceInternal(decimal newPrice, bool triggerEvent = true)
-        {
-            if (Price == newPrice)
-            {
-                return;
-            }
-
-            //sample distributed event
-            if (triggerEvent)
-            {
-                AddDistributedEvent(new ProductPriceChangedEto(Price, newPrice));
-            }
+            OldPrice = Price;
 
             Price = newPrice;
         }
@@ -56,6 +38,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             ProductCost = productCost;
         }
+
+        #endregion
+
+        #region PreOrder
+
         public bool AvailableForPreOrder { get; protected set; }
         public DateTime? PreOrderAvailabilityStartDate { get; protected set; }
 
@@ -71,6 +58,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             PreOrderAvailabilityStartDate = preOrderAvailabilityStartDate;
         }
 
+        #endregion
+
+        //Uses only in seller bot
+        #region Custom Price
+        
         public bool CustomerEntersPrice { get; protected set; }
         public decimal MinimumCustomerEnteredPrice { get; protected set; }
         public decimal MaximumCustomerEnteredPrice { get; protected set; }
@@ -105,11 +97,78 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             MaximumCustomerEnteredPrice = decimal.Zero;
         }
 
+        #endregion
+
+        #region Periodable
+
+        public bool IsRental { get; protected set; }
+        public int RentalPriceLength { get; protected set; }
+        public int RentalPricePeriodId { get; protected set; }
+
+        public RentalPricePeriod RentalPricePeriod
+        {
+            get => (RentalPricePeriod) RentalPricePeriodId;
+            set => RentalPricePeriodId = (int) value;
+        }
+        
+        public void SetAsRental(int rentalPriceLength, int rentalPricePeriodId)
+        {
+            if (rentalPriceLength <= 0)
+            {
+                throw new ArgumentException($"{nameof(rentalPriceLength)} is not valid!");
+            }
+
+            RentalPriceLength = rentalPriceLength;
+            RentalPricePeriodId = rentalPricePeriodId;
+            IsRecurring = false;
+            IsRental = true;
+        }
+        
+        public bool IsRecurring { get; protected set; }
+        public int RecurringCycleLength { get; protected set; }
+        public int RecurringCyclePeriodId { get; protected set; }
+        public int RecurringTotalCycles { get; protected set; }
+        public RecurringProductCyclePeriod RecurringCyclePeriod
+        {
+            get => (RecurringProductCyclePeriod) RecurringCyclePeriodId;
+            protected set => RecurringCyclePeriodId = (int) value;
+        }
+
+        public void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
+            int recurringCyclePeriodId)
+        {
+            if (recurringCycleLength <= 0)
+            {
+                throw new ArgumentException($"{nameof(recurringCycleLength)} is not valid!");
+            }
+
+            if (recurringTotalCycles <= 0)
+            {
+                throw new ArgumentException($"{nameof(recurringTotalCycles)} is not valid!");
+            }
+
+            RecurringCycleLength = recurringCycleLength;
+            RecurringTotalCycles = recurringTotalCycles;
+            RecurringCyclePeriodId = recurringCyclePeriodId;
+            IsRental = false;
+            IsRecurring = true;
+        }
+
+        public void SetAsForcePay()
+        {
+            IsRental = false;
+            RentalPriceLength = 0;
+            IsRecurring = false;
+            RecurringCycleLength = 0;
+            RecurringTotalCycles = 0;
+        }
+
+        #endregion
+
+        #region BasePrice
+
         public bool BasePriceEnabled { get; protected set; }
-        public decimal BasePriceAmount { get; protected set; }
-        public int BasePriceUnitId { get; protected set; }
-        public decimal BasePriceBaseAmount { get; protected set; }
-        public int BasePriceBaseUnitId { get; protected set; }
+        public ProductBasePrice ProductBasePrice { get; protected set; }
 
         public void EnableBasePrice(bool basePriceEnabled, decimal basePriceAmount = decimal.Zero,
             int basePriceUnitId = 0,
@@ -132,20 +191,20 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 }
 
                 BasePriceEnabled = true;
-                BasePriceAmount = basePriceAmount;
-                BasePriceUnitId = basePriceUnitId;
-                BasePriceBaseAmount = basePriceBaseAmount;
-                BasePriceBaseUnitId = basePriceBaseUnitId;
+
+                ProductBasePrice = new ProductBasePrice(ProductId, basePriceAmount, basePriceUnitId,
+                    basePriceBaseAmount, basePriceBaseUnitId);
             }
             else
             {
                 BasePriceEnabled = false;
-                BasePriceAmount = decimal.Zero;
-                BasePriceUnitId = 0;
-                BasePriceBaseAmount = decimal.Zero;
-                BasePriceBaseUnitId = 0;
             }
         }
+        
+
+        #endregion
+
+        #region Discounts
 
         public bool HasDiscountsApplied { get; protected set; }
 
@@ -153,7 +212,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         public void AddDiscount(Guid discountId)
         {
-            ProductDiscounts.Add(new ProductDiscount(Id, discountId));
+            ProductDiscounts.Add(new ProductDiscount(ProductId, discountId));
             HasDiscountsApplied = true;
         }
 
@@ -167,6 +226,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
                 HasDiscountsApplied = false;
             }
         }
+
+        #endregion
+
+        #region Tax
 
         public bool IsTaxExempt { get; protected set; }
         public Guid? TaxCategoryId { get; protected set; }
@@ -193,9 +256,26 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             IsTaxExempt = false;
         }
 
+        #endregion
+
+        protected ProductPricing()
+        {
+        }
+
+        public ProductPricing(Guid productId, decimal price)
+        {
+            if (price < decimal.Zero)
+            {
+                throw new ArgumentException($"{nameof(price)} can not be less than 0.0!");
+            }
+            
+            ProductId = productId;
+            SetPrice(price);
+        }
+
         public override object[] GetKeys()
         {
-            return new object[]{ProductId};
+            return new object[] {ProductId};
         }
     }
 }
