@@ -11,6 +11,28 @@ namespace Hitasp.HitCommerce.Catalog.Attributes.Entities
 
         public virtual string Description { get; protected set; }
 
+        public virtual void SetName([NotNull] string name)
+        {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+
+            if (name.Length >= AttributeConsts.MaxNameLength)
+            {
+                throw new ArgumentException($"Name can not be longer than {AttributeConsts.MaxNameLength}");
+            }
+
+            Name = name;
+        }
+        
+        public virtual void SetDescription(string description)
+        {
+            if (description.Length >= AttributeConsts.MaxDescriptionLength)
+            {
+                throw new ArgumentException($"Description can not be longer than {AttributeConsts.MaxDescriptionLength}");
+            }
+
+            Description = description;
+        }
+        
         protected ProductAttribute()
         {
         }
@@ -21,38 +43,6 @@ namespace Hitasp.HitCommerce.Catalog.Attributes.Entities
 
             Id = id;
             Name = name;
-        }
-
-        public void SetName([NotNull] string name)
-        {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            if (name.Length >= AttributeConsts.MaxNameLength)
-            {
-                throw new ArgumentException($"Name can not be longer than {AttributeConsts.MaxNameLength}");
-            }
-
-            if (Name == name)
-            {
-                return;
-            }
-
-            Name = name;
-        }
-        
-        public void SetDescription(string description)
-        {
-            if (description.Length >= AttributeConsts.MaxDescriptionLength)
-            {
-                throw new ArgumentException($"Description can not be longer than {AttributeConsts.MaxDescriptionLength}");
-            }
-
-            if (Description == description)
-            {
-                return;
-            }
-
-            Description = description;
         }
     }
 }

@@ -45,22 +45,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
         public virtual ICollection<CategoryDiscount> CategoryDiscounts { get; protected set; }
 
 
-        protected Category()
-        {
-            CategoryDiscounts = new HashSet<CategoryDiscount>();
-        }
-
-        public Category(Guid id, Guid categoryTemplateId)
-        {
-            Id = id;
-
-            CategoryTemplateId = categoryTemplateId;
-
-            CategoryDiscounts = new HashSet<CategoryDiscount>();
-        }
-
-
-        public void SetCategoryTemplate(Guid categoryTemplateId)
+        public virtual void SetCategoryTemplate(Guid categoryTemplateId)
         {
             if (categoryTemplateId == Guid.Empty)
             {
@@ -70,7 +55,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             CategoryTemplateId = categoryTemplateId;
         }
 
-        public void SetName(string name)
+        public virtual void SetName(string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
@@ -82,7 +67,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             Name = name;
         }
 
-        public void SetDescription(string description)
+        public virtual void SetDescription(string description)
         {
             if (description.Length >= CategoryConsts.MaxDescriptionLength)
             {
@@ -93,7 +78,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             Description = description;
         }
 
-        public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
+        public virtual void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
         {
             if (metaTitle.Length >= CategoryConsts.MaxMetaTitleLength)
             {
@@ -118,7 +103,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             MetaDescription = metaDescription;
         }
 
-        public void SetPageSize(int? pageSize = null)
+        public virtual void SetPageSize(int? pageSize = null)
         {
             if (!pageSize.HasValue)
             {
@@ -137,7 +122,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             PageSize = pageSize.Value;
         }
 
-        public void AllowToSelectPageSize(bool allowCustomersToSelectPageSize = true,
+        public virtual void AllowToSelectPageSize(bool allowCustomersToSelectPageSize = true,
             string pageSizeOptions = CategoryConsts.DefaultPageSizeOptions)
         {
             if (allowCustomersToSelectPageSize)
@@ -145,7 +130,8 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
                 AllowCustomersToSelectPageSize = true;
 
                 if (pageSizeOptions.IsNullOrWhiteSpace() || 
-                    !pageSizeOptions.Split(',').Select(p => p.Trim()).GroupBy(p => p).Any(p => p.Count() > 1))
+                    !pageSizeOptions.Split(',').Select(p => p.Trim()).GroupBy(p => p)
+                        .Any(p => p.Count() > 1))
                 {
                     PageSizeOptions = CategoryConsts.DefaultPageSizeOptions;
 
@@ -160,7 +146,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             AllowCustomersToSelectPageSize = false;
         }
 
-        public void SetParentCategory(Guid parentCategoryId)
+        public virtual void SetParentCategory(Guid parentCategoryId)
         {
             if (parentCategoryId == Guid.Empty)
             {
@@ -172,7 +158,7 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             ParentCategoryId = parentCategoryId;
         }
 
-        public void SetPictureId(Guid? pictureId)
+        public virtual void SetPictureId(Guid? pictureId)
         {
             if (pictureId == Guid.Empty || pictureId == null)
             {
@@ -184,12 +170,12 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             PictureId = pictureId;
         }
 
-        public void AddDiscount(Guid discountId)
+        public virtual void AddDiscount(Guid discountId)
         {
             CategoryDiscounts.Add(new CategoryDiscount(Id, discountId));
         }
 
-        public void RemoveDiscount(Guid discountId)
+        public virtual void RemoveDiscount(Guid discountId)
         {
             if (CategoryDiscounts == null)
             {
@@ -200,6 +186,18 @@ namespace Hitasp.HitCommerce.Catalog.Categories.Aggregates
             {
                 CategoryDiscounts.RemoveAll(x => x.DiscountId == discountId);
             }
+        }
+        
+        protected Category()
+        {
+            CategoryDiscounts = new HashSet<CategoryDiscount>();
+        }
+
+        public Category(Guid id, Guid categoryTemplateId)
+        {
+            Id = id;
+
+            CategoryTemplateId = categoryTemplateId;
         }
     }
 }

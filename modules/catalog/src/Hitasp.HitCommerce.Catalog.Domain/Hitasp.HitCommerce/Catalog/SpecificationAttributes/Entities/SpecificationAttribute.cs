@@ -15,6 +15,24 @@ namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities
 
         public virtual ICollection<SpecificationAttributeOption> SpecificationAttributeOptions { get; protected set; }
 
+        
+        public virtual void SetName([NotNull] string name)
+        {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+
+            if (name.Length >= AttributeConsts.MaxNameLength)
+            {
+                throw new ArgumentException($"Name can not be longer than {AttributeConsts.MaxNameLength}");
+            }
+
+            Name = name;
+        }
+
+        public virtual void SetDisplayOrder(int displayOrder)
+        {
+            DisplayOrder = displayOrder;
+        }
+        
         protected SpecificationAttribute()
         {
             SpecificationAttributeOptions = new HashSet<SpecificationAttributeOption>();
@@ -26,30 +44,6 @@ namespace Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities
 
             Id = id;
             Name = name;
-
-            SpecificationAttributeOptions = new HashSet<SpecificationAttributeOption>();
-        }
-
-        public void SetName([NotNull] string name)
-        {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            if (name.Length >= AttributeConsts.MaxNameLength)
-            {
-                throw new ArgumentException($"Name can not be longer than {AttributeConsts.MaxNameLength}");
-            }
-
-            if (Name == name)
-            {
-                return;
-            }
-
-            Name = name;
-        }
-
-        public void SetDisplayOrder(int displayOrder)
-        {
-            DisplayOrder = displayOrder;
         }
     }
 }
