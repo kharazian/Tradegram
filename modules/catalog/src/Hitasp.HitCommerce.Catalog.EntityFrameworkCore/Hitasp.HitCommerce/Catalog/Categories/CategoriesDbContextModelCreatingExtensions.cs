@@ -36,8 +36,6 @@ namespace Hitasp.HitCommerce.Catalog.Categories
 
                 b.Property(x => x.Name).IsRequired().HasMaxLength(CategoryConsts.MaxNameLength)
                     .HasColumnName(nameof(Category.Name));
-                b.Property(x => x.Title).IsRequired().HasMaxLength(CategoryConsts.MaxTitleLength)
-                    .HasColumnName(nameof(Category.Title));
                 b.Property(x => x.Description).IsRequired(false).HasMaxLength(CategoryConsts.MaxDescriptionLength)
                     .HasColumnName(nameof(Category.Description));
                 
@@ -52,8 +50,10 @@ namespace Hitasp.HitCommerce.Catalog.Categories
                 b.Property(x => x.AllowCustomersToSelectPageSize).HasDefaultValue(true)
                     .HasColumnName(nameof(Category.AllowCustomersToSelectPageSize));
                 b.Property(x => x.PageSizeOptions).HasColumnName(nameof(Category.PageSizeOptions));
-                
-                b.Property(x => x.IsPublished).HasDefaultValue(false).HasColumnName(nameof(Category.IsPublished));
+                b.Property(x => x.PriceRanges).HasColumnName(nameof(Category.PriceRanges));
+                b.Property(x => x.IncludeInTopMenu).HasColumnName(nameof(Category.IncludeInTopMenu));
+
+                b.Property(x => x.Published).HasDefaultValue(false).HasColumnName(nameof(Category.Published));
                 b.Property(x => x.ShowOnHomePage).HasDefaultValue(false).HasColumnName(nameof(Category.ShowOnHomePage));
                 b.Property(x => x.DisplayOrder).HasDefaultValue(0).HasColumnName(nameof(Category.DisplayOrder));
 

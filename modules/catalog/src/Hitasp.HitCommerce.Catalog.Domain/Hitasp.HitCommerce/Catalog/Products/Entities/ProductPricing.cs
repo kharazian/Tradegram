@@ -1,19 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Hitasp.HitCommerce.Catalog.Products.Etos;
-using Hitasp.HitCommerce.Catalog.Products.Mapping;
-using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class ProductPricing : Entity
+    public class ProductPricing
     {
         #region General
 
-        public Guid ProductId { get; private set; }
-        public decimal Price { get; protected set; }
-        public decimal OldPrice { get; protected set; }
+        public virtual decimal Price { get; protected set; }
+        public virtual decimal OldPrice { get; protected set; }
 
         internal void SetPrice(decimal newPrice)
         {
@@ -22,12 +16,12 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             Price = newPrice;
         }
 
-        public decimal ProductCost { get; protected set; }
-        public bool DisableBuyButton { get; set; }
-        public bool DisableWishListButton { get; set; }
-        public bool CallForPrice { get; set; }
+        public virtual decimal ProductCost { get; protected set; }
+        public virtual bool DisableBuyButton { get; set; }
+        public virtual bool DisableWishListButton { get; set; }
+        public virtual bool CallForPrice { get; set; }
 
-        public void SetProductCost(decimal productCost)
+        public virtual void SetProductCost(decimal productCost)
         {
             if (productCost <= decimal.Zero)
             {
@@ -43,10 +37,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         #region PreOrder
 
-        public bool AvailableForPreOrder { get; protected set; }
-        public DateTime? PreOrderAvailabilityStartDate { get; protected set; }
+        public virtual bool AvailableForPreOrder { get; protected set; }
+        public virtual DateTime? PreOrderAvailabilityStartDate { get; protected set; }
 
-        public void SetAsAvailableForPreOrder(bool availableForPreOrder = true,
+        public virtual void SetAsAvailableForPreOrder(bool availableForPreOrder = true,
             DateTime? preOrderAvailabilityStartDate = null)
         {
             if (preOrderAvailabilityStartDate.HasValue && preOrderAvailabilityStartDate < DateTime.Now)
@@ -63,11 +57,11 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         //Uses only in seller bot
         #region Custom Price
         
-        public bool CustomerEntersPrice { get; protected set; }
-        public decimal MinimumCustomerEnteredPrice { get; protected set; }
-        public decimal MaximumCustomerEnteredPrice { get; protected set; }
+        public virtual bool CustomerEntersPrice { get; protected set; }
+        public virtual decimal MinimumCustomerEnteredPrice { get; protected set; }
+        public virtual decimal MaximumCustomerEnteredPrice { get; protected set; }
 
-        public void AllowCustomerEntersPrice(bool allow, decimal? minPrice = null, decimal? maxPerice = null)
+        public virtual void AllowCustomerEntersPrice(bool allow, decimal? minPrice = null, decimal? maxPerice = null)
         {
             if (allow)
             {
@@ -101,17 +95,17 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         #region Periodable
 
-        public bool IsRental { get; protected set; }
-        public int RentalPriceLength { get; protected set; }
-        public int RentalPricePeriodId { get; protected set; }
+        public virtual bool IsRental { get; protected set; }
+        public virtual int RentalPriceLength { get; protected set; }
+        public virtual int RentalPricePeriodId { get; protected set; }
 
-        public RentalPricePeriod RentalPricePeriod
+        public virtual RentalPricePeriod RentalPricePeriod
         {
             get => (RentalPricePeriod) RentalPricePeriodId;
             set => RentalPricePeriodId = (int) value;
         }
         
-        public void SetAsRental(int rentalPriceLength, int rentalPricePeriodId)
+        public virtual void SetAsRental(int rentalPriceLength, int rentalPricePeriodId)
         {
             if (rentalPriceLength <= 0)
             {
@@ -124,17 +118,17 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             IsRental = true;
         }
         
-        public bool IsRecurring { get; protected set; }
-        public int RecurringCycleLength { get; protected set; }
-        public int RecurringCyclePeriodId { get; protected set; }
-        public int RecurringTotalCycles { get; protected set; }
-        public RecurringProductCyclePeriod RecurringCyclePeriod
+        public virtual bool IsRecurring { get; protected set; }
+        public virtual int RecurringCycleLength { get; protected set; }
+        public virtual int RecurringCyclePeriodId { get; protected set; }
+        public virtual int RecurringTotalCycles { get; protected set; }
+        public virtual RecurringProductCyclePeriod RecurringCyclePeriod
         {
             get => (RecurringProductCyclePeriod) RecurringCyclePeriodId;
             protected set => RecurringCyclePeriodId = (int) value;
         }
 
-        public void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
+        public virtual void SetAsRecurring(int recurringCycleLength, int recurringTotalCycles,
             int recurringCyclePeriodId)
         {
             if (recurringCycleLength <= 0)
@@ -154,7 +148,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             IsRecurring = true;
         }
 
-        public void SetAsForcePay()
+        public virtual void SetAsForcePay()
         {
             IsRental = false;
             RentalPriceLength = 0;
@@ -165,76 +159,12 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         #endregion
 
-        #region BasePrice
-
-        public bool BasePriceEnabled { get; protected set; }
-        public ProductBasePrice ProductBasePrice { get; protected set; }
-
-        public void EnableBasePrice(bool basePriceEnabled, decimal basePriceAmount = decimal.Zero,
-            int basePriceUnitId = 0,
-            decimal basePriceBaseAmount = decimal.Zero, int basePriceBaseUnitId = 0)
-        {
-            if (basePriceEnabled)
-            {
-                if (basePriceUnitId <= 0 || basePriceBaseUnitId <= 0)
-                {
-                    BasePriceEnabled = false;
-
-                    return;
-                }
-
-                if (basePriceAmount <= decimal.Zero || basePriceBaseAmount <= decimal.Zero)
-                {
-                    BasePriceEnabled = false;
-
-                    return;
-                }
-
-                BasePriceEnabled = true;
-
-                ProductBasePrice = new ProductBasePrice(ProductId, basePriceAmount, basePriceUnitId,
-                    basePriceBaseAmount, basePriceBaseUnitId);
-            }
-            else
-            {
-                BasePriceEnabled = false;
-            }
-        }
-        
-
-        #endregion
-
-        #region Discounts
-
-        public bool HasDiscountsApplied { get; protected set; }
-
-        public ICollection<ProductDiscount> ProductDiscounts { get; protected set; }
-
-        public void AddDiscount(Guid discountId)
-        {
-            ProductDiscounts.Add(new ProductDiscount(ProductId, discountId));
-            HasDiscountsApplied = true;
-        }
-
-        public void RemoveDiscount(Guid discountId)
-        {
-            if (ProductDiscounts.Any(x => x.DiscountId == discountId))
-                ProductDiscounts.RemoveAll(x => x.DiscountId == discountId);
-
-            if (!ProductDiscounts.Any())
-            {
-                HasDiscountsApplied = false;
-            }
-        }
-
-        #endregion
-
         #region Tax
 
-        public bool IsTaxExempt { get; protected set; }
-        public Guid? TaxCategoryId { get; protected set; }
+        public virtual bool IsTaxExempt { get; protected set; }
+        public virtual Guid? TaxCategoryId { get; protected set; }
 
-        public void SetAsTaxExempt(bool isTaxExempt = true, Guid? taxCategoryId = null)
+        public virtual void SetAsTaxExempt(bool isTaxExempt = true, Guid? taxCategoryId = null)
         {
             if (isTaxExempt)
             {
@@ -258,24 +188,22 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
         #endregion
 
+        #region Ctor
+
         protected ProductPricing()
         {
         }
 
-        public ProductPricing(Guid productId, decimal price)
+        public ProductPricing(decimal price)
         {
             if (price < decimal.Zero)
             {
                 throw new ArgumentException($"{nameof(price)} can not be less than 0.0!");
             }
             
-            ProductId = productId;
             SetPrice(price);
         }
 
-        public override object[] GetKeys()
-        {
-            return new object[] {ProductId};
-        }
+        #endregion
     }
 }

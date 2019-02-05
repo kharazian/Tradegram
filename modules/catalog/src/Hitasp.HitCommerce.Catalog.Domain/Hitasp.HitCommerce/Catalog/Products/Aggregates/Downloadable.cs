@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Hitasp.HitCommerce.Catalog.Products.Abstracts;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
+using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using JetBrains.Annotations;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
@@ -65,11 +67,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
                     overriddenGiftCardAmount = decimal.Zero;
                 }
                 
-                GiftCard = new GiftCard(Id, (int) GiftCardType.Virtual, overriddenGiftCardAmount);
+                GiftCard = new GiftCard((int) GiftCardType.Virtual, overriddenGiftCardAmount);
             }
 
             IsGiftCard = false;
-            GiftCard = null;
         }
 
         #endregion
@@ -93,17 +94,39 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         }
 
         #endregion
-        
-        protected Downloadable()
+
+        public override void EnableBasePrice(bool basePriceEnabled, decimal basePriceAmount = decimal.Zero, int basePriceUnitId = 0,
+            decimal basePriceBaseAmount = decimal.Zero, int basePriceBaseUnitId = 0)
         {
+            BasePriceEnabled = false;
+            ProductBasePrice = null;
         }
 
-        public Downloadable(Guid id, [NotNull] string code, [NotNull] string name, [NotNull] string shortDescription)
+        #region Ctor
+
+        protected Downloadable()
+        {
+            ProductTags = new HashSet<ProductProductTag>();       
+            RequiredProducts = new HashSet<RequiredProduct>();
+            RelatedProducts = new HashSet<RelatedProduct>();
+            CrossSellProducts = new HashSet<CrossSellProduct>();
+            ProductCategories = new HashSet<ProductCategory>();
+            ProductManufacturers = new HashSet<ProductManufacturer>();
+            ProductPictures= new HashSet<ProductPicture>();
+            ProductProductAttributes = new HashSet<ProductProductAttribute>();
+            ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
+        }
+
+        public Downloadable(Guid id, [NotNull] string code, [NotNull] string name, [NotNull] string shortDescription, decimal price)
         {
             Id = id;
-            Code = code;
+            SetCode(code);
             SetName(name);
             SetShortDescription(shortDescription);
+            ChangePrice(price, false);
+            EnableBasePrice(false);
         }
+
+        #endregion
     }
 }

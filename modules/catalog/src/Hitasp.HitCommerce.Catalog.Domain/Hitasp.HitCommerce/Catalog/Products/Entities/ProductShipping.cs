@@ -3,28 +3,18 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class ProductShipping : Entity
+    public class ProductShipping
     {
-        public Guid ProductId { get; private set; }
-        public bool IsFreeShipping { get; protected set; }
-        public decimal AdditionalShippingCharge { get; protected set; }
-        public bool ShipSeparately { get; set; }
-        public int DeliveryDateId { get; set; }
-        public decimal Weight { get; set; }
-        public decimal Length { get; set; }
-        public decimal Width { get; set; }
-        public decimal Height { get; set; }
+        public virtual bool IsFreeShipping { get; protected set; }
+        public virtual decimal AdditionalShippingCharge { get; protected set; }
+        public virtual bool ShipSeparately { get; set; }
+        public virtual int DeliveryDateId { get; set; }
+        public virtual decimal Weight { get; set; }
+        public virtual decimal Length { get; set; }
+        public virtual decimal Width { get; set; }
+        public virtual decimal Height { get; set; }
 
-        protected ProductShipping()
-        {
-        }
-
-        public ProductShipping(Guid productId)
-        {
-            ProductId = productId;
-        }
-
-        public void SetAsFreeShipping(bool isFreeShipping = true, decimal additionalShippingCharge = decimal.Zero)
+        public virtual void SetShipping(bool isFreeShipping, decimal additionalShippingCharge)
         {
             if (isFreeShipping)
             {
@@ -45,10 +35,15 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             IsFreeShipping = false;
             AdditionalShippingCharge = additionalShippingCharge;
         }
-
-        public override object[] GetKeys()
+        
+        protected ProductShipping()
         {
-            return new object[] {ProductId};
+        }
+
+        public ProductShipping(bool isFreeShipping, decimal additionalShippingCharge)
+        {
+            IsFreeShipping = isFreeShipping;
+            AdditionalShippingCharge = additionalShippingCharge;
         }
     }
 }

@@ -9,8 +9,6 @@ using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Repositories;
 using Hitasp.HitCommerce.Catalog.Products.Abstracts;
-using Hitasp.HitCommerce.Catalog.Products.Aggregates;
-using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
@@ -65,6 +63,8 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
                 options.AddRepository<ProductSpecificationAttribute, EfCoreProductSpecificationAttributeRepository>();
                 options.AddRepository<ProductWarehouseInventory, EfCoreProductWarehouseInventoryRepository>();
                 options.AddRepository<RelatedProduct, EfCoreRelatedProductRepository>();
+                options.AddRepository<RequiredProduct, EfCoreRequiredProductRepository>();
+
 
                 //SpecificationAttributes
                 options.AddRepository<SpecificationAttribute, EfCoreSpecificationAttributeRepository>();

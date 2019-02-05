@@ -2,38 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
-using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class ProductInventory : Entity
+    public class ProductInventory
     {
-        public Guid ProductId { get; private set; }
-        public int StockQuantity { get; protected set; }
-        public Guid? WarehouseId { get; protected set; }
-        public bool UseMultipleWarehouses { get; protected set; }
-        public bool DisplayStockAvailability { get; set; }
-        public bool DisplayStockQuantity { get; set; }
-        public int MinStockQuantity { get; set; }
-        public bool AllowBackInStockSubscriptions { get; set; }
-        public int OrderMinimumQuantity { get; protected set; }
-        public int OrderMaximumQuantity { get; protected set; }
-        public string AllowedQuantities { get; protected set; }
-        public bool NotReturnable { get; set; }
+        public virtual int StockQuantity { get; protected set; }
+        public virtual Guid? WarehouseId { get; protected set; }
+        public virtual bool UseMultipleWarehouses { get; protected set; }
+        public virtual bool DisplayStockAvailability { get; set; }
+        public virtual bool DisplayStockQuantity { get; set; }
+        public virtual int MinStockQuantity { get; set; }
+        public virtual bool AllowBackInStockSubscriptions { get; set; }
+        public virtual int OrderMinimumQuantity { get; protected set; }
+        public virtual int OrderMaximumQuantity { get; protected set; }
+        public virtual string AllowedQuantities { get; protected set; }
+        public virtual bool NotReturnable { get; set; }
         
-        public ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
+        public virtual ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
 
-        protected ProductInventory()
-        {
-            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
-        }
-
-        public ProductInventory(Guid productId)
-        {
-            ProductId = productId;
-        }
-
-        public void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
+        public virtual void SetOrderQuantityLimitation(int orderMinimumQuantity, int orderMaximumQuantity)
         {
             if (orderMinimumQuantity <= 0 ||
                 orderMaximumQuantity <= 0 ||
@@ -47,7 +35,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             OrderMaximumQuantity = orderMaximumQuantity;
         }
 
-        public void SetAllowedQuantities(string allowedQuantities = "")
+        public virtual void SetAllowedQuantities(string allowedQuantities = "")
         {
             AllowedQuantities = string.Empty;
 
@@ -66,7 +54,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             AllowedQuantities = string.Join(",", validQuantities);
         }
 
-        public void SetWarehouse(Guid? warehouseId)
+        public virtual void SetWarehouse(Guid productId,Guid? warehouseId)
         {
             if (warehouseId == null || warehouseId == Guid.Empty)
             {
@@ -77,7 +65,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             if (UseMultipleWarehouses & ProductWarehouseInventories.Any())
             {
-                ProductWarehouseInventories.Add(new ProductWarehouseInventory(ProductId, warehouseId.Value));
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(productId, warehouseId.Value));
 
                 return;
             }
@@ -85,14 +73,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             WarehouseId = warehouseId;
         }
 
-        public void SetMultipleWarehouses(IEnumerable<Guid> warehouseInventoryIds)
+        public virtual void SetMultipleWarehouses(Guid productId, IEnumerable<Guid> warehouseInventoryIds)
         {
             var hashSet = new HashSet<Guid>(warehouseInventoryIds);
 
             if (hashSet.Count <= 1)
             {
                 UseMultipleWarehouses = false;
-                SetWarehouse(hashSet.FirstOrDefault());
+                SetWarehouse(productId, hashSet.FirstOrDefault());
 
                 return;
             }
@@ -102,7 +90,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             foreach (var warehouseInventoryId in hashSet)
             {
-                ProductWarehouseInventories.Add(new ProductWarehouseInventory(ProductId, warehouseInventoryId));
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(productId, warehouseInventoryId));
             }
 
             if (StockQuantity > 0)
@@ -113,7 +101,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             StockQuantity = 0;
         }
 
-        public void RemoveWarehouse(Guid warehouseId)
+        public virtual void RemoveWarehouse(Guid warehouseId)
         {
             if (ProductWarehouseInventories.All(x => x.WarehouseId != warehouseId))
             {
@@ -135,10 +123,15 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         {
             StockQuantity = stockQuantity;
         }
-
-        public override object[] GetKeys()
+        
+        protected ProductInventory()
         {
-            return new object[] {ProductId};
+            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
+        }
+
+        public ProductInventory(int stockQuantity)
+        {
+            SetStockQuantity(stockQuantity);
         }
     }
 }

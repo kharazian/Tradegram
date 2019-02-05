@@ -38,9 +38,6 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
                 b.Property(x => x.Name).IsRequired().HasMaxLength(ManufacturerConsts.MaxNameLength)
                     .HasColumnName(nameof(Manufacturer.Name));
 
-                b.Property(x => x.Title).IsRequired().HasMaxLength(ManufacturerConsts.MaxTitleLength)
-                    .HasColumnName(nameof(Manufacturer.Title));
-
                 b.Property(x => x.Description).IsRequired(false).HasMaxLength(ManufacturerConsts.MaxDescriptionLength)
                     .HasColumnName(nameof(Manufacturer.Description));
 
@@ -56,12 +53,13 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers
 
                 b.Property(x => x.PageSize).HasColumnName(nameof(Manufacturer.PageSize));
 
-                b.Property(x => x.IsAllowCustomersToSelectPageSize).HasDefaultValue(true)
+                b.Property(x => x.AllowCustomersToSelectPageSize).HasDefaultValue(true)
                     .HasColumnName(nameof(Manufacturer.AllowCustomersToSelectPageSize));
 
                 b.Property(x => x.PageSizeOptions).HasColumnName(nameof(Manufacturer.PageSizeOptions));
+                b.Property(x => x.PriceRanges).HasColumnName(nameof(Manufacturer.PriceRanges));
 
-                b.Property(x => x.IsPublished).HasDefaultValue(false).HasColumnName(nameof(Manufacturer.IsPublished));
+                b.Property(x => x.Published).HasDefaultValue(false).HasColumnName(nameof(Manufacturer.Published));
 
                 b.Property(x => x.ShowOnHomePage).HasDefaultValue(false)
                     .HasColumnName(nameof(Manufacturer.ShowOnHomePage));

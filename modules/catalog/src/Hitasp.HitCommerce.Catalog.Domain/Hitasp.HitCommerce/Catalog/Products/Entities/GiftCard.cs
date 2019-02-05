@@ -1,32 +1,17 @@
-using System;
-using Volo.Abp.Domain.Entities;
-
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class GiftCard : Entity
+    public class GiftCard
     {
-        public Guid ProductId { get; private set; }
-        public int GiftCardTypeId { get; private set; }
-        public decimal? OverriddenGiftCardAmount { get; protected set; }
+        public virtual int GiftCardTypeId { get; private set; }
+        public virtual decimal? OverriddenGiftCardAmount { get; protected set; }
 
-        public GiftCardType GiftCardType
+        public virtual GiftCardType GiftCardType
         {
             get => (GiftCardType) GiftCardTypeId;
             protected set => GiftCardTypeId = (int) value;
         }
 
-        protected GiftCard()
-        {
-        }
-
-        public GiftCard(Guid productId, int giftCardTypeId, decimal? overriddenGiftCardAmount)
-        {
-            ProductId = productId;
-            GiftCardTypeId = giftCardTypeId;
-            OverriddenGiftCardAmount = overriddenGiftCardAmount;
-        }
-
-        public void ChangeOverriddenGiftCardAmount(decimal overriddenGiftCardAmount)
+        public virtual void ChangeOverriddenGiftCardAmount(decimal overriddenGiftCardAmount)
         {
             if (overriddenGiftCardAmount <= decimal.Zero)
             {
@@ -38,9 +23,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             OverriddenGiftCardAmount = overriddenGiftCardAmount;
         }
 
-        public override object[] GetKeys()
+        protected GiftCard()
         {
-            return new object[] {ProductId};
+        }
+
+        public GiftCard(int giftCardTypeId, decimal? overriddenGiftCardAmount)
+        {
+            GiftCardTypeId = giftCardTypeId;
+            OverriddenGiftCardAmount = overriddenGiftCardAmount;
         }
     }
 }

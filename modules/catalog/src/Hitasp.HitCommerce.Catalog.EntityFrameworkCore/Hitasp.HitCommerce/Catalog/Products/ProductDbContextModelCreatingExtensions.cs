@@ -30,9 +30,10 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.HasKey(x => x.Id);
 
-                b.HasDiscriminator<string>(nameof(Product.ProductType))
-                    .HasValue<VirtualProduct>(nameof(VirtualProduct))
-                    .HasValue<PhysicalProduct>(nameof(PhysicalProduct));
+                b.HasDiscriminator<string>("ProductType")
+                    .HasValue<Downloadable>(nameof(ProductType.Downloadable))
+                    .HasValue<Shippable>(nameof(ProductType.Shippable))
+                    .HasValue<Servicable>(nameof(ProductType.Service));
 
                 b.HasIndex(x => x.ProductType);
                 b.HasIndex(x => x.Code).IsUnique();
@@ -40,195 +41,268 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.ConfigureFullAudited();
                 b.ConfigureExtraProperties();
 
-                b.Property(x => x.ProductType).IsRequired().HasMaxLength(15).HasColumnName(nameof(Product.ProductType));
+                #region General
+
+                b.Property(x => x.ProductType).IsRequired().HasMaxLength(20).HasColumnName(nameof(Product.ProductType));
                 b.Property(x => x.ProductTemplateId).IsRequired().HasColumnName(nameof(Product.ProductTemplateId));
-
-                b.Property(x => x.Code).IsRequired().HasMaxLength(ProductConsts.MaxCodeLength)
-                    .HasColumnName(nameof(Product.Code));
-
-                b.Property(x => x.Name).IsRequired().HasMaxLength(ProductConsts.MaxNameLength)
-                    .HasColumnName(nameof(Product.Name));
-
-                b.Property(x => x.Title).IsRequired().HasMaxLength(ProductConsts.MaxTitleLength)
-                    .HasColumnName(nameof(Product.Title));
-
-                b.Property(x => x.Title).IsRequired().HasMaxLength(ProductConsts.MaxShortDescriptionLength)
-                    .HasColumnName(nameof(Product.ShortDescription));
-
-                b.Property(x => x.Description).HasMaxLength(ProductConsts.MaxDescriptionLength)
-                    .HasColumnName(nameof(Product.Description));
-
-                b.Property(x => x.MetaTitle).IsRequired(false).HasMaxLength(ProductConsts.MaxMetaTitleLength)
-                    .HasColumnName(nameof(Product.MetaTitle));
-
-                b.Property(x => x.MetaKeywords).IsRequired(false).HasMaxLength(ProductConsts.MaxMetaKeywordsLength)
-                    .HasColumnName(nameof(Product.MetaKeywords));
-
-                b.Property(x => x.MetaDescription).IsRequired(false)
-                    .HasMaxLength(ProductConsts.MaxMetaDescriptionLength)
-                    .HasColumnName(nameof(Product.MetaDescription));
-
-
-                b.Property(x => x.Pricing).IsRequired().HasColumnName(nameof(Product.Pricing));
-
-                b.Property(x => x.OldPrice).HasDefaultValue(decimal.Zero)
-                    .HasColumnName(nameof(Product.OldPrice));
-
-                b.Property(x => x.ProductCost).HasColumnName(nameof(Product.ProductCost));
-                b.Property(x => x.CallForPrice).HasColumnName(nameof(Product.CallForPrice));
-
-                b.Property(x => x.IsAllowCustomerEntersPrice)
-                    .HasColumnName(nameof(Product.IsAllowCustomerEntersPrice));
-
-                b.Property(x => x.MinimumCustomerEnteredPrice)
-                    .HasColumnName(nameof(Product.MinimumCustomerEnteredPrice));
-
-                b.Property(x => x.MaximumCustomerEnteredPrice)
-                    .HasColumnName(nameof(Product.MaximumCustomerEnteredPrice));
-
-                b.Property(x => x.BasePriceEnabled).HasColumnName(nameof(Product.BasePriceEnabled));
-                b.Property(x => x.BasePriceAmount).HasColumnName(nameof(Product.BasePriceAmount));
-                b.Property(x => x.BasePriceUnitId).HasColumnName(nameof(Product.BasePriceUnitId));
-                b.Property(x => x.BasePriceBaseAmount).HasColumnName(nameof(Product.BasePriceBaseAmount));
-                b.Property(x => x.BasePriceBaseUnitId).HasColumnName(nameof(Product.BasePriceBaseUnitId));
-
-                b.Property(x => x.IsTaxExempt).HasDefaultValue(true)
-                    .HasColumnName(nameof(Product.IsTaxExempt));
-
-                b.Property(x => x.TaxCategoryId).IsRequired(false)
-                    .HasColumnName(nameof(Product.TaxCategoryId));
-
-                b.Property(x => x.VisibleIndividually).HasDefaultValue(true)
-                    .HasColumnName(nameof(Product.VisibleIndividually));
-
-                b.Property(x => x.IsNew).HasDefaultValue(false).HasColumnName(nameof(Product.IsNew));
-
-                b.Property(x => x.IsPublished).HasDefaultValue(true)
-                    .HasColumnName(nameof(Product.IsPublished));
-
-                b.Property(x => x.MarkAsNewStartDate).HasColumnName(nameof(Product.MarkAsNewStartDate));
-                b.Property(x => x.MarkAsNewEndDate).HasColumnName(nameof(Product.MarkAsNewEndDate));
-                b.Property(x => x.AvailableStartDate).HasColumnName(nameof(Product.AvailableStartDate));
-                b.Property(x => x.AvailableEndDate).HasColumnName(nameof(Product.AvailableEndDate));
-
-                b.Property(x => x.ShowOnHomePage).HasDefaultValue(false)
-                    .HasColumnName(nameof(Product.ShowOnHomePage));
-
-                b.Property(x => x.DisplayOrder).HasColumnName(nameof(Product.DisplayOrder));
-
-                b.Property(x => x.AllowedQuantities).HasColumnName(nameof(Product.AllowedQuantities));
-                b.Property(x => x.OrderMinimumQuantity).HasColumnName(nameof(Product.OrderMinimumQuantity));
-                b.Property(x => x.OrderMaximumQuantity).HasColumnName(nameof(Product.OrderMaximumQuantity));
-                b.Property(x => x.AvailableForPreOrder).HasColumnName(nameof(Product.AvailableForPreOrder));
-
-                b.Property(x => x.PreOrderAvailabilityStartDate)
-                    .HasColumnName(nameof(Product.PreOrderAvailabilityStartDate));
-
-                b.Property(x => x.IsBuyButtonDisabled)
-                    .HasColumnName(nameof(Product.IsBuyButtonDisabled));
-
-                b.Property(x => x.IsWishListButtonDisabled)
-                    .HasColumnName(nameof(Product.IsWishListButtonDisabled));
-
-                b.Property(x => x.NotReturnable).HasColumnName(nameof(Product.NotReturnable));
-                b.Property(x => x.IsRecurring).HasColumnName(nameof(Product.IsRecurring));
-                b.Property(x => x.RecurringCycleLength).HasColumnName(nameof(Product.RecurringCycleLength));
-                b.Property(x => x.RecurringCyclePeriod).HasColumnName(nameof(Product.RecurringCyclePeriod));
-                b.Property(x => x.RecurringTotalCycles).HasColumnName(nameof(Product.RecurringTotalCycles));
-                b.Property(x => x.IsRental).HasColumnName(nameof(Product.IsRental));
-                b.Property(x => x.RentalPriceLength).HasColumnName(nameof(Product.RentalPriceLength));
-                b.Property(x => x.RentalPricePeriod).HasColumnName(nameof(Product.RentalPricePeriod));
-                b.Property(x => x.RatingAverage).HasColumnName(nameof(Product.RatingAverage));
-                b.Property(x => x.RatingCount).HasColumnName(nameof(Product.RatingCount));
-
-                b.Property(x => x.IsShipEnabled).HasColumnName(nameof(Product.IsShipEnabled));
-                b.Property(x => x.IsFreeShipping).HasColumnName(nameof(Product.IsFreeShipping));
-                b.Property(x => x.ShipSeparately).HasColumnName(nameof(Product.ShipSeparately));
-
-                b.Property(x => x.AdditionalShippingCharge)
-                    .HasColumnName(nameof(Product.AdditionalShippingCharge));
-
-                b.Property(x => x.DeliveryDateId).HasColumnName(nameof(Product.DeliveryDateId));
-                b.Property(x => x.Weight).HasColumnName(nameof(Product.Weight));
-                b.Property(x => x.Length).HasColumnName(nameof(Product.Length));
-                b.Property(x => x.Width).HasColumnName(nameof(Product.Width));
-                b.Property(x => x.Height).HasColumnName(nameof(Product.Height));
-
-                b.Property(x => x.UseMultipleWarehouses)
-                    .HasColumnName(nameof(Product.UseMultipleWarehouses));
-
-                b.Property(x => x.WarehouseId).HasColumnName(nameof(Product.WarehouseId));
-
-                b.Property(x => x.ProductAvailabilityRangeId)
-                    .HasColumnName(nameof(Product.ProductAvailabilityRangeId));
 
                 b.HasOne<Template>().WithMany().IsRequired().HasForeignKey(x => x.ProductTemplateId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasMany<ProductCategory>().WithOne().HasForeignKey(x => x.ProductId)
+                b.Property(x => x.Name).IsRequired().HasMaxLength(ProductConsts.MaxNameLength)
+                    .HasColumnName(nameof(Product.Name));
+
+                b.Property(x => x.ShortDescription).IsRequired().HasMaxLength(ProductConsts.MaxShortDescriptionLength)
+                    .HasColumnName(nameof(Product.ShortDescription));
+
+                b.Property(x => x.FullDescription).HasMaxLength(ProductConsts.MaxDescriptionLength)
+                    .HasColumnName(nameof(Product.FullDescription));
+
+                b.Property(x => x.Code).IsRequired().HasMaxLength(ProductConsts.MaxCodeLength)
+                    .HasColumnName(nameof(Product.Code));
+
+                b.Property(x => x.Gtin).HasMaxLength(ProductConsts.MaxGtinLength)
+                    .HasColumnName(nameof(Product.Gtin));
+
+                b.Property(x => x.ManufacturerPartNumber).HasMaxLength(150)
+                    .HasColumnName(nameof(Product.ManufacturerPartNumber));
+
+                b.Property(x => x.ShowOnHomePage).HasColumnName(nameof(Product.ShowOnHomePage));
+                b.Property(x => x.DisplayOrder).HasColumnName(nameof(Product.DisplayOrder));
+                b.Property(x => x.RatingAverage).HasColumnName(nameof(Product.RatingAverage));
+                b.Property(x => x.RatingCount).HasColumnName(nameof(Product.RatingCount));
+                b.Property(x => x.AvailableStartDate).HasColumnName(nameof(Product.AvailableStartDate));
+                b.Property(x => x.AvailableEndDate).HasColumnName(nameof(Product.AvailableEndDate));
+                b.Property(x => x.MarkAsNew).HasColumnName(nameof(Product.MarkAsNew));
+                b.Property(x => x.MarkAsNewStartDate).HasColumnName(nameof(Product.MarkAsNewStartDate));
+                b.Property(x => x.MarkAsNewEndDate).HasColumnName(nameof(Product.MarkAsNewEndDate));
+                b.Property(x => x.Published).HasColumnName(nameof(Product.Published));
+                b.HasMany(x => x.ProductTags).WithOne().OnDelete(DeleteBehavior.Cascade);
+
+                #endregion
+
+                #region Pricing
+
+                b.Property(x => x.BasePriceEnabled).HasColumnName(nameof(Product.BasePriceEnabled));
+
+                b.OwnsOne(x => x.ProductBasePrice, pbp =>
+                {
+                    pbp.ToTable(options.TablePrefix + "ProductBasePrice", options.Schema);
+
+                    pbp.Property(x => x.BasePriceAmount).HasColumnName(nameof(ProductBasePrice.BasePriceAmount));
+                    pbp.Property(x => x.BasePriceUnitId).HasColumnName(nameof(ProductBasePrice.BasePriceUnitId));
+
+                    pbp.Property(x => x.BasePriceBaseAmount)
+                        .HasColumnName(nameof(ProductBasePrice.BasePriceBaseAmount));
+
+                    pbp.Property(x => x.BasePriceBaseUnitId)
+                        .HasColumnName(nameof(ProductBasePrice.BasePriceBaseUnitId));
+                });
+
+                b.OwnsOne(x => x.Pricing, pp =>
+                {
+                    pp.ToTable(options.TablePrefix + "ProductPricing", options.Schema);
+                    
+                    pp.Property(x => x.Price).HasDefaultValue(decimal.Zero)
+                        .HasColumnName(nameof(ProductPricing.Price));
+                    
+                    pp.Property(x => x.OldPrice).HasDefaultValue(decimal.Zero)
+                        .HasColumnName(nameof(ProductPricing.OldPrice));
+
+                    pp.Property(x => x.ProductCost).HasColumnName(nameof(ProductPricing.ProductCost));
+                    pp.Property(x => x.DisableBuyButton).HasColumnName(nameof(ProductPricing.DisableBuyButton));
+                    pp.Property(x => x.DisableWishListButton).HasColumnName(nameof(ProductPricing.DisableWishListButton));
+
+                    pp.Property(x => x.CallForPrice).HasColumnName(nameof(ProductPricing.CallForPrice));
+                    pp.Property(x => x.AvailableForPreOrder).HasColumnName(nameof(ProductPricing.AvailableForPreOrder));
+
+                    pp.Property(x => x.PreOrderAvailabilityStartDate)
+                        .HasColumnName(nameof(ProductPricing.PreOrderAvailabilityStartDate));
+                    
+                    pp.Property(x => x.CustomerEntersPrice)
+                        .HasColumnName(nameof(ProductPricing.CustomerEntersPrice));
+
+                    pp.Property(x => x.MinimumCustomerEnteredPrice)
+                        .HasColumnName(nameof(ProductPricing.MinimumCustomerEnteredPrice));
+
+                    pp.Property(x => x.MaximumCustomerEnteredPrice)
+                        .HasColumnName(nameof(ProductPricing.MaximumCustomerEnteredPrice));
+
+                    pp.Property(x => x.IsRental).HasColumnName(nameof(ProductPricing.IsRental));
+                    pp.Property(x => x.RentalPriceLength).HasColumnName(nameof(ProductPricing.RentalPriceLength));
+                    pp.Property(x => x.RentalPricePeriodId).HasColumnName(nameof(ProductPricing.RentalPricePeriodId));
+                    pp.Ignore(x => x.RentalPricePeriod);
+                    
+                    pp.Property(x => x.IsRecurring).HasColumnName(nameof(ProductPricing.IsRecurring));
+                    pp.Property(x => x.RecurringCycleLength).HasColumnName(nameof(ProductPricing.RecurringCycleLength));
+                    pp.Property(x => x.RecurringTotalCycles).HasColumnName(nameof(ProductPricing.RecurringTotalCycles));
+                    pp.Property(x => x.RecurringCyclePeriodId).HasColumnName(nameof(ProductPricing.RecurringCyclePeriodId));
+                    pp.Ignore(x => x.RecurringCyclePeriod);
+                 
+                    pp.Property(x => x.IsTaxExempt).HasDefaultValue(true)
+                        .HasColumnName(nameof(ProductPricing.IsTaxExempt));
+
+                    pp.Property(x => x.TaxCategoryId).IsRequired(false)
+                        .HasColumnName(nameof(ProductPricing.TaxCategoryId));
+                });
+
+                #endregion
+
+                #region Products Link
+
+                b.HasMany(x => x.RequiredProducts).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductManufacturer>().WithOne().HasForeignKey(x => x.ProductId)
+                b.HasMany(x => x.RelatedProducts).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductPicture>().WithOne().HasForeignKey(x => x.ProductId)
+                b.HasMany(x => x.CrossSellProducts).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductSpecificationAttribute>().WithOne().HasForeignKey(x => x.ProductId)
+                #endregion
+
+                #region Mapping
+
+                b.HasMany(x => x.ProductCategories).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductProductTag>().WithOne().HasForeignKey(x => x.ProductId)
+                b.HasMany(x => x.ProductManufacturers).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductProductAttribute>().WithOne().HasForeignKey(x => x.ProductId)
+                b.Property(x => x.VendorId).HasColumnName(nameof(Product.VendorId));
+
+                #endregion
+
+                #region Related Data
+
+                b.Property(x => x.MetaTitle).HasMaxLength(ProductConsts.MaxMetaTitleLength)
+                    .HasColumnName(nameof(Product.MetaTitle));
+
+                b.Property(x => x.MetaKeywords).HasMaxLength(ProductConsts.MaxMetaKeywordsLength)
+                    .HasColumnName(nameof(Product.MetaKeywords));
+
+                b.Property(x => x.MetaDescription)
+                    .HasMaxLength(ProductConsts.MaxMetaDescriptionLength)
+                    .HasColumnName(nameof(Product.MetaDescription));
+
+                b.HasMany(x => x.ProductPictures).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductDiscount>().WithOne().HasForeignKey(x => x.ProductId)
+                b.HasMany(x => x.ProductProductAttributes).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasMany<ProductAttributeCombination>().WithOne().HasForeignKey(x => x.ProductId)
+                b.HasMany(x => x.ProductSpecificationAttributes).WithOne().HasForeignKey(x => x.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+                #endregion
             });
 
-            builder.Entity<PhysicalProduct>(b =>
+            builder.Entity<Downloadable>(b =>
             {
-                b.Property(x => x.Gtin).HasColumnName(nameof(PhysicalProduct.Gtin))
-                    .HasMaxLength(ProductConsts.MaxGtinLength);
+                b.Property(x => x.DownloadId).HasColumnName(nameof(Downloadable.DownloadId));
+                b.Property(x => x.UnlimitedDownloads).HasColumnName(nameof(Downloadable.UnlimitedDownloads));
+                b.Property(x => x.MaxNumberOfDownloads).HasColumnName(nameof(Downloadable.MaxNumberOfDownloads));
+                b.Property(x => x.DownloadExpirationDays).HasColumnName(nameof(Downloadable.DownloadExpirationDays));
+                b.Property(x => x.HasSampleDownload).HasColumnName(nameof(Downloadable.HasSampleDownload));
+                b.Property(x => x.SampleDownloadId).HasColumnName(nameof(Downloadable.SampleDownloadId));
 
-                b.Property(x => x.StockQuantity).IsRequired().HasColumnName(nameof(PhysicalProduct.StockQuantity));
+                b.Property(x => x.DownloadActivationTypeId)
+                    .HasColumnName(nameof(Downloadable.DownloadActivationTypeId));
 
-                b.Property(x => x.IsDisplayStockAvailability)
-                    .HasColumnName(nameof(PhysicalProduct.IsDisplayStockAvailability));
+                b.Ignore(x => x.DownloadActivationType);
 
-                b.Property(x => x.IsDisplayStockQuantity).HasColumnName(nameof(PhysicalProduct.IsDisplayStockQuantity));
+                b.Property(x => x.IsGiftCard).HasColumnName(nameof(Downloadable.IsGiftCard));
 
-                b.Property(x => x.IsAllowBackInStockSubscriptions)
-                    .HasColumnName(nameof(PhysicalProduct.IsAllowBackInStockSubscriptions));
+                b.OwnsOne(x => x.GiftCard, gc =>
+                {
+                    gc.ToTable(options.TablePrefix + "GiftCard", options.Schema);
 
-                b.Property(x => x.MinStockQuantity).HasColumnName(nameof(PhysicalProduct.MinStockQuantity));
+                    gc.Property(x => x.GiftCardTypeId).HasColumnName(nameof(GiftCard.GiftCardTypeId));
 
-                b.Property(x => x.NotifyAdminForQuantityBelow)
-                    .HasColumnName(nameof(PhysicalProduct.NotifyAdminForQuantityBelow));
+                    gc.Property(x => x.OverriddenGiftCardAmount)
+                        .HasColumnName(nameof(GiftCard.OverriddenGiftCardAmount));
 
-                b.Property(x => x.LowStockActivity).HasColumnName(nameof(PhysicalProduct.LowStockActivity));
-                b.Property(x => x.ManageInventoryMethod).HasColumnName(nameof(PhysicalProduct.ManageInventoryMethod));
+                    gc.Ignore(x => x.GiftCardType);
+                });
 
-                b.HasMany<ProductWarehouseInventory>().WithOne().HasForeignKey(x => x.ProductId);
+                b.Property(x => x.HasUserAgreement).HasColumnName(nameof(Downloadable.HasUserAgreement));
+                b.Property(x => x.UserAgreementText).HasColumnName(nameof(Downloadable.UserAgreementText));
+
+                b.Property(x => x.BasePriceEnabled).HasDefaultValue(false);
             });
 
-            builder.Entity<VirtualProduct>(b =>
+            builder.Entity<Shippable>(b =>
             {
-                b.Property(x => x.DownloadId).HasColumnName(nameof(VirtualProduct.DownloadId));
-                b.Property(x => x.UnlimitedDownloads).HasColumnName(nameof(VirtualProduct.UnlimitedDownloads));
-                b.Property(x => x.MaxNumberOfDownloads).HasColumnName(nameof(VirtualProduct.MaxNumberOfDownloads));
-                b.Property(x => x.DownloadExpirationDays).HasColumnName(nameof(VirtualProduct.DownloadExpirationDays));
-                b.Property(x => x.HasSampleDownload).HasColumnName(nameof(VirtualProduct.HasSampleDownload));
-                b.Property(x => x.SampleDownloadId).HasColumnName(nameof(VirtualProduct.SampleDownloadId));
-                b.Property(x => x.HasUserAgreement).HasColumnName(nameof(VirtualProduct.HasUserAgreement));
-                b.Property(x => x.UserAgreementText).HasColumnName(nameof(VirtualProduct.UserAgreementText));
-                b.Property(x => x.DownloadActivationType).HasColumnName(nameof(VirtualProduct.DownloadActivationType));
+                b.Property(x => x.IsGiftCard).HasColumnName(nameof(Shippable.IsGiftCard));
+
+                b.OwnsOne(x => x.GiftCard, gc =>
+                {
+                    gc.ToTable(options.TablePrefix + "GiftCard", options.Schema);
+
+                    gc.Property(x => x.GiftCardTypeId).HasColumnName(nameof(GiftCard.GiftCardTypeId));
+
+                    gc.Property(x => x.OverriddenGiftCardAmount)
+                        .HasColumnName(nameof(GiftCard.OverriddenGiftCardAmount));
+
+                    gc.Ignore(x => x.GiftCardType);
+                });
+
+                b.OwnsOne(x => x.Inventory, pi =>
+                {
+                    pi.ToTable(options.TablePrefix + "ProductInventory", options.Schema);
+
+                    pi.Property(x => x.StockQuantity).IsRequired().HasColumnName(nameof(ProductInventory.StockQuantity));
+                    pi.Property(x => x.WarehouseId).HasColumnName(nameof(ProductInventory.WarehouseId));
+                    pi.Property(x => x.UseMultipleWarehouses)
+                        .HasColumnName(nameof(ProductInventory.UseMultipleWarehouses));
+                    
+                    pi.Property(x => x.DisplayStockAvailability)
+                        .HasColumnName(nameof(ProductInventory.DisplayStockAvailability));
+
+                    pi.Property(x => x.DisplayStockQuantity)
+                        .HasColumnName(nameof(ProductInventory.DisplayStockQuantity));
+
+                    pi.Property(x => x.MinStockQuantity).HasColumnName(nameof(ProductInventory.MinStockQuantity));
+
+                    pi.Property(x => x.AllowBackInStockSubscriptions)
+                        .HasColumnName(nameof(ProductInventory.AllowBackInStockSubscriptions));
+
+                    pi.Property(x => x.MinStockQuantity).HasColumnName(nameof(ProductInventory.MinStockQuantity));
+
+                    pi.Property(x => x.OrderMinimumQuantity).HasColumnName(nameof(ProductInventory.OrderMinimumQuantity));
+                    pi.Property(x => x.OrderMaximumQuantity).HasColumnName(nameof(ProductInventory.OrderMaximumQuantity));
+                    pi.Property(x => x.AllowedQuantities).HasColumnName(nameof(ProductInventory.AllowedQuantities));
+
+                    pi.Property(x => x.NotReturnable)
+                        .HasColumnName(nameof(ProductInventory.NotReturnable));
+
+                    pi.HasMany(x => x.ProductWarehouseInventories).WithOne()
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                });
+
+                b.Property(x => x.IsShipEnabled).HasColumnName(nameof(Shippable.IsShipEnabled));
+                b.OwnsOne(x => x.Shipping, ps =>
+                {
+                    ps.ToTable(options.TablePrefix + "ProductShipping", options.Schema);
+
+                    ps.Property(x => x.IsFreeShipping).HasColumnName(nameof(ProductShipping.IsFreeShipping));
+                    ps.Property(x => x.AdditionalShippingCharge)
+                        .HasColumnName(nameof(ProductShipping.AdditionalShippingCharge));
+                    ps.Property(x => x.ShipSeparately).HasColumnName(nameof(ProductShipping.ShipSeparately));
+
+                    ps.Property(x => x.DeliveryDateId).HasColumnName(nameof(ProductShipping.DeliveryDateId));
+                    ps.Property(x => x.Weight).HasColumnName(nameof(ProductShipping.Weight));
+                    ps.Property(x => x.Length).HasColumnName(nameof(ProductShipping.Length));
+                    ps.Property(x => x.Width).HasColumnName(nameof(ProductShipping.Width));
+                    ps.Property(x => x.Height).HasColumnName(nameof(ProductShipping.Height));
+                });
+
+                b.HasMany(x => x.ProductAttributeCombinations).WithOne()
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
+            builder.Entity<Servicable>(b => { b.Property(x => x.BasePriceEnabled).HasDefaultValue(false); });
 
             builder.Entity<ProductAttributeCombination>(b =>
             {
@@ -251,9 +325,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.Property(x => x.Gtin).HasColumnName(nameof(ProductAttributeCombination.Gtin));
                 b.Property(x => x.OverriddenPrice).HasColumnName(nameof(ProductAttributeCombination.OverriddenPrice));
 
-                b.Property(x => x.NotifyAdminForQuantityBelow)
-                    .HasColumnName(nameof(ProductAttributeCombination.NotifyAdminForQuantityBelow));
-
                 b.Property(x => x.AttributesXml).HasColumnName(nameof(ProductAttributeCombination.AttributesXml));
 
                 b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId).IsRequired()
@@ -264,7 +335,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
             {
                 b.ToTable(options.TablePrefix + "Products_AttributeValues", options.Schema);
 
-                b.HasKey(x => x.Id);
+                b.HasKey(x => new {x.ProductId, x.ProductAttributeId});
 
                 b.Property(x => x.PictureId).HasColumnName(nameof(ProductAttributeValue.PictureId));
                 b.Property(x => x.Name).HasColumnName(nameof(ProductAttributeValue.Name)).IsRequired();
@@ -450,6 +521,16 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.Property(x => x.RelatedProductId).HasColumnName(nameof(RelatedProduct.RelatedProductId));
 
                 b.HasKey(x => new {x.ProductId, x.RelatedProductId});
+            });
+            
+            builder.Entity<RequiredProduct>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Products_RequiredProduct", options.Schema);
+
+                b.Property(x => x.ProductId).HasColumnName(nameof(RequiredProduct.ProductId));
+                b.Property(x => x.RequiredProductId).HasColumnName(nameof(RequiredProduct.RequiredProductId));
+
+                b.HasKey(x => new {x.ProductId, x.RequiredProductId});
             });
         }
     }

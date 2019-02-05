@@ -34,31 +34,14 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
 
         public virtual bool ShowOnHomePage { get; set; }
 
-        public virtual bool IncludeInTopMenu { get; set; }
-
         public virtual bool Published { get; set; }
 
         public virtual int DisplayOrder { get; set; }
 
         public virtual ICollection<ManufacturerDiscount> ManufacturerDiscounts { get; protected set; }
 
-
-        protected Manufacturer()
-        {
-            ManufacturerDiscounts = new HashSet<ManufacturerDiscount>();
-        }
-
-        public Manufacturer(Guid id, Guid categoryTemplateId)
-        {
-            Id = id;
-
-            ManufacturerTemplateId = categoryTemplateId;
-
-            ManufacturerDiscounts = new HashSet<ManufacturerDiscount>();
-        }
-
-
-        public void SetManufacturerTemplate(Guid categoryTemplateId)
+        
+        public virtual void SetManufacturerTemplate(Guid categoryTemplateId)
         {
             if (categoryTemplateId == Guid.Empty)
             {
@@ -68,7 +51,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             ManufacturerTemplateId = categoryTemplateId;
         }
 
-        public void SetName(string name)
+        public virtual void SetName(string name)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
@@ -80,7 +63,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             Name = name;
         }
 
-        public void SetDescription(string description)
+        public virtual void SetDescription(string description)
         {
             if (description.Length >= ManufacturerConsts.MaxDescriptionLength)
             {
@@ -91,7 +74,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             Description = description;
         }
 
-        public void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
+        public virtual void SetMetaData(string metaTitle, string metaKeywords, string metaDescription)
         {
             if (metaTitle.Length >= ManufacturerConsts.MaxMetaTitleLength)
             {
@@ -116,7 +99,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             MetaDescription = metaDescription;
         }
 
-        public void SetPageSize(int? pageSize = null)
+        public virtual void SetPageSize(int? pageSize = null)
         {
             if (!pageSize.HasValue)
             {
@@ -135,7 +118,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             PageSize = pageSize.Value;
         }
 
-        public void AllowToSelectPageSize(bool allowCustomersToSelectPageSize = true,
+        public virtual void AllowToSelectPageSize(bool allowCustomersToSelectPageSize = true,
             string pageSizeOptions = ManufacturerConsts.DefaultPageSizeOptions)
         {
             if (allowCustomersToSelectPageSize)
@@ -158,7 +141,7 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             AllowCustomersToSelectPageSize = false;
         }
 
-        public void SetPictureId(Guid? pictureId)
+        public virtual void SetPictureId(Guid? pictureId)
         {
             if (pictureId == Guid.Empty || pictureId == null)
             {
@@ -170,12 +153,12 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             PictureId = pictureId;
         }
 
-        public void AddDiscount(Guid discountId)
+        public virtual void AddDiscount(Guid discountId)
         {
             ManufacturerDiscounts.Add(new ManufacturerDiscount(Id, discountId));
         }
 
-        public void RemoveDiscount(Guid discountId)
+        public virtual void RemoveDiscount(Guid discountId)
         {
             if (ManufacturerDiscounts == null)
             {
@@ -186,6 +169,18 @@ namespace Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates
             {
                 ManufacturerDiscounts.RemoveAll(x => x.DiscountId == discountId);
             }
+        }
+        
+        protected Manufacturer()
+        {
+            ManufacturerDiscounts = new HashSet<ManufacturerDiscount>();
+        }
+
+        public Manufacturer(Guid id, Guid categoryTemplateId)
+        {
+            Id = id;
+
+            ManufacturerTemplateId = categoryTemplateId;
         }
     }
 }

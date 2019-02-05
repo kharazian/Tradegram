@@ -41,8 +41,14 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<ManufacturerDiscount> ManufacturerDiscounts { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<VirtualProduct> VirtualProducts { get; set; }
-        public DbSet<PhysicalProduct> PhysicalProducts { get; set; }
+        public DbSet<Downloadable> Downloadables { get; set; }
+        public DbSet<Servicable> Servicables { get; set; }
+        public DbSet<Shippable> Shippables { get; set; }
+        public DbSet<GiftCard> GiftCards { get; set; }
+        public DbSet<ProductBasePrice> ProductBasePrices { get; set; }
+        public DbSet<ProductInventory> ProductInventories { get; set; }
+        public DbSet<ProductPricing> ProductPricings { get; set; }
+        public DbSet<ProductShipping> ProductShippings { get; set; }
         public DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
         public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
         public DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
@@ -56,6 +62,7 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<ProductSpecificationAttribute> ProductSpecificationAttributes { get; set; }
         public DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
         public DbSet<RelatedProduct> RelatedProducts { get; set; }
+        public DbSet<RequiredProduct> RequiredProducts { get; set; }
         public DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
         public DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
