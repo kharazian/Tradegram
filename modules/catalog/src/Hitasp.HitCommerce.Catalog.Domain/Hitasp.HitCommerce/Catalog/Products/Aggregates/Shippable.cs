@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hitasp.HitCommerce.Catalog.Exceptions;
 using Hitasp.HitCommerce.Catalog.Products.Abstracts;
 using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Etos;
@@ -24,11 +23,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
                 if (overriddenGiftCardAmount <= decimal.Zero || overriddenGiftCardAmount == null)
                     overriddenGiftCardAmount = decimal.Zero;
 
-                GiftCard = new GiftCard(Id, (int) GiftCardType.Physical, overriddenGiftCardAmount);
+                GiftCard = new GiftCard((int) GiftCardType.Physical, overriddenGiftCardAmount);
             }
 
             IsGiftCard = false;
-            GiftCard = null;
         }
 
         #endregion
@@ -36,13 +34,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         #region Inventory
 
         public virtual ProductInventory Inventory { get; protected set; }
-
-        internal virtual void SetProductInventory(ProductInventory productInventory)
-        {
-            if (Id != productInventory.ProductId) throw new InvalidIdentityException(nameof(productInventory));
-
-            Inventory = productInventory;
-        }
 
         public virtual void RemoveStock(int quantityDesired, Guid? warehouseId = null)
         {
@@ -107,13 +98,17 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
 
         #region Shipping
 
+        public virtual bool IsShipEnabled { get; protected set; }
         public virtual ProductShipping Shipping { get; protected set; }
 
-        internal virtual void SetProductShipping(ProductShipping productShipping)
+        public virtual void EnableShipping(bool isShipEnabled = true, bool isFreeShipping = true, decimal additionalShippingCharge = decimal.Zero)
         {
-            if (Id != productShipping.ProductId) throw new InvalidIdentityException(nameof(productShipping));
+            if (isShipEnabled)
+            {
+                Shipping.SetShipping(isFreeShipping, additionalShippingCharge);
+            }
 
-            Shipping = productShipping;
+            IsShipEnabled = isShipEnabled;
         }
 
         #endregion
@@ -159,9 +154,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             SetCode(code);
             SetName(name);
             SetShortDescription(shortDescription);
-            SetProductPricing(new ProductPricing(id, price));
-            SetProductInventory(new ProductInventory(id));
-            SetProductShipping(new ProductShipping(id));
+            ChangePrice(price, false);
         }
 
         #endregion

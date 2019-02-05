@@ -37,7 +37,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             SetCode(code);
             SetName(name);
             SetShortDescription(shortDescription);
-            SetProductPricing(new ProductPricing(id, price));
+            ChangePrice(price, false);
             EnableBasePrice(false);
         }
 

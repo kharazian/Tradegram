@@ -49,7 +49,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
             Check.NotNullOrWhiteSpace(code, nameof(code));
 
-            if (code.Length > ProductConsts.MaxCodeLength) throw new ArgumentException($"Code can not be longer than {ProductConsts.MaxCodeLength}");
+            if (code.Length > ProductConsts.MaxCodeLength)
+                throw new ArgumentException($"Code can not be longer than {ProductConsts.MaxCodeLength}");
 
             Code = code;
         }
@@ -58,7 +59,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
-            if (name.Length >= ProductConsts.MaxNameLength) throw new ArgumentException($"Name can not be longer than {ProductConsts.MaxNameLength}");
+            if (name.Length >= ProductConsts.MaxNameLength)
+                throw new ArgumentException($"Name can not be longer than {ProductConsts.MaxNameLength}");
 
             Name = name;
         }
@@ -76,14 +78,16 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
         public virtual void SetFullDescription(string fullDescription)
         {
-            if (fullDescription.Length >= ProductConsts.MaxDescriptionLength) throw new ArgumentException($"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
+            if (fullDescription.Length >= ProductConsts.MaxDescriptionLength)
+                throw new ArgumentException($"Description can not be longer than {ProductConsts.MaxDescriptionLength}");
 
             FullDescription = fullDescription;
         }
 
         public virtual void SetGtin(string gtin)
         {
-            if (gtin.Length > ProductConsts.MaxGtinLength) throw new ArgumentException($"{nameof(gtin)} can not be longer than {ProductConsts.MaxGtinLength}");
+            if (gtin.Length > ProductConsts.MaxGtinLength)
+                throw new ArgumentException($"{nameof(gtin)} can not be longer than {ProductConsts.MaxGtinLength}");
 
             Gtin = gtin;
         }
@@ -126,7 +130,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
             {
                 if (startDate.HasValue && startDate < DateTime.Now) startDate = DateTime.Now;
 
-                if (endDate.HasValue && endDate <= startDate) throw new ArgumentException("Can not set end date in the past of start date!", nameof(endDate));
+                if (endDate.HasValue && endDate <= startDate)
+                    throw new ArgumentException("Can not set end date in the past of start date!", nameof(endDate));
 
                 MarkAsNew = true;
                 MarkAsNewStartDate = startDate;
@@ -157,7 +162,6 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
                 if (basePriceUnitId <= 0 || basePriceBaseUnitId <= 0)
                 {
                     BasePriceEnabled = false;
-                    ProductBasePrice = null;
 
                     return;
                 }
@@ -165,33 +169,49 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
                 if (basePriceAmount <= decimal.Zero || basePriceBaseAmount <= decimal.Zero)
                 {
                     BasePriceEnabled = false;
-                    ProductBasePrice = null;
 
                     return;
                 }
 
                 BasePriceEnabled = true;
 
-                ProductBasePrice = new ProductBasePrice(Id, basePriceAmount, basePriceUnitId,
+                ProductBasePrice = new ProductBasePrice(basePriceAmount, basePriceUnitId,
                     basePriceBaseAmount, basePriceBaseUnitId);
             }
             else
             {
                 BasePriceEnabled = false;
-                ProductBasePrice = null;
+            }
+        }
+
+        #endregion
+
+        #region Discounts
+
+        public virtual bool HasDiscountsApplied { get; protected set; }
+
+        public virtual ICollection<ProductDiscount> ProductDiscounts { get; protected set; }
+
+        public virtual void AddDiscount(Guid discountId)
+        {
+            ProductDiscounts.Add(new ProductDiscount(Id, discountId));
+            HasDiscountsApplied = true;
+        }
+
+        public virtual void RemoveDiscount(Guid discountId)
+        {
+            if (ProductDiscounts.Any(x => x.DiscountId == discountId))
+                ProductDiscounts.RemoveAll(x => x.DiscountId == discountId);
+
+            if (!ProductDiscounts.Any())
+            {
+                HasDiscountsApplied = false;
             }
         }
 
         #endregion
 
         public virtual ProductPricing Pricing { get; protected set; }
-
-        internal virtual void SetProductPricing(ProductPricing productPricing)
-        {
-            if (Id != productPricing.ProductId) throw new InvalidIdentityException(nameof(productPricing));
-
-            Pricing = productPricing;
-        }
 
         public virtual void ChangePrice(decimal newPrice, bool triggerEvent = true)
         {
@@ -218,7 +238,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
         public virtual void RemoveRequiredProduct(Guid requiredProductId)
         {
-            if (RequiredProducts.Any(x => x.RequiredProductId == requiredProductId)) RequiredProducts.RemoveAll(x => x.RequiredProductId == requiredProductId);
+            if (RequiredProducts.Any(x => x.RequiredProductId == requiredProductId))
+                RequiredProducts.RemoveAll(x => x.RequiredProductId == requiredProductId);
         }
 
         #endregion
@@ -270,7 +291,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
         public virtual void RemoveCategory(Guid categoryId)
         {
-            if (ProductCategories.Any(x => x.CategoryId == categoryId)) ProductCategories.RemoveAll(x => x.CategoryId == categoryId);
+            if (ProductCategories.Any(x => x.CategoryId == categoryId))
+                ProductCategories.RemoveAll(x => x.CategoryId == categoryId);
         }
 
         public virtual ICollection<ProductManufacturer> ProductManufacturers { get; protected set; }
@@ -282,7 +304,8 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
         public virtual void RemoveManufacturer(Guid manufacturerId)
         {
-            if (ProductManufacturers.Any(x => x.ManufacturerId == manufacturerId)) ProductManufacturers.RemoveAll(x => x.ManufacturerId == manufacturerId);
+            if (ProductManufacturers.Any(x => x.ManufacturerId == manufacturerId))
+                ProductManufacturers.RemoveAll(x => x.ManufacturerId == manufacturerId);
         }
 
         public virtual Guid? VendorId { get; protected set; }
@@ -358,7 +381,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
 
         public virtual void RemoveProductAttribute(Guid productAttributeId)
         {
-            if (ProductProductAttributes.Any(x => x.ProductAttributeId == productAttributeId)) ProductProductAttributes.RemoveAll(x => x.ProductAttributeId == productAttributeId);
+            if (ProductProductAttributes.Any(x => x.ProductAttributeId == productAttributeId))
+            {
+                ProductProductAttributes.RemoveAll(x => x.ProductAttributeId == productAttributeId);
+            }
         }
 
         #endregion

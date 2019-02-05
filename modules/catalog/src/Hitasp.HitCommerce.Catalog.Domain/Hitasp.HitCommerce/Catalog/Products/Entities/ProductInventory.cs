@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
-using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class ProductInventory : Entity
+    public class ProductInventory
     {
-        public virtual Guid ProductId { get; private set; }
         public virtual int StockQuantity { get; protected set; }
         public virtual Guid? WarehouseId { get; protected set; }
         public virtual bool UseMultipleWarehouses { get; protected set; }
@@ -56,7 +54,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             AllowedQuantities = string.Join(",", validQuantities);
         }
 
-        public virtual void SetWarehouse(Guid? warehouseId)
+        public virtual void SetWarehouse(Guid productId,Guid? warehouseId)
         {
             if (warehouseId == null || warehouseId == Guid.Empty)
             {
@@ -67,7 +65,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             if (UseMultipleWarehouses & ProductWarehouseInventories.Any())
             {
-                ProductWarehouseInventories.Add(new ProductWarehouseInventory(ProductId, warehouseId.Value));
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(productId, warehouseId.Value));
 
                 return;
             }
@@ -75,14 +73,14 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             WarehouseId = warehouseId;
         }
 
-        public virtual void SetMultipleWarehouses(IEnumerable<Guid> warehouseInventoryIds)
+        public virtual void SetMultipleWarehouses(Guid productId, IEnumerable<Guid> warehouseInventoryIds)
         {
             var hashSet = new HashSet<Guid>(warehouseInventoryIds);
 
             if (hashSet.Count <= 1)
             {
                 UseMultipleWarehouses = false;
-                SetWarehouse(hashSet.FirstOrDefault());
+                SetWarehouse(productId, hashSet.FirstOrDefault());
 
                 return;
             }
@@ -92,7 +90,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
 
             foreach (var warehouseInventoryId in hashSet)
             {
-                ProductWarehouseInventories.Add(new ProductWarehouseInventory(ProductId, warehouseInventoryId));
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(productId, warehouseInventoryId));
             }
 
             if (StockQuantity > 0)
@@ -131,14 +129,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
             ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
         }
 
-        public ProductInventory(Guid productId)
+        public ProductInventory(int stockQuantity)
         {
-            ProductId = productId;
-        }
-
-        public override object[] GetKeys()
-        {
-            return new object[] {ProductId};
+            SetStockQuantity(stockQuantity);
         }
     }
 }

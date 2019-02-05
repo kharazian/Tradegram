@@ -67,11 +67,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
                     overriddenGiftCardAmount = decimal.Zero;
                 }
                 
-                GiftCard = new GiftCard(Id, (int) GiftCardType.Virtual, overriddenGiftCardAmount);
+                GiftCard = new GiftCard((int) GiftCardType.Virtual, overriddenGiftCardAmount);
             }
 
             IsGiftCard = false;
-            GiftCard = null;
         }
 
         #endregion
@@ -124,7 +123,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             SetCode(code);
             SetName(name);
             SetShortDescription(shortDescription);
-            SetProductPricing(new ProductPricing(id, price));
+            ChangePrice(price, false);
             EnableBasePrice(false);
         }
 

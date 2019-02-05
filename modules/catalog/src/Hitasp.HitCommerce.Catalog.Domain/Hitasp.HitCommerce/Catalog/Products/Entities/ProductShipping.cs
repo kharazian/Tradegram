@@ -3,9 +3,8 @@ using Volo.Abp.Domain.Entities;
 
 namespace Hitasp.HitCommerce.Catalog.Products.Entities
 {
-    public class ProductShipping : Entity
+    public class ProductShipping
     {
-        public virtual Guid ProductId { get; private set; }
         public virtual bool IsFreeShipping { get; protected set; }
         public virtual decimal AdditionalShippingCharge { get; protected set; }
         public virtual bool ShipSeparately { get; set; }
@@ -15,7 +14,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         public virtual decimal Width { get; set; }
         public virtual decimal Height { get; set; }
 
-        public virtual void SetAsFreeShipping(bool isFreeShipping = true, decimal additionalShippingCharge = decimal.Zero)
+        public virtual void SetShipping(bool isFreeShipping, decimal additionalShippingCharge)
         {
             if (isFreeShipping)
             {
@@ -41,14 +40,10 @@ namespace Hitasp.HitCommerce.Catalog.Products.Entities
         {
         }
 
-        public ProductShipping(Guid productId)
+        public ProductShipping(bool isFreeShipping, decimal additionalShippingCharge)
         {
-            ProductId = productId;
-        }
-
-        public override object[] GetKeys()
-        {
-            return new object[] {ProductId};
+            IsFreeShipping = isFreeShipping;
+            AdditionalShippingCharge = additionalShippingCharge;
         }
     }
 }

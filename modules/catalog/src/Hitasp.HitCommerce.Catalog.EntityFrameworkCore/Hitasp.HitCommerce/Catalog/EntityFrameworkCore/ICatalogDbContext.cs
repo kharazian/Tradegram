@@ -36,9 +36,21 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
 
         DbSet<Product> Products { get; set; }
 
-        DbSet<VirtualProduct> VirtualProducts { get; set; }
+        DbSet<Downloadable> Downloadables { get; set; }
 
-        DbSet<PhysicalProduct> PhysicalProducts { get; set; }
+        DbSet<Servicable> Servicables { get; set; }
+        
+        DbSet<Shippable> Shippables { get; set; }
+        
+        DbSet<GiftCard> GiftCards { get; set; }
+        
+        DbSet<ProductBasePrice> ProductBasePrices { get; set; }
+        
+        DbSet<ProductInventory> ProductInventories { get; set; }
+        
+        DbSet<ProductPricing> ProductPricings { get; set; }
+        
+        DbSet<ProductShipping> ProductShippings { get; set; }
 
         DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
 
@@ -65,6 +77,8 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
 
         DbSet<RelatedProduct> RelatedProducts { get; set; }
+        
+        DbSet<RequiredProduct> RequiredProducts { get; set; }
 
         DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
 
