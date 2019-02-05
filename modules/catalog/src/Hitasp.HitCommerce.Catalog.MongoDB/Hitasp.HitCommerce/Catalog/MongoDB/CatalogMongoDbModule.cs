@@ -14,8 +14,6 @@ using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Repositories;
 using Hitasp.HitCommerce.Catalog.Products;
 using Hitasp.HitCommerce.Catalog.Products.Abstracts;
-using Hitasp.HitCommerce.Catalog.Products.Aggregates;
-using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Repositories;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes;
@@ -82,6 +80,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
                 options.AddRepository<ProductSpecificationAttribute, MongoProductSpecificationAttributeRepository>();
                 options.AddRepository<ProductWarehouseInventory, MongoProductWarehouseInventoryRepository>();
                 options.AddRepository<RelatedProduct, MongoRelatedProductRepository>();
+                options.AddRepository<RequiredProduct, MongoRequiredProductRepository>();
 
                 //SpecificationAttributes
                 options.AddRepository<SpecificationAttribute, MongoSpecificationAttributeRepository>();

@@ -112,13 +112,10 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CategoryInfoId");
-
-                    b.Property<Guid?>("CategoryMetaInfoId");
-
-                    b.Property<Guid?>("CategoryPageInfoId");
-
-                    b.Property<Guid?>("CategoryPublishingInfoId");
+                    b.Property<bool>("AllowCustomersToSelectPageSize")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("AllowCustomersToSelectPageSize")
+                        .HasDefaultValue(true);
 
                     b.Property<Guid>("CategoryTemplateId")
                         .HasColumnName("CategoryTemplateId");
@@ -137,8 +134,20 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnName("DeletionTime");
 
+                    b.Property<string>("Description")
+                        .HasColumnName("Description")
+                        .HasMaxLength(450);
+
+                    b.Property<int>("DisplayOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("DisplayOrder")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IncludeInTopMenu")
+                        .HasColumnName("IncludeInTopMenu");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -150,56 +159,6 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
 
                     b.Property<Guid?>("LastModifierId")
                         .HasColumnName("LastModifierId");
-
-                    b.Property<Guid?>("ParentCategoryId")
-                        .HasColumnName("ParentCategoryId");
-
-                    b.Property<Guid?>("PictureId")
-                        .HasColumnName("PictureId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryInfoId");
-
-                    b.HasIndex("CategoryMetaInfoId");
-
-                    b.HasIndex("CategoryPageInfoId");
-
-                    b.HasIndex("CategoryPublishingInfoId");
-
-                    b.HasIndex("CategoryTemplateId");
-
-                    b.HasIndex("ParentCategoryId");
-
-                    b.ToTable("CatalogCategories");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("Description")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasMaxLength(64);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("Title")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogCategories_Info");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryMetaInfo", b =>
-                {
-                    b.Property<Guid>("Id");
 
                     b.Property<string>("MetaDescription")
                         .HasColumnName("MetaDescription")
@@ -213,19 +172,10 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .HasColumnName("MetaTitle")
                         .HasMaxLength(150);
 
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogCategories_MetaInfo");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPageInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<bool>("IsAllowCustomersToSelectPageSize")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsAllowCustomersToSelectPageSize")
-                        .HasDefaultValue(true);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("Name")
+                        .HasMaxLength(64);
 
                     b.Property<int>("PageSize")
                         .HasColumnName("PageSize");
@@ -233,23 +183,18 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<string>("PageSizeOptions")
                         .HasColumnName("PageSizeOptions");
 
-                    b.HasKey("Id");
+                    b.Property<Guid?>("ParentCategoryId")
+                        .HasColumnName("ParentCategoryId");
 
-                    b.ToTable("CatalogCategories_PageInfo");
-                });
+                    b.Property<Guid?>("PictureId")
+                        .HasColumnName("PictureId");
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPublishingInfo", b =>
-                {
-                    b.Property<Guid>("Id");
+                    b.Property<string>("PriceRanges")
+                        .HasColumnName("PriceRanges");
 
-                    b.Property<int>("DisplayOrder")
+                    b.Property<bool>("Published")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("DisplayOrder")
-                        .HasDefaultValue(0);
-
-                    b.Property<bool>("IsPublished")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsPublished")
+                        .HasColumnName("Published")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("ShowOnHomePage")
@@ -259,7 +204,11 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CatalogCategories_PublishingInfo");
+                    b.HasIndex("CategoryTemplateId");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.ToTable("CatalogCategories");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Mapping.CategoryDiscount", b =>
@@ -284,6 +233,11 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("AllowCustomersToSelectPageSize")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("AllowCustomersToSelectPageSize")
+                        .HasDefaultValue(true);
+
                     b.Property<string>("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -297,6 +251,15 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
 
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnName("DeletionTime");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("Description")
+                        .HasMaxLength(450);
+
+                    b.Property<int>("DisplayOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("DisplayOrder")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties");
@@ -312,61 +275,8 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid?>("LastModifierId")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid?>("ManufacturerInfoId");
-
-                    b.Property<Guid?>("ManufacturerMetaInfoId");
-
-                    b.Property<Guid?>("ManufacturerPageInfoId");
-
-                    b.Property<Guid?>("ManufacturerPublishingInfoId");
-
                     b.Property<Guid>("ManufacturerTemplateId")
                         .HasColumnName("ManufacturerTemplateId");
-
-                    b.Property<Guid?>("PictureId")
-                        .HasColumnName("PictureId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManufacturerInfoId");
-
-                    b.HasIndex("ManufacturerMetaInfoId");
-
-                    b.HasIndex("ManufacturerPageInfoId");
-
-                    b.HasIndex("ManufacturerPublishingInfoId");
-
-                    b.HasIndex("ManufacturerTemplateId");
-
-                    b.ToTable("CatalogManufacturers");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("Description")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasMaxLength(64);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("Title")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogManufacturers_Info");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerMetaInfo", b =>
-                {
-                    b.Property<Guid>("Id");
 
                     b.Property<string>("MetaDescription")
                         .HasColumnName("MetaDescription")
@@ -380,19 +290,10 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .HasColumnName("MetaTitle")
                         .HasMaxLength(150);
 
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogManufacturers_Meta");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPageInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<bool>("IsAllowCustomersToSelectPageSize")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("AllowCustomersToSelectPageSize")
-                        .HasDefaultValue(true);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("Name")
+                        .HasMaxLength(64);
 
                     b.Property<int>("PageSize")
                         .HasColumnName("PageSize");
@@ -400,23 +301,15 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<string>("PageSizeOptions")
                         .HasColumnName("PageSizeOptions");
 
-                    b.HasKey("Id");
+                    b.Property<Guid?>("PictureId")
+                        .HasColumnName("PictureId");
 
-                    b.ToTable("CatalogManufacturers_PageInfo");
-                });
+                    b.Property<string>("PriceRanges")
+                        .HasColumnName("PriceRanges");
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPublishingInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<int>("DisplayOrder")
+                    b.Property<bool>("Published")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("DisplayOrder")
-                        .HasDefaultValue(0);
-
-                    b.Property<bool>("IsPublished")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsPublished")
+                        .HasColumnName("Published")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("ShowOnHomePage")
@@ -426,7 +319,9 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CatalogManufacturers_PublishingInfo");
+                    b.HasIndex("ManufacturerTemplateId");
+
+                    b.ToTable("CatalogManufacturers");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Mapping.ManufacturerDiscount", b =>
@@ -446,10 +341,26 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.ToTable("CatalogManufacturers_ManufacturerDiscount");
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("AvailableEndDate")
+                        .HasColumnName("AvailableEndDate");
+
+                    b.Property<DateTime?>("AvailableStartDate")
+                        .HasColumnName("AvailableStartDate");
+
+                    b.Property<bool>("BasePriceEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("BasePriceEnabled")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnName("Code")
+                        .HasMaxLength(150);
 
                     b.Property<string>("ConcurrencyStamp");
 
@@ -465,8 +376,21 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnName("DeletionTime");
 
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnName("DisplayOrder");
+
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("FullDescription")
+                        .HasColumnName("FullDescription")
+                        .HasMaxLength(450);
+
+                    b.Property<string>("Gtin")
+                        .HasColumnName("Gtin")
+                        .HasMaxLength(150);
+
+                    b.Property<bool>("HasDiscountsApplied");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -479,23 +403,35 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid?>("LastModifierId")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid?>("PictureId");
+                    b.Property<string>("ManufacturerPartNumber")
+                        .HasColumnName("ManufacturerPartNumber")
+                        .HasMaxLength(150);
 
-                    b.Property<Guid?>("ProductCodeId");
+                    b.Property<bool>("MarkAsNew")
+                        .HasColumnName("MarkAsNew");
 
-                    b.Property<Guid?>("ProductInfoId");
+                    b.Property<DateTime?>("MarkAsNewEndDate")
+                        .HasColumnName("MarkAsNewEndDate");
 
-                    b.Property<Guid?>("ProductMetaInfoId");
+                    b.Property<DateTime?>("MarkAsNewStartDate")
+                        .HasColumnName("MarkAsNewStartDate");
 
-                    b.Property<Guid?>("ProductOrderingInfoId");
+                    b.Property<string>("MetaDescription")
+                        .HasColumnName("MetaDescription")
+                        .HasMaxLength(450);
 
-                    b.Property<Guid?>("ProductPriceInfoId");
+                    b.Property<string>("MetaKeywords")
+                        .HasColumnName("MetaKeywords")
+                        .HasMaxLength(450);
 
-                    b.Property<Guid?>("ProductPublishingInfoId");
+                    b.Property<string>("MetaTitle")
+                        .HasColumnName("MetaTitle")
+                        .HasMaxLength(150);
 
-                    b.Property<Guid?>("ProductRateId");
-
-                    b.Property<Guid?>("ProductShippingInfoId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("Name")
+                        .HasMaxLength(64);
 
                     b.Property<Guid>("ProductTemplateId")
                         .HasColumnName("ProductTemplateId");
@@ -503,25 +439,32 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<string>("ProductType")
                         .IsRequired()
                         .HasColumnName("ProductType")
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
+
+                    b.Property<bool>("Published")
+                        .HasColumnName("Published");
+
+                    b.Property<double>("RatingAverage")
+                        .HasColumnName("RatingAverage");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnName("RatingCount");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnName("ShortDescription")
+                        .HasMaxLength(150);
+
+                    b.Property<bool>("ShowOnHomePage")
+                        .HasColumnName("ShowOnHomePage");
+
+                    b.Property<Guid?>("VendorId")
+                        .HasColumnName("VendorId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductCodeId");
-
-                    b.HasIndex("ProductInfoId");
-
-                    b.HasIndex("ProductMetaInfoId");
-
-                    b.HasIndex("ProductOrderingInfoId");
-
-                    b.HasIndex("ProductPriceInfoId");
-
-                    b.HasIndex("ProductPublishingInfoId");
-
-                    b.HasIndex("ProductRateId");
-
-                    b.HasIndex("ProductShippingInfoId");
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.HasIndex("ProductTemplateId");
 
@@ -532,7 +475,20 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.HasDiscriminator<string>("ProductType").HasValue("Product");
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductAttributeCombination", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.CrossSellProduct", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .HasColumnName("ProductId");
+
+                    b.Property<Guid>("CrossSellProductId")
+                        .HasColumnName("CrossSellProductId");
+
+                    b.HasKey("ProductId", "CrossSellProductId");
+
+                    b.ToTable("CatalogProducts_CrossSellProduct");
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductAttributeCombination", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -543,15 +499,14 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<string>("AttributesXml")
                         .HasColumnName("AttributesXml");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasColumnName("Code");
 
                     b.Property<string>("Gtin")
                         .HasColumnName("Gtin");
 
-                    b.Property<string>("ManufacturerPartNumber");
-
-                    b.Property<int>("NotifyAdminForQuantityBelow")
-                        .HasColumnName("NotifyAdminForQuantityBelow");
+                    b.Property<string>("ManufacturerPartNumber")
+                        .HasColumnName("ManufacturerPartNumber");
 
                     b.Property<decimal?>("OverriddenPrice")
                         .HasColumnName("OverriddenPrice");
@@ -562,27 +517,28 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnName("ProductId");
 
-                    b.Property<Guid?>("ProductId1");
+                    b.Property<Guid?>("ShippableId");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnName("StockQuantity");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductId1");
+                    b.HasIndex("ShippableId");
 
                     b.ToTable("CatalogProducts_AttributeCombinations");
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductAttributeValue", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductAttributeValue", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("ProductId");
+
+                    b.Property<Guid>("ProductAttributeId");
 
                     b.Property<int>("AttributeValueType")
                         .HasColumnName("AttributeValueType");
+
+                    b.Property<int>("AttributeValueTypeId");
 
                     b.Property<string>("ColorSquaresRgb")
                         .HasColumnName("ColorSquaresRgb");
@@ -625,339 +581,11 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<decimal>("WeightAdjustment")
                         .HasColumnName("WeightAdjustment");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductId", "ProductAttributeId");
 
                     b.HasIndex("ProductProductAttributeProductId", "ProductProductAttributeProductAttributeId");
 
                     b.ToTable("CatalogProducts_AttributeValues");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductCode", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnName("Code")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("CatalogProducts_Code");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("Description")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasMaxLength(64);
-
-                    b.Property<string>("ShortDescription")
-                        .HasColumnName("ProductInfo_ShortDescription");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("ShortDescription")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name");
-
-                    b.HasIndex("Title");
-
-                    b.ToTable("CatalogProducts_Info");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductMetaInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("MetaDescription")
-                        .HasColumnName("MetaDescription")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("MetaKeywords")
-                        .HasColumnName("MetaKeywords")
-                        .HasMaxLength(450);
-
-                    b.Property<string>("MetaTitle")
-                        .HasColumnName("MetaTitle")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogProducts_Meta");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductOrderingInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("AllowedQuantities")
-                        .HasColumnName("AllowedQuantities");
-
-                    b.Property<bool>("AvailableForPreOrder")
-                        .HasColumnName("AvailableForPreOrder");
-
-                    b.Property<bool>("IsBuyButtonDisabled")
-                        .HasColumnName("IsBuyButtonDisabled");
-
-                    b.Property<bool>("IsRecurring")
-                        .HasColumnName("IsRecurring");
-
-                    b.Property<bool>("IsRental")
-                        .HasColumnName("IsRental");
-
-                    b.Property<bool>("IsWishListButtonDisabled")
-                        .HasColumnName("IsWishListButtonDisabled");
-
-                    b.Property<bool>("NotReturnable")
-                        .HasColumnName("NotReturnable");
-
-                    b.Property<int>("OrderMaximumQuantity")
-                        .HasColumnName("OrderMaximumQuantity");
-
-                    b.Property<int>("OrderMinimumQuantity")
-                        .HasColumnName("OrderMinimumQuantity");
-
-                    b.Property<DateTime?>("PreOrderAvailabilityStartDate")
-                        .HasColumnName("PreOrderAvailabilityStartDate");
-
-                    b.Property<int>("RecurringCycleLength")
-                        .HasColumnName("RecurringCycleLength");
-
-                    b.Property<int>("RecurringCyclePeriod")
-                        .HasColumnName("RecurringCyclePeriod");
-
-                    b.Property<int>("RecurringTotalCycles")
-                        .HasColumnName("RecurringTotalCycles");
-
-                    b.Property<int>("RentalPriceLength")
-                        .HasColumnName("RentalPriceLength");
-
-                    b.Property<int>("RentalPricePeriod")
-                        .HasColumnName("RentalPricePeriod");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogProducts_OrderingInfo");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPriceInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<decimal?>("BasePriceAmount")
-                        .HasColumnName("BasePriceAmount");
-
-                    b.Property<decimal?>("BasePriceBaseAmount")
-                        .HasColumnName("BasePriceBaseAmount");
-
-                    b.Property<int?>("BasePriceBaseUnitId")
-                        .HasColumnName("BasePriceBaseUnitId");
-
-                    b.Property<bool>("BasePriceEnabled")
-                        .HasColumnName("BasePriceEnabled");
-
-                    b.Property<int?>("BasePriceUnitId")
-                        .HasColumnName("BasePriceUnitId");
-
-                    b.Property<bool>("CallForPrice")
-                        .HasColumnName("CallForPrice");
-
-                    b.Property<bool>("IsAllowCustomerEntersPrice")
-                        .HasColumnName("IsAllowCustomerEntersPrice");
-
-                    b.Property<bool>("IsTaxExempt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsTaxExempt")
-                        .HasDefaultValue(true);
-
-                    b.Property<decimal?>("MaximumCustomerEnteredPrice")
-                        .HasColumnName("MaximumCustomerEnteredPrice");
-
-                    b.Property<decimal?>("MinimumCustomerEnteredPrice")
-                        .HasColumnName("MinimumCustomerEnteredPrice");
-
-                    b.Property<decimal>("OldPrice")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("OldPrice")
-                        .HasDefaultValue(0m);
-
-                    b.Property<decimal>("Price")
-                        .HasColumnName("Price");
-
-                    b.Property<decimal>("ProductCost")
-                        .HasColumnName("ProductCost");
-
-                    b.Property<Guid?>("TaxCategoryId")
-                        .HasColumnName("TaxCategoryId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogProducts_PriceInfo");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPublishingInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<DateTime?>("AvailableEndDate")
-                        .HasColumnName("AvailableEndDate");
-
-                    b.Property<DateTime?>("AvailableStartDate")
-                        .HasColumnName("AvailableStartDate");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnName("DisplayOrder");
-
-                    b.Property<bool>("IsNew")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsNew")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsPublished")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("IsPublished")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("MarkAsNewEndDate")
-                        .HasColumnName("MarkAsNewEndDate");
-
-                    b.Property<DateTime?>("MarkAsNewStartDate")
-                        .HasColumnName("MarkAsNewStartDate");
-
-                    b.Property<bool>("ShowOnHomePage")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ShowOnHomePage")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("VisibleIndividually")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("VisibleIndividually")
-                        .HasDefaultValue(true);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogProducts_PublishingInfo");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductRate", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<double>("RatingAverage")
-                        .HasColumnName("RatingAverage");
-
-                    b.Property<int>("RatingCount")
-                        .HasColumnName("RatingCount");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogProducts_Rate");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductShippingInfo", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<decimal>("AdditionalShippingCharge")
-                        .HasColumnName("AdditionalShippingCharge");
-
-                    b.Property<int?>("DeliveryDateId")
-                        .HasColumnName("DeliveryDateId");
-
-                    b.Property<decimal>("Height")
-                        .HasColumnName("Height");
-
-                    b.Property<bool>("IsFreeShipping")
-                        .HasColumnName("IsFreeShipping");
-
-                    b.Property<bool>("IsShipEnabled")
-                        .HasColumnName("IsShipEnabled");
-
-                    b.Property<decimal>("Length")
-                        .HasColumnName("Length");
-
-                    b.Property<Guid?>("ProductAvailabilityRangeId")
-                        .HasColumnName("ProductAvailabilityRangeId");
-
-                    b.Property<bool>("ShipSeparately")
-                        .HasColumnName("ShipSeparately");
-
-                    b.Property<bool>("UseMultipleWarehouses")
-                        .HasColumnName("UseMultipleWarehouses");
-
-                    b.Property<Guid?>("WarehouseId")
-                        .HasColumnName("WarehouseId");
-
-                    b.Property<decimal>("Weight")
-                        .HasColumnName("Weight");
-
-                    b.Property<decimal>("Width")
-                        .HasColumnName("Width");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CatalogProducts_ShippingInfo");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.StockQuantityHistory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("CombinationId")
-                        .HasColumnName("CombinationId");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<Guid?>("CreatorId");
-
-                    b.Property<string>("Message")
-                        .HasColumnName("Message");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnName("ProductId");
-
-                    b.Property<int>("QuantityAdjustment")
-                        .HasColumnName("QuantityAdjustment");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnName("StockQuantity");
-
-                    b.Property<Guid?>("WarehouseId")
-                        .HasColumnName("WarehouseId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CatalogProducts_StockQuantityHistories");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.CrossSellProduct", b =>
-                {
-                    b.Property<Guid>("ProductId")
-                        .HasColumnName("ProductId");
-
-                    b.Property<Guid>("CrossSellProductId")
-                        .HasColumnName("CrossSellProductId");
-
-                    b.HasKey("ProductId", "CrossSellProductId");
-
-                    b.ToTable("CatalogProducts_CrossSellProduct");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductCategory", b =>
@@ -974,11 +602,7 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<bool>("IsFeaturedProduct")
                         .HasColumnName("IsFeaturedProduct");
 
-                    b.Property<Guid?>("ProductId1");
-
                     b.HasKey("ProductId", "CategoryId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("CatalogProducts_ProductCategory");
                 });
@@ -991,11 +615,7 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid>("DiscountId")
                         .HasColumnName("DiscountId");
 
-                    b.Property<Guid?>("ProductId1");
-
                     b.HasKey("ProductId", "DiscountId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("CatalogProducts_ProductDiscount");
                 });
@@ -1014,11 +634,7 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<bool>("IsFeaturedProduct")
                         .HasColumnName("IsFeaturedProduct");
 
-                    b.Property<Guid?>("ProductId1");
-
                     b.HasKey("ProductId", "ManufacturerId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("CatalogProducts_ProductManufacturer");
                 });
@@ -1034,11 +650,7 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnName("DisplayOrder");
 
-                    b.Property<Guid?>("ProductId1");
-
                     b.HasKey("ProductId", "PictureId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("CatalogProducts_ProductPicture");
                 });
@@ -1100,11 +712,7 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid>("ProductTagId")
                         .HasColumnName("ProductTagId");
 
-                    b.Property<Guid?>("ProductId1");
-
                     b.HasKey("ProductId", "ProductTagId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("CatalogProducts_ProductTag");
                 });
@@ -1129,14 +737,10 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnName("DisplayOrder");
 
-                    b.Property<Guid?>("ProductId1");
-
                     b.Property<bool>("ShowOnProductPage")
                         .HasColumnName("ShowOnProductPage");
 
                     b.HasKey("ProductId", "SpecificationAttributeOptionId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("CatalogProducts_ProductSpecificationAttribute");
                 });
@@ -1149,17 +753,17 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<Guid>("WarehouseId")
                         .HasColumnName("WarehouseId");
 
-                    b.Property<Guid?>("PhysicalProductId");
-
                     b.Property<int>("ReservedQuantity")
                         .HasColumnName("ReservedQuantity");
+
+                    b.Property<Guid?>("ShippableId");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnName("StockQuantity");
 
                     b.HasKey("ProductId", "WarehouseId");
 
-                    b.HasIndex("PhysicalProductId");
+                    b.HasIndex("ShippableId");
 
                     b.ToTable("CatalogProducts_ProductWarehouseInventory");
                 });
@@ -1175,6 +779,55 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.HasKey("ProductId", "RelatedProductId");
 
                     b.ToTable("CatalogProducts_RelatedProduct");
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.RequiredProduct", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .HasColumnName("ProductId");
+
+                    b.Property<Guid>("RequiredProductId")
+                        .HasColumnName("RequiredProductId");
+
+                    b.Property<bool>("AutomaticallyAddRequiredProducts");
+
+                    b.HasKey("ProductId", "RequiredProductId");
+
+                    b.ToTable("CatalogProducts_RequiredProduct");
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.StockQuantityHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CombinationId")
+                        .HasColumnName("CombinationId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<Guid?>("CreatorId");
+
+                    b.Property<string>("Message")
+                        .HasColumnName("Message");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnName("ProductId");
+
+                    b.Property<int>("QuantityAdjustment")
+                        .HasColumnName("QuantityAdjustment");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnName("StockQuantity");
+
+                    b.Property<Guid?>("WarehouseId")
+                        .HasColumnName("WarehouseId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CatalogProducts_StockQuantityHistories");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities.SpecificationAttribute", b =>
@@ -1642,53 +1295,21 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.ToTable("AbpSettings");
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.PhysicalProduct", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.Downloadable", b =>
                 {
-                    b.HasBaseType("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product");
+                    b.HasBaseType("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product");
 
-                    b.Property<string>("Gtin")
-                        .HasColumnName("Gtin")
-                        .HasMaxLength(150);
-
-                    b.Property<bool>("IsAllowBackInStockSubscriptions")
-                        .HasColumnName("IsAllowBackInStockSubscriptions");
-
-                    b.Property<bool>("IsDisplayStockAvailability")
-                        .HasColumnName("IsDisplayStockAvailability");
-
-                    b.Property<bool>("IsDisplayStockQuantity")
-                        .HasColumnName("IsDisplayStockQuantity");
-
-                    b.Property<int>("LowStockActivity")
-                        .HasColumnName("LowStockActivity");
-
-                    b.Property<int>("ManageInventoryMethod")
-                        .HasColumnName("ManageInventoryMethod");
-
-                    b.Property<int>("MinStockQuantity")
-                        .HasColumnName("MinStockQuantity");
-
-                    b.Property<int>("NotifyAdminForQuantityBelow")
-                        .HasColumnName("NotifyAdminForQuantityBelow");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnName("StockQuantity");
-
-                    b.HasDiscriminator().HasValue("PhysicalProduct");
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.VirtualProduct", b =>
-                {
-                    b.HasBaseType("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product");
-
-                    b.Property<int>("DownloadActivationType")
-                        .HasColumnName("DownloadActivationType");
+                    b.Property<int>("DownloadActivationTypeId")
+                        .HasColumnName("DownloadActivationTypeId");
 
                     b.Property<int?>("DownloadExpirationDays")
                         .HasColumnName("DownloadExpirationDays");
 
-                    b.Property<Guid?>("DownloadId")
+                    b.Property<Guid>("DownloadId")
                         .HasColumnName("DownloadId");
+
+                    b.Property<int>("GiftCardTypeId")
+                        .HasColumnName("GiftCardTypeId");
 
                     b.Property<bool>("HasSampleDownload")
                         .HasColumnName("HasSampleDownload");
@@ -1696,8 +1317,14 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<bool>("HasUserAgreement")
                         .HasColumnName("HasUserAgreement");
 
+                    b.Property<bool>("IsGiftCard")
+                        .HasColumnName("IsGiftCard");
+
                     b.Property<int>("MaxNumberOfDownloads")
                         .HasColumnName("MaxNumberOfDownloads");
+
+                    b.Property<decimal?>("OverriddenGiftCardAmount")
+                        .HasColumnName("Downloadable_OverriddenGiftCardAmount");
 
                     b.Property<Guid?>("SampleDownloadId")
                         .HasColumnName("SampleDownloadId");
@@ -1708,7 +1335,33 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                     b.Property<string>("UserAgreementText")
                         .HasColumnName("UserAgreementText");
 
-                    b.HasDiscriminator().HasValue("VirtualProduct");
+                    b.HasDiscriminator().HasValue("Downloadable");
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.Servicable", b =>
+                {
+                    b.HasBaseType("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product");
+
+                    b.HasDiscriminator().HasValue("Service");
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.Shippable", b =>
+                {
+                    b.HasBaseType("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product");
+
+                    b.Property<int>("GiftCardTypeId")
+                        .HasColumnName("GiftCardTypeId");
+
+                    b.Property<bool>("IsGiftCard")
+                        .HasColumnName("IsGiftCard");
+
+                    b.Property<bool>("IsShipEnabled")
+                        .HasColumnName("IsShipEnabled");
+
+                    b.Property<decimal?>("OverriddenGiftCardAmount")
+                        .HasColumnName("OverriddenGiftCardAmount");
+
+                    b.HasDiscriminator().HasValue("Shippable");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Attributes.Entities.PredefinedAttributeValue", b =>
@@ -1725,22 +1378,6 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryInfo", "CategoryInfo")
-                        .WithMany()
-                        .HasForeignKey("CategoryInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryMetaInfo", "CategoryMetaInfo")
-                        .WithMany()
-                        .HasForeignKey("CategoryMetaInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPageInfo", "CategoryPageInfo")
-                        .WithMany()
-                        .HasForeignKey("CategoryPageInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPublishingInfo", "CategoryPublishingInfo")
-                        .WithMany()
-                        .HasForeignKey("CategoryPublishingInfoId");
-
                     b.HasOne("Hitasp.HitCommerce.Catalog.Templates.Aggregates.Template")
                         .WithMany()
                         .HasForeignKey("CategoryTemplateId")
@@ -1752,44 +1389,12 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryMetaInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryMetaInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPageInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPageInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPublishingInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Categories.Entities.CategoryPublishingInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Categories.Mapping.CategoryDiscount", b =>
                 {
                     b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Hitasp.HitCommerce.Catalog.Categories.Aggregates.Category")
                         .WithMany("CategoryDiscounts")
@@ -1798,58 +1403,10 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates.Manufacturer", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerInfo", "ManufacturerInfo")
-                        .WithMany()
-                        .HasForeignKey("ManufacturerInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerMetaInfo", "ManufacturerMetaInfo")
-                        .WithMany()
-                        .HasForeignKey("ManufacturerMetaInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPageInfo", "ManufacturerPageInfo")
-                        .WithMany()
-                        .HasForeignKey("ManufacturerPageInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPublishingInfo", "ManufacturerPublishingInfo")
-                        .WithMany()
-                        .HasForeignKey("ManufacturerPublishingInfoId");
-
                     b.HasOne("Hitasp.HitCommerce.Catalog.Templates.Aggregates.Template")
                         .WithMany()
                         .HasForeignKey("ManufacturerTemplateId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates.Manufacturer")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerMetaInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates.Manufacturer")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerMetaInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPageInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates.Manufacturer")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPageInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPublishingInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates.Manufacturer")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Manufacturers.Entities.ManufacturerPublishingInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Manufacturers.Mapping.ManufacturerDiscount", b =>
@@ -1864,59 +1421,137 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .HasForeignKey("ManufacturerId1");
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductCode", "ProductCode")
-                        .WithMany()
-                        .HasForeignKey("ProductCodeId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductInfo", "ProductInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductMetaInfo", "ProductMetaInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductMetaInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductOrderingInfo", "ProductOrderingInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductOrderingInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPriceInfo", "ProductPriceInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductPriceInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPublishingInfo", "ProductPublishingInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductPublishingInfoId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductRate", "ProductRate")
-                        .WithMany()
-                        .HasForeignKey("ProductRateId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductShippingInfo", "ProductShippingInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductShippingInfoId");
-
                     b.HasOne("Hitasp.HitCommerce.Catalog.Templates.Aggregates.Template")
                         .WithMany()
                         .HasForeignKey("ProductTemplateId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductBasePrice", "ProductBasePrice", b1 =>
+                        {
+                            b1.Property<Guid>("ProductId");
+
+                            b1.Property<decimal>("BasePriceAmount")
+                                .HasColumnName("BasePriceAmount");
+
+                            b1.Property<decimal>("BasePriceBaseAmount")
+                                .HasColumnName("BasePriceBaseAmount");
+
+                            b1.Property<int>("BasePriceBaseUnitId")
+                                .HasColumnName("BasePriceBaseUnitId");
+
+                            b1.Property<int>("BasePriceUnitId")
+                                .HasColumnName("BasePriceUnitId");
+
+                            b1.HasKey("ProductId");
+
+                            b1.ToTable("CatalogProduct_BasePrice");
+
+                            b1.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                                .WithOne("ProductBasePrice")
+                                .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductBasePrice", "ProductId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPricing", "Pricing", b1 =>
+                        {
+                            b1.Property<Guid>("ProductId");
+
+                            b1.Property<bool>("AvailableForPreOrder")
+                                .HasColumnName("AvailableForPreOrder");
+
+                            b1.Property<bool>("CallForPrice")
+                                .HasColumnName("CallForPrice");
+
+                            b1.Property<bool>("CustomerEntersPrice")
+                                .HasColumnName("CustomerEntersPrice");
+
+                            b1.Property<bool>("DisableBuyButton")
+                                .HasColumnName("DisableBuyButton");
+
+                            b1.Property<bool>("DisableWishListButton")
+                                .HasColumnName("DisableWishListButton");
+
+                            b1.Property<bool>("IsRecurring")
+                                .HasColumnName("IsRecurring");
+
+                            b1.Property<bool>("IsRental")
+                                .HasColumnName("IsRental");
+
+                            b1.Property<bool>("IsTaxExempt")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("IsTaxExempt")
+                                .HasDefaultValue(true);
+
+                            b1.Property<decimal>("MaximumCustomerEnteredPrice")
+                                .HasColumnName("MaximumCustomerEnteredPrice");
+
+                            b1.Property<decimal>("MinimumCustomerEnteredPrice")
+                                .HasColumnName("MinimumCustomerEnteredPrice");
+
+                            b1.Property<decimal>("OldPrice")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("OldPrice")
+                                .HasDefaultValue(0m);
+
+                            b1.Property<DateTime?>("PreOrderAvailabilityStartDate")
+                                .HasColumnName("PreOrderAvailabilityStartDate");
+
+                            b1.Property<decimal>("Price")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("Price")
+                                .HasDefaultValue(0m);
+
+                            b1.Property<decimal>("ProductCost")
+                                .HasColumnName("ProductCost");
+
+                            b1.Property<int>("RecurringCycleLength")
+                                .HasColumnName("RecurringCycleLength");
+
+                            b1.Property<int>("RecurringCyclePeriodId")
+                                .HasColumnName("RecurringCyclePeriodId");
+
+                            b1.Property<int>("RecurringTotalCycles")
+                                .HasColumnName("RecurringTotalCycles");
+
+                            b1.Property<int>("RentalPriceLength")
+                                .HasColumnName("RentalPriceLength");
+
+                            b1.Property<int>("RentalPricePeriodId")
+                                .HasColumnName("RentalPricePeriodId");
+
+                            b1.Property<Guid?>("TaxCategoryId")
+                                .HasColumnName("TaxCategoryId");
+
+                            b1.HasKey("ProductId");
+
+                            b1.ToTable("CatalogProduct_Pricing");
+
+                            b1.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                                .WithOne("Pricing")
+                                .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPricing", "ProductId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductAttributeCombination", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.CrossSellProduct", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("CrossSellProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("AttributeCombinations")
-                        .HasForeignKey("ProductId1");
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductAttributeValue", b =>
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductAttributeCombination", b =>
+                {
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Shippable")
+                        .WithMany("ProductAttributeCombinations")
+                        .HasForeignKey("ShippableId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductAttributeValue", b =>
                 {
                     b.HasOne("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductProductAttribute")
                         .WithMany("ProductAttributeValues")
@@ -1924,124 +1559,36 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductCode", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductCode", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductMetaInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductMetaInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductOrderingInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductOrderingInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPriceInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPriceInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPublishingInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductPublishingInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductRate", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductRate", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Entities.ProductShippingInfo", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithOne()
-                        .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductShippingInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.CrossSellProduct", b =>
-                {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("CrossSellProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductCategory", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductCategories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductCategories")
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductDiscount", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductDiscounts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductDiscounts")
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductManufacturer", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductManufacturers")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductManufacturers")
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductPicture", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductPictures")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductPictures")
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductProductAttribute", b =>
@@ -2051,56 +1598,52 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .HasForeignKey("ProductAttributeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductAttributes")
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductProductAttributes")
                         .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductProductTag", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductTags")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductTags")
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductSpecificationAttribute", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany()
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("ProductSpecificationAttributes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
-                        .WithMany("ProductSpecificationAttributes")
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.ProductWarehouseInventory", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.PhysicalProduct")
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Shippable")
                         .WithMany("ProductWarehouseInventories")
-                        .HasForeignKey("PhysicalProductId");
-
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.PhysicalProduct")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ShippableId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.RelatedProduct", b =>
                 {
-                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Product")
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
                         .WithMany("RelatedProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Mapping.RequiredProduct", b =>
+                {
+                    b.HasOne("Hitasp.HitCommerce.Catalog.Products.Abstracts.Product")
+                        .WithMany("RequiredProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -2160,6 +1703,94 @@ namespace Hitasp.HitCommerce.Catalog.DemoApp.Migrations
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Hitasp.HitCommerce.Catalog.Products.Aggregates.Shippable", b =>
+                {
+                    b.OwnsOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductInventory", "Inventory", b1 =>
+                        {
+                            b1.Property<Guid>("ShippableId");
+
+                            b1.Property<bool>("AllowBackInStockSubscriptions")
+                                .HasColumnName("AllowBackInStockSubscriptions");
+
+                            b1.Property<string>("AllowedQuantities")
+                                .HasColumnName("AllowedQuantities");
+
+                            b1.Property<bool>("DisplayStockAvailability")
+                                .HasColumnName("DisplayStockAvailability");
+
+                            b1.Property<bool>("DisplayStockQuantity")
+                                .HasColumnName("DisplayStockQuantity");
+
+                            b1.Property<int>("MinStockQuantity")
+                                .HasColumnName("MinStockQuantity");
+
+                            b1.Property<bool>("NotReturnable")
+                                .HasColumnName("NotReturnable");
+
+                            b1.Property<int>("OrderMaximumQuantity")
+                                .HasColumnName("OrderMaximumQuantity");
+
+                            b1.Property<int>("OrderMinimumQuantity")
+                                .HasColumnName("OrderMinimumQuantity");
+
+                            b1.Property<int>("StockQuantity")
+                                .HasColumnName("StockQuantity");
+
+                            b1.Property<bool>("UseMultipleWarehouses")
+                                .HasColumnName("UseMultipleWarehouses");
+
+                            b1.Property<Guid?>("WarehouseId")
+                                .HasColumnName("WarehouseId");
+
+                            b1.HasKey("ShippableId");
+
+                            b1.ToTable("CatalogProduct_Inventory");
+
+                            b1.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Shippable")
+                                .WithOne("Inventory")
+                                .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductInventory", "ShippableId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Hitasp.HitCommerce.Catalog.Products.Entities.ProductShipping", "Shipping", b1 =>
+                        {
+                            b1.Property<Guid>("ShippableId");
+
+                            b1.Property<decimal>("AdditionalShippingCharge")
+                                .HasColumnName("AdditionalShippingCharge");
+
+                            b1.Property<int>("DeliveryDateId")
+                                .HasColumnName("DeliveryDateId");
+
+                            b1.Property<decimal>("Height")
+                                .HasColumnName("Height");
+
+                            b1.Property<bool>("IsFreeShipping")
+                                .HasColumnName("IsFreeShipping");
+
+                            b1.Property<decimal>("Length")
+                                .HasColumnName("Length");
+
+                            b1.Property<bool>("ShipSeparately")
+                                .HasColumnName("ShipSeparately");
+
+                            b1.Property<decimal>("Weight")
+                                .HasColumnName("Weight");
+
+                            b1.Property<decimal>("Width")
+                                .HasColumnName("Width");
+
+                            b1.HasKey("ShippableId");
+
+                            b1.ToTable("CatalogProduct_Shipping");
+
+                            b1.HasOne("Hitasp.HitCommerce.Catalog.Products.Aggregates.Shippable")
+                                .WithOne("Shipping")
+                                .HasForeignKey("Hitasp.HitCommerce.Catalog.Products.Entities.ProductShipping", "ShippableId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 #pragma warning restore 612, 618
         }

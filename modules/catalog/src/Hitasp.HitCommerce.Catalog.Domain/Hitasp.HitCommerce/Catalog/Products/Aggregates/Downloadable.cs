@@ -57,20 +57,33 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         #region GiftCard
 
         public virtual bool IsGiftCard { get; protected set; }
-        public virtual GiftCard GiftCard { get; protected set; }
-        public virtual void SetAsGiftCard(bool isGiftCard, decimal? overriddenGiftCardAmount = null)
+        public virtual int GiftCardTypeId { get; protected set; }
+        public virtual decimal? OverriddenGiftCardAmount { get; protected set; }
+
+        public virtual GiftCardType GiftCardType => (GiftCardType) GiftCardTypeId;
+
+        public virtual void ChangeOverriddenGiftCardAmount(decimal overriddenGiftCardAmount)
         {
-            if (isGiftCard)
+            if (overriddenGiftCardAmount <= decimal.Zero)
             {
-                if (overriddenGiftCardAmount <= decimal.Zero || overriddenGiftCardAmount == null)
-                {
-                    overriddenGiftCardAmount = decimal.Zero;
-                }
-                
-                GiftCard = new GiftCard((int) GiftCardType.Virtual, overriddenGiftCardAmount);
+                OverriddenGiftCardAmount = decimal.Zero;
+
+                return;
             }
 
-            IsGiftCard = false;
+            OverriddenGiftCardAmount = overriddenGiftCardAmount;
+        }
+        
+        public virtual void SetAsGiftCard(bool isGiftCard, decimal? overriddenGiftCardAmount = null)
+        {
+            if (overriddenGiftCardAmount <= decimal.Zero || overriddenGiftCardAmount == null)
+            {
+                overriddenGiftCardAmount = decimal.Zero;
+            }
+
+            GiftCardTypeId = (int) GiftCardType.Virtual;
+            IsGiftCard = isGiftCard;
+            OverriddenGiftCardAmount = overriddenGiftCardAmount;
         }
 
         #endregion

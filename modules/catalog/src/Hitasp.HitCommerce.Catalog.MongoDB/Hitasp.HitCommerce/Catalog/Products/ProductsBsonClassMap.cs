@@ -24,8 +24,13 @@ namespace Hitasp.HitCommerce.Catalog.Products
                     }
                 );
 
-                BsonClassMap.RegisterClassMap<VirtualProduct>(map => { map.AutoMap(); });
-                BsonClassMap.RegisterClassMap<PhysicalProduct>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<Shippable>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<Servicable>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<Downloadable>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ProductBasePrice>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ProductInventory>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ProductPricing>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<ProductShipping>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductProductAttribute>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductAttributeCombination>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<StockQuantityHistory>(map => { map.AutoMap(); });
@@ -38,6 +43,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 BsonClassMap.RegisterClassMap<ProductProductTag>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<ProductWarehouseInventory>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<RelatedProduct>(map => { map.AutoMap(); });
+                BsonClassMap.RegisterClassMap<RequiredProduct>(map => { map.AutoMap(); });
                 BsonClassMap.RegisterClassMap<BackInStockSubscription>(map => { map.AutoMap(); });
             });
         }

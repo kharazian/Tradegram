@@ -87,7 +87,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.OwnsOne(x => x.ProductBasePrice, pbp =>
                 {
-                    pbp.ToTable(options.TablePrefix + "ProductBasePrice", options.Schema);
+                    pbp.ToTable(options.TablePrefix + "Product_BasePrice", options.Schema);
 
                     pbp.Property(x => x.BasePriceAmount).HasColumnName(nameof(ProductBasePrice.BasePriceAmount));
                     pbp.Property(x => x.BasePriceUnitId).HasColumnName(nameof(ProductBasePrice.BasePriceUnitId));
@@ -101,7 +101,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.OwnsOne(x => x.Pricing, pp =>
                 {
-                    pp.ToTable(options.TablePrefix + "ProductPricing", options.Schema);
+                    pp.ToTable(options.TablePrefix + "Product_Pricing", options.Schema);
                     
                     pp.Property(x => x.Price).HasDefaultValue(decimal.Zero)
                         .HasColumnName(nameof(ProductPricing.Price));
@@ -213,17 +213,7 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                 b.Property(x => x.IsGiftCard).HasColumnName(nameof(Downloadable.IsGiftCard));
 
-                b.OwnsOne(x => x.GiftCard, gc =>
-                {
-                    gc.ToTable(options.TablePrefix + "GiftCard", options.Schema);
-
-                    gc.Property(x => x.GiftCardTypeId).HasColumnName(nameof(GiftCard.GiftCardTypeId));
-
-                    gc.Property(x => x.OverriddenGiftCardAmount)
-                        .HasColumnName(nameof(GiftCard.OverriddenGiftCardAmount));
-
-                    gc.Ignore(x => x.GiftCardType);
-                });
+                b.Property(x => x.GiftCardTypeId).HasColumnName(nameof(Downloadable.GiftCardTypeId));
 
                 b.Property(x => x.HasUserAgreement).HasColumnName(nameof(Downloadable.HasUserAgreement));
                 b.Property(x => x.UserAgreementText).HasColumnName(nameof(Downloadable.UserAgreementText));
@@ -235,21 +225,16 @@ namespace Hitasp.HitCommerce.Catalog.Products
             {
                 b.Property(x => x.IsGiftCard).HasColumnName(nameof(Shippable.IsGiftCard));
 
-                b.OwnsOne(x => x.GiftCard, gc =>
-                {
-                    gc.ToTable(options.TablePrefix + "GiftCard", options.Schema);
+                b.Property(x => x.GiftCardTypeId).HasColumnName(nameof(Shippable.GiftCardTypeId));
 
-                    gc.Property(x => x.GiftCardTypeId).HasColumnName(nameof(GiftCard.GiftCardTypeId));
+                b.Property(x => x.OverriddenGiftCardAmount)
+                    .HasColumnName(nameof(Shippable.OverriddenGiftCardAmount));
 
-                    gc.Property(x => x.OverriddenGiftCardAmount)
-                        .HasColumnName(nameof(GiftCard.OverriddenGiftCardAmount));
-
-                    gc.Ignore(x => x.GiftCardType);
-                });
+                b.Ignore(x => x.GiftCardType);
 
                 b.OwnsOne(x => x.Inventory, pi =>
                 {
-                    pi.ToTable(options.TablePrefix + "ProductInventory", options.Schema);
+                    pi.ToTable(options.TablePrefix + "Product_Inventory", options.Schema);
 
                     pi.Property(x => x.StockQuantity).IsRequired().HasColumnName(nameof(ProductInventory.StockQuantity));
                     pi.Property(x => x.WarehouseId).HasColumnName(nameof(ProductInventory.WarehouseId));
@@ -275,16 +260,12 @@ namespace Hitasp.HitCommerce.Catalog.Products
 
                     pi.Property(x => x.NotReturnable)
                         .HasColumnName(nameof(ProductInventory.NotReturnable));
-
-                    pi.HasMany(x => x.ProductWarehouseInventories).WithOne()
-                        .OnDelete(DeleteBehavior.Cascade);
-
                 });
 
                 b.Property(x => x.IsShipEnabled).HasColumnName(nameof(Shippable.IsShipEnabled));
                 b.OwnsOne(x => x.Shipping, ps =>
                 {
-                    ps.ToTable(options.TablePrefix + "ProductShipping", options.Schema);
+                    ps.ToTable(options.TablePrefix + "Product_Shipping", options.Schema);
 
                     ps.Property(x => x.IsFreeShipping).HasColumnName(nameof(ProductShipping.IsFreeShipping));
                     ps.Property(x => x.AdditionalShippingCharge)
@@ -297,13 +278,16 @@ namespace Hitasp.HitCommerce.Catalog.Products
                     ps.Property(x => x.Width).HasColumnName(nameof(ProductShipping.Width));
                     ps.Property(x => x.Height).HasColumnName(nameof(ProductShipping.Height));
                 });
+                
+                b.HasMany(x => x.ProductWarehouseInventories).WithOne()
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasMany(x => x.ProductAttributeCombinations).WithOne()
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Servicable>(b => { b.Property(x => x.BasePriceEnabled).HasDefaultValue(false); });
-
+       
             builder.Entity<ProductAttributeCombination>(b =>
             {
                 b.ToTable(options.TablePrefix + "Products_AttributeCombinations", options.Schema);
@@ -326,9 +310,6 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.Property(x => x.OverriddenPrice).HasColumnName(nameof(ProductAttributeCombination.OverriddenPrice));
 
                 b.Property(x => x.AttributesXml).HasColumnName(nameof(ProductAttributeCombination.AttributesXml));
-
-                b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId).IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<ProductAttributeValue>(b =>
