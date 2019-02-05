@@ -15,7 +15,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Abstracts
     {
         #region General
 
-        public virtual ProductType ProductType { get; set; }
+        public virtual string ProductType { get; set; }
         public virtual Guid ProductTemplateId { get; protected set; }
         public virtual string Name { get; protected set; }
         public virtual string ShortDescription { get; protected set; }
