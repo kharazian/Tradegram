@@ -32,6 +32,32 @@ namespace Hitasp.HitCommerce.Catalog.Products
                 b.CollectionName = options.CollectionPrefix + "Products";
             });
 
+            builder.Entity<Downloadable>();
+            
+            builder.Entity<Servicable>();
+
+            builder.Entity<Shippable>();
+            
+            builder.Entity<ProductBasePrice>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Product_BasePrice";
+            });
+            
+            builder.Entity<ProductInventory>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Product_Inventory";
+            });
+            
+            builder.Entity<ProductPricing>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Product_Pricing";
+            });
+            
+            builder.Entity<ProductShipping>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Product_Shipping";
+            });
+            
             builder.Entity<ProductProductAttribute>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Products_Attributes";
@@ -80,6 +106,11 @@ namespace Hitasp.HitCommerce.Catalog.Products
             builder.Entity<RelatedProduct>(b =>
             {
                 b.CollectionName = options.CollectionPrefix + "Products_RelatedProduct";
+            });
+            
+            builder.Entity<RequiredProduct>(b =>
+            {
+                b.CollectionName = options.CollectionPrefix + "Products_RequiredProduct";
             });
         }
     }

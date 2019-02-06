@@ -14,19 +14,33 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         #region GiftCard
 
         public virtual bool IsGiftCard { get; protected set; }
-        public virtual GiftCard GiftCard { get; protected set; }
+        public virtual int GiftCardTypeId { get; protected set; }
+        public virtual decimal? OverriddenGiftCardAmount { get; protected set; }
 
-        public virtual void SetAsGiftCard(bool isGiftCard, decimal? overriddenGiftCardAmount = null)
+        public virtual GiftCardType GiftCardType => (GiftCardType) GiftCardTypeId;
+
+        public virtual void ChangeOverriddenGiftCardAmount(decimal overriddenGiftCardAmount)
         {
-            if (isGiftCard)
+            if (overriddenGiftCardAmount <= decimal.Zero)
             {
-                if (overriddenGiftCardAmount <= decimal.Zero || overriddenGiftCardAmount == null)
-                    overriddenGiftCardAmount = decimal.Zero;
+                OverriddenGiftCardAmount = decimal.Zero;
 
-                GiftCard = new GiftCard((int) GiftCardType.Physical, overriddenGiftCardAmount);
+                return;
             }
 
-            IsGiftCard = false;
+            OverriddenGiftCardAmount = overriddenGiftCardAmount;
+        }
+        
+        public virtual void SetAsGiftCard(bool isGiftCard, decimal? overriddenGiftCardAmount = null)
+        {
+            if (overriddenGiftCardAmount <= decimal.Zero || overriddenGiftCardAmount == null)
+            {
+                overriddenGiftCardAmount = decimal.Zero;
+            }
+
+            GiftCardTypeId = (int) GiftCardType.Physical;
+            IsGiftCard = isGiftCard;
+            OverriddenGiftCardAmount = overriddenGiftCardAmount;
         }
 
         #endregion
@@ -34,6 +48,9 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
         #region Inventory
 
         public virtual ProductInventory Inventory { get; protected set; }
+        
+        public virtual ICollection<ProductWarehouseInventory> ProductWarehouseInventories { get; protected set; }
+
 
         public virtual void RemoveStock(int quantityDesired, Guid? warehouseId = null)
         {
@@ -64,7 +81,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             if (warehouseId.HasValue && warehouseId != Guid.Empty)
             {
                 var warehouseInventory =
-                    Inventory.ProductWarehouseInventories.First(x => x.WarehouseId == warehouseId);
+                     ProductWarehouseInventories.First(x => x.WarehouseId == warehouseId);
 
                 if (warehouseInventory != null)
                 {
@@ -78,7 +95,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
                         AddDistributedEvent(
                             new ProductStockQuantityChangedEto(Inventory.StockQuantity, quantity));
 
-                    Inventory.ProductWarehouseInventories.First(x => x.WarehouseId == warehouseId)
+                    ProductWarehouseInventories.First(x => x.WarehouseId == warehouseId)
                         .SetStockQuantity(quantity);
 
                     return;
@@ -92,6 +109,71 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
                 AddDistributedEvent(new ProductStockQuantityChangedEto(Inventory.StockQuantity, quantity));
 
             Inventory.SetStockQuantity(quantity);
+        }
+        
+        public virtual void SetWarehouse(Guid productId,Guid? warehouseId)
+        {
+            if (warehouseId == null || warehouseId == Guid.Empty)
+            {
+                Inventory.WarehouseId = null;
+
+                return;
+            }
+
+            if (Inventory.UseMultipleWarehouses & ProductWarehouseInventories.Any())
+            {
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(productId, warehouseId.Value));
+
+                return;
+            }
+
+            Inventory.WarehouseId = warehouseId;
+        }
+
+        public virtual void SetMultipleWarehouses(Guid productId, IEnumerable<Guid> warehouseInventoryIds)
+        {
+            var hashSet = new HashSet<Guid>(warehouseInventoryIds);
+
+            if (hashSet.Count <= 1)
+            {
+                Inventory.UseMultipleWarehouses = false;
+                SetWarehouse(productId, hashSet.FirstOrDefault());
+
+                return;
+            }
+
+            Inventory.UseMultipleWarehouses = true;
+            Inventory.WarehouseId = null;
+
+            foreach (var warehouseInventoryId in hashSet)
+            {
+                ProductWarehouseInventories.Add(new ProductWarehouseInventory(productId, warehouseInventoryId));
+            }
+
+            if (Inventory.StockQuantity > 0)
+            {
+                ProductWarehouseInventories.First().SetStockQuantity(Inventory.StockQuantity);
+            }
+
+            Inventory.SetStockQuantity(0);
+        }
+
+        public virtual void RemoveWarehouse(Guid warehouseId)
+        {
+            if (ProductWarehouseInventories.All(x => x.WarehouseId != warehouseId))
+            {
+                return;
+            }
+
+            var totalStockQuantity = ProductWarehouseInventories.Where(x => x.WarehouseId == warehouseId)
+                .Sum(x => x.StockQuantity);
+
+            if (totalStockQuantity > 0)
+            {
+                Inventory.SetStockQuantity(Inventory.StockQuantity + totalStockQuantity);
+            }
+
+            ProductWarehouseInventories.RemoveAll(x => x.WarehouseId == warehouseId);
         }
 
         #endregion
@@ -145,6 +227,7 @@ namespace Hitasp.HitCommerce.Catalog.Products.Aggregates
             ProductProductAttributes = new HashSet<ProductProductAttribute>();
             ProductSpecificationAttributes = new HashSet<ProductSpecificationAttribute>();
             ProductAttributeCombinations = new HashSet<ProductAttributeCombination>();
+            ProductWarehouseInventories = new HashSet<ProductWarehouseInventory>();
         }
 
         public Shippable(Guid id, [NotNull] string code, [NotNull] string name, [NotNull] string shortDescription,

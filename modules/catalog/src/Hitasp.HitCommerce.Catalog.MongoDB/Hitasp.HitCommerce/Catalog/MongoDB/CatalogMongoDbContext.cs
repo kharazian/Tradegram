@@ -11,7 +11,6 @@ using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products;
 using Hitasp.HitCommerce.Catalog.Products.Abstracts;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
-using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
@@ -43,9 +42,9 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         public IMongoCollection<Manufacturer> Manufacturers => Collection<Manufacturer>();
         public IMongoCollection<ManufacturerDiscount> ManufacturerDiscounts => Collection<ManufacturerDiscount>();
         public IMongoCollection<Product> Products => Collection<Product>();
-        public IMongoCollection<VirtualProduct> VirtualProducts => Collection<VirtualProduct>();
-        public IMongoCollection<PhysicalProduct> PhysicalProducts => Collection<PhysicalProduct>();
-
+        public IMongoCollection<Downloadable> Downloadables => Collection<Downloadable>();
+        public IMongoCollection<Servicable> Servicables => Collection<Servicable>();
+        public IMongoCollection<Shippable> Shippables => Collection<Shippable>();
         public IMongoCollection<ProductAttributeCombination> ProductAttributeCombinations =>
             Collection<ProductAttributeCombination>();
 
@@ -69,6 +68,7 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
             Collection<ProductWarehouseInventory>();
 
         public IMongoCollection<RelatedProduct> RelatedProducts => Collection<RelatedProduct>();
+        public IMongoCollection<RequiredProduct> RequiredProducts => Collection<RequiredProduct>();
         public IMongoCollection<SpecificationAttribute> SpecificationAttributes => Collection<SpecificationAttribute>();
 
         public IMongoCollection<SpecificationAttributeOption> SpecificationAttributeOptions =>

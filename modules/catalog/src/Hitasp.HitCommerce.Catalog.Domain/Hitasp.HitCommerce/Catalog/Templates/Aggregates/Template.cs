@@ -32,7 +32,7 @@ namespace Hitasp.HitCommerce.Catalog.Templates.Aggregates
         {
             if (displayOrder > 0)
             {
-                throw new ArgumentException($"{nameof(displayOrder)} can not be less than zero!");
+                displayOrder = 0;
             }
             
             DisplayOrder = displayOrder;

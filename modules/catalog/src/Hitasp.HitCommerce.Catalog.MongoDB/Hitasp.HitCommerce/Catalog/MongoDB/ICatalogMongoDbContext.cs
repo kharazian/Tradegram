@@ -6,7 +6,6 @@ using Hitasp.HitCommerce.Catalog.Manufacturers.Aggregates;
 using Hitasp.HitCommerce.Catalog.Manufacturers.Mapping;
 using Hitasp.HitCommerce.Catalog.Products.Abstracts;
 using Hitasp.HitCommerce.Catalog.Products.Aggregates;
-using Hitasp.HitCommerce.Catalog.Products.Entities;
 using Hitasp.HitCommerce.Catalog.Products.Mapping;
 using Hitasp.HitCommerce.Catalog.SpecificationAttributes.Entities;
 using Hitasp.HitCommerce.Catalog.Tagging.Aggregates;
@@ -36,9 +35,11 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
 
         IMongoCollection<Product> Products { get; }
 
-        IMongoCollection<VirtualProduct> VirtualProducts { get; }
+        IMongoCollection<Downloadable> Downloadables { get; }
 
-        IMongoCollection<PhysicalProduct> PhysicalProducts { get; }
+        IMongoCollection<Servicable> Servicables { get; }
+        
+        IMongoCollection<Shippable> Shippables { get; }
 
         IMongoCollection<ProductAttributeCombination> ProductAttributeCombinations { get; }
 
@@ -65,6 +66,8 @@ namespace Hitasp.HitCommerce.Catalog.MongoDB
         IMongoCollection<ProductWarehouseInventory> ProductWarehouseInventories { get; }
 
         IMongoCollection<RelatedProduct> RelatedProducts { get; }
+
+        IMongoCollection<RequiredProduct> RequiredProducts { get; }
 
         IMongoCollection<SpecificationAttribute> SpecificationAttributes { get; }
 

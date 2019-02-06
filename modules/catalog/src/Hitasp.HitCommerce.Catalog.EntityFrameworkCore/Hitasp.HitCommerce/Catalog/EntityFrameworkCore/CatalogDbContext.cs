@@ -44,7 +44,6 @@ namespace Hitasp.HitCommerce.Catalog.EntityFrameworkCore
         public DbSet<Downloadable> Downloadables { get; set; }
         public DbSet<Servicable> Servicables { get; set; }
         public DbSet<Shippable> Shippables { get; set; }
-        public DbSet<GiftCard> GiftCards { get; set; }
         public DbSet<ProductBasePrice> ProductBasePrices { get; set; }
         public DbSet<ProductInventory> ProductInventories { get; set; }
         public DbSet<ProductPricing> ProductPricings { get; set; }
